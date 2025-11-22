@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useScreenSize } from '../../hooks/use-mobile'
 import { INTEGRATIONS } from '../../lib/integrations'
+import { useBlackForge } from '../../lib/BlackForgeContext'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -25,6 +26,7 @@ interface Project {
 }
 
 export function Dashboard({ onNavigate }: DashboardProps) {
+  const { blackForgeMode } = useBlackForge()
   const [projects, setProjects] = useKV<Project[]>('user-projects', [])
   const [credits] = useKV<number>('user-credits', 15)
   const { isMobile, isTablet } = useScreenSize()

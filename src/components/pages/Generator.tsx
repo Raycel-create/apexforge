@@ -26,6 +26,7 @@ import { IntegrationsPanel } from '../IntegrationsPanel'
 import { INTEGRATIONS } from '../../lib/integrations'
 import { PreviewFrame } from '../PreviewFrame'
 import { CoinAnimation } from '../CoinAnimation'
+import { useBlackForge } from '../../lib/BlackForgeContext'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -95,6 +96,7 @@ const FUSION_VERSIONS: FusionVersion[] = [
 ]
 
 export function Generator({ onNavigate }: GeneratorProps) {
+  const { blackForgeMode } = useBlackForge()
   const [prompt, setPrompt] = useState('')
   const [userPrompt, setUserPrompt] = useState('')
   const [selectedAIs, setSelectedAIs] = useState<string[]>(['gpt', 'claude', 'grok'])
@@ -315,12 +317,17 @@ export function Generator({ onNavigate }: GeneratorProps) {
       
       <div className="mb-4 sm:mb-6 lg:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2 flex items-center gap-2 sm:gap-3">
+          <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2 flex items-center gap-2 sm:gap-3 ${
+            blackForgeMode ? 'text-destructive' : ''
+          } transition-colors duration-500`}>
             <Fire weight="fill" className="text-destructive animate-pulse-glow w-6 h-6 sm:w-8 sm:h-8 lg:w-9 lg:h-9" />
-            The Forge
+            {blackForgeMode ? '🔥 Dark Forge' : 'The Forge'}
           </h1>
           <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
-            Watch 5 AI agents argue, debate, and ship your app live in &lt;10 seconds
+            {blackForgeMode 
+              ? 'Watch demonic AI agents forge your app in shadows' 
+              : 'Watch 5 AI agents argue, debate, and ship your app live in <10 seconds'
+            }
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
@@ -342,7 +349,11 @@ export function Generator({ onNavigate }: GeneratorProps) {
 
       <div className="grid lg:grid-cols-[1fr_400px] gap-4 sm:gap-6">
         <div className="space-y-4 sm:space-y-6">
-          <Card className="p-4 sm:p-5 lg:p-6 border-primary/30 glow-primary">
+          <Card className={`p-4 sm:p-5 lg:p-6 ${
+            blackForgeMode 
+              ? 'border-destructive/30 glow-destructive bg-destructive/5' 
+              : 'border-primary/30 glow-primary'
+          } transition-all duration-500`}>
             <Label className="text-base sm:text-lg lg:text-xl font-bold mb-3 sm:mb-4 block flex items-center gap-2">
               <Brain weight="fill" className="text-primary w-5 h-5 sm:w-6 sm:h-6" />
               Quick Prompt

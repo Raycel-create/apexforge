@@ -5,6 +5,7 @@ import { Badge } from '../ui/badge'
 import { Separator } from '../ui/separator'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
+import { useBlackForge } from '../../lib/BlackForgeContext'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -98,6 +99,8 @@ const PLANS = [
 ]
 
 export function Pricing({ onNavigate }: PricingProps) {
+  const { blackForgeMode } = useBlackForge()
+  
   const handleUpgrade = (planName: string) => {
     if (planName === 'Free') {
       onNavigate('generator')

@@ -4,6 +4,7 @@ import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { motion } from 'framer-motion'
 import { useScreenSize } from '../../hooks/use-mobile'
+import { useBlackForge } from '../../lib/BlackForgeContext'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -13,11 +14,16 @@ interface HomeProps {
 
 export function Home({ onNavigate }: HomeProps) {
   const { isMobile, isTablet } = useScreenSize()
+  const { blackForgeMode } = useBlackForge()
   
   return (
-    <div className="min-h-screen">
+    <div className={`min-h-screen ${blackForgeMode ? 'bg-gradient-to-b from-destructive/10 to-background' : ''} transition-all duration-1000`}>
       <section className="container mx-auto px-2 sm:px-4 py-10 sm:py-20 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent pointer-events-none" />
+        <div className={`absolute inset-0 ${
+          blackForgeMode 
+            ? 'bg-gradient-to-b from-destructive/20 via-transparent to-transparent' 
+            : 'bg-gradient-to-b from-primary/10 via-transparent to-transparent'
+        } pointer-events-none transition-all duration-1000`} />
         
         <div className="max-w-5xl mx-auto space-y-4 sm:space-y-8 relative z-10">
           <motion.div
@@ -26,9 +32,16 @@ export function Home({ onNavigate }: HomeProps) {
             transition={{ duration: 0.5 }}
             className="inline-block"
           >
-            <Badge className={`${isMobile ? 'px-3 py-1.5 text-xs' : 'px-6 py-3 text-base'} bg-primary/20 border-primary/40 text-primary glow-primary`}>
+            <Badge className={`${isMobile ? 'px-3 py-1.5 text-xs' : 'px-6 py-3 text-base'} ${
+              blackForgeMode
+                ? 'bg-destructive/20 border-destructive/40 text-destructive glow-destructive'
+                : 'bg-primary/20 border-primary/40 text-primary glow-primary'
+            } transition-all duration-500`}>
               <Fire weight="fill" size={isMobile ? 14 : 18} className="animate-pulse-glow" />
-              <span>{isMobile ? 'Hire an AI dev team' : 'Stop prompting solo AIs. Hire an entire AI dev team.'}</span>
+              <span>{blackForgeMode 
+                ? (isMobile ? '🔥 Dark AI team' : '🔥 Unleash the Dark AI Team') 
+                : (isMobile ? 'Hire an AI dev team' : 'Stop prompting solo AIs. Hire an entire AI dev team.')
+              }</span>
             </Badge>
           </motion.div>
 
@@ -38,14 +51,29 @@ export function Home({ onNavigate }: HomeProps) {
             transition={{ duration: 0.5, delay: 0.1 }}
             className={`${isMobile ? 'text-3xl' : isTablet ? 'text-5xl' : 'text-5xl md:text-7xl lg:text-8xl'} font-bold leading-tight`}
           >
-            Watch an{' '}
-            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-pulse-glow">
-              AI Team
-            </span>
-            <br />
-            Argue Until It Ships
-            <br />
-            <span className="text-accent">Perfection</span>
+            {blackForgeMode ? (
+              <>
+                Watch a{' '}
+                <span className="bg-gradient-to-r from-destructive via-destructive/70 to-destructive bg-clip-text text-transparent animate-pulse-glow">
+                  Dark AI Team
+                </span>
+                <br />
+                Forge Until It Burns
+                <br />
+                <span className="text-destructive">Hell Fire</span>
+              </>
+            ) : (
+              <>
+                Watch an{' '}
+                <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-pulse-glow">
+                  AI Team
+                </span>
+                <br />
+                Argue Until It Ships
+                <br />
+                <span className="text-accent">Perfection</span>
+              </>
+            )}
           </motion.h1>
 
           <motion.p
@@ -54,10 +82,21 @@ export function Home({ onNavigate }: HomeProps) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className={`${isMobile ? 'text-sm' : isTablet ? 'text-lg' : 'text-xl md:text-2xl'} text-muted-foreground max-w-3xl mx-auto leading-relaxed`}
           >
-            Describe your app → watch 5 AI agents build & deploy it live → it's instantly on the internet with your domain.
-            <span className="text-foreground font-semibold block mt-2">
-              All in ONE tab. In under 10 seconds.
-            </span>
+            {blackForgeMode ? (
+              <>
+                Summon your app → watch 5 demonic AI agents forge it in flames → it materializes on the dark web with your domain.
+                <span className="text-foreground font-semibold block mt-2">
+                  All in ONE infernal tab. In under 10 seconds. 🔥
+                </span>
+              </>
+            ) : (
+              <>
+                Describe your app → watch 5 AI agents build & deploy it live → it's instantly on the internet with your domain.
+                <span className="text-foreground font-semibold block mt-2">
+                  All in ONE tab. In under 10 seconds.
+                </span>
+              </>
+            )}
           </motion.p>
 
           <motion.div
@@ -69,10 +108,17 @@ export function Home({ onNavigate }: HomeProps) {
             <Button
               size={isMobile ? 'default' : 'lg'}
               onClick={() => onNavigate('generator')}
-              className={`${isMobile ? 'text-sm px-4 py-2' : 'text-lg px-8 py-6'} glow-primary hover:scale-105 transition-transform`}
+              className={`${isMobile ? 'text-sm px-4 py-2' : 'text-lg px-8 py-6'} ${
+                blackForgeMode 
+                  ? 'glow-destructive bg-destructive hover:bg-destructive/90' 
+                  : 'glow-primary'
+              } hover:scale-105 transition-all duration-300`}
             >
               <Sparkle weight="fill" size={isMobile ? 18 : 24} />
-              {isMobile ? 'Start Free' : 'Start Building Free'}
+              {blackForgeMode 
+                ? (isMobile ? '🔥 Summon' : '🔥 Summon Dark Forge') 
+                : (isMobile ? 'Start Free' : 'Start Building Free')
+              }
             </Button>
             <Button
               size={isMobile ? 'default' : 'lg'}

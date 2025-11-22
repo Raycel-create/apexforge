@@ -6,6 +6,7 @@ import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
 import { useScreenSize } from '../hooks/use-mobile'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
+import { useBlackForge } from '../lib/BlackForgeContext'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -15,6 +16,7 @@ interface NavigationProps {
 }
 
 export function Navigation({ currentPage, onNavigate }: NavigationProps) {
+  const { blackForgeMode } = useBlackForge()
   const [credits] = useKV<number>('user-credits', 5)
   const [clickCount, setClickCount] = useState(0)
   const [lastClickTime, setLastClickTime] = useState(0)
@@ -51,7 +53,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   }
 
   return (
-    <nav className="border-b border-border bg-card/80 backdrop-blur-lg sticky top-0 z-50">
+    <nav className={`border-b ${blackForgeMode ? 'border-destructive/30 bg-destructive/5' : 'border-border bg-card/80'} backdrop-blur-lg sticky top-0 z-50 transition-all duration-500`}>
       <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-8">
@@ -59,9 +61,9 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               onClick={handleLogoClick}
               className="flex items-center gap-1 sm:gap-2 text-lg sm:text-2xl font-bold hover:opacity-80 transition-opacity cursor-pointer"
             >
-              <Fire weight="fill" className="text-destructive animate-pulse-glow" size={isMobile ? 24 : 32} />
-              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                {isMobile ? 'Apex' : 'ApexForge'}
+              <Fire weight="fill" className={`${blackForgeMode ? 'text-destructive' : 'text-destructive'} animate-pulse-glow`} size={isMobile ? 24 : 32} />
+              <span className={`bg-gradient-to-r ${blackForgeMode ? 'from-destructive via-destructive/70 to-destructive' : 'from-primary via-accent to-primary'} bg-clip-text text-transparent transition-all duration-500`}>
+                {isMobile ? (blackForgeMode ? '🔥Apex' : 'Apex') : (blackForgeMode ? '🔥 ApexForge' : 'ApexForge')}
               </span>
             </button>
 
@@ -95,8 +97,12 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            <Badge className={`${isMobile ? 'px-2 py-0.5 text-xs' : 'px-3 py-1'} bg-accent/20 text-accent border-accent/40`}>
-              🔥 {credits}
+            <Badge className={`${isMobile ? 'px-2 py-0.5 text-xs' : 'px-3 py-1'} ${
+              blackForgeMode 
+                ? 'bg-destructive/20 text-destructive border-destructive/40' 
+                : 'bg-accent/20 text-accent border-accent/40'
+            } transition-all duration-500`}>
+              {blackForgeMode ? '🔥' : '🔥'} {credits}
             </Badge>
             
             {isMobile ? (
@@ -146,10 +152,10 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               <Button
                 onClick={() => onNavigate('generator')}
                 size={isTablet ? 'default' : 'lg'}
-                className="glow-primary hover:scale-105 transition-transform"
+                className={`${blackForgeMode ? 'glow-destructive bg-destructive hover:bg-destructive/90' : 'glow-primary'} hover:scale-105 transition-all duration-300`}
               >
                 <Fire weight="fill" size={18} />
-                {isTablet ? 'Forge' : 'Ignite Forge'}
+                {isTablet ? (blackForgeMode ? '🔥 Forge' : 'Forge') : (blackForgeMode ? '🔥 Ignite Dark Forge' : 'Ignite Forge')}
               </Button>
             )}
           </div>

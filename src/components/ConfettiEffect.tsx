@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { useBlackForge } from '../lib/BlackForgeContext'
 
 interface ConfettiPiece {
   id: number
@@ -11,10 +12,13 @@ interface ConfettiPiece {
 }
 
 export function ConfettiEffect() {
+  const { blackForgeMode } = useBlackForge()
   const [confetti, setConfetti] = useState<ConfettiPiece[]>([])
 
   useEffect(() => {
-    const colors = ['#8B5CF6', '#06B6D4', '#F59E0B', '#10B981', '#EF4444', '#EC4899']
+    const colors = blackForgeMode 
+      ? ['#DC2626', '#991B1B', '#7C2D12', '#450A0A', '#EF4444', '#B91C1C']
+      : ['#8B5CF6', '#06B6D4', '#F59E0B', '#10B981', '#EF4444', '#EC4899']
     const pieces: ConfettiPiece[] = []
     
     for (let i = 0; i < 50; i++) {
@@ -35,7 +39,7 @@ export function ConfettiEffect() {
     }, 4000)
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [blackForgeMode])
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
