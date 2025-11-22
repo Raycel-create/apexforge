@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, Download, Rocket, CheckCircle, X, Check, Fire, ThumbsUp, ThumbsDown, Lightning, Shield, Palette, TreeStructure, Swap, Globe, Copy, ArrowsClockwise, Brain, Code, Database } from '@phosphor-icons/react'
+import { Sparkle, Download, Rocket, CheckCircle, X, Check, Fire, ThumbsUp, ThumbsDown, Lightning, Shield, Palette, TreeStructure, Swap, Globe, Copy, ArrowsClockwise, Brain, Code, Database, CaretDown } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Textarea } from '../ui/textarea'
@@ -13,6 +13,15 @@ import { Input } from '../ui/input'
 import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -143,7 +152,7 @@ export function Generator({ onNavigate }: GeneratorProps) {
   }
 
   const simulateGeneration = async () => {
-    if (!prompt.trim()) {
+    if (!userPrompt.trim()) {
       toast.error('Please enter a prompt')
       return
     }
@@ -153,6 +162,9 @@ export function Generator({ onNavigate }: GeneratorProps) {
       onNavigate('pricing')
       return
     }
+
+    const fullPrompt = `${userPrompt.trim()} using ${frontendOptions.find(f => f.id === selectedFrontend)?.name} frontend and ${backendOptions.find(b => b.id === selectedBackend)?.name} backend, with AI models: ${selectedAIs.map(id => AI_AGENTS.find(a => a.id === id)?.name).join(', ')}`
+    setPrompt(fullPrompt)
 
     setGenerating(true)
     setProgress(0)
@@ -287,124 +299,136 @@ export function Generator({ onNavigate }: GeneratorProps) {
 
       <div className="grid lg:grid-cols-[1fr_400px] gap-6">
         <div className="space-y-6">
-          <Card className="p-6 border-accent/30 bg-card/50">
-            <Label className="text-lg font-semibold mb-3 block flex items-center gap-2">
-              <Brain weight="fill" className="text-accent" size={20} />
+          <Card className="p-6 border-primary/30 glow-primary">
+            <Label className="text-xl font-bold mb-4 block flex items-center gap-2">
+              <Brain weight="fill" className="text-primary" size={24} />
               Quick Prompt
             </Label>
             <Input
               placeholder="Type your app idea here (e.g., 'fitness tracker with AI coaching')..."
               value={userPrompt}
               onChange={(e) => setUserPrompt(e.target.value)}
-              className="mb-4 bg-background text-base border-border focus:border-accent h-12"
+              className="mb-4 bg-background text-lg border-border focus:border-primary h-14"
               disabled={generating}
             />
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-3 gap-3 mb-6">
               <div>
                 <Label className="text-sm font-medium mb-2 flex items-center gap-2">
-                  <Sparkle weight="fill" className="text-primary" size={16} />
-                  Select AI Models
+                  <Sparkle weight="fill" className="text-primary" size={14} />
+                  AI Models
                 </Label>
-                <div className="flex flex-wrap gap-2">
-                  {AI_AGENTS.map((agent) => (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
                     <Button
-                      key={agent.id}
-                      size="sm"
-                      variant={selectedAIs.includes(agent.id) ? 'default' : 'outline'}
-                      onClick={() => toggleAI(agent.id)}
+                      variant="outline"
+                      className="w-full justify-between h-10"
                       disabled={generating}
-                      className="h-8 text-xs"
                     >
-                      <span className="mr-1">{agent.avatar}</span>
-                      {agent.name}
+                      <span className="text-sm truncate">
+                        {selectedAIs.length} selected
+                      </span>
+                      <CaretDown size={16} />
                     </Button>
-                  ))}
-                </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="start">
+                    <DropdownMenuLabel>Select AI Models</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {AI_AGENTS.map((agent) => (
+                      <DropdownMenuCheckboxItem
+                        key={agent.id}
+                        checked={selectedAIs.includes(agent.id)}
+                        onCheckedChange={() => toggleAI(agent.id)}
+                      >
+                        <span className="mr-2">{agent.avatar}</span>
+                        {agent.name}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
 
               <div>
                 <Label className="text-sm font-medium mb-2 flex items-center gap-2">
-                  <Code weight="fill" className="text-cyan-400" size={16} />
+                  <Code weight="fill" className="text-cyan-400" size={14} />
                   Frontend
                 </Label>
-                <div className="flex flex-wrap gap-2">
-                  {frontendOptions.map((option) => (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
                     <Button
-                      key={option.id}
-                      size="sm"
-                      variant={selectedFrontend === option.id ? 'default' : 'outline'}
-                      onClick={() => setSelectedFrontend(option.id)}
+                      variant="outline"
+                      className="w-full justify-between h-10"
                       disabled={generating}
-                      className="h-8 text-xs"
                     >
-                      <span className="mr-1">{option.icon}</span>
-                      {option.name}
+                      <span className="text-sm flex items-center gap-1.5 truncate">
+                        <span>{frontendOptions.find(f => f.id === selectedFrontend)?.icon}</span>
+                        <span>{frontendOptions.find(f => f.id === selectedFrontend)?.name}</span>
+                      </span>
+                      <CaretDown size={16} />
                     </Button>
-                  ))}
-                </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="start">
+                    <DropdownMenuLabel>Select Frontend</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {frontendOptions.map((option) => (
+                      <DropdownMenuItem
+                        key={option.id}
+                        onClick={() => setSelectedFrontend(option.id)}
+                      >
+                        <span className="mr-2">{option.icon}</span>
+                        {option.name}
+                        {selectedFrontend === option.id && (
+                          <Check size={16} className="ml-auto text-primary" />
+                        )}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
 
               <div>
                 <Label className="text-sm font-medium mb-2 flex items-center gap-2">
-                  <Database weight="fill" className="text-green-400" size={16} />
+                  <Database weight="fill" className="text-green-400" size={14} />
                   Backend
                 </Label>
-                <div className="flex flex-wrap gap-2">
-                  {backendOptions.map((option) => (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
                     <Button
-                      key={option.id}
-                      size="sm"
-                      variant={selectedBackend === option.id ? 'default' : 'outline'}
-                      onClick={() => setSelectedBackend(option.id)}
+                      variant="outline"
+                      className="w-full justify-between h-10"
                       disabled={generating}
-                      className="h-8 text-xs"
                     >
-                      <span className="mr-1">{option.icon}</span>
-                      {option.name}
+                      <span className="text-sm flex items-center gap-1.5 truncate">
+                        <span>{backendOptions.find(b => b.id === selectedBackend)?.icon}</span>
+                        <span>{backendOptions.find(b => b.id === selectedBackend)?.name}</span>
+                      </span>
+                      <CaretDown size={16} />
                     </Button>
-                  ))}
-                </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="start">
+                    <DropdownMenuLabel>Select Backend</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {backendOptions.map((option) => (
+                      <DropdownMenuItem
+                        key={option.id}
+                        onClick={() => setSelectedBackend(option.id)}
+                      >
+                        <span className="mr-2">{option.icon}</span>
+                        {option.name}
+                        {selectedBackend === option.id && (
+                          <Check size={16} className="ml-auto text-primary" />
+                        )}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
 
             <Button
-              size="sm"
-              variant="outline"
-              className="w-full mt-4 border-accent/50 text-accent hover:bg-accent/10"
-              onClick={() => {
-                if (userPrompt.trim()) {
-                  const fullPrompt = `${userPrompt.trim()} using ${frontendOptions.find(f => f.id === selectedFrontend)?.name} frontend and ${backendOptions.find(b => b.id === selectedBackend)?.name} backend, with AI models: ${selectedAIs.map(id => AI_AGENTS.find(a => a.id === id)?.name).join(', ')}`
-                  setPrompt(fullPrompt)
-                  toast.success('Configuration applied to prompt!')
-                } else {
-                  toast.error('Please enter a prompt first')
-                }
-              }}
-              disabled={generating}
-            >
-              Apply Configuration →
-            </Button>
-          </Card>
-
-          <Card className="p-6 border-primary/30 glow-primary">
-            <Label className="text-xl font-bold mb-4 block flex items-center gap-2">
-              <Sparkle weight="fill" className="text-primary" size={24} />
-              Describe Your App
-            </Label>
-            <Textarea
-              placeholder="E.g., Build a social fitness app where users can challenge friends to workout competitions with AI-powered form checking..."
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              rows={6}
-              className="mb-4 bg-background text-lg border-border focus:border-primary"
-              disabled={generating}
-            />
-
-            <Button
               size="lg"
               onClick={simulateGeneration}
-              disabled={generating || !prompt.trim()}
+              disabled={generating || !userPrompt.trim()}
               className="w-full text-xl py-6 glow-primary hover:scale-[1.02] transition-transform"
             >
               {generating ? (
