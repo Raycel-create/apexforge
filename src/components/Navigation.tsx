@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire } from '@phosphor-icons/react'
+import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
+import { useScreenSize } from '../hooks/use-mobile'
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -16,6 +18,8 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const [credits] = useKV<number>('user-credits', 5)
   const [clickCount, setClickCount] = useState(0)
   const [lastClickTime, setLastClickTime] = useState(0)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { isMobile, isTablet } = useScreenSize()
 
   useEffect(() => {
     if (clickCount >= 5) {
@@ -41,60 +45,113 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
     setLastClickTime(now)
   }
 
+  const handleNavigation = (page: Page) => {
+    onNavigate(page)
+    setMobileMenuOpen(false)
+  }
+
   return (
     <nav className="border-b border-border bg-card/80 backdrop-blur-lg sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-2 sm:gap-8">
             <button
               onClick={handleLogoClick}
-              className="flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity cursor-pointer"
+              className="flex items-center gap-1 sm:gap-2 text-lg sm:text-2xl font-bold hover:opacity-80 transition-opacity cursor-pointer"
             >
-              <Fire weight="fill" className="text-destructive animate-pulse-glow" size={32} />
+              <Fire weight="fill" className="text-destructive animate-pulse-glow" size={isMobile ? 24 : 32} />
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                ApexForge
+                {isMobile ? 'Apex' : 'ApexForge'}
               </span>
             </button>
 
-            <div className="hidden md:flex items-center gap-1">
-              <Button
-                variant={currentPage === 'home' ? 'secondary' : 'ghost'}
-                size="sm"
-                onClick={() => onNavigate('home')}
-              >
-                Home
-              </Button>
-              <Button
-                variant={currentPage === 'dashboard' ? 'secondary' : 'ghost'}
-                size="sm"
-                onClick={() => onNavigate('dashboard')}
-              >
-                <SquaresFour size={16} />
-                Dashboard
-              </Button>
-              <Button
-                variant={currentPage === 'pricing' ? 'secondary' : 'ghost'}
-                size="sm"
-                onClick={() => onNavigate('pricing')}
-              >
-                <CreditCard size={16} />
-                Pricing
-              </Button>
-            </div>
+            {!isMobile && (
+              <div className="hidden md:flex items-center gap-1">
+                <Button
+                  variant={currentPage === 'home' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  onClick={() => onNavigate('home')}
+                >
+                  Home
+                </Button>
+                <Button
+                  variant={currentPage === 'dashboard' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  onClick={() => onNavigate('dashboard')}
+                >
+                  <SquaresFour size={16} />
+                  Dashboard
+                </Button>
+                <Button
+                  variant={currentPage === 'pricing' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  onClick={() => onNavigate('pricing')}
+                >
+                  <CreditCard size={16} />
+                  Pricing
+                </Button>
+              </div>
+            )}
           </div>
 
-          <div className="flex items-center gap-4">
-            <Badge className="px-3 py-1 bg-accent/20 text-accent border-accent/40">
-              🔥 {credits} credits
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Badge className={`${isMobile ? 'px-2 py-0.5 text-xs' : 'px-3 py-1'} bg-accent/20 text-accent border-accent/40`}>
+              🔥 {credits}
             </Badge>
-            <Button
-              onClick={() => onNavigate('generator')}
-              size="lg"
-              className="glow-primary hover:scale-105 transition-transform"
-            >
-              <Fire weight="fill" size={18} />
-              Ignite Forge
-            </Button>
+            
+            {isMobile ? (
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button size="sm" variant="ghost" className="px-2">
+                    <List size={20} />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-64">
+                  <div className="flex flex-col gap-2 mt-8">
+                    <Button
+                      variant={currentPage === 'home' ? 'secondary' : 'ghost'}
+                      className="justify-start"
+                      onClick={() => handleNavigation('home')}
+                    >
+                      Home
+                    </Button>
+                    <Button
+                      variant={currentPage === 'dashboard' ? 'secondary' : 'ghost'}
+                      className="justify-start"
+                      onClick={() => handleNavigation('dashboard')}
+                    >
+                      <SquaresFour size={16} />
+                      Dashboard
+                    </Button>
+                    <Button
+                      variant={currentPage === 'pricing' ? 'secondary' : 'ghost'}
+                      className="justify-start"
+                      onClick={() => handleNavigation('pricing')}
+                    >
+                      <CreditCard size={16} />
+                      Pricing
+                    </Button>
+                    <Button
+                      variant={currentPage === 'generator' ? 'secondary' : 'default'}
+                      className="justify-start mt-4 glow-primary"
+                      onClick={() => handleNavigation('generator')}
+                    >
+                      <Fire weight="fill" size={18} />
+                      Ignite Forge
+                    </Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            ) : (
+              <Button
+                onClick={() => onNavigate('generator')}
+                size={isTablet ? 'default' : 'lg'}
+                className="glow-primary hover:scale-105 transition-transform"
+              >
+                <Fire weight="fill" size={18} />
+                {isTablet ? 'Forge' : 'Ignite Forge'}
+              </Button>
+            )}
           </div>
         </div>
       </div>
