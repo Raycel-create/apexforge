@@ -4,10 +4,12 @@ import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Separator } from '../ui/separator'
-import { Sparkle, Lightning, UserCircle, EnvelopeSimple, Lock, Eye, EyeSlash, Check } from '@phosphor-icons/react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
+import { Sparkle, Lightning, UserCircle, EnvelopeSimple, Lock, Eye, EyeSlash, Check, MagicWand } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useKV } from '@github/spark/hooks'
+import { MagicLinkAuth } from '../MagicLinkAuth'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -23,6 +25,7 @@ interface User {
 }
 
 export function AuthLanding({ onNavigate }: AuthLandingProps) {
+  const [authMode, setAuthMode] = useState<'password' | 'magic'>('magic')
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -106,6 +109,36 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
     }
   }
 
+  const handleMagicLinkSuccess = async (email: string) => {
+    setCurrentUser(email)
+    
+    if (!users?.[email]) {
+      const newUser: User = {
+        email,
+        password: '',
+        name: email.split('@')[0],
+        createdAt: Date.now(),
+      }
+      
+      setUsers((current) => ({
+        ...current,
+        [email]: newUser,
+      }))
+    }
+    
+    const user = users?.[email]
+    const userName = user?.name || email.split('@')[0]
+    
+    toast.success(`Welcome${user ? ' back' : ''}, ${userName}! 🚀`, {
+      description: 'Signed in successfully with magic link',
+      duration: 2000,
+    })
+
+    setTimeout(() => {
+      onNavigate('dashboard')
+    }, 1000)
+  }
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -179,7 +212,7 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md relative z-10"
+        className="w-full max-w-2xl relative z-10"
       >
         <div className="text-center mb-8">
           <motion.div
@@ -202,170 +235,192 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
         </div>
 
         <Card className="p-8 border-primary/30 bg-card/90 backdrop-blur">
-          <AnimatePresence mode="wait">
-            <motion.form
-              key={isSignUp ? 'signup' : 'signin'}
-              initial={{ opacity: 0, x: isSignUp ? 20 : -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: isSignUp ? -20 : 20 }}
-              transition={{ duration: 0.2 }}
-              onSubmit={isSignUp ? handleSignUp : handleSignIn}
-              className="space-y-5"
-            >
-              {isSignUp && (
-                <div>
-                  <Label htmlFor="name" className="text-sm font-semibold mb-2 flex items-center gap-2">
-                    <UserCircle weight="fill" className="text-primary" size={16} />
-                    Full Name
-                  </Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="John Doe"
-                    className="h-11 bg-background border-primary/30 focus:border-primary"
-                    autoComplete="name"
-                    disabled={isLoading}
-                  />
-                </div>
-              )}
+          <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as 'password' | 'magic')} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="magic" className="flex items-center gap-2">
+                <MagicWand weight="fill" size={16} />
+                Magic Link
+              </TabsTrigger>
+              <TabsTrigger value="password" className="flex items-center gap-2">
+                <Lock weight="fill" size={16} />
+                Password
+              </TabsTrigger>
+            </TabsList>
 
-              <div>
-                <Label htmlFor="email" className="text-sm font-semibold mb-2 flex items-center gap-2">
-                  <EnvelopeSimple weight="fill" className="text-primary" size={16} />
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="h-11 bg-background border-primary/30 focus:border-primary"
-                  autoComplete="email"
-                  disabled={isLoading}
-                />
-              </div>
+            <TabsContent value="magic">
+              <MagicLinkAuth 
+                onSuccess={handleMagicLinkSuccess}
+                onCancel={() => setAuthMode('password')}
+              />
+            </TabsContent>
 
-              <div>
-                <Label htmlFor="password" className="text-sm font-semibold mb-2 flex items-center gap-2">
-                  <Lock weight="fill" className="text-primary" size={16} />
-                  Password
-                </Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
-                    className="h-11 bg-background border-primary/30 focus:border-primary pr-10"
-                    autoComplete={isSignUp ? 'new-password' : 'current-password'}
-                    disabled={isLoading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-                {isSignUp && password && (
-                  <div className="mt-2">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-muted-foreground">Password strength</span>
-                      <span className={`text-xs font-semibold ${
-                        currentStrength.strength === 100 ? 'text-primary' : 
-                        currentStrength.strength === 66 ? 'text-accent' : 
-                        'text-destructive'
-                      }`}>
-                        {currentStrength.label}
-                      </span>
-                    </div>
-                    <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${currentStrength.strength}%` }}
-                        className={`h-full ${currentStrength.color} transition-all duration-300`}
+            <TabsContent value="password">
+              <AnimatePresence mode="wait">
+                <motion.form
+                  key={isSignUp ? 'signup' : 'signin'}
+                  initial={{ opacity: 0, x: isSignUp ? 20 : -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: isSignUp ? -20 : 20 }}
+                  transition={{ duration: 0.2 }}
+                  onSubmit={isSignUp ? handleSignUp : handleSignIn}
+                  className="space-y-5"
+                >
+                  {isSignUp && (
+                    <div>
+                      <Label htmlFor="name" className="text-sm font-semibold mb-2 flex items-center gap-2">
+                        <UserCircle weight="fill" className="text-primary" size={16} />
+                        Full Name
+                      </Label>
+                      <Input
+                        id="name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="John Doe"
+                        className="h-11 bg-background border-primary/30 focus:border-primary"
+                        autoComplete="name"
+                        disabled={isLoading}
                       />
                     </div>
-                  </div>
-                )}
-              </div>
-
-              {isSignUp && (
-                <div>
-                  <Label htmlFor="confirm-password" className="text-sm font-semibold mb-2 flex items-center gap-2">
-                    <Check weight="bold" className="text-accent" size={16} />
-                    Confirm Password
-                  </Label>
-                  <Input
-                    id="confirm-password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm your password"
-                    className="h-11 bg-background border-accent/30 focus:border-accent"
-                    autoComplete="new-password"
-                    disabled={isLoading}
-                  />
-                  {confirmPassword && (
-                    <p className={`text-xs mt-1.5 ${
-                      password === confirmPassword ? 'text-accent' : 'text-destructive'
-                    }`}>
-                      {password === confirmPassword ? '✓ Passwords match' : '✗ Passwords do not match'}
-                    </p>
                   )}
+
+                  <div>
+                    <Label htmlFor="email" className="text-sm font-semibold mb-2 flex items-center gap-2">
+                      <EnvelopeSimple weight="fill" className="text-primary" size={16} />
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="h-11 bg-background border-primary/30 focus:border-primary"
+                      autoComplete="email"
+                      disabled={isLoading}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="password" className="text-sm font-semibold mb-2 flex items-center gap-2">
+                      <Lock weight="fill" className="text-primary" size={16} />
+                      Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter your password"
+                        className="h-11 bg-background border-primary/30 focus:border-primary pr-10"
+                        autoComplete={isSignUp ? 'new-password' : 'current-password'}
+                        disabled={isLoading}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                    {isSignUp && password && (
+                      <div className="mt-2">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs text-muted-foreground">Password strength</span>
+                          <span className={`text-xs font-semibold ${
+                            currentStrength.strength === 100 ? 'text-primary' : 
+                            currentStrength.strength === 66 ? 'text-accent' : 
+                            'text-destructive'
+                          }`}>
+                            {currentStrength.label}
+                          </span>
+                        </div>
+                        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${currentStrength.strength}%` }}
+                            className={`h-full ${currentStrength.color} transition-all duration-300`}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {isSignUp && (
+                    <div>
+                      <Label htmlFor="confirm-password" className="text-sm font-semibold mb-2 flex items-center gap-2">
+                        <Check weight="bold" className="text-accent" size={16} />
+                        Confirm Password
+                      </Label>
+                      <Input
+                        id="confirm-password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Confirm your password"
+                        className="h-11 bg-background border-accent/30 focus:border-accent"
+                        autoComplete="new-password"
+                        disabled={isLoading}
+                      />
+                      {confirmPassword && (
+                        <p className={`text-xs mt-1.5 ${
+                          password === confirmPassword ? 'text-accent' : 'text-destructive'
+                        }`}>
+                          {password === confirmPassword ? '✓ Passwords match' : '✗ Passwords do not match'}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full h-12 text-base glow-primary"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground" />
+                        {isSignUp ? 'Creating Account...' : 'Signing In...'}
+                      </>
+                    ) : (
+                      <>
+                        <Lightning weight="fill" size={20} />
+                        {isSignUp ? 'Create Account' : 'Sign In'}
+                      </>
+                    )}
+                  </Button>
+                </motion.form>
+              </AnimatePresence>
+
+              <div className="mt-6">
+                <Separator className="my-6" />
+                <div className="text-center">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {isSignUp ? 'Already have an account?' : "Don't have an account?"}
+                  </p>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => {
+                      setIsSignUp(!isSignUp)
+                      setEmail('')
+                      setPassword('')
+                      setConfirmPassword('')
+                      setName('')
+                      setShowPassword(false)
+                    }}
+                    disabled={isLoading}
+                    className="font-semibold"
+                  >
+                    {isSignUp ? 'Sign In' : 'Sign Up'}
+                  </Button>
                 </div>
-              )}
-
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full h-12 text-base glow-primary"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground" />
-                    {isSignUp ? 'Creating Account...' : 'Signing In...'}
-                  </>
-                ) : (
-                  <>
-                    <Lightning weight="fill" size={20} />
-                    {isSignUp ? 'Create Account' : 'Sign In'}
-                  </>
-                )}
-              </Button>
-            </motion.form>
-          </AnimatePresence>
-
-          <div className="mt-6">
-            <Separator className="my-6" />
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-2">
-                {isSignUp ? 'Already have an account?' : "Don't have an account?"}
-              </p>
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => {
-                  setIsSignUp(!isSignUp)
-                  setEmail('')
-                  setPassword('')
-                  setConfirmPassword('')
-                  setName('')
-                  setShowPassword(false)
-                }}
-                disabled={isLoading}
-                className="font-semibold"
-              >
-                {isSignUp ? 'Sign In' : 'Sign Up'}
-              </Button>
-            </div>
-          </div>
+              </div>
+            </TabsContent>
+          </Tabs>
 
           <div className="mt-6 pt-6 border-t border-border">
             <Button

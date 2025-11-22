@@ -13,6 +13,21 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 
 ## Essential Features
 
+### Magic Link Email Verification (🪄 Passwordless Authentication)
+- **Functionality**: Passwordless authentication system using magic links sent to user's email. Users can sign in or verify their email by clicking a secure, time-limited link. Supports both new user registration and email verification for existing users.
+- **Purpose**: Modern, secure authentication that removes password friction and increases conversion while providing email verification
+- **Trigger**: Accessible from auth page via "Magic Link" tab, or from dashboard verification banner for unverified users
+- **Progression**: User enters email → Clicks "Send Magic Link" → Receives unique link (console in dev mode) → Clicks link → Auto-authenticated & email verified → Redirected to dashboard
+- **Success criteria**:
+  - Links expire after 15 minutes with countdown timer
+  - One-time use enforcement (links marked as used)
+  - Unique ULID token generation for each link
+  - Visual verification badges and status indicators
+  - Verification banner for unverified users
+  - Dialog flow for verification from dashboard
+  - Seamless integration with existing password auth
+  - Console logging of magic links in development mode
+
 ### API Key Management System (🔑 Security & Integration Feature)
 - **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage.
 - **Purpose**: Enable users to bring their own API keys for AI generation, ensuring security and control over credentials while preventing unauthorized usage

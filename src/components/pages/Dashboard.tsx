@@ -1,8 +1,9 @@
-import { Download, Rocket, Trash, Sparkle, ArrowsClockwise, Shield, Globe, Fire, Copy, Share } from '@phosphor-icons/react'
+import { Download, Rocket, Trash, Sparkle, ArrowsClockwise, Shield, Globe, Fire, Copy, Share, MagicWand } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Separator } from '../ui/separator'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog'
 import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
@@ -11,6 +12,8 @@ import { INTEGRATIONS } from '../../lib/integrations'
 import { useBlackForge } from '../../lib/BlackForgeContext'
 import { APIKeyAlert } from '../APIKeyAlert'
 import { KeysManager } from '../KeysManager'
+import { EmailVerificationBanner } from '../EmailVerificationStatus'
+import { MagicLinkAuth } from '../MagicLinkAuth'
 import { useState } from 'react'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
@@ -32,8 +35,10 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   const { blackForgeMode } = useBlackForge()
   const [projects, setProjects] = useKV<Project[]>('user-projects', [])
   const [credits] = useKV<number>('user-credits', 15)
+  const [currentUser] = useKV<string | null>('apexforge-current-user', null)
   const { isMobile, isTablet } = useScreenSize()
   const [showKeysManager, setShowKeysManager] = useState(false)
+  const [showVerificationDialog, setShowVerificationDialog] = useState(false)
 
   const deleteProject = (id: number) => {
     setProjects((current) => (current ?? []).filter((p) => p.id !== id))
@@ -53,6 +58,13 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   const copyLink = (url: string) => {
     navigator.clipboard.writeText(url)
     toast.success('Link copied! 🔗')
+  }
+
+  const handleVerificationSuccess = (email: string) => {
+    setShowVerificationDialog(false)
+    toast.success('Email verified! 🎉', {
+      description: 'Your account is now verified',
+    })
   }
 
   return (
@@ -80,8 +92,15 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="mb-4 sm:mb-8"
+          className="mb-4 sm:mb-8 space-y-4"
         >
+          {currentUser && (
+            <EmailVerificationBanner 
+              email={currentUser}
+              onVerifyClick={() => setShowVerificationDialog(true)}
+            />
+          )}
+          
           <APIKeyAlert 
             onSetupKeys={() => setShowKeysManager(true)} 
             feature="AI-powered features and project generation"
@@ -351,6 +370,22 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           </Card>
         </motion.div>
       </div>
+
+      <Dialog open={showVerificationDialog} onOpenChange={setShowVerificationDialog}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <MagicWand weight="fill" className="text-primary" size={24} />
+              Verify Your Email
+            </DialogTitle>
+          </DialogHeader>
+          {currentUser && (
+            <MagicLinkAuth 
+              onSuccess={handleVerificationSuccess}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
