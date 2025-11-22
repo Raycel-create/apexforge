@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, Download, Rocket, CheckCircle, X, Check, Fire, ThumbsUp, ThumbsDown, Lightning, Shield, Palette, TreeStructure, Swap, Globe, Copy, ArrowsClockwise } from '@phosphor-icons/react'
+import { Sparkle, Download, Rocket, CheckCircle, X, Check, Fire, ThumbsUp, ThumbsDown, Lightning, Shield, Palette, TreeStructure, Swap, Globe, Copy, ArrowsClockwise, Brain, Code, Database } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Textarea } from '../ui/textarea'
@@ -9,6 +9,7 @@ import { ScrollArea } from '../ui/scroll-area'
 import { Label } from '../ui/label'
 import { Separator } from '../ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
+import { Input } from '../ui/input'
 import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -82,6 +83,10 @@ const FUSION_VERSIONS: FusionVersion[] = [
 
 export function Generator({ onNavigate }: GeneratorProps) {
   const [prompt, setPrompt] = useState('')
+  const [userPrompt, setUserPrompt] = useState('')
+  const [selectedAIs, setSelectedAIs] = useState<string[]>(['gpt', 'claude', 'grok'])
+  const [selectedFrontend, setSelectedFrontend] = useState<string>('react')
+  const [selectedBackend, setSelectedBackend] = useState<string>('node')
   const [generating, setGenerating] = useState(false)
   const [progress, setProgress] = useState(0)
   const [currentStage, setCurrentStage] = useState('')
@@ -222,6 +227,36 @@ export function Generator({ onNavigate }: GeneratorProps) {
     toast.success('Link copied! Share it on X 🔥')
   }
 
+  const toggleAI = (aiId: string) => {
+    setSelectedAIs((current) => {
+      if (current.includes(aiId)) {
+        if (current.length === 1) {
+          toast.error('Select at least one AI')
+          return current
+        }
+        return current.filter(id => id !== aiId)
+      } else {
+        return [...current, aiId]
+      }
+    })
+  }
+
+  const frontendOptions = [
+    { id: 'react', name: 'React', icon: '⚛️' },
+    { id: 'vue', name: 'Vue', icon: '💚' },
+    { id: 'angular', name: 'Angular', icon: '🅰️' },
+    { id: 'svelte', name: 'Svelte', icon: '🧡' },
+    { id: 'next', name: 'Next.js', icon: '▲' },
+  ]
+
+  const backendOptions = [
+    { id: 'node', name: 'Node.js', icon: '🟢' },
+    { id: 'python', name: 'Python', icon: '🐍' },
+    { id: 'go', name: 'Go', icon: '🔷' },
+    { id: 'java', name: 'Java', icon: '☕' },
+    { id: 'rust', name: 'Rust', icon: '🦀' },
+  ]
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-[1800px]">
       <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
@@ -252,6 +287,106 @@ export function Generator({ onNavigate }: GeneratorProps) {
 
       <div className="grid lg:grid-cols-[1fr_400px] gap-6">
         <div className="space-y-6">
+          <Card className="p-6 border-accent/30 bg-card/50">
+            <Label className="text-lg font-semibold mb-3 block flex items-center gap-2">
+              <Brain weight="fill" className="text-accent" size={20} />
+              Quick Prompt
+            </Label>
+            <Input
+              placeholder="Type your app idea here (e.g., 'fitness tracker with AI coaching')..."
+              value={userPrompt}
+              onChange={(e) => setUserPrompt(e.target.value)}
+              className="mb-4 bg-background text-base border-border focus:border-accent h-12"
+              disabled={generating}
+            />
+
+            <div className="space-y-4">
+              <div>
+                <Label className="text-sm font-medium mb-2 flex items-center gap-2">
+                  <Sparkle weight="fill" className="text-primary" size={16} />
+                  Select AI Models
+                </Label>
+                <div className="flex flex-wrap gap-2">
+                  {AI_AGENTS.map((agent) => (
+                    <Button
+                      key={agent.id}
+                      size="sm"
+                      variant={selectedAIs.includes(agent.id) ? 'default' : 'outline'}
+                      onClick={() => toggleAI(agent.id)}
+                      disabled={generating}
+                      className="h-8 text-xs"
+                    >
+                      <span className="mr-1">{agent.avatar}</span>
+                      {agent.name}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium mb-2 flex items-center gap-2">
+                  <Code weight="fill" className="text-cyan-400" size={16} />
+                  Frontend
+                </Label>
+                <div className="flex flex-wrap gap-2">
+                  {frontendOptions.map((option) => (
+                    <Button
+                      key={option.id}
+                      size="sm"
+                      variant={selectedFrontend === option.id ? 'default' : 'outline'}
+                      onClick={() => setSelectedFrontend(option.id)}
+                      disabled={generating}
+                      className="h-8 text-xs"
+                    >
+                      <span className="mr-1">{option.icon}</span>
+                      {option.name}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium mb-2 flex items-center gap-2">
+                  <Database weight="fill" className="text-green-400" size={16} />
+                  Backend
+                </Label>
+                <div className="flex flex-wrap gap-2">
+                  {backendOptions.map((option) => (
+                    <Button
+                      key={option.id}
+                      size="sm"
+                      variant={selectedBackend === option.id ? 'default' : 'outline'}
+                      onClick={() => setSelectedBackend(option.id)}
+                      disabled={generating}
+                      className="h-8 text-xs"
+                    >
+                      <span className="mr-1">{option.icon}</span>
+                      {option.name}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Button
+              size="sm"
+              variant="outline"
+              className="w-full mt-4 border-accent/50 text-accent hover:bg-accent/10"
+              onClick={() => {
+                if (userPrompt.trim()) {
+                  const fullPrompt = `${userPrompt.trim()} using ${frontendOptions.find(f => f.id === selectedFrontend)?.name} frontend and ${backendOptions.find(b => b.id === selectedBackend)?.name} backend, with AI models: ${selectedAIs.map(id => AI_AGENTS.find(a => a.id === id)?.name).join(', ')}`
+                  setPrompt(fullPrompt)
+                  toast.success('Configuration applied to prompt!')
+                } else {
+                  toast.error('Please enter a prompt first')
+                }
+              }}
+              disabled={generating}
+            >
+              Apply Configuration →
+            </Button>
+          </Card>
+
           <Card className="p-6 border-primary/30 glow-primary">
             <Label className="text-xl font-bold mb-4 block flex items-center gap-2">
               <Sparkle weight="fill" className="text-primary" size={24} />
