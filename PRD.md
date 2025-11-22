@@ -84,13 +84,31 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 - **Success criteria**: Robots feel alive (not subtle), each has distinct personality (Grok=silver rocket robot, Claude=purple owl robot, Gemini=rainbow prism), mobile auto-switches to portrait with robot list below, confetti explosion on ship, feels like directing a tiny construction crew
 
 ### Robot Personality & Behaviors (🎭 Cuteness Rules)
-- **On First Load**: All robots wave and say "Ready to build your dream!" in bubbles
+- **On First Load**: All robots wave and say "Ready to build your dream!" in bubbles (Black Forge: "Let's forge something dark! 🔥😈")
 - **During Typing**: Robots lean in and look at prompt box with anticipation
-- **During Debate**: Speech bubbles pop up with actual debate text from The Forge panel
+- **During Debate**: Speech bubbles pop up with actual debate text from The Forge panel (Black Forge: Speech bubbles turn red with destructive borders)
 - **When Stuck**: Robots shrug, one facepalms, another pulls hair dramatically
 - **On Credit Deduction**: One robot runs with tiny coin to piggy bank in corner
-- **On 100% Consensus**: All robots jump together, throw confetti, victory fanfare
-- **Black Forge Mode**: Robots turn demonic with glowing red eyes and tridents (future feature)
+- **On 100% Consensus**: All robots jump together, throw confetti, victory fanfare (Black Forge: "FORGED!" with demonic celebration)
+- **Black Forge Mode**: ✅ IMPLEMENTED - Robots turn demonic with glowing red eyes, fire above heads, and pulsing red auras. Activated via CEO Dashboard toggle or Konami code (↑↑↓↓←→←→BA)
+
+### Black Forge Dark Mode (🔥 Secret Feature)
+- **Functionality**: Hidden dark theme that transforms all AI robots into demonic variants with fire effects, red glowing auras, and dark messages
+- **Purpose**: Easter egg feature that adds personality and fun surprise for power users, makes the experience feel alive and customizable
+- **Trigger**: Two ways to activate - (1) Manual toggle in CEO Dashboard Whisper Mode section (2) Konami code sequence: ↑↑↓↓←→←→BA
+- **Progression**: Toggle switch → All robots instantly transform → Speech bubbles turn red/destructive styled → Preview frame gets destructive borders → Consensus meter becomes "Dark Consensus" → Success message changes to "FORGED IN SHADOWS! 😈🔥" → Persists across sessions via KV storage
+- **Success criteria**: Smooth visual transformation, persistent state, robots feel genuinely demonic (not subtle), toast notifications on activation/deactivation, welcome message changes to dark variant
+- **Visual Changes**:
+  - Robot avatars: 🧠→👹, 🛡️→💀, ⚡→⚡, 🎨→🔥, 🦙→😈
+  - Fire icons above robot heads
+  - Red pulsing auras around robots
+  - Destructive color borders (red) on all elements
+  - Speech bubbles with red/destructive styling
+  - Preview frame border changes to destructive
+  - Consensus meter labeled "Dark Consensus Meter"
+  - Success message: "FORGED IN SHADOWS!" with demon emoji
+  - Card backgrounds tinted with destructive colors
+
 
 ## Edge Case Handling
 - **Empty States**: Beautiful illustrations and clear CTAs when no projects exist or credits are depleted

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { TrendUp, Users, CurrencyDollar, Download, Sparkle, ChartLine, Eye, EyeSlash, ChatCircleDots, Fire, MaskHappy, Robot, ShieldSlash, Warning, Target, Broadcast, Skull } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
@@ -27,6 +27,7 @@ import {
   Cell,
 } from 'recharts'
 import { KeysManager } from '../KeysManager'
+import { useBlackForge } from '../../lib/BlackForgeContext'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -67,6 +68,7 @@ const TOP_PROMPTS = [
 ]
 
 export function CEODashboard({ onNavigate }: CEODashboardProps) {
+  const { blackForgeMode, setBlackForgeMode } = useBlackForge()
   const [generating, setGenerating] = useState(false)
   const [whisperMode, setWhisperMode] = useState(false)
   const [whisperInstructions, setWhisperInstructions] = useState('')
@@ -76,6 +78,27 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
   const [priceExperiment, setPriceExperiment] = useState('control')
   const [targetUser, setTargetUser] = useState('')
   const [showAdvancedControls, setShowAdvancedControls] = useState(false)
+  const [konamiCode, setKonamiCode] = useState<string[]>([])
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      const sequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
+      const newCode = [...konamiCode, e.key].slice(-10)
+      setKonamiCode(newCode)
+      
+      if (newCode.join(',') === sequence.join(',')) {
+        setBlackForgeMode(true)
+        toast.success('🔥 BLACK FORGE MODE ACTIVATED 🔥', {
+          description: 'Demonic robot variants unlocked. All robots turn dark.',
+          duration: 5000,
+        })
+        setKonamiCode([])
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [konamiCode, setBlackForgeMode])
 
   const generateAIReport = async () => {
     setGenerating(true)
@@ -246,6 +269,40 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
                   </p>
                 </div>
               )}
+
+              <div className="mt-6 pt-6 border-t border-destructive/30">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Skull weight="fill" className="text-destructive" size={24} />
+                    <div>
+                      <Label className="text-sm font-bold text-destructive cursor-pointer flex items-center gap-2">
+                        🔥 BLACK FORGE MODE
+                        {blackForgeMode && <Badge className="bg-destructive text-destructive-foreground text-xs animate-pulse">ACTIVE</Badge>}
+                      </Label>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {blackForgeMode 
+                          ? 'Demonic robot variants enabled - all robots have turned dark' 
+                          : 'Konami code to unlock: ↑↑↓↓←→←→BA'}
+                      </p>
+                    </div>
+                  </div>
+                  <Switch
+                    id="black-forge"
+                    checked={blackForgeMode}
+                    onCheckedChange={(checked) => {
+                      setBlackForgeMode(checked)
+                      if (checked) {
+                        toast.success('🔥 BLACK FORGE MODE ACTIVATED 🔥', {
+                          description: 'Demonic robot variants unlocked',
+                          duration: 3000,
+                        })
+                      } else {
+                        toast.info('Black Forge mode deactivated')
+                      }
+                    }}
+                  />
+                </div>
+              </div>
             </Card>
           </motion.div>
         )}

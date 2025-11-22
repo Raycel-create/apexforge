@@ -5,6 +5,7 @@ import { Pricing } from './components/pages/Pricing'
 import { CEODashboard } from './components/pages/CEODashboard'
 import { Generator } from './components/pages/Generator'
 import { Navigation } from './components/Navigation'
+import { BlackForgeProvider } from './lib/BlackForgeContext'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -29,10 +30,12 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
-      {renderPage()}
-    </div>
+    <BlackForgeProvider>
+      <div className="min-h-screen bg-background text-foreground">
+        <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
+        {renderPage()}
+      </div>
+    </BlackForgeProvider>
   )
 }
 

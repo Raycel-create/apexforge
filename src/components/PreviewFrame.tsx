@@ -6,6 +6,7 @@ import { Card } from './ui/card'
 import { Progress } from './ui/progress'
 import { useIsMobile } from '../hooks/use-mobile'
 import { ConfettiEffect } from './ConfettiEffect'
+import { useBlackForge } from '../lib/BlackForgeContext'
 
 interface PreviewFrameProps {
   url: string
@@ -30,6 +31,7 @@ const ROBOT_DATA = [
 ]
 
 export function PreviewFrame({ url, debates, isGenerating }: PreviewFrameProps) {
+  const { blackForgeMode } = useBlackForge()
   const [consensus, setConsensus] = useState(0)
   const [isShipped, setIsShipped] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
@@ -123,42 +125,62 @@ export function PreviewFrame({ url, debates, isGenerating }: PreviewFrameProps) 
     >
       {showConfetti && <ConfettiEffect />}
       
-      <Card className="p-4 sm:p-6 lg:p-8 border-primary/30 glow-primary overflow-hidden">
+      <Card className={`p-4 sm:p-6 lg:p-8 ${
+        blackForgeMode 
+          ? 'border-destructive/50 bg-destructive/5 glow-destructive' 
+          : 'border-primary/30 glow-primary'
+      } overflow-hidden transition-all duration-500`}>
         <div className="text-center mb-6 sm:mb-8">
           <motion.h2
-            className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 flex items-center justify-center gap-3"
+            className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 flex items-center justify-center gap-3 ${
+              blackForgeMode ? 'text-destructive' : ''
+            }`}
             animate={isShipped ? { scale: [1, 1.1, 1] } : {}}
             transition={{ duration: 0.5 }}
           >
-            {isMobile && <DeviceRotate className="text-accent w-6 h-6 sm:w-8 sm:h-8" weight="fill" />}
-            Your App — Live {isMobile ? 'Preview' : 'in Landscape'}
-            {isShipped && <Confetti className="text-accent w-6 h-6 sm:w-8 sm:h-8 animate-pulse-glow" weight="fill" />}
+            {isMobile && <DeviceRotate className={`${blackForgeMode ? 'text-destructive' : 'text-accent'} w-6 h-6 sm:w-8 sm:h-8`} weight="fill" />}
+            {blackForgeMode ? '🔥 Dark Forge — Live Preview' : `Your App — Live ${isMobile ? 'Preview' : 'in Landscape'}`}
+            {isShipped && <Confetti className={`${blackForgeMode ? 'text-destructive' : 'text-accent'} w-6 h-6 sm:w-8 sm:h-8 animate-pulse-glow`} weight="fill" />}
           </motion.h2>
           <p className="text-muted-foreground text-xs sm:text-sm">
-            {isMobile ? 'Full-width responsive view' : '1280 × 720px landscape preview'}
+            {blackForgeMode 
+              ? '⚠️ Demonic robot variants active' 
+              : isMobile ? 'Full-width responsive view' : '1280 × 720px landscape preview'
+            }
           </p>
         </div>
 
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm sm:text-base font-semibold">Consensus Meter</span>
-            <span className="text-sm sm:text-base font-bold text-primary">{Math.round(consensus)}%</span>
+            <span className={`text-sm sm:text-base font-semibold ${blackForgeMode ? 'text-destructive' : ''}`}>
+              {blackForgeMode ? '🔥 Dark Consensus Meter' : 'Consensus Meter'}
+            </span>
+            <span className={`text-sm sm:text-base font-bold ${blackForgeMode ? 'text-destructive' : 'text-primary'}`}>
+              {Math.round(consensus)}%
+            </span>
           </div>
-          <Progress value={consensus} className="h-3 sm:h-4" />
+          <Progress value={consensus} className={`h-3 sm:h-4 ${blackForgeMode ? 'bg-destructive/20' : ''}`} />
           {consensus >= 100 && (
             <motion.p
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center text-accent font-bold text-sm sm:text-base mt-2"
+              className={`text-center font-bold text-sm sm:text-base mt-2 ${
+                blackForgeMode ? 'text-destructive' : 'text-accent'
+              }`}
             >
-              ✓ 100% Consensus Reached — SHIPPED! 🚀
+              {blackForgeMode 
+                ? '✓ 100% Dark Consensus — FORGED IN SHADOWS! 😈🔥' 
+                : '✓ 100% Consensus Reached — SHIPPED! 🚀'
+              }
             </motion.p>
           )}
         </div>
 
         <div className="relative mx-auto" style={{ maxWidth: isMobile ? '100%' : '1280px' }}>
           <div
-            className={`relative bg-background rounded-xl sm:rounded-2xl shadow-2xl border-2 border-primary/30 overflow-hidden`}
+            className={`relative bg-background rounded-xl sm:rounded-2xl shadow-2xl border-2 ${
+              blackForgeMode ? 'border-destructive/50' : 'border-primary/30'
+            } overflow-hidden transition-all duration-500`}
             style={
               isMobile
                 ? { aspectRatio: '9/16', width: '100%' }
@@ -193,10 +215,13 @@ export function PreviewFrame({ url, debates, isGenerating }: PreviewFrameProps) 
                 tool={robot.tool}
                 isWorking={isGenerating && activeRobot === index}
                 consensusLevel={consensus}
+                blackForgeMode={blackForgeMode}
                 message={
                   showWelcome
                     ? index === 0
-                      ? "Ready to build your dream! 👋"
+                      ? blackForgeMode 
+                        ? "Let's forge something dark! 🔥😈"
+                        : "Ready to build your dream! 👋"
                       : undefined
                     : isGenerating && activeRobot === index && currentDebate?.agent.id === robot.id
                     ? currentDebate.message
@@ -253,21 +278,25 @@ export function PreviewFrame({ url, debates, isGenerating }: PreviewFrameProps) 
                   transition={{ duration: 0.6, repeat: 2 }}
                   className="text-4xl sm:text-5xl"
                 >
-                  🎉
+                  {blackForgeMode ? '😈' : '🎉'}
                 </motion.div>
                 <motion.div
                   animate={{ scale: [1, 1.1, 1, 1.1, 1] }}
                   transition={{ duration: 0.5, repeat: 3 }}
                 >
-                  <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-accent">SHIPPED!</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">All robots celebrate together!</p>
+                  <p className={`text-xl sm:text-2xl lg:text-3xl font-bold ${blackForgeMode ? 'text-destructive' : 'text-accent'}`}>
+                    {blackForgeMode ? 'FORGED!' : 'SHIPPED!'}
+                  </p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
+                    {blackForgeMode ? 'Dark forces unite!' : 'All robots celebrate together!'}
+                  </p>
                 </motion.div>
                 <motion.div
                   animate={{ rotate: [0, -15, 15, -15, 0], y: [0, -5, 0, -5, 0] }}
                   transition={{ duration: 0.6, repeat: 2 }}
                   className="text-4xl sm:text-5xl"
                 >
-                  🚀
+                  {blackForgeMode ? '🔥' : '🚀'}
                 </motion.div>
               </div>
             </motion.div>
