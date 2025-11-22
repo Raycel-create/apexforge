@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Key, Eye, EyeSlash, CheckCircle, XCircle, Copy, Trash } from '@phosphor-icons/react'
+import { Key, Eye, EyeSlash, CheckCircle, XCircle, Copy, Trash, Sparkle } from '@phosphor-icons/react'
 import { Card } from './ui/card'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
@@ -8,6 +8,7 @@ import { Label } from './ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { toast } from 'sonner'
 import { useKV } from '@github/spark/hooks'
+import { APIKeySetupWizard } from './APIKeySetupWizard'
 
 interface APIKey {
   id: string
@@ -47,6 +48,7 @@ export function KeysManager() {
   const [storeKeys, setStoreKeys] = useKV<APIKey[]>('ceo-keys-stores', DEFAULT_KEYS.stores)
   
   const [showKeys, setShowKeys] = useState<{ [key: string]: boolean }>({})
+  const [showWizard, setShowWizard] = useState(false)
 
   const updateKey = (category: 'ai' | 'services' | 'stores', id: string, newKey: string) => {
     const updateFn = (keys: APIKey[]) =>
@@ -58,11 +60,37 @@ export function KeysManager() {
   }
 
   const testKey = async (category: 'ai' | 'services' | 'stores', id: string) => {
-    toast.info('Testing API key...', { duration: 1500 })
+    const getKeys = () => {
+      if (category === 'ai') return aiKeys || []
+      if (category === 'services') return serviceKeys || []
+      return storeKeys || []
+    }
 
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    const currentKeys = getKeys()
+    const keyToTest = currentKeys.find(k => k.id === id)
 
-    const isValid = Math.random() > 0.3
+    if (!keyToTest || !keyToTest.key) {
+      toast.error('No API key provided')
+      return
+    }
+
+    toast.info('Testing API key...', { duration: 2000 })
+
+    let isValid = false
+
+    if (category === 'ai') {
+      try {
+        const { AIService } = await import('../lib/aiService')
+        const service = new AIService([])
+        isValid = await service.validateAPIKey(id, keyToTest.key)
+      } catch (error) {
+        console.error('Validation error:', error)
+        isValid = false
+      }
+    } else {
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      isValid = keyToTest.key.length > 10
+    }
 
     const updateFn = (keys: APIKey[]) =>
       keys.map(k => (k.id === id ? { ...k, status: isValid ? 'valid' as const : 'invalid' as const } : k))
@@ -72,10 +100,12 @@ export function KeysManager() {
     else setStoreKeys(updateFn)
 
     if (isValid) {
-      toast.success('API key is valid! ✓')
+      toast.success('API key is valid! ✓', {
+        description: 'Successfully connected to API'
+      })
     } else {
       toast.error('API key test failed', {
-        description: 'Check your key and try again'
+        description: 'Invalid key or connection error'
       })
     }
   }
@@ -198,25 +228,37 @@ export function KeysManager() {
   }
 
   return (
-    <Card className="p-6 border-primary/30">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
-          <Key weight="fill" className="text-primary" size={24} />
+    <>
+      <Card className="p-6 border-primary/30">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+              <Key weight="fill" className="text-primary" size={24} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold">Integrations Hub</h3>
+              <p className="text-sm text-muted-foreground">
+                Manage all API keys and services
+              </p>
+            </div>
+          </div>
+          <Button
+            variant="default"
+            size="sm"
+            onClick={() => setShowWizard(true)}
+            className="gap-2"
+          >
+            <Sparkle weight="fill" />
+            Setup Wizard
+          </Button>
         </div>
-        <div>
-          <h3 className="text-xl font-bold">Integrations Hub</h3>
-          <p className="text-sm text-muted-foreground">
-            Manage all API keys and services
-          </p>
-        </div>
-      </div>
 
-      <Tabs defaultValue="ai" className="w-full">
-        <TabsList className="grid grid-cols-3 w-full mb-6">
-          <TabsTrigger value="ai">AI Models ({aiKeys?.filter(k => k.key).length || 0})</TabsTrigger>
-          <TabsTrigger value="services">Services ({serviceKeys?.filter(k => k.key).length || 0})</TabsTrigger>
-          <TabsTrigger value="stores">App Stores ({storeKeys?.filter(k => k.key).length || 0})</TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="ai" className="w-full">
+          <TabsList className="grid grid-cols-3 w-full mb-6">
+            <TabsTrigger value="ai">AI Models ({aiKeys?.filter(k => k.key).length || 0})</TabsTrigger>
+            <TabsTrigger value="services">Services ({serviceKeys?.filter(k => k.key).length || 0})</TabsTrigger>
+            <TabsTrigger value="stores">App Stores ({storeKeys?.filter(k => k.key).length || 0})</TabsTrigger>
+          </TabsList>
 
         <TabsContent value="ai" className="space-y-3">
           <div className="grid gap-3">
@@ -243,5 +285,8 @@ export function KeysManager() {
         </p>
       </div>
     </Card>
+
+    <APIKeySetupWizard open={showWizard} onOpenChange={setShowWizard} />
+    </>
   )
 }

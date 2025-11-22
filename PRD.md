@@ -29,19 +29,22 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Console logging of magic links in development mode
 
 ### API Key Management System (🔑 Security & Integration Feature)
-- **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage.
-- **Purpose**: Enable users to bring their own API keys for AI generation, ensuring security and control over credentials while preventing unauthorized usage
+- **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage. **Now configured for actual AI model integrations** - keys are used to make real API calls to OpenAI (GPT-4o), Anthropic (Claude 3.5 Sonnet), xAI (Grok-2), Google (Gemini 1.5 Pro), and Meta (Llama 3.1) for code generation and AI debates.
+- **Purpose**: Enable users to bring their own API keys for AI generation, ensuring security and control over credentials while preventing unauthorized usage. Powers real-time AI collaboration with actual model responses.
 - **Trigger**: Displayed prominently in CEO Dashboard Integrations Hub section and shown as alert/requirement in User Dashboard and Generator when keys are missing
-- **Progression**: User navigates to dashboard → Sees API key requirement alert → Clicks "Setup API Keys" → Opens Integrations Hub → Adds API key → Tests validation → Status changes to valid/invalid → Can now use AI generation features
+- **Progression**: User navigates to dashboard → Sees API key requirement alert → Clicks "Setup API Keys" → Opens Integrations Hub → Adds API key (from provider's API dashboard) → Tests validation against live API → Status changes to valid/invalid → Can now use real AI generation features
 - **Success criteria**: 
   - Alert shown when no valid AI keys configured
   - Generation blocked until at least one valid AI key is present
-  - Key validation works with test functionality
-  - Secure storage with masked display
+  - Real API validation with actual test requests to provider endpoints
+  - Secure storage with masked display (sk_••••••••1234)
   - Copy, delete, and visibility toggle features work smoothly
   - Responsive across all screen sizes
   - CEO Dashboard shows full Integrations Hub with 3 tabs (AI Models, Services, App Stores)
   - User Dashboard shows compact key requirement alert with setup button
+  - Live API integration with proper error handling and rate limiting
+  - Support for multiple concurrent AI model calls
+  - Token usage tracking per generation
 
 ### Real-Time "The Forge" AI Debate Panel (🔥 #1 Viral Feature)
 - **Functionality**: Live sidebar with 5-6 AI agents (GPT-4o, Claude, Grok, Gemini, Llama) chatting, arguing, and debating in real-time like a Slack channel. **Requires valid API keys** - users must configure at least one AI model API key before generation.
