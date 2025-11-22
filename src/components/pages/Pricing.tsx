@@ -1,8 +1,10 @@
-import { Check, Sparkle, Lightning } from '@phosphor-icons/react'
+import { Check, Sparkle, Lightning, Shield, TreeStructure, Fire, Lock, Globe } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
+import { Separator } from '../ui/separator'
 import { toast } from 'sonner'
+import { motion } from 'framer-motion'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -15,288 +17,361 @@ const PLANS = [
     name: 'Free',
     price: '$0',
     period: 'forever',
-    description: 'Perfect for trying out ApexForge',
+    description: 'Perfect for trying The Forge',
     features: [
       '5 generations per month',
-      'Watermarked previews',
-      'Basic AI models',
+      'Watermarked preview only',
+      'AI debate panel access',
+      'Basic models (GPT, Claude)',
       'Community support',
-      'Download source code',
     ],
     limitations: [
-      'No priority queue',
-      'Limited model selection',
+      'No live deployment',
+      'No Fusion Mode',
+      'No Evolve feature',
     ],
-    cta: 'Current Plan',
+    cta: 'Start Free',
     highlight: false,
+    color: 'border-border',
   },
   {
     name: 'Pro',
     price: '$19',
     period: 'per month',
-    description: '20% cheaper than competitors - Best for professionals',
+    description: 'Unlimited builds with live deployment',
     features: [
       'Unlimited generations',
-      'No watermarks',
-      'All AI models (GPT-4, Claude, Grok)',
+      'apexforge.app subdomain',
+      'Live HTTPS deployment',
+      'All 5 AI models (GPT, Claude, Grok, Gemini, Llama)',
+      'Fusion Mode included',
+      'Evolve button unlocked',
       'Priority generation queue',
-      'API key storage',
-      'Advanced deployment options',
-      'Priority email support',
-      'Custom templates',
+      'Download source code',
     ],
     limitations: [],
-    cta: 'Upgrade to Pro',
+    cta: 'Go Pro',
     highlight: true,
+    color: 'border-primary/50 bg-primary/5',
   },
   {
-    name: 'Enterprise',
-    price: '$180',
+    name: 'Launch',
+    price: '$39',
     period: 'per month',
-    description: 'For teams and agencies',
+    description: 'For serious projects going live',
     features: [
       'Everything in Pro',
-      'Custom AI agents',
-      'Team collaboration (10 seats)',
-      'White-label deployments',
-      'Advanced analytics',
-      'Dedicated support',
-      'Custom integrations',
-      'SLA guarantee',
+      'Custom domain support',
+      'Auto SSL certificates',
+      'GitHub repo integration',
+      'Daily auto-backups',
+      'White-label (remove branding)',
+      'Instant deploy (&lt;3 sec)',
+      'Advanced Evolve features',
+      'Priority support',
     ],
     limitations: [],
-    cta: 'Contact Sales',
+    cta: 'Upgrade to Launch',
     highlight: false,
-  },
-  {
-    name: 'Pro Team',
-    price: '$250',
-    period: 'per month',
-    description: 'Advanced team collaboration',
-    features: [
-      'Everything in Enterprise',
-      'Unlimited team seats',
-      'Priority AI model access',
-      'Advanced workflow automation',
-      'Team performance analytics',
-      'Custom AI model fine-tuning',
-      'Dedicated account manager',
-      'Priority feature requests',
-    ],
-    limitations: [],
-    cta: 'Contact Sales',
-    highlight: false,
-  },
-  {
-    name: 'Custom Integration',
-    price: '$500',
-    period: 'per month',
-    description: 'Integrate with anything - MIM support included',
-    features: [
-      'Everything in Pro Team',
-      'Integrate with any platform or service',
-      'MIM (Multi-Integration Manager) support',
-      'Custom API development',
-      'Webhook & event automation',
-      'Legacy system integration',
-      'Real-time sync capabilities',
-      'Custom middleware development',
-      'White-glove onboarding',
-    ],
-    limitations: [],
-    cta: 'Contact Sales',
-    highlight: false,
+    color: 'border-accent/30',
   },
 ]
 
 export function Pricing({ onNavigate }: PricingProps) {
   const handleUpgrade = (planName: string) => {
-    if (planName === 'Free') return
-    toast.success(`Redirecting to checkout for ${planName}...`, {
-      description: 'In production, this would integrate with Stripe',
+    if (planName === 'Free') {
+      onNavigate('generator')
+      return
+    }
+    toast.success(`Redirecting to Stripe checkout for ${planName}...`, {
+      description: 'In production, this integrates with Stripe',
+    })
+  }
+
+  const handleSecurityUpgrade = () => {
+    toast.success('Redirecting to $500 Security Shield checkout...', {
+      description: 'One-time payment via Stripe',
+      duration: 3000,
     })
   }
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
-            20% Cheaper Than Emergent.sh
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12"
+        >
+          <Badge className="mb-4 px-6 py-3 bg-destructive/20 text-destructive border-destructive/40 text-base">
+            <Fire weight="fill" size={18} />
+            This Just Killed Emergent.sh's Pricing Model
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Simple, Transparent Pricing
+          <h1 className="text-5xl md:text-6xl font-bold mb-4">
+            Simple, Radically{' '}
+            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+              Better Pricing
+            </span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Choose the plan that fits your needs. All plans include collaborative AI generation.
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            While competitors charge $50+ just for basic features, we give you live deployment, all AI models, and Fusion Mode starting at $19.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {PLANS.slice(0, 3).map((plan) => (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mb-16"
+        >
+          <Card className="p-8 bg-accent/10 border-accent/30 glow-accent">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <TreeStructure weight="fill" className="text-accent" size={40} />
+              <h2 className="text-3xl font-bold">Not Sure What to Build?</h2>
+            </div>
+            <p className="text-center text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Use our <span className="text-accent font-semibold">FREE Idea Incubator</span> (no credits used) to generate 5 validated app ideas with wireframes, tech stack, and revenue models in 30 seconds.
+            </p>
+            <div className="text-center">
+              <Button
+                size="lg"
+                onClick={() => onNavigate('generator')}
+                className="text-xl px-8 py-6 glow-accent bg-accent text-accent-foreground hover:bg-accent/90"
+              >
+                <TreeStructure weight="fill" size={24} />
+                Try FREE Idea Incubator Now
+              </Button>
+            </div>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="grid md:grid-cols-3 gap-6 mb-16"
+        >
+          {PLANS.map((plan, idx) => (
             <Card
               key={plan.name}
-              className={`p-8 ${
-                plan.highlight
-                  ? 'border-primary/50 bg-primary/5 relative overflow-hidden'
-                  : 'border-border'
+              className={`p-8 relative overflow-hidden ${plan.color} ${
+                plan.highlight ? 'transform scale-105' : ''
               }`}
             >
               {plan.highlight && (
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl" />
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/30 rounded-full blur-3xl" />
               )}
-              <div className="relative">
+              
+              <div className="relative z-10">
                 {plan.highlight && (
-                  <Badge className="mb-4 bg-primary text-primary-foreground">
+                  <Badge className="mb-4 bg-primary text-primary-foreground glow-primary">
+                    <Fire weight="fill" size={14} />
                     Most Popular
                   </Badge>
                 )}
+                
                 <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold">{plan.price}</span>
+                  <span className="text-5xl font-bold">{plan.price}</span>
                   <span className="text-muted-foreground ml-2">/{plan.period}</span>
                 </div>
-                <p className="text-muted-foreground mb-6">{plan.description}</p>
+                <p className="text-muted-foreground mb-6 min-h-[48px]">{plan.description}</p>
 
                 <Button
                   onClick={() => handleUpgrade(plan.name)}
-                  className={`w-full mb-6 ${
+                  className={`w-full mb-6 py-6 text-lg ${
                     plan.highlight ? 'glow-primary' : ''
                   }`}
                   variant={plan.highlight ? 'default' : 'outline'}
-                  disabled={plan.name === 'Free'}
                 >
                   {plan.cta}
                 </Button>
 
-                <div className="space-y-3">
+                <div className="space-y-3 mb-4">
                   {plan.features.map((feature, index) => (
                     <div key={index} className="flex items-start gap-2">
-                      <Check weight="bold" className="text-accent shrink-0 mt-0.5" size={16} />
+                      <Check weight="bold" className="text-accent shrink-0 mt-1" size={18} />
                       <span className="text-sm">{feature}</span>
                     </div>
                   ))}
                 </div>
+
+                {plan.limitations.length > 0 && (
+                  <>
+                    <Separator className="my-4" />
+                    <div className="space-y-2">
+                      {plan.limitations.map((limitation, index) => (
+                        <div key={index} className="flex items-start gap-2 opacity-50">
+                          <span className="text-xs">✗ {limitation}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </Card>
           ))}
-        </div>
+        </motion.div>
 
-        <div className="mb-12">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold mb-2">Premium Enterprise Plans</h2>
-            <p className="text-muted-foreground">Advanced solutions for scaling teams and custom integration needs</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {PLANS.slice(3).map((plan) => (
-              <Card
-                key={plan.name}
-                className={`p-8 ${
-                  plan.name === 'Custom Integration'
-                    ? 'border-accent/50 bg-accent/5 relative overflow-hidden'
-                    : 'border-border'
-                }`}
-              >
-                {plan.name === 'Custom Integration' && (
-                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl" />
-                )}
-                <div className="relative">
-                  {plan.name === 'Custom Integration' && (
-                    <Badge className="mb-4 bg-accent text-accent-foreground">
-                      Ultimate Flexibility
-                    </Badge>
-                  )}
-                  <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                  <div className="mb-4">
-                    <span className="text-4xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground ml-2">/{plan.period}</span>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-16"
+        >
+          <Card className="relative overflow-hidden border-destructive/40 bg-gradient-to-br from-destructive/10 via-card to-destructive/5">
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
+            
+            <div className="relative p-10">
+              <div className="flex items-start gap-6 mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-destructive/20 flex items-center justify-center glow-destructive flex-shrink-0">
+                  <Shield weight="fill" className="text-destructive" size={32} />
+                </div>
+                <div className="flex-1">
+                  <Badge className="mb-3 bg-destructive/30 text-destructive border-destructive">
+                    <Lock weight="fill" size={14} />
+                    Premium One-Time Add-On
+                  </Badge>
+                  <h2 className="text-3xl font-bold mb-2">Enterprise-Grade Man-in-the-Middle AI Security Shield</h2>
+                  <div className="flex items-baseline gap-3 mb-4">
+                    <span className="text-5xl font-bold text-destructive">$500</span>
+                    <span className="text-muted-foreground">one-time payment (not recurring)</span>
                   </div>
-                  <p className="text-muted-foreground mb-6">{plan.description}</p>
+                  <p className="text-lg text-muted-foreground mb-6">
+                    Add an always-on AI security agent that sits between your app and the internet, scanning and blocking threats in real-time before they reach your users.
+                  </p>
+                </div>
+              </div>
 
-                  <Button
-                    onClick={() => handleUpgrade(plan.name)}
-                    className={`w-full mb-6 ${
-                      plan.name === 'Custom Integration' ? 'glow-accent' : ''
-                    }`}
-                    variant="outline"
-                  >
-                    {plan.cta}
-                  </Button>
-
-                  <div className="space-y-3">
-                    {plan.features.map((feature, index) => (
-                      <div key={index} className="flex items-start gap-2">
-                        <Check weight="bold" className="text-accent shrink-0 mt-0.5" size={16} />
-                        <span className="text-sm">{feature}</span>
-                      </div>
-                    ))}
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Check weight="bold" className="text-destructive shrink-0 mt-1" size={18} />
+                    <div>
+                      <span className="font-semibold block">Real-time threat scanning</span>
+                      <span className="text-sm text-muted-foreground">SQLi, XSS, RCE, prompt injection</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check weight="bold" className="text-destructive shrink-0 mt-1" size={18} />
+                    <div>
+                      <span className="font-semibold block">Auto-blocks malicious traffic</span>
+                      <span className="text-sm text-muted-foreground">Before it hits your app</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check weight="bold" className="text-destructive shrink-0 mt-1" size={18} />
+                    <div>
+                      <span className="font-semibold block">Daily AI-generated security reports</span>
+                      <span className="text-sm text-muted-foreground">Emailed to you every morning</span>
+                    </div>
                   </div>
                 </div>
-              </Card>
-            ))}
-          </div>
-        </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Check weight="bold" className="text-destructive shrink-0 mt-1" size={18} />
+                    <div>
+                      <span className="font-semibold block">Zero-config deployment</span>
+                      <span className="text-sm text-muted-foreground">We deploy it automatically on your domain</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check weight="bold" className="text-destructive shrink-0 mt-1" size={18} />
+                    <div>
+                      <span className="font-semibold block">Powered by Claude 3.5 + Grok-2</span>
+                      <span className="text-sm text-muted-foreground">Private hybrid AI agent</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check weight="bold" className="text-destructive shrink-0 mt-1" size={18} />
+                    <div>
+                      <span className="font-semibold block">Glowing shield badge</span>
+                      <span className="text-sm text-muted-foreground">Show users you're protected</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-        <Card className="p-8 bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20 text-center">
-          <div className="max-w-2xl mx-auto">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Lightning weight="fill" className="text-accent" size={24} />
-              <h3 className="text-2xl font-bold">Not Sure What to Build?</h3>
+              <Button
+                size="lg"
+                onClick={handleSecurityUpgrade}
+                className="w-full py-7 text-xl glow-destructive bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                <Shield weight="fill" size={24} />
+                Fortify Your App Forever - $500 One-Time
+              </Button>
+
+              <p className="text-center text-sm text-muted-foreground mt-4">
+                💡 Perfect for apps handling sensitive data, payments, or user authentication
+              </p>
             </div>
-            <p className="text-muted-foreground mb-6">
-              Start with our free AI Idea Generator to get inspired. Generate 3 app concepts without consuming your generation credits!
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mb-12"
+        >
+          <Card className="p-8 border-primary/30 bg-gradient-to-r from-primary/5 to-accent/5 text-center">
+            <Globe weight="fill" className="mx-auto mb-4 text-primary" size={48} />
+            <h3 className="text-2xl font-bold mb-2">Want It LIVE on Your Domain Instantly?</h3>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              <span className="text-accent font-semibold">Upgrade to Launch</span> for custom domain support, auto SSL, GitHub integration, and instant deploy in under 3 seconds.
             </p>
             <Button
               size="lg"
-              variant="outline"
-              onClick={() => toast.success('Idea Generator coming soon!')}
+              onClick={() => handleUpgrade('Launch')}
+              className="text-lg px-8 py-6 glow-primary"
             >
-              <Sparkle weight="fill" size={16} />
-              Try Idea Generator (Free)
+              <Lightning weight="fill" size={20} />
+              Upgrade to Launch - $39/mo
             </Button>
-          </div>
-        </Card>
+          </Card>
+        </motion.div>
 
-        <div className="mt-12 text-center">
-          <h3 className="text-2xl font-bold mb-6">Frequently Asked Questions</h3>
-          <div className="grid md:grid-cols-2 gap-6 text-left max-w-4xl mx-auto">
-            <Card className="p-6">
-              <h4 className="font-semibold mb-2">How do credits work?</h4>
-              <p className="text-sm text-muted-foreground">
-                Each app generation consumes 1 credit. Free tier gets 5 credits/month. Pro tier has unlimited credits.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <h4 className="font-semibold mb-2">Can I cancel anytime?</h4>
-              <p className="text-sm text-muted-foreground">
-                Yes! Cancel your subscription anytime. You'll keep access until the end of your billing period.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <h4 className="font-semibold mb-2">What AI models do you use?</h4>
-              <p className="text-sm text-muted-foreground">
-                We use GPT-4, Claude, and Grok in parallel for faster, more innovative results. Pro users can select specific models.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <h4 className="font-semibold mb-2">Do I own the generated code?</h4>
-              <p className="text-sm text-muted-foreground">
-                Absolutely! All generated code is 100% yours. Download, modify, and deploy anywhere without restrictions.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <h4 className="font-semibold mb-2">What is MIM support?</h4>
-              <p className="text-sm text-muted-foreground">
-                MIM (Multi-Integration Manager) allows Custom Integration plan users to connect any third-party service, API, or legacy system seamlessly.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <h4 className="font-semibold mb-2">Can I integrate with my existing tools?</h4>
-              <p className="text-sm text-muted-foreground">
-                Yes! The Custom Integration plan at $500/month lets you integrate with anything you wish, including custom middleware and real-time sync.
-              </p>
-            </Card>
-          </div>
+        <div className="text-center mb-8">
+          <h3 className="text-3xl font-bold mb-8">Frequently Asked Questions</h3>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <Card className="p-6">
+            <h4 className="font-semibold mb-2 text-lg">How fast is "live deployment"?</h4>
+            <p className="text-sm text-muted-foreground">
+              Your app is live with HTTPS at yourapp-xyz.apexforge.app in under 10 seconds. Launch plan users get &lt;3 second deploys.
+            </p>
+          </Card>
+          <Card className="p-6">
+            <h4 className="font-semibold mb-2 text-lg">Can I cancel anytime?</h4>
+            <p className="text-sm text-muted-foreground">
+              Yes! No contracts. Cancel anytime and keep access until your billing period ends. The $500 security shield is yours forever.
+            </p>
+          </Card>
+          <Card className="p-6">
+            <h4 className="font-semibold mb-2 text-lg">What's the AI Debate Panel?</h4>
+            <p className="text-sm text-muted-foreground">
+              5 AI agents (GPT-4o, Claude, Grok, Gemini, Llama) argue in real-time about your app. You vote on their suggestions. No competitor has this.
+            </p>
+          </Card>
+          <Card className="p-6">
+            <h4 className="font-semibold mb-2 text-lg">Do I own the code?</h4>
+            <p className="text-sm text-muted-foreground">
+              100% yours. Download, modify, sell, or deploy anywhere. We have zero claims to your generated apps.
+            </p>
+          </Card>
+          <Card className="p-6">
+            <h4 className="font-semibold mb-2 text-lg">What is Fusion Mode?</h4>
+            <p className="text-sm text-muted-foreground">
+              After generation, you get 3 versions: Fastest, Most Secure, Most Beautiful. Drag-drop components between them to create your perfect hybrid. Industry first.
+            </p>
+          </Card>
+          <Card className="p-6">
+            <h4 className="font-semibold mb-2 text-lg">Is the $500 Security Shield worth it?</h4>
+            <p className="text-sm text-muted-foreground">
+              If you're handling payments, user data, or auth - absolutely. It's a one-time fee (not monthly) for lifetime AI-powered threat protection.
+            </p>
+          </Card>
         </div>
       </div>
     </div>

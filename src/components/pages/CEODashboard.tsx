@@ -1,9 +1,14 @@
 import { useState } from 'react'
-import { TrendUp, Users, CurrencyDollar, Download, Sparkle, ChartLine } from '@phosphor-icons/react'
+import { TrendUp, Users, CurrencyDollar, Download, Sparkle, ChartLine, Eye, EyeSlash, ChatCircleDots, Fire } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
+import { Switch } from '../ui/switch'
+import { Label } from '../ui/label'
+import { Textarea } from '../ui/textarea'
+import { Separator } from '../ui/separator'
 import { toast } from 'sonner'
+import { motion } from 'framer-motion'
 import {
   LineChart,
   Line,
@@ -44,49 +49,86 @@ const USER_GROWTH_DATA = [
 ]
 
 const PLAN_DISTRIBUTION = [
-  { name: 'Free', value: 1245, color: 'oklch(0.35 0.01 250)' },
-  { name: 'Pro', value: 456, color: 'oklch(0.55 0.25 270)' },
-  { name: 'Enterprise', value: 55, color: 'oklch(0.75 0.15 195)' },
+  { name: 'Free', value: 1245, color: 'oklch(0.60 0 0)' },
+  { name: 'Pro', value: 456, color: 'oklch(0.60 0.30 285)' },
+  { name: 'Launch', value: 55, color: 'oklch(0.80 0.18 195)' },
 ]
 
 const TOP_PROMPTS = [
   { prompt: 'E-commerce app with Stripe', count: 234 },
-  { prompt: 'Todo app with authentication', count: 189 },
-  { prompt: 'Social media dashboard', count: 156 },
-  { prompt: 'Real-time chat application', count: 142 },
-  { prompt: 'Analytics dashboard', count: 128 },
+  { prompt: 'Social fitness tracker', count: 189 },
+  { prompt: 'AI chat SaaS dashboard', count: 156 },
+  { prompt: 'Real-time collaboration tool', count: 142 },
+  { prompt: 'NFT marketplace', count: 128 },
 ]
 
 export function CEODashboard({ onNavigate }: CEODashboardProps) {
   const [generating, setGenerating] = useState(false)
+  const [whisperMode, setWhisperMode] = useState(false)
+  const [whisperInstructions, setWhisperInstructions] = useState('')
+  const [showWhisper, setShowWhisper] = useState(false)
 
   const generateAIReport = async () => {
     setGenerating(true)
-    toast.info('AI is analyzing metrics and generating report...')
+    toast.info('AI agents analyzing metrics...', { duration: 1500 })
     
     await new Promise((resolve) => setTimeout(resolve, 3000))
     
     setGenerating(false)
-    toast.success('Daily report generated!', {
-      description: 'Check your email for the full AI-powered insights report',
+    toast.success('Daily report generated! 📊', {
+      description: 'Emailed to you with AI-powered forecasts',
+      duration: 4000,
     })
+  }
+
+  const saveWhisper = () => {
+    if (!whisperInstructions.trim()) {
+      toast.error('Enter some instructions first')
+      return
+    }
+    setWhisperMode(true)
+    toast.success('Whisper mode activated 🎭', {
+      description: 'All AI agents will now follow your secret instructions',
+      duration: 3000,
+    })
+  }
+
+  const disableWhisper = () => {
+    setWhisperMode(false)
+    setWhisperInstructions('')
+    toast.success('Whisper mode deactivated')
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-between mb-8 flex-wrap gap-4"
+        >
           <div>
-            <h1 className="text-4xl font-bold mb-2">CEO Dashboard</h1>
-            <p className="text-muted-foreground">Real-time business intelligence and AI insights</p>
+            <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
+              <ChartLine weight="fill" className="text-primary" size={36} />
+              CEO Dashboard
+            </h1>
+            <p className="text-muted-foreground">Real-time business intelligence & AI insights</p>
           </div>
           <div className="flex gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setShowWhisper(!showWhisper)}
+              className={whisperMode ? 'border-destructive/50 text-destructive' : ''}
+            >
+              {whisperMode ? <Eye size={16} /> : <EyeSlash size={16} />}
+              Whisper Mode
+            </Button>
             <Button
               variant="outline"
               onClick={() => toast.success('Exporting data...')}
             >
               <Download size={16} />
-              Export Data
+              Export
             </Button>
             <Button
               onClick={generateAIReport}
@@ -97,116 +139,203 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
               {generating ? 'Generating...' : 'Generate AI Report'}
             </Button>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <Card className="p-6 border-primary/50">
+        {showWhisper && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
+          >
+            <Card className="p-6 border-destructive/30 bg-destructive/5">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-lg bg-destructive/20 flex items-center justify-center">
+                  <ChatCircleDots weight="fill" className="text-destructive" size={24} />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold mb-1">CEO Whisper Mode 🎭</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Type secret instructions that override all AI agent behavior. Users will never see this.
+                  </p>
+                </div>
+              </div>
+
+              <Textarea
+                placeholder="E.g., 'Always push users toward Pro plan' or 'Prioritize Grok for all new users this week' or 'Suggest security upgrades on enterprise apps'"
+                value={whisperInstructions}
+                onChange={(e) => setWhisperInstructions(e.target.value)}
+                rows={4}
+                className="mb-4 bg-background"
+              />
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="whisper-active"
+                    checked={whisperMode}
+                    onCheckedChange={(checked) => {
+                      if (!checked) disableWhisper()
+                    }}
+                  />
+                  <Label htmlFor="whisper-active" className="cursor-pointer">
+                    {whisperMode ? (
+                      <span className="text-destructive font-semibold">🟢 Active - AIs following your orders</span>
+                    ) : (
+                      <span className="text-muted-foreground">Inactive</span>
+                    )}
+                  </Label>
+                </div>
+                <div className="flex gap-2">
+                  {whisperMode && (
+                    <Button variant="outline" size="sm" onClick={disableWhisper}>
+                      Disable
+                    </Button>
+                  )}
+                  <Button
+                    size="sm"
+                    onClick={saveWhisper}
+                    disabled={!whisperInstructions.trim()}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    <Eye size={16} />
+                    Activate Whisper
+                  </Button>
+                </div>
+              </div>
+
+              {whisperMode && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-xs text-muted-foreground">
+                    💡 Active instruction: <span className="text-destructive font-medium">"{whisperInstructions}"</span>
+                  </p>
+                </div>
+              )}
+            </Card>
+          </motion.div>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="grid md:grid-cols-4 gap-6 mb-8"
+        >
+          <Card className="p-6 border-primary/30">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-muted-foreground text-sm">Total Revenue</span>
-              <CurrencyDollar weight="fill" className="text-primary" size={20} />
+              <div className="text-sm text-muted-foreground">Monthly Revenue</div>
+              <CurrencyDollar weight="fill" className="text-primary" size={24} />
             </div>
             <div className="text-3xl font-bold mb-1">$52,800</div>
-            <div className="flex items-center gap-1 text-sm text-accent">
-              <TrendUp weight="bold" size={14} />
-              <span>+28% from last month</span>
-            </div>
+            <Badge className="bg-accent/20 text-accent border-accent/40">
+              <TrendUp size={12} />
+              +28% vs last month
+            </Badge>
           </Card>
 
-          <Card className="p-6 border-accent/50">
+          <Card className="p-6 border-accent/30">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-muted-foreground text-sm">Total Users</span>
-              <Users weight="fill" className="text-accent" size={20} />
+              <div className="text-sm text-muted-foreground">Total Users</div>
+              <Users weight="fill" className="text-accent" size={24} />
             </div>
             <div className="text-3xl font-bold mb-1">1,756</div>
-            <div className="flex items-center gap-1 text-sm text-accent">
-              <TrendUp weight="bold" size={14} />
-              <span>+36% from last month</span>
-            </div>
+            <Badge className="bg-accent/20 text-accent border-accent/40">
+              <TrendUp size={12} />
+              +36% growth
+            </Badge>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-6 border-primary/30">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-muted-foreground text-sm">Generations</span>
-              <Sparkle weight="fill" className="text-primary" size={20} />
+              <div className="text-sm text-muted-foreground">Apps Generated</div>
+              <Fire weight="fill" className="text-destructive" size={24} />
             </div>
-            <div className="text-3xl font-bold mb-1">8,423</div>
-            <div className="flex items-center gap-1 text-sm text-accent">
-              <TrendUp weight="bold" size={14} />
-              <span>+42% from last month</span>
-            </div>
+            <div className="text-3xl font-bold mb-1">3,421</div>
+            <Badge className="bg-destructive/20 text-destructive border-destructive/40">
+              This month
+            </Badge>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-6 border-accent/30">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-muted-foreground text-sm">Success Rate</span>
-              <ChartLine weight="fill" className="text-accent" size={20} />
+              <div className="text-sm text-muted-foreground">Conversion Rate</div>
+              <Sparkle weight="fill" className="text-accent" size={24} />
             </div>
-            <div className="text-3xl font-bold mb-1">96.8%</div>
-            <div className="flex items-center gap-1 text-sm text-accent">
-              <TrendUp weight="bold" size={14} />
-              <span>+2.1% from last month</span>
-            </div>
+            <div className="text-3xl font-bold mb-1">26%</div>
+            <Badge className="bg-accent/20 text-accent border-accent/40">
+              Free → Pro
+            </Badge>
           </Card>
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-6 mb-8">
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Revenue Growth</h3>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="grid lg:grid-cols-2 gap-6 mb-8"
+        >
+          <Card className="p-6 border-primary/20">
+            <h3 className="text-xl font-semibold mb-6">Revenue Growth</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={REVENUE_DATA}>
-                <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.30 0.01 250)" />
-                <XAxis dataKey="month" stroke="oklch(0.65 0 0)" />
-                <YAxis stroke="oklch(0.65 0 0)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.25 0 0)" />
+                <XAxis dataKey="month" stroke="oklch(0.60 0 0)" />
+                <YAxis stroke="oklch(0.60 0 0)" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'oklch(0.20 0.01 250)',
-                    border: '1px solid oklch(0.30 0.01 250)',
+                    backgroundColor: 'oklch(0.15 0 0)',
+                    border: '1px solid oklch(0.25 0 0)',
                     borderRadius: '8px',
                   }}
                 />
                 <Line
                   type="monotone"
                   dataKey="revenue"
-                  stroke="oklch(0.55 0.25 270)"
+                  stroke="oklch(0.60 0.30 285)"
                   strokeWidth={3}
-                  dot={{ fill: 'oklch(0.55 0.25 270)', r: 5 }}
+                  dot={{ fill: 'oklch(0.60 0.30 285)', r: 6 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </Card>
 
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">User Growth</h3>
+          <Card className="p-6 border-accent/20">
+            <h3 className="text-xl font-semibold mb-6">User Growth</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={USER_GROWTH_DATA}>
-                <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.30 0.01 250)" />
-                <XAxis dataKey="month" stroke="oklch(0.65 0 0)" />
-                <YAxis stroke="oklch(0.65 0 0)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.25 0 0)" />
+                <XAxis dataKey="month" stroke="oklch(0.60 0 0)" />
+                <YAxis stroke="oklch(0.60 0 0)" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'oklch(0.20 0.01 250)',
-                    border: '1px solid oklch(0.30 0.01 250)',
+                    backgroundColor: 'oklch(0.15 0 0)',
+                    border: '1px solid oklch(0.25 0 0)',
                     borderRadius: '8px',
                   }}
                 />
-                <Bar dataKey="users" fill="oklch(0.75 0.15 195)" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="users" fill="oklch(0.80 0.18 195)" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </Card>
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Plan Distribution</h3>
-            <ResponsiveContainer width="100%" height={250}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="grid lg:grid-cols-2 gap-6 mb-8"
+        >
+          <Card className="p-6 border-primary/20">
+            <h3 className="text-xl font-semibold mb-6">Plan Distribution</h3>
+            <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
                   data={PLAN_DISTRIBUTION}
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={90}
-                  paddingAngle={5}
+                  labelLine={false}
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={100}
+                  fill="#8884d8"
                   dataKey="value"
                 >
                   {PLAN_DISTRIBUTION.map((entry, index) => (
@@ -215,75 +344,54 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'oklch(0.20 0.01 250)',
-                    border: '1px solid oklch(0.30 0.01 250)',
+                    backgroundColor: 'oklch(0.15 0 0)',
+                    border: '1px solid oklch(0.25 0 0)',
                     borderRadius: '8px',
                   }}
                 />
               </PieChart>
             </ResponsiveContainer>
-            <div className="space-y-2 mt-4">
-              {PLAN_DISTRIBUTION.map((plan) => (
-                <div key={plan.name} className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
+          </Card>
+
+          <Card className="p-6 border-accent/20">
+            <h3 className="text-xl font-semibold mb-6">Top App Types</h3>
+            <div className="space-y-4">
+              {TOP_PROMPTS.map((item, idx) => (
+                <div key={idx}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">{item.prompt}</span>
+                    <Badge variant="outline">{item.count}</Badge>
+                  </div>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
                     <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: plan.color }}
+                      className="h-full bg-gradient-to-r from-primary to-accent"
+                      style={{ width: `${(item.count / 234) * 100}%` }}
                     />
-                    <span>{plan.name}</span>
                   </div>
-                  <span className="text-muted-foreground">{plan.value} users</span>
                 </div>
               ))}
             </div>
           </Card>
+        </motion.div>
 
-          <Card className="p-6 lg:col-span-2">
-            <h3 className="text-lg font-semibold mb-4">Top Generation Prompts</h3>
-            <div className="space-y-3">
-              {TOP_PROMPTS.map((item, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3 flex-1">
-                    <Badge variant="outline" className="text-xs">
-                      #{index + 1}
-                    </Badge>
-                    <span className="text-sm">{item.prompt}</span>
-                  </div>
-                  <Badge className="bg-primary/20 text-primary border-primary/30">
-                    {item.count} uses
-                  </Badge>
-                </div>
-              ))}
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <Card className="p-8 border-primary/30 bg-primary/5 text-center">
+            <Sparkle weight="fill" className="mx-auto mb-4 text-primary" size={48} />
+            <h3 className="text-2xl font-bold mb-2">AI-Powered Forecasting</h3>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Based on current trends, ApexForge is projected to hit <span className="text-primary font-semibold">$125K MRR</span> by Q4 2024,
+              with <span className="text-accent font-semibold">5,000+ active users</span>.
+            </p>
+            <Button size="lg" onClick={generateAIReport} disabled={generating} className="glow-primary">
+              <Sparkle weight="fill" size={20} />
+              {generating ? 'Generating Report...' : 'Get Detailed AI Forecast'}
+            </Button>
           </Card>
-        </div>
-
-        <Card className="p-6 mt-8 bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
-          <h3 className="text-xl font-semibold mb-3">AI-Generated Insights</h3>
-          <div className="space-y-3 text-sm">
-            <div className="flex items-start gap-3">
-              <Sparkle weight="fill" className="text-accent shrink-0 mt-0.5" size={16} />
-              <p>
-                <strong className="text-accent">Revenue Forecast:</strong> Based on current growth trajectory,
-                you're on track to reach $78K MRR by end of Q3 (+48% growth).
-              </p>
-            </div>
-            <div className="flex items-start gap-3">
-              <Sparkle weight="fill" className="text-accent shrink-0 mt-0.5" size={16} />
-              <p>
-                <strong className="text-accent">Opportunity:</strong> E-commerce prompts are trending up 156%.
-                Consider creating pre-built templates to capture this demand.
-              </p>
-            </div>
-            <div className="flex items-start gap-3">
-              <Sparkle weight="fill" className="text-accent shrink-0 mt-0.5" size={16} />
-              <p>
-                <strong className="text-accent">User Behavior:</strong> 68% of Pro users generate apps within
-                first 24 hours. Improve onboarding to increase free-to-paid conversion.
-              </p>
-            </div>
-          </div>
-        </Card>
+        </motion.div>
       </div>
     </div>
   )

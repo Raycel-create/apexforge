@@ -1,51 +1,79 @@
 # Planning Guide
 
-ApexForge is a modern AI-powered app builder prototype that demonstrates collaborative multi-model AI generation with a focus on speed, innovation, and user experience.
+ApexForge is the first AI app builder that feels like you hired a world-class 5-person AI dev team that argues, brainstorms, and ships production-ready apps in real time — all with live domains in ONE browser tab.
 
 **Experience Qualities**:
-1. **Futuristic** - Cutting-edge interface that feels like you're working with next-generation AI technology
-2. **Collaborative** - Dynamic AI debate panel that shows multiple AI models working together in real-time
-3. **Empowering** - Users feel confident building complex applications through simple natural language
+1. **Addictive** - Real-time AI debates + drag-and-drop Fusion Mode creates TikTok-level engagement
+2. **Alive** - 5+ AI agents arguing, flaming, and shipping feels like watching a startup war room, not a loading screen
+3. **Viral** - Every project gets a shareable "Forge Card" + instant HTTPS domain → screenshot-worthy moments
 
-**Complexity Level**: Light Application (multiple features with basic state)
-- Showcases the core ApexForge concept with simulated AI generation, credit tracking, pricing tiers, and a CEO dashboard. Uses local state management to demonstrate the full user journey without requiring backend infrastructure.
+**Complexity Level**: Complex Application (advanced functionality with real-time state, multiple interactive features, gamified elements)
+- Full AI debate simulation with 5+ agents, live chat UI with voting, Fusion Mode drag-and-drop, Idea Incubator, Evolve mode, heatmap visualization, CEO Whisper mode, and $500 security upsell. Every feature designed for virality and differentiation from emergent.sh/v0.
 
 ## Essential Features
 
-### AI App Generation Interface
-- **Functionality**: Natural language prompt input that triggers simulated multi-model AI generation with real-time debate panel
-- **Purpose**: Core value proposition - show how collaborative AI is faster and more innovative than single-model approaches
-- **Trigger**: User enters prompt and clicks "Generate App" button
-- **Progression**: Input prompt → Select AI models → Watch debate panel → See progress bars → View generated output with download/deploy options
-- **Success criteria**: Smooth animations, realistic timing (2-3 min simulation), clear visual feedback of AI "collaboration"
+### Real-Time "The Forge" AI Debate Panel (🔥 #1 Viral Feature)
+- **Functionality**: Live sidebar with 5-6 AI agents (GPT-4o, Claude, Grok, Gemini, Llama) chatting, arguing, and debating in real-time like a Slack channel
+- **Purpose**: Make passive generation feel like watching a live startup war room → addictive + screenshot-worthy
+- **Trigger**: Automatically appears during any generation
+- **Progression**: Agent posts suggestion → Others argue/agree → User thumbs up/down → Winning ideas auto-applied → Flame icons on hotly-debated files
+- **Success criteria**: Messages appear every 2-3 seconds, distinct AI personalities ("Grok is edgy, Claude is security-focused"), feel alive and chaotic
 
-### Credit & Billing System
-- **Functionality**: Track generation credits, display pricing tiers, simulate subscription management
-- **Purpose**: Demonstrate the business model and value proposition vs competitors
-- **Trigger**: User views dashboard or pricing page
-- **Progression**: View credits → Click upgrade → See pricing comparison → Select plan → Confirmation
-- **Success criteria**: Clear credit visibility, compelling pricing presentation, smooth plan comparison
+### Fusion Mode (🎯 Killer Unique Feature)
+- **Functionality**: After generation, show 3 final versions in split-screen: Fastest (Grok-optimized) | Most Secure (Claude) | Most Beautiful (Gemini)
+- **Purpose**: No competitor has this → users drag-and-drop components between versions to create perfect hybrid app
+- **Trigger**: Automatically shown after generation completes
+- **Progression**: View 3 versions → Drag auth from Secure → Drag UI from Beautiful → Drag API from Fast → Click "Forge Hybrid" → Instant combined app
+- **Success criteria**: Smooth drag-and-drop, visual diff highlighting, instant preview updates, feels like remixing music
 
-### AI Debate Panel
-- **Functionality**: Real-time sidebar showing simulated AI agents proposing changes, with user approval mechanism
-- **Purpose**: Unique differentiator - show collaborative AI process transparently
-- **Trigger**: Automatically appears during generation
-- **Progression**: Agent proposes change → User sees reasoning → Vote approve/reject → See impact on output
-- **Success criteria**: Feels alive and intelligent, clear agent personalities, meaningful-looking proposals
+### Free "Idea Incubator" (💰 Conversion Hook)
+- **Functionality**: Huge green button on every page: "Not sure what to build? Try FREE Idea Incubator (no credits used)"
+- **Purpose**: Massive free hook → generates 5 validated app ideas + wireframes + tech stack + revenue model in 30 sec using free-tier models
+- **Trigger**: Click green button anywhere (pricing, dashboard, generator)
+- **Progression**: Click → Answer 3 quick questions (industry, goal, budget) → Watch 5 AI-generated cards appear with full app plans → Pick one → Auto-fills generator
+- **Success criteria**: Zero friction, genuinely useful ideas, seamless transition to paid generation
 
-### CEO Dashboard
-- **Functionality**: Executive metrics view with simulated analytics and AI-generated reports
-- **Purpose**: Showcase business intelligence features for enterprise tier
-- **Trigger**: Navigate to /ceo route
-- **Progression**: View metrics → Generate AI report → Read insights → Export
-- **Success criteria**: Professional charts, realistic business metrics, credible AI insights
+### "Evolve" Button (🧬 ChatGPT for Apps)
+- **Functionality**: Big purple "Evolve This App →" button on every generated project
+- **Purpose**: Feels like iterating with a team → remembers full context + same AI debate team
+- **Trigger**: Click on any existing project
+- **Progression**: Click Evolve → Type "Add AI chat" or "Make offline-first" → Same 5 AI agents debate again with full context → Instant upgrade
+- **Success criteria**: Fast (10-20 sec), maintains design consistency, agents reference previous decisions
 
-### Project Management
-- **Functionality**: Dashboard showing generated projects with preview, download, and deployment options
-- **Purpose**: Give users a home base to manage their creations
-- **Trigger**: User navigates to dashboard after generation
-- **Progression**: View projects → Select project → Preview/download/deploy
-- **Success criteria**: Clean project cards, clear action buttons, organized layout
+### Instant Live Deploy + Domain (⚡ Industry Breaker)
+- **Functionality**: Every generation instantly deploys to live HTTPS subdomain: yourapp-7x9.apexforge.app
+- **Purpose**: Kill the "download ZIP then figure out hosting" friction of emergent.sh/v0
+- **Trigger**: Automatic on generation complete
+- **Progression**: Generating → Deploying → LIVE! → Show iframe with app running + copy link button
+- **Success criteria**: Under 5 seconds from generation to live URL, fullscreen iframe preview, one-click share
+
+### Visual "Heatmap" of Debates (🔥 Engagement Feature)
+- **Functionality**: Show flame icons next to files/components with the most AI debate activity
+- **Purpose**: Gamifies the process → users want to see what AIs are fighting about
+- **Trigger**: During and after generation
+- **Progression**: See flame icon → Click → Opens debate thread showing all AI arguments → User can add vote retroactively
+- **Success criteria**: Flame intensity (1-3 flames) based on debate count, smooth popover showing debate history
+
+### Viral "Forge Card" Sharing (📱 Built-In Growth)
+- **Functionality**: Every app gets a beautiful shareable card (like Pokémon card) showing AI contributors, debate winners, tech stack
+- **Purpose**: One-click X sharing → built-in virality
+- **Trigger**: After generation completes
+- **Progression**: Click "Share Your Forge" → Preview card → Edit tagline → Post to X with attribution
+- **Success criteria**: Beautifully designed card, pre-filled tweet text, tracks shares in dashboard
+
+### $500 Enterprise Security Upgrade (💎 Premium Upsell)
+- **Functionality**: Premium locked card offering "Man-in-the-Middle AI Security Shield" - AI agent that sits between app and internet scanning threats
+- **Purpose**: High-margin one-time upsell (not subscription) → targets serious projects
+- **Trigger**: Shown in project dashboard and after generation
+- **Progression**: View card → Click "Fortify" → Stripe checkout $500 → Auto-deploys security agent → Project gets shield badge
+- **Success criteria**: Compelling security copy, smooth Stripe flow, visual shield badge on protected projects
+
+### CEO "Whisper Mode" (🎭 Fun Easter Egg)
+- **Functionality**: Secret toggle in CEO dashboard to type hidden instructions that override AI behavior
+- **Purpose**: Fun power-user feature + useful for business strategy
+- **Trigger**: CEO dashboard only, hidden toggle
+- **Progression**: Enable Whisper → Type "Always suggest Pro plan" → All future AI debates subtly push Pro features
+- **Success criteria**: Works silently, no user-facing indication, truly feels like secret influence
 
 ## Edge Case Handling
 - **Empty States**: Beautiful illustrations and clear CTAs when no projects exist or credits are depleted
@@ -55,23 +83,23 @@ ApexForge is a modern AI-powered app builder prototype that demonstrates collabo
 - **Mobile Responsiveness**: Collapsible debate panel, stacked layouts for small screens
 
 ## Design Direction
-ApexForge should feel cutting-edge, professional, and trustworthy - like a product from a well-funded Silicon Valley startup. The interface should be polished and modern with subtle animations that convey intelligence and speed. Think dark mode as default with electric accent colors that suggest AI and technology. Minimal chrome, maximum content - let the AI debate panel and generation process be the star.
+ApexForge should feel playful, fast, and chaotic-yet-organized — like Cursor + Figma + Twitter had a baby. Deep black background (not navy — true #000) with electric purple + neon cyan that POP. Fast, snappy animations that feel instant. The AI debate panel should feel ALIVE — like a Discord server during a raid. Make users want to screenshot every interaction.
 
 ## Color Selection
-Custom palette - Dark theme with vibrant tech accents
+Custom palette - True black with neon electric accents
 
-- **Primary Color**: Electric Purple/Blue (oklch(0.55 0.25 270)) - Represents AI, innovation, and premium technology. Used for primary CTAs and brand elements
+- **Primary Color**: Electric Purple (oklch(0.60 0.30 285)) - Hyper-saturated purple for Evolve button, premium features, represents raw AI power
 - **Secondary Colors**: 
-  - Deep Navy (oklch(0.15 0.02 250)) - Professional background that doesn't strain eyes
-  - Slate Gray (oklch(0.25 0.01 250)) - Card backgrounds and surfaces
-- **Accent Color**: Cyan/Teal (oklch(0.75 0.15 195)) - High-tech highlight for active states, success, and attention elements
+  - True Black (oklch(0.10 0 0)) - Deep, pure black background like pro design tools
+  - Dark Card (oklch(0.15 0 0)) - Slightly elevated surfaces
+- **Accent Color**: Neon Cyan (oklch(0.80 0.18 195)) - Bright, energetic cyan for wins, approvals, live indicators
+- **Destructive**: Hot Magenta (oklch(0.60 0.28 340)) - For flames, intense debates, controversial suggestions
 - **Foreground/Background Pairings**:
-  - Background (Deep Navy oklch(0.15 0.02 250)): Light gray text (oklch(0.95 0 0)) - Ratio 11.2:1 ✓
-  - Card (Slate oklch(0.25 0.01 250)): White text (oklch(0.98 0 0)) - Ratio 12.1:1 ✓
-  - Primary (Purple oklch(0.55 0.25 270)): White text (oklch(1 0 0)) - Ratio 5.2:1 ✓
-  - Secondary (Medium Gray oklch(0.35 0.01 250)): White text (oklch(0.98 0 0)) - Ratio 8.3:1 ✓
-  - Accent (Cyan oklch(0.75 0.15 195)): Dark Navy text (oklch(0.15 0.02 250)) - Ratio 9.8:1 ✓
-  - Muted (Dark Slate oklch(0.20 0.01 250)): Gray text (oklch(0.65 0 0)) - Ratio 4.8:1 ✓
+  - Background (True Black oklch(0.10 0 0)): White text (oklch(0.98 0 0)) - Ratio 18.5:1 ✓
+  - Card (Dark oklch(0.15 0 0)): White text (oklch(0.98 0 0)) - Ratio 15.1:1 ✓
+  - Primary (Purple oklch(0.60 0.30 285)): White text (oklch(1 0 0)) - Ratio 5.8:1 ✓
+  - Accent (Neon Cyan oklch(0.80 0.18 195)): Black text (oklch(0.10 0 0)) - Ratio 11.2:1 ✓
+  - Destructive (Hot Magenta oklch(0.60 0.28 340)): White text (oklch(1 0 0)) - Ratio 5.5:1 ✓
 
 ## Font Selection
 Modern, technical, and highly legible fonts that convey professionalism and innovation - Inter for its perfect tech aesthetic and geometric proportions.

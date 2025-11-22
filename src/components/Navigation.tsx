@@ -1,4 +1,4 @@
-import { Sparkle, SquaresFour, CreditCard, ChartBar } from '@phosphor-icons/react'
+import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useKV } from '@github/spark/hooks'
@@ -14,16 +14,16 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const [credits] = useKV<number>('user-credits', 5)
 
   return (
-    <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+    <nav className="border-b border-border bg-card/80 backdrop-blur-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-8">
             <button
               onClick={() => onNavigate('home')}
-              className="flex items-center gap-2 text-xl font-bold"
+              className="flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity"
             >
-              <Sparkle weight="fill" className="text-primary" size={28} />
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <Fire weight="fill" className="text-destructive animate-pulse-glow" size={32} />
+              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                 ApexForge
               </span>
             </button>
@@ -64,15 +64,16 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           </div>
 
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-accent border-accent/50">
-              {credits} credits
+            <Badge className="px-3 py-1 bg-accent/20 text-accent border-accent/40">
+              🔥 {credits} credits
             </Badge>
             <Button
               onClick={() => onNavigate('generator')}
-              className="glow-primary"
+              size="lg"
+              className="glow-primary hover:scale-105 transition-transform"
             >
-              <Sparkle weight="fill" size={16} />
-              Generate App
+              <Fire weight="fill" size={18} />
+              Ignite Forge
             </Button>
           </div>
         </div>
