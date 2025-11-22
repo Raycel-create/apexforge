@@ -52,8 +52,8 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   }
 
   return (
-    <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="w-full">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 max-w-[1400px]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -154,118 +154,120 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
                 >
-                  <Card className={`${isMobile ? 'p-3' : 'p-6'} border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/10`}>
-                    <div className={`flex items-start justify-between ${isMobile ? 'gap-2' : 'gap-6'} mb-2 sm:mb-4`}>
-                      <div className="flex-1">
-                        <h3 className={`${isMobile ? 'text-base' : 'text-2xl'} font-bold mb-1 sm:mb-2`}>{project.name}</h3>
-                        <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'} mb-2 sm:mb-3 line-clamp-2`}>
+                  <Card className={`${isMobile ? 'p-2' : 'p-3 sm:p-4 lg:p-6'} border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/10`}>
+                    <div className={`flex flex-col sm:flex-row items-start justify-between ${isMobile ? 'gap-2' : 'gap-3 sm:gap-4 lg:gap-6'} mb-2 sm:mb-3 lg:mb-4`}>
+                      <div className="flex-1 w-full min-w-0">
+                        <h3 className={`${isMobile ? 'text-sm' : 'text-base sm:text-lg lg:text-2xl'} font-bold mb-1 sm:mb-2 truncate`}>{project.name}</h3>
+                        <p className={`text-muted-foreground ${isMobile ? 'text-[10px]' : 'text-xs sm:text-sm'} mb-1 sm:mb-2 lg:mb-3 line-clamp-2`}>
                           {project.prompt}
                         </p>
                         {project.url && (
-                          <div className={`flex items-center gap-1 sm:gap-2 mb-2 sm:mb-3 bg-card border border-border rounded-lg ${isMobile ? 'px-2 py-1' : 'px-3 py-2'}`}>
-                            <Globe weight="fill" className="text-accent" size={isMobile ? 12 : 16} />
-                            <code className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-accent font-mono flex-1 overflow-hidden text-ellipsis`}>{project.url}</code>
-                            <Button size="sm" variant="ghost" className={isMobile ? 'h-auto p-0.5' : ''} onClick={() => copyLink(project.url!)}>
-                              <Copy size={isMobile ? 12 : 14} />
+                          <div className={`flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2 lg:mb-3 bg-card border border-border rounded-lg ${isMobile ? 'px-1.5 py-0.5' : 'px-2 sm:px-3 py-1 sm:py-2'} overflow-hidden`}>
+                            <Globe weight="fill" className="text-accent shrink-0" size={isMobile ? 10 : 14} />
+                            <code className={`${isMobile ? 'text-[8px]' : 'text-[10px] sm:text-xs'} text-accent font-mono flex-1 truncate`}>{project.url}</code>
+                            <Button size="sm" variant="ghost" className={isMobile ? 'h-4 w-4 p-0' : 'h-6 w-6 p-0'} onClick={() => copyLink(project.url!)}>
+                              <Copy size={isMobile ? 10 : 12} />
                             </Button>
                           </div>
                         )}
-                        <Badge variant="outline" className={isMobile ? 'text-[10px] px-1 py-0' : 'text-xs'}>
-                          {formatDate(project.createdAt)}
-                        </Badge>
-                        {project.integrations && project.integrations.length > 0 && (
-                          <div className="mt-2 flex flex-wrap gap-1">
-                            {project.integrations.slice(0, 3).map(intId => {
-                              const integration = INTEGRATIONS.find(int => int.id === intId)
-                              if (!integration) return null
-                              const Icon = integration.icon
-                              return (
-                                <Badge key={intId} variant="outline" className={`text-[10px] border-primary/30 ${isMobile ? 'px-1 py-0' : 'px-2 py-0.5'}`}>
-                                  <Icon className={`${integration.color} ${isMobile ? 'w-2.5 h-2.5' : 'w-3 h-3'}`} />
-                                  <span className="hidden sm:inline">{integration.name.split(' ')[0]}</span>
+                        <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                          <Badge variant="outline" className={isMobile ? 'text-[8px] px-1 py-0' : 'text-[10px] sm:text-xs px-1.5 py-0.5'}>
+                            {formatDate(project.createdAt)}
+                          </Badge>
+                          {project.integrations && project.integrations.length > 0 && (
+                            <>
+                              {project.integrations.slice(0, isMobile ? 2 : 3).map(intId => {
+                                const integration = INTEGRATIONS.find(int => int.id === intId)
+                                if (!integration) return null
+                                const Icon = integration.icon
+                                return (
+                                  <Badge key={intId} variant="outline" className={`text-[8px] sm:text-[10px] border-primary/30 ${isMobile ? 'px-1 py-0' : 'px-1.5 py-0.5'}`}>
+                                    <Icon className={`${integration.color} ${isMobile ? 'w-2 h-2' : 'w-2.5 h-2.5 sm:w-3 sm:h-3'}`} />
+                                    <span className="hidden sm:inline truncate">{integration.name.split(' ')[0]}</span>
+                                  </Badge>
+                                )
+                              })}
+                              {project.integrations.length > (isMobile ? 2 : 3) && (
+                                <Badge variant="outline" className="text-[8px] px-1 py-0">
+                                  +{project.integrations.length - (isMobile ? 2 : 3)}
                                 </Badge>
-                              )
-                            })}
-                            {project.integrations.length > 3 && (
-                              <Badge variant="outline" className="text-[10px]">
-                                +{project.integrations.length - 3}
-                              </Badge>
-                            )}
-                          </div>
-                        )}
+                              )}
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
 
-                    <Separator className="my-2 sm:my-4" />
+                    <Separator className="my-2 sm:my-3 lg:my-4" />
 
-                    <div className="grid grid-cols-3 gap-1 sm:gap-2">
+                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-1 sm:gap-2">
                       <Button
                         variant="default"
                         size="sm"
-                        className={`glow-primary ${isMobile ? 'text-[8px] px-1 py-0.5' : 'text-[10px] px-2 py-1'} h-auto`}
+                        className={`glow-primary ${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
                         onClick={() => toast.success('Opening Evolve mode...')}
                       >
-                        <ArrowsClockwise weight="fill" size={isMobile ? 10 : 12} />
-                        Evolve
+                        <ArrowsClockwise weight="fill" size={isMobile ? 8 : 10} />
+                        <span className="hidden sm:inline ml-1">Evolve</span>
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        className={`border-destructive/50 text-destructive hover:bg-destructive/10 ${isMobile ? 'text-[8px] px-1 py-0.5' : 'text-[10px] px-2 py-1'} h-auto`}
+                        className={`border-destructive/50 text-destructive hover:bg-destructive/10 ${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
                         onClick={() => toast.success('Opening Security Shield checkout...')}
                       >
-                        <Shield weight="fill" size={isMobile ? 10 : 12} />
-                        Shield
+                        <Shield weight="fill" size={isMobile ? 8 : 10} />
+                        <span className="hidden sm:inline ml-1">Shield</span>
                       </Button>
                       {project.url && (
                         <Button
                           variant="outline"
                           size="sm"
-                          className={`${isMobile ? 'text-[8px] px-1 py-0.5' : 'text-[10px] px-2 py-1'} h-auto`}
+                          className={`${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
                           onClick={() => window.open(project.url, '_blank')}
                         >
-                          <Globe size={isMobile ? 10 : 12} />
-                          Open
+                          <Globe size={isMobile ? 8 : 10} />
+                          <span className="hidden sm:inline ml-1">Open</span>
                         </Button>
                       )}
                       <Button
                         variant="outline"
                         size="sm"
-                        className={`${isMobile ? 'text-[8px] px-1 py-0.5' : 'text-[10px] px-2 py-1'} h-auto`}
+                        className={`${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
                         onClick={() => toast.success('Creating Forge Card...')}
                       >
-                        <Share size={isMobile ? 10 : 12} />
-                        Share
+                        <Share size={isMobile ? 8 : 10} />
+                        <span className="hidden sm:inline ml-1">Share</span>
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        className={`${isMobile ? 'text-[8px] px-1 py-0.5' : 'text-[10px] px-2 py-1'} h-auto`}
+                        className={`${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
                         onClick={() => toast.success('Downloading ZIP...')}
                       >
-                        <Download size={isMobile ? 10 : 12} />
-                        Code
+                        <Download size={isMobile ? 8 : 10} />
+                        <span className="hidden sm:inline ml-1">Code</span>
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        className={`${isMobile ? 'text-[8px] px-1 py-0.5' : 'text-[10px] px-2 py-1'} h-auto`}
+                        className={`${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
                         onClick={() => toast.success('Deploying to production...')}
                       >
-                        <Rocket size={isMobile ? 10 : 12} />
-                        Deploy
+                        <Rocket size={isMobile ? 8 : 10} />
+                        <span className="hidden sm:inline ml-1">Deploy</span>
                       </Button>
                     </div>
 
-                    <div className="mt-2 sm:mt-4 flex justify-end">
+                    <div className="mt-2 sm:mt-3 lg:mt-4 flex justify-end">
                       <Button
                         size="sm"
                         variant="ghost"
-                        className={`text-muted-foreground hover:text-destructive ${isMobile ? 'text-xs' : ''}`}
+                        className={`text-muted-foreground hover:text-destructive ${isMobile ? 'text-[10px] px-1' : 'text-xs sm:text-sm px-2'}`}
                         onClick={() => deleteProject(project.id)}
                       >
-                        <Trash size={isMobile ? 12 : 16} />
-                        {!isMobile && 'Delete'}
+                        <Trash size={isMobile ? 10 : 14} />
+                        {!isMobile && <span className="ml-1">Delete</span>}
                       </Button>
                     </div>
                   </Card>

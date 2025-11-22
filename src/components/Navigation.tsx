@@ -53,22 +53,22 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   }
 
   return (
-    <nav className={`border-b ${blackForgeMode ? 'border-destructive/30 bg-destructive/5' : 'border-border bg-card/80'} backdrop-blur-lg sticky top-0 z-50 transition-all duration-500`}>
-      <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-8">
+    <nav className={`border-b ${blackForgeMode ? 'border-destructive/30 bg-destructive/5' : 'border-border bg-card/80'} backdrop-blur-lg sticky top-0 z-50 transition-all duration-500 w-full`}>
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 max-w-[1400px]">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-2 sm:gap-4 lg:gap-8 min-w-0">
             <button
               onClick={handleLogoClick}
-              className="flex items-center gap-1 sm:gap-2 text-lg sm:text-2xl font-bold hover:opacity-80 transition-opacity cursor-pointer"
+              className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg lg:text-2xl font-bold hover:opacity-80 transition-opacity cursor-pointer shrink-0"
             >
-              <Fire weight="fill" className={`${blackForgeMode ? 'text-destructive' : 'text-destructive'} animate-pulse-glow`} size={isMobile ? 24 : 32} />
-              <span className={`bg-gradient-to-r ${blackForgeMode ? 'from-destructive via-destructive/70 to-destructive' : 'from-primary via-accent to-primary'} bg-clip-text text-transparent transition-all duration-500`}>
-                {isMobile ? (blackForgeMode ? '🔥Apex' : 'Apex') : (blackForgeMode ? '🔥 ApexForge' : 'ApexForge')}
+              <Fire weight="fill" className={`${blackForgeMode ? 'text-destructive' : 'text-destructive'} animate-pulse-glow`} size={isMobile ? 20 : 28} />
+              <span className={`bg-gradient-to-r ${blackForgeMode ? 'from-destructive via-destructive/70 to-destructive' : 'from-primary via-accent to-primary'} bg-clip-text text-transparent transition-all duration-500 whitespace-nowrap`}>
+                {isMobile ? 'Apex' : (isTablet ? 'ApexForge' : (blackForgeMode ? '🔥 ApexForge' : 'ApexForge'))}
               </span>
             </button>
 
-            {!isMobile && (
-              <div className="hidden md:flex items-center gap-1">
+            {!isMobile && !isTablet && (
+              <div className="hidden lg:flex items-center gap-1">
                 <Button
                   variant={currentPage === 'home' ? 'secondary' : 'ghost'}
                   size="sm"
@@ -96,23 +96,23 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
             )}
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Badge className={`${isMobile ? 'px-2 py-0.5 text-xs' : 'px-3 py-1'} ${
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
+            <Badge className={`${isMobile ? 'px-1.5 py-0.5 text-[10px]' : 'px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm'} ${
               blackForgeMode 
                 ? 'bg-destructive/20 text-destructive border-destructive/40' 
                 : 'bg-accent/20 text-accent border-accent/40'
-            } transition-all duration-500`}>
+            } transition-all duration-500 whitespace-nowrap`}>
               {blackForgeMode ? '🔥' : '🔥'} {credits}
             </Badge>
             
-            {isMobile ? (
+            {isMobile || isTablet ? (
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
-                  <Button size="sm" variant="ghost" className="px-2">
-                    <List size={20} />
+                  <Button size="sm" variant="ghost" className="px-1.5 sm:px-2">
+                    <List size={isMobile ? 18 : 20} />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-64">
+                <SheetContent side="right" className="w-[240px] sm:w-64">
                   <div className="flex flex-col gap-2 mt-8">
                     <Button
                       variant={currentPage === 'home' ? 'secondary' : 'ghost'}
@@ -151,11 +151,11 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
             ) : (
               <Button
                 onClick={() => onNavigate('generator')}
-                size={isTablet ? 'default' : 'lg'}
-                className={`${blackForgeMode ? 'glow-destructive bg-destructive hover:bg-destructive/90' : 'glow-primary'} hover:scale-105 transition-all duration-300`}
+                size="lg"
+                className={`${blackForgeMode ? 'glow-destructive bg-destructive hover:bg-destructive/90' : 'glow-primary'} hover:scale-105 transition-all duration-300 whitespace-nowrap`}
               >
                 <Fire weight="fill" size={18} />
-                {isTablet ? (blackForgeMode ? '🔥 Forge' : 'Forge') : (blackForgeMode ? '🔥 Ignite Dark Forge' : 'Ignite Forge')}
+                {blackForgeMode ? '🔥 Ignite Dark Forge' : 'Ignite Forge'}
               </Button>
             )}
           </div>

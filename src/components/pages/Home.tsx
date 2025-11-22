@@ -17,8 +17,8 @@ export function Home({ onNavigate }: HomeProps) {
   const { blackForgeMode } = useBlackForge()
   
   return (
-    <div className={`min-h-screen ${blackForgeMode ? 'bg-gradient-to-b from-destructive/10 to-background' : ''} transition-all duration-1000`}>
-      <section className="container mx-auto px-2 sm:px-4 py-10 sm:py-20 text-center relative overflow-hidden">
+    <div className={`min-h-screen w-full overflow-x-hidden ${blackForgeMode ? 'bg-gradient-to-b from-destructive/10 to-background' : ''} transition-all duration-1000`}>
+      <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-20 text-center relative max-w-[1400px]">
         <div className={`absolute inset-0 ${
           blackForgeMode 
             ? 'bg-gradient-to-b from-destructive/20 via-transparent to-transparent' 
@@ -153,7 +153,7 @@ export function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
-      <section className="container mx-auto px-2 sm:px-4 py-10 sm:py-20">
+      <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-20 max-w-[1400px]">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -490,7 +490,7 @@ export function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
-      <section className="container mx-auto px-2 sm:px-4 py-10 sm:py-20">
+      <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-20 max-w-[1400px]">
         <div className="max-w-5xl mx-auto">
           <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/10 via-card to-accent/10">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
@@ -539,9 +539,9 @@ export function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
-      <section className="container mx-auto px-2 sm:px-4 py-6 sm:py-12 mb-10 sm:mb-20">
+      <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12 mb-8 sm:mb-12 lg:mb-20 max-w-[1400px]">
         <div className="max-w-4xl mx-auto text-center">
-          <p className={`text-muted-foreground ${isMobile ? 'text-sm' : isTablet ? 'text-base' : 'text-lg'}`}>
+          <p className={`text-muted-foreground ${isMobile ? 'text-xs' : isTablet ? 'text-sm' : 'text-base lg:text-lg'}`}>
             "This is what people screenshot and post on X saying{' '}
             <span className="text-accent font-semibold">
               'this just killed every other AI builder'

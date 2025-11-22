@@ -142,8 +142,8 @@ export function Pricing({ onNavigate }: PricingProps) {
   }
 
   return (
-    <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 lg:py-12">
-      <div className="max-w-7xl mx-auto">
+    <div className="w-full">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12 max-w-[1400px]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -195,44 +195,44 @@ export function Pricing({ onNavigate }: PricingProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-4 mb-10 sm:mb-12 lg:mb-16"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-4 lg:gap-3 xl:gap-4 mb-10 sm:mb-12 lg:mb-16"
         >
           {PLANS.map((plan, idx) => (
             <Card
               key={plan.name}
-              className={`p-4 sm:p-6 lg:p-8 relative overflow-hidden ${plan.color} ${
-                plan.highlight ? 'sm:transform sm:scale-105 border-2' : ''
-              } ${plan.name === 'Impossible Nyx' ? 'opacity-90 hover:opacity-100 transition-opacity' : ''}`}
+              className={`p-3 sm:p-4 lg:p-5 xl:p-6 relative overflow-hidden ${plan.color} ${
+                plan.highlight ? 'xl:transform xl:scale-105 border-2' : ''
+              } ${plan.name === 'Impossible Nyx' ? 'opacity-90 hover:opacity-100 transition-opacity' : ''} flex flex-col`}
             >
               {plan.highlight && (
                 <div className="absolute -top-10 -right-10 w-32 h-32 sm:w-40 sm:h-40 bg-primary/30 rounded-full blur-3xl" />
               )}
               
-              <div className="relative z-10">
+              <div className="relative z-10 flex flex-col h-full">
                 {plan.highlight && (
-                  <Badge className="mb-3 sm:mb-4 bg-primary text-primary-foreground glow-primary text-xs sm:text-sm">
+                  <Badge className="mb-2 sm:mb-3 bg-primary text-primary-foreground glow-primary text-xs sm:text-sm w-fit">
                     <Fire weight="fill" className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     Most Popular
                   </Badge>
                 )}
                 
                 {plan.name === 'Impossible Nyx' && (
-                  <Badge className="mb-3 sm:mb-4 bg-foreground/20 text-foreground border-foreground/30 text-xs sm:text-sm">
+                  <Badge className="mb-2 sm:mb-3 bg-foreground/20 text-foreground border-foreground/30 text-xs sm:text-sm w-fit">
                     <EyeSlash weight="fill" className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     Restricted
                   </Badge>
                 )}
                 
-                <h3 className="text-xl sm:text-2xl font-bold mb-2">{plan.name}</h3>
-                <div className="mb-3 sm:mb-4">
-                  <span className={`text-3xl sm:text-4xl lg:text-5xl font-bold ${plan.name === 'Impossible Nyx' ? 'blur-sm select-none' : ''}`}>{plan.price}</span>
-                  {plan.period && <span className="text-muted-foreground ml-2 text-xs sm:text-sm">/{plan.period}</span>}
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-1 sm:mb-2">{plan.name}</h3>
+                <div className="mb-2 sm:mb-3">
+                  <span className={`text-2xl sm:text-3xl lg:text-4xl xl:text-4xl font-bold ${plan.name === 'Impossible Nyx' ? 'blur-sm select-none' : ''}`}>{plan.price}</span>
+                  {plan.period && <span className="text-muted-foreground ml-1 sm:ml-2 text-[10px] sm:text-xs">/{plan.period}</span>}
                 </div>
-                <p className="text-muted-foreground mb-4 sm:mb-6 text-sm sm:text-base min-h-[40px] sm:min-h-[48px]">{plan.description}</p>
+                <p className="text-muted-foreground mb-3 sm:mb-4 text-xs sm:text-sm min-h-[32px] sm:min-h-[40px]">{plan.description}</p>
 
                 <Button
                   onClick={() => handleUpgrade(plan.name)}
-                  className={`w-full mb-4 sm:mb-6 py-4 sm:py-5 lg:py-6 text-base sm:text-lg ${
+                  className={`w-full mb-3 sm:mb-4 py-3 sm:py-4 lg:py-5 text-sm sm:text-base ${
                     plan.highlight ? 'glow-primary' : ''
                   }`}
                   variant={plan.highlight ? 'default' : 'outline'}
@@ -240,22 +240,22 @@ export function Pricing({ onNavigate }: PricingProps) {
                   {plan.cta}
                 </Button>
 
-                <div className="space-y-2 sm:space-y-3 mb-4">
+                <div className="space-y-1.5 sm:space-y-2 mb-3 flex-1">
                   {plan.features.map((feature, index) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <Check weight="bold" className="text-accent shrink-0 mt-0.5 sm:mt-1 w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-                      <span className="text-xs sm:text-sm leading-tight">{feature}</span>
+                    <div key={index} className="flex items-start gap-1.5 sm:gap-2">
+                      <Check weight="bold" className="text-accent shrink-0 mt-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <span className="text-[10px] sm:text-xs leading-tight">{feature}</span>
                     </div>
                   ))}
                 </div>
 
                 {plan.limitations.length > 0 && (
                   <>
-                    <Separator className="my-3 sm:my-4" />
-                    <div className="space-y-2">
+                    <Separator className="my-2 sm:my-3" />
+                    <div className="space-y-1.5">
                       {plan.limitations.map((limitation, index) => (
-                        <div key={index} className="flex items-start gap-2 opacity-50">
-                          <span className="text-[10px] sm:text-xs leading-tight">✗ {limitation}</span>
+                        <div key={index} className="flex items-start gap-1.5 opacity-50">
+                          <span className="text-[9px] sm:text-[10px] leading-tight">✗ {limitation}</span>
                         </div>
                       ))}
                     </div>
@@ -480,40 +480,40 @@ export function Pricing({ onNavigate }: PricingProps) {
           <h3 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">Frequently Asked Questions</h3>
         </div>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 max-w-5xl mx-auto">
-          <Card className="p-2 sm:p-3">
-            <h4 className="font-semibold mb-1 text-[10px] sm:text-xs leading-tight">Live deploy speed?</h4>
-            <p className="text-[9px] sm:text-[10px] text-muted-foreground leading-tight">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
+          <Card className="p-3 sm:p-4">
+            <h4 className="font-semibold mb-1.5 sm:mb-2 text-xs sm:text-sm leading-tight">Live deploy speed?</h4>
+            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">
               Under 10 sec. Launch users get &lt;3 sec.
             </p>
           </Card>
-          <Card className="p-2 sm:p-3">
-            <h4 className="font-semibold mb-1 text-[10px] sm:text-xs leading-tight">Cancel anytime?</h4>
-            <p className="text-[9px] sm:text-[10px] text-muted-foreground leading-tight">
+          <Card className="p-3 sm:p-4">
+            <h4 className="font-semibold mb-1.5 sm:mb-2 text-xs sm:text-sm leading-tight">Cancel anytime?</h4>
+            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">
               Yes! No contracts. Shield is yours forever.
             </p>
           </Card>
-          <Card className="p-2 sm:p-3">
-            <h4 className="font-semibold mb-1 text-[10px] sm:text-xs leading-tight">AI Debate Panel?</h4>
-            <p className="text-[9px] sm:text-[10px] text-muted-foreground leading-tight">
+          <Card className="p-3 sm:p-4">
+            <h4 className="font-semibold mb-1.5 sm:mb-2 text-xs sm:text-sm leading-tight">AI Debate Panel?</h4>
+            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">
               5 AIs argue live. You vote. No competitor has this.
             </p>
           </Card>
-          <Card className="p-2 sm:p-3">
-            <h4 className="font-semibold mb-1 text-[10px] sm:text-xs leading-tight">Own the code?</h4>
-            <p className="text-[9px] sm:text-[10px] text-muted-foreground leading-tight">
+          <Card className="p-3 sm:p-4">
+            <h4 className="font-semibold mb-1.5 sm:mb-2 text-xs sm:text-sm leading-tight">Own the code?</h4>
+            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">
               100% yours. Download, modify, sell anywhere.
             </p>
           </Card>
-          <Card className="p-2 sm:p-3">
-            <h4 className="font-semibold mb-1 text-[10px] sm:text-xs leading-tight">Fusion Mode?</h4>
-            <p className="text-[9px] sm:text-[10px] text-muted-foreground leading-tight">
+          <Card className="p-3 sm:p-4">
+            <h4 className="font-semibold mb-1.5 sm:mb-2 text-xs sm:text-sm leading-tight">Fusion Mode?</h4>
+            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">
               3 versions. Drag-drop parts. Create hybrid.
             </p>
           </Card>
-          <Card className="p-2 sm:p-3">
-            <h4 className="font-semibold mb-1 text-[10px] sm:text-xs leading-tight">$500 Shield worth it?</h4>
-            <p className="text-[9px] sm:text-[10px] text-muted-foreground leading-tight">
+          <Card className="p-3 sm:p-4">
+            <h4 className="font-semibold mb-1.5 sm:mb-2 text-xs sm:text-sm leading-tight">$500 Shield worth it?</h4>
+            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">
               One-time for lifetime AI threat protection.
             </p>
           </Card>

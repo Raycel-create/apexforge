@@ -31,9 +31,11 @@ function App() {
 
   return (
     <BlackForgeProvider>
-      <div className="min-h-screen bg-background text-foreground">
+      <div className="min-h-screen bg-background text-foreground flex flex-col">
         <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
-        {renderPage()}
+        <main className="flex-1 overflow-x-hidden">
+          {renderPage()}
+        </main>
       </div>
     </BlackForgeProvider>
   )

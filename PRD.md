@@ -115,7 +115,16 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 - **Loading States**: Skeleton screens and progress indicators for all async operations
 - **Error Handling**: Graceful fallbacks with helpful messaging if simulation fails
 - **Credit Limits**: Clear warnings before generation, upgrade prompts when out of credits
-- **Mobile Responsiveness**: Collapsible debate panel, stacked layouts for small screens
+- **Mobile Responsiveness**: 
+  - Fully responsive layouts with no horizontal overflow
+  - Auto-adjusting container widths (max-width: 1400px with proper gutters)
+  - Collapsible debate panel and mobile sheet navigation
+  - Stacked layouts for small screens (cards, pricing tiers)
+  - Breakpoint-adjusted typography (mobile: 640px, tablet: 1024px)
+  - Flexible grid systems (1-col mobile → 2-col tablet → 3-5 col desktop)
+  - Touch-optimized button sizes and spacing
+  - Properly truncated text with ellipsis to prevent overflow
+  - Flexible badge and icon sizing across screen sizes
 
 ## Design Direction
 ApexForge should feel playful, fast, and chaotic-yet-organized — like Cursor + Figma + Twitter had a baby. Deep black background (not navy — true #000) with electric purple + neon cyan that POP. Fast, snappy animations that feel instant. The AI debate panel should feel ALIVE — like a Discord server during a raid. Make users want to screenshot every interaction.
@@ -187,9 +196,15 @@ Animations should feel intelligent and purposeful - like the AI is actively work
   - Chart for analytics
 - **Spacing**: Consistent 4px grid - xs(4px), sm(8px), md(16px), lg(24px), xl(32px), 2xl(48px)
 - **Mobile**: 
+  - Auto-adjusting responsive structure with proper overflow handling
   - Debate panel slides up as bottom sheet on mobile
-  - Pricing cards stack vertically
-  - Dashboard uses single column layout
-  - Navigation collapses to hamburger menu
-  - Hero text scales down proportionally
+  - Pricing cards use 1-col mobile → 2-col tablet → 3-col desktop → 5-col wide layouts
+  - Dashboard uses single column on mobile with optimized spacing
+  - Navigation collapses to hamburger sheet menu on mobile/tablet
+  - Hero text scales dynamically (clamp-based responsive sizing)
   - Touch-friendly 44px minimum tap targets
+  - Proper text truncation and wrapping to prevent layout breaks
+  - Flexible padding/margins that scale with viewport (3-4-6 pattern)
+  - No horizontal scrolling or content overflow on any screen size
+  - Container max-width of 1400px with proper gutters (3-4-6 px)
+  - Icon sizes that scale: mobile(10-14px) → tablet(16-18px) → desktop(20-24px)
