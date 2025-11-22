@@ -119,7 +119,113 @@ export function Home({ onNavigate }: HomeProps) {
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
               
               <div className={`relative ${isMobile ? 'p-6' : 'p-8 md:p-12'}`}>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ opacity: 0.3 }}>
+                  <defs>
+                    <linearGradient id="line-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.6" />
+                    </linearGradient>
+                    <linearGradient id="line-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.5" />
+                    </linearGradient>
+                    <linearGradient id="line-gradient-3" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.5" />
+                    </linearGradient>
+                    <linearGradient id="line-gradient-4" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.5" />
+                      <stop offset="100%" stopColor="oklch(0.60 0.28 340)" stopOpacity="0.6" />
+                    </linearGradient>
+                  </defs>
+                  
+                  {!isMobile && (
+                    <>
+                      <motion.line
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        whileInView={{ pathLength: 1, opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        viewport={{ once: true }}
+                        x1="16%" y1="30%" x2="38%" y2="30%"
+                        stroke="url(#line-gradient-1)"
+                        strokeWidth="2"
+                        strokeDasharray="4 4"
+                      />
+                      
+                      <motion.line
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        whileInView={{ pathLength: 1, opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        viewport={{ once: true }}
+                        x1="50%" y1="30%" x2="72%" y2="30%"
+                        stroke="url(#line-gradient-2)"
+                        strokeWidth="2"
+                        strokeDasharray="4 4"
+                      />
+                      
+                      <motion.line
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        whileInView={{ pathLength: 1, opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                        viewport={{ once: true }}
+                        x1="16%" y1="45%" x2="16%" y2="65%"
+                        stroke="url(#line-gradient-3)"
+                        strokeWidth="2"
+                        strokeDasharray="4 4"
+                      />
+                      
+                      <motion.line
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        whileInView={{ pathLength: 1, opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.6 }}
+                        viewport={{ once: true }}
+                        x1="28%" y1="70%" x2="60%" y2="70%"
+                        stroke="url(#line-gradient-4)"
+                        strokeWidth="2"
+                        strokeDasharray="4 4"
+                      />
+                      
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 0.7 }}
+                        viewport={{ once: true }}
+                        cx="16%" cy="30%" r="4"
+                        fill="oklch(0.60 0.30 285)"
+                        opacity="0.6"
+                      />
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 0.8 }}
+                        viewport={{ once: true }}
+                        cx="50%" cy="30%" r="4"
+                        fill="oklch(0.80 0.18 195)"
+                        opacity="0.7"
+                      />
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 0.9 }}
+                        viewport={{ once: true }}
+                        cx="84%" cy="30%" r="4"
+                        fill="oklch(0.80 0.18 195)"
+                        opacity="0.7"
+                      />
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.0 }}
+                        viewport={{ once: true }}
+                        cx="16%" cy="70%" r="4"
+                        fill="oklch(0.60 0.30 285)"
+                        opacity="0.6"
+                      />
+                    </>
+                  )}
+                </svg>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 relative z-10">
                   <div className="flex flex-col items-start space-y-2">
                     <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
                       <Fire weight="fill" className="text-primary" size={isMobile ? 20 : 24} />
