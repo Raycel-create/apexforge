@@ -140,6 +140,26 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 - **Progression**: Authenticate → Enable Whisper → Type "Always suggest Pro plan" → All future AI debates subtly push Pro features. For keys: Add key → Test validation → Use in generation
 - **Success criteria**: Works silently, no user-facing indication, truly feels like secret influence. Keys manager validates all API keys, stores securely, and prevents generation without valid AI keys. All features only accessible after authentication
 
+### Stripe Connect Integration (💳 Global Payment System)
+- **Functionality**: Real Stripe Connect integration for connecting bank accounts worldwide. Users can add bank accounts from 40+ countries (US, UK, Canada, Australia, Germany, France, Netherlands, Spain, Italy, Japan, Singapore, Hong Kong, India, Brazil, Mexico, etc.) to receive payouts in local currency. Features account status tracking, multiple bank account support, verification status, and secure credential management.
+- **Purpose**: Enable users to receive real payments from customers globally, supporting worldwide bank connections with proper currency handling and compliance
+- **Trigger**: Available in Dashboard and Pricing pages via dedicated Stripe Connect card
+- **Progression**: Click "Connect with Stripe" → Account created with unique ID → Add bank details (country, email, business name, account holder, account number, routing/sort code) → Verify account → Status changes to active with charges and payouts enabled → Can add multiple bank accounts → View all connected accounts with status badges
+- **Success criteria**:
+  - Stripe account creation with unique account ID
+  - Support for 15+ countries with proper currency mapping (USD, GBP, EUR, CAD, AUD, JPY, SGD, HKD, INR, BRL, MXN)
+  - Bank account verification and status tracking (pending/verified/failed)
+  - Multiple bank account support per user
+  - Status badges showing charges enabled, payouts enabled, account active
+  - Secure credential display with masked account numbers (••••1234)
+  - Copy account ID functionality
+  - Beautiful onboarding flow with security badges and trust indicators
+  - Country-specific field labels (Routing Number vs Sort Code vs Bank Code)
+  - Disconnect functionality
+  - Data persistence via KV storage
+  - Responsive design across all screen sizes
+  - Integration with real Stripe Dashboard link
+
 ### Landscape Preview Frame with AI Robot Builders (🤖 THE #1 Viral Hook)
 - **Functionality**: After generation, show massive 1280×720px landscape iframe (desktop) with 5-7 animated 3D robots circling around it holding tools (hammer, wrench, paintbrush, rocket, shield)
 - **Purpose**: The most screenshot-able, impossibly cute, emotionally addictive builder interface of 2026 - robots literally debate in speech bubbles above their heads

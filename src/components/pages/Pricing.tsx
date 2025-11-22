@@ -6,6 +6,7 @@ import { Separator } from '../ui/separator'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useBlackForge } from '../../lib/BlackForgeContext'
+import { StripeConnect } from '../StripeConnect'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -474,6 +475,21 @@ export function Pricing({ onNavigate }: PricingProps) {
               Upgrade to Launch - $39/mo
             </Button>
           </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="mb-10 sm:mb-12 lg:mb-16"
+        >
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Connect Your Bank Account</h2>
+            <p className="text-muted-foreground text-sm sm:text-base">
+              Receive payments from customers worldwide with Stripe Connect
+            </p>
+          </div>
+          <StripeConnect />
         </motion.div>
 
         <div className="text-center mb-6 sm:mb-8">

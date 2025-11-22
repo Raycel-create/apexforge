@@ -14,6 +14,7 @@ import { APIKeyAlert } from '../APIKeyAlert'
 import { KeysManager } from '../KeysManager'
 import { EmailVerificationBanner } from '../EmailVerificationStatus'
 import { MagicLinkAuth } from '../MagicLinkAuth'
+import { StripeConnect } from '../StripeConnect'
 import { useState } from 'react'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
@@ -337,6 +338,15 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
+          className="mt-6 sm:mt-12"
+        >
+          <StripeConnect />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
           className="mt-6 sm:mt-12"
         >
           <Card className={`${isMobile ? 'p-4' : 'p-8'} border-accent/30 bg-accent/5 text-center`}>
