@@ -13,12 +13,27 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 
 ## Essential Features
 
+### API Key Management System (🔑 Security & Integration Feature)
+- **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage.
+- **Purpose**: Enable users to bring their own API keys for AI generation, ensuring security and control over credentials while preventing unauthorized usage
+- **Trigger**: Displayed prominently in CEO Dashboard Integrations Hub section and shown as alert/requirement in User Dashboard and Generator when keys are missing
+- **Progression**: User navigates to dashboard → Sees API key requirement alert → Clicks "Setup API Keys" → Opens Integrations Hub → Adds API key → Tests validation → Status changes to valid/invalid → Can now use AI generation features
+- **Success criteria**: 
+  - Alert shown when no valid AI keys configured
+  - Generation blocked until at least one valid AI key is present
+  - Key validation works with test functionality
+  - Secure storage with masked display
+  - Copy, delete, and visibility toggle features work smoothly
+  - Responsive across all screen sizes
+  - CEO Dashboard shows full Integrations Hub with 3 tabs (AI Models, Services, App Stores)
+  - User Dashboard shows compact key requirement alert with setup button
+
 ### Real-Time "The Forge" AI Debate Panel (🔥 #1 Viral Feature)
-- **Functionality**: Live sidebar with 5-6 AI agents (GPT-4o, Claude, Grok, Gemini, Llama) chatting, arguing, and debating in real-time like a Slack channel
+- **Functionality**: Live sidebar with 5-6 AI agents (GPT-4o, Claude, Grok, Gemini, Llama) chatting, arguing, and debating in real-time like a Slack channel. **Requires valid API keys** - users must configure at least one AI model API key before generation.
 - **Purpose**: Make passive generation feel like watching a live startup war room → addictive + screenshot-worthy
-- **Trigger**: Automatically appears during any generation
-- **Progression**: Agent posts suggestion → Others argue/agree → User thumbs up/down → Winning ideas auto-applied → Flame icons on hotly-debated files
-- **Success criteria**: Messages appear every 2-3 seconds, distinct AI personalities ("Grok is edgy, Claude is security-focused"), feel alive and chaotic
+- **Trigger**: Automatically appears during any generation (after API keys are configured)
+- **Progression**: User sets up API keys → Agent posts suggestion → Others argue/agree → User thumbs up/down → Winning ideas auto-applied → Flame icons on hotly-debated files
+- **Success criteria**: Messages appear every 2-3 seconds, distinct AI personalities ("Grok is edgy, Claude is security-focused"), feel alive and chaotic, API key validation prevents generation without proper credentials
 
 ### Fusion Mode (🎯 Killer Unique Feature)
 - **Functionality**: After generation, show 3 final versions in split-screen: Fastest (Grok-optimized) | Most Secure (Claude) | Most Beautiful (Gemini)
@@ -70,11 +85,11 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 - **Success criteria**: Compelling security copy, smooth Stripe flow, visual shield badge on protected projects
 
 ### CEO "Whisper Mode" (🎭 Fun Easter Egg)
-- **Functionality**: Secret toggle in CEO dashboard to type hidden instructions that override AI behavior
-- **Purpose**: Fun power-user feature + useful for business strategy
-- **Trigger**: CEO dashboard only, hidden toggle
-- **Progression**: Enable Whisper → Type "Always suggest Pro plan" → All future AI debates subtly push Pro features
-- **Success criteria**: Works silently, no user-facing indication, truly feels like secret influence
+- **Functionality**: Secret toggle in CEO dashboard to type hidden instructions that override AI behavior. **Includes Integrations Hub** - full API key management system for AI models, services, and app stores with validation and testing capabilities.
+- **Purpose**: Fun power-user feature + useful for business strategy, plus centralized key management
+- **Trigger**: CEO dashboard only, hidden toggle + Integrations Hub card
+- **Progression**: Enable Whisper → Type "Always suggest Pro plan" → All future AI debates subtly push Pro features. For keys: Add key → Test validation → Use in generation
+- **Success criteria**: Works silently, no user-facing indication, truly feels like secret influence. Keys manager validates all API keys, stores securely, and prevents generation without valid AI keys
 
 ### Landscape Preview Frame with AI Robot Builders (🤖 THE #1 Viral Hook)
 - **Functionality**: After generation, show massive 1280×720px landscape iframe (desktop) with 5-7 animated 3D robots circling around it holding tools (hammer, wrench, paintbrush, rocket, shield)

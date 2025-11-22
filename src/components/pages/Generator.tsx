@@ -27,6 +27,8 @@ import { INTEGRATIONS } from '../../lib/integrations'
 import { PreviewFrame } from '../PreviewFrame'
 import { CoinAnimation } from '../CoinAnimation'
 import { useBlackForge } from '../../lib/BlackForgeContext'
+import { APIKeyAlert } from '../APIKeyAlert'
+import { KeysManager } from '../KeysManager'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -117,6 +119,18 @@ export function Generator({ onNavigate }: GeneratorProps) {
   const [userTier] = useKV<'free' | 'pro' | 'gold' | 'enterprise'>('user-tier', 'free')
   const [showIntegrations, setShowIntegrations] = useState(false)
   const [showCoinAnimation, setShowCoinAnimation] = useState(false)
+  const [showKeysManager, setShowKeysManager] = useState(false)
+  const [aiKeys] = useKV<any[]>('ceo-keys-ai', [])
+  const [hasValidAIKeys, setHasValidAIKeys] = useState(false)
+
+  useEffect(() => {
+    if (aiKeys && aiKeys.length > 0) {
+      const validKeys = aiKeys.filter(k => k.key && k.key.length > 0 && k.status === 'valid')
+      setHasValidAIKeys(validKeys.length > 0)
+    } else {
+      setHasValidAIKeys(false)
+    }
+  }, [aiKeys])
 
   const generateRandomUrl = () => {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
@@ -164,6 +178,15 @@ export function Generator({ onNavigate }: GeneratorProps) {
   const simulateGeneration = async () => {
     if (!userPrompt.trim()) {
       toast.error('Please enter a prompt')
+      return
+    }
+
+    if (!hasValidAIKeys) {
+      toast.error('API keys required! Please setup at least one AI model API key.', {
+        description: 'Configure your keys below to continue',
+        duration: 5000,
+      })
+      setShowKeysManager(true)
       return
     }
 
@@ -346,6 +369,45 @@ export function Generator({ onNavigate }: GeneratorProps) {
           </Button>
         </div>
       </div>
+
+      {!hasValidAIKeys && (
+        <div className="mb-4 sm:mb-6">
+          <APIKeyAlert 
+            onSetupKeys={() => setShowKeysManager(true)} 
+            feature="AI-powered app generation"
+            variant="full"
+          />
+        </div>
+      )}
+
+      {showKeysManager && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-4 sm:mb-6"
+        >
+          <KeysManager />
+          <div className="mt-3 flex justify-end">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowKeysManager(false)}
+            >
+              Close Keys Manager
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
+      {hasValidAIKeys && (
+        <div className="mb-4">
+          <APIKeyAlert 
+            onSetupKeys={() => setShowKeysManager(true)} 
+            feature="AI generation"
+            variant="compact"
+          />
+        </div>
+      )}
 
       <div className="grid lg:grid-cols-[1fr_400px] gap-4 sm:gap-6">
         <div className="space-y-4 sm:space-y-6">

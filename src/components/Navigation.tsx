@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X } from '@phosphor-icons/react'
+import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X, Key, CheckCircle, Warning } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useKV } from '@github/spark/hooks'
@@ -22,6 +22,17 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const [lastClickTime, setLastClickTime] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { isMobile, isTablet } = useScreenSize()
+  const [aiKeys] = useKV<any[]>('ceo-keys-ai', [])
+  const [hasValidAIKeys, setHasValidAIKeys] = useState(false)
+
+  useEffect(() => {
+    if (aiKeys && aiKeys.length > 0) {
+      const validKeys = aiKeys.filter(k => k.key && k.key.length > 0 && k.status === 'valid')
+      setHasValidAIKeys(validKeys.length > 0)
+    } else {
+      setHasValidAIKeys(false)
+    }
+  }, [aiKeys])
 
   useEffect(() => {
     if (clickCount >= 5) {
@@ -97,6 +108,27 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
+            {!isMobile && (
+              <Badge 
+                className={`${
+                  hasValidAIKeys 
+                    ? 'bg-accent/20 text-accent border-accent/40' 
+                    : 'bg-destructive/20 text-destructive border-destructive/40'
+                } px-2 py-1 text-xs whitespace-nowrap hidden sm:flex items-center gap-1`}
+              >
+                {hasValidAIKeys ? (
+                  <>
+                    <CheckCircle weight="fill" size={12} />
+                    AI Ready
+                  </>
+                ) : (
+                  <>
+                    <Warning weight="fill" size={12} />
+                    Setup Keys
+                  </>
+                )}
+              </Badge>
+            )}
             <Badge className={`${isMobile ? 'px-1.5 py-0.5 text-[10px]' : 'px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm'} ${
               blackForgeMode 
                 ? 'bg-destructive/20 text-destructive border-destructive/40' 

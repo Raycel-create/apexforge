@@ -9,6 +9,9 @@ import { motion } from 'framer-motion'
 import { useScreenSize } from '../../hooks/use-mobile'
 import { INTEGRATIONS } from '../../lib/integrations'
 import { useBlackForge } from '../../lib/BlackForgeContext'
+import { APIKeyAlert } from '../APIKeyAlert'
+import { KeysManager } from '../KeysManager'
+import { useState } from 'react'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -30,6 +33,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   const [projects, setProjects] = useKV<Project[]>('user-projects', [])
   const [credits] = useKV<number>('user-credits', 15)
   const { isMobile, isTablet } = useScreenSize()
+  const [showKeysManager, setShowKeysManager] = useState(false)
 
   const deleteProject = (id: number) => {
     setProjects((current) => (current ?? []).filter((p) => p.id !== id))
@@ -71,6 +75,39 @@ export function Dashboard({ onNavigate }: DashboardProps) {
             {isMobile ? 'New' : 'Ignite New Project'}
           </Button>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="mb-4 sm:mb-8"
+        >
+          <APIKeyAlert 
+            onSetupKeys={() => setShowKeysManager(true)} 
+            feature="AI-powered features and project generation"
+            variant="full"
+          />
+        </motion.div>
+
+        {showKeysManager && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="mb-4 sm:mb-8"
+          >
+            <KeysManager />
+            <div className="mt-3 flex justify-end">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowKeysManager(false)}
+              >
+                Close Keys Manager
+              </Button>
+            </div>
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
