@@ -398,51 +398,73 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid md:grid-cols-4 gap-6 mb-8"
+          className="grid grid-cols-3 gap-3 mb-8"
         >
-          <Card className="p-6 border-primary/30">
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-sm text-muted-foreground">Monthly Revenue</div>
-              <CurrencyDollar weight="fill" className="text-primary" size={24} />
+          <Card className="p-3 border-primary/30">
+            <div className="flex items-center justify-between mb-1">
+              <div className="text-[10px] text-muted-foreground">Revenue</div>
+              <CurrencyDollar weight="fill" className="text-primary" size={16} />
             </div>
-            <div className="text-3xl font-bold mb-1">$52,800</div>
-            <Badge className="bg-accent/20 text-accent border-accent/40">
-              <TrendUp size={12} />
-              +28% vs last month
+            <div className="text-lg font-bold mb-1">$52,800</div>
+            <Badge className="bg-accent/20 text-accent border-accent/40 text-[8px] px-1 py-0">
+              <TrendUp size={8} />
+              +28%
             </Badge>
           </Card>
 
-          <Card className="p-6 border-accent/30">
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-sm text-muted-foreground">Total Users</div>
-              <Users weight="fill" className="text-accent" size={24} />
+          <Card className="p-3 border-accent/30">
+            <div className="flex items-center justify-between mb-1">
+              <div className="text-[10px] text-muted-foreground">Users</div>
+              <Users weight="fill" className="text-accent" size={16} />
             </div>
-            <div className="text-3xl font-bold mb-1">1,756</div>
-            <Badge className="bg-accent/20 text-accent border-accent/40">
-              <TrendUp size={12} />
-              +36% growth
+            <div className="text-lg font-bold mb-1">1,756</div>
+            <Badge className="bg-accent/20 text-accent border-accent/40 text-[8px] px-1 py-0">
+              <TrendUp size={8} />
+              +36%
             </Badge>
           </Card>
 
-          <Card className="p-6 border-primary/30">
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-sm text-muted-foreground">Apps Generated</div>
-              <Fire weight="fill" className="text-destructive" size={24} />
+          <Card className="p-3 border-primary/30">
+            <div className="flex items-center justify-between mb-1">
+              <div className="text-[10px] text-muted-foreground">Apps</div>
+              <Fire weight="fill" className="text-destructive" size={16} />
             </div>
-            <div className="text-3xl font-bold mb-1">3,421</div>
-            <Badge className="bg-destructive/20 text-destructive border-destructive/40">
-              This month
+            <div className="text-lg font-bold mb-1">3,421</div>
+            <Badge className="bg-destructive/20 text-destructive border-destructive/40 text-[8px] px-1 py-0">
+              Month
             </Badge>
           </Card>
 
-          <Card className="p-6 border-accent/30">
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-sm text-muted-foreground">Conversion Rate</div>
-              <Sparkle weight="fill" className="text-accent" size={24} />
+          <Card className="p-3 border-accent/30">
+            <div className="flex items-center justify-between mb-1">
+              <div className="text-[10px] text-muted-foreground">Convert</div>
+              <Sparkle weight="fill" className="text-accent" size={16} />
             </div>
-            <div className="text-3xl font-bold mb-1">26%</div>
-            <Badge className="bg-accent/20 text-accent border-accent/40">
-              Free → Pro
+            <div className="text-lg font-bold mb-1">26%</div>
+            <Badge className="bg-accent/20 text-accent border-accent/40 text-[8px] px-1 py-0">
+              Free→Pro
+            </Badge>
+          </Card>
+
+          <Card className="p-3 border-primary/30">
+            <div className="flex items-center justify-between mb-1">
+              <div className="text-[10px] text-muted-foreground">Churn</div>
+              <Warning weight="fill" className="text-destructive" size={16} />
+            </div>
+            <div className="text-lg font-bold mb-1">4.2%</div>
+            <Badge className="bg-muted/20 text-muted-foreground border-border text-[8px] px-1 py-0">
+              Low
+            </Badge>
+          </Card>
+
+          <Card className="p-3 border-accent/30">
+            <div className="flex items-center justify-between mb-1">
+              <div className="text-[10px] text-muted-foreground">MRR</div>
+              <ChartLine weight="fill" className="text-accent" size={16} />
+            </div>
+            <div className="text-lg font-bold mb-1">$8.8K</div>
+            <Badge className="bg-accent/20 text-accent border-accent/40 text-[8px] px-1 py-0">
+              Growing
             </Badge>
           </Card>
         </motion.div>

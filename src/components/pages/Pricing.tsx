@@ -335,41 +335,41 @@ export function Pricing({ onNavigate }: PricingProps) {
           <h3 className="text-3xl font-bold mb-8">Frequently Asked Questions</h3>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          <Card className="p-6">
-            <h4 className="font-semibold mb-2 text-lg">How fast is "live deployment"?</h4>
-            <p className="text-sm text-muted-foreground">
-              Your app is live with HTTPS at yourapp-xyz.apexforge.app in under 10 seconds. Launch plan users get &lt;3 second deploys.
+        <div className="grid grid-cols-3 gap-3 max-w-5xl mx-auto">
+          <Card className="p-3">
+            <h4 className="font-semibold mb-1 text-xs">Live deploy speed?</h4>
+            <p className="text-[10px] text-muted-foreground leading-tight">
+              Under 10 sec. Launch users get &lt;3 sec.
             </p>
           </Card>
-          <Card className="p-6">
-            <h4 className="font-semibold mb-2 text-lg">Can I cancel anytime?</h4>
-            <p className="text-sm text-muted-foreground">
-              Yes! No contracts. Cancel anytime and keep access until your billing period ends. The $500 security shield is yours forever.
+          <Card className="p-3">
+            <h4 className="font-semibold mb-1 text-xs">Cancel anytime?</h4>
+            <p className="text-[10px] text-muted-foreground leading-tight">
+              Yes! No contracts. Shield is yours forever.
             </p>
           </Card>
-          <Card className="p-6">
-            <h4 className="font-semibold mb-2 text-lg">What's the AI Debate Panel?</h4>
-            <p className="text-sm text-muted-foreground">
-              5 AI agents (GPT-4o, Claude, Grok, Gemini, Llama) argue in real-time about your app. You vote on their suggestions. No competitor has this.
+          <Card className="p-3">
+            <h4 className="font-semibold mb-1 text-xs">AI Debate Panel?</h4>
+            <p className="text-[10px] text-muted-foreground leading-tight">
+              5 AIs argue live. You vote. No competitor has this.
             </p>
           </Card>
-          <Card className="p-6">
-            <h4 className="font-semibold mb-2 text-lg">Do I own the code?</h4>
-            <p className="text-sm text-muted-foreground">
-              100% yours. Download, modify, sell, or deploy anywhere. We have zero claims to your generated apps.
+          <Card className="p-3">
+            <h4 className="font-semibold mb-1 text-xs">Own the code?</h4>
+            <p className="text-[10px] text-muted-foreground leading-tight">
+              100% yours. Download, modify, sell anywhere.
             </p>
           </Card>
-          <Card className="p-6">
-            <h4 className="font-semibold mb-2 text-lg">What is Fusion Mode?</h4>
-            <p className="text-sm text-muted-foreground">
-              After generation, you get 3 versions: Fastest, Most Secure, Most Beautiful. Drag-drop components between them to create your perfect hybrid. Industry first.
+          <Card className="p-3">
+            <h4 className="font-semibold mb-1 text-xs">Fusion Mode?</h4>
+            <p className="text-[10px] text-muted-foreground leading-tight">
+              3 versions. Drag-drop parts. Create hybrid.
             </p>
           </Card>
-          <Card className="p-6">
-            <h4 className="font-semibold mb-2 text-lg">Is the $500 Security Shield worth it?</h4>
-            <p className="text-sm text-muted-foreground">
-              If you're handling payments, user data, or auth - absolutely. It's a one-time fee (not monthly) for lifetime AI-powered threat protection.
+          <Card className="p-3">
+            <h4 className="font-semibold mb-1 text-xs">$500 Shield worth it?</h4>
+            <p className="text-[10px] text-muted-foreground leading-tight">
+              One-time for lifetime AI threat protection.
             </p>
           </Card>
         </div>

@@ -121,82 +121,82 @@ export function Home({ onNavigate }: HomeProps) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="p-6 border-primary/30 bg-card hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all group">
-              <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform glow-primary">
-                <Fire weight="fill" className="text-primary" size={28} />
+          <div className="grid grid-cols-3 gap-3">
+            <Card className="p-3 border-primary/30 bg-card hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all group">
+              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform glow-primary">
+                <Fire weight="fill" className="text-primary" size={16} />
               </div>
-              <h3 className="text-2xl font-bold mb-3">The Forge</h3>
-              <p className="text-muted-foreground mb-4">
-                5 AI agents (GPT-4o, Claude, Grok, Gemini, Llama) argue LIVE in a sidebar. You vote. Winners auto-apply.
+              <h3 className="text-xs font-bold mb-1">The Forge</h3>
+              <p className="text-muted-foreground mb-2 text-[10px] leading-tight">
+                5 AI agents argue LIVE. You vote. Winners auto-apply.
               </p>
-              <Badge variant="outline" className="border-primary/50 text-primary">
-                No competitor has this
+              <Badge variant="outline" className="border-primary/50 text-primary text-[8px] px-1 py-0">
+                No competitor
               </Badge>
             </Card>
 
-            <Card className="p-6 border-accent/30 bg-card hover:border-accent hover:shadow-lg hover:shadow-accent/20 transition-all group">
-              <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform glow-accent">
-                <Swap weight="fill" className="text-accent" size={28} />
+            <Card className="p-3 border-accent/30 bg-card hover:border-accent hover:shadow-lg hover:shadow-accent/20 transition-all group">
+              <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform glow-accent">
+                <Swap weight="fill" className="text-accent" size={16} />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Fusion Mode</h3>
-              <p className="text-muted-foreground mb-4">
-                Get 3 versions: Fastest | Secure | Beautiful. Drag-drop parts between them. Create your perfect hybrid.
+              <h3 className="text-xs font-bold mb-1">Fusion Mode</h3>
+              <p className="text-muted-foreground mb-2 text-[10px] leading-tight">
+                3 versions. Drag-drop parts. Create hybrid.
               </p>
-              <Badge variant="outline" className="border-accent/50 text-accent">
-                Never been done before
+              <Badge variant="outline" className="border-accent/50 text-accent text-[8px] px-1 py-0">
+                Never done
               </Badge>
             </Card>
 
-            <Card className="p-6 border-accent/30 bg-card hover:border-accent hover:shadow-lg hover:shadow-accent/20 transition-all group">
-              <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform glow-accent">
-                <Rocket weight="fill" className="text-accent" size={28} />
+            <Card className="p-3 border-accent/30 bg-card hover:border-accent hover:shadow-lg hover:shadow-accent/20 transition-all group">
+              <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform glow-accent">
+                <Rocket weight="fill" className="text-accent" size={16} />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Live Deploy in ONE Tab</h3>
-              <p className="text-muted-foreground mb-4">
-                Instant HTTPS domain: yourapp-7x9.apexforge.app. Full app running in same tab. No manual hosting.
+              <h3 className="text-xs font-bold mb-1">Live Deploy</h3>
+              <p className="text-muted-foreground mb-2 text-[10px] leading-tight">
+                Instant HTTPS domain. No manual hosting.
               </p>
-              <Badge variant="outline" className="border-accent/50 text-accent">
-                Industry breaker
+              <Badge variant="outline" className="border-accent/50 text-accent text-[8px] px-1 py-0">
+                Breaker
               </Badge>
             </Card>
 
-            <Card className="p-6 border-primary/30 bg-card hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all group">
-              <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform glow-primary">
-                <TreeStructure weight="fill" className="text-primary" size={28} />
+            <Card className="p-3 border-primary/30 bg-card hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all group">
+              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform glow-primary">
+                <TreeStructure weight="fill" className="text-primary" size={16} />
               </div>
-              <h3 className="text-2xl font-bold mb-3">FREE Idea Incubator</h3>
-              <p className="text-muted-foreground mb-4">
-                Not sure what to build? Get 5 validated app ideas + wireframes + tech stack in 30 sec. Zero credits used.
+              <h3 className="text-xs font-bold mb-1">FREE Incubator</h3>
+              <p className="text-muted-foreground mb-2 text-[10px] leading-tight">
+                5 validated app ideas in 30 sec. Zero credits.
               </p>
-              <Badge variant="outline" className="border-accent/50 text-accent">
-                Massive conversion hook
+              <Badge variant="outline" className="border-accent/50 text-accent text-[8px] px-1 py-0">
+                Hook
               </Badge>
             </Card>
 
-            <Card className="p-6 border-primary/30 bg-card hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all group">
-              <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform glow-primary">
-                <Lightning weight="fill" className="text-primary" size={28} />
+            <Card className="p-3 border-primary/30 bg-card hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all group">
+              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform glow-primary">
+                <Lightning weight="fill" className="text-primary" size={16} />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Evolve Button</h3>
-              <p className="text-muted-foreground mb-4">
-                "Add AI chat" or "Make offline-first" → same AI team upgrades it instantly. ChatGPT for full apps.
+              <h3 className="text-xs font-bold mb-1">Evolve Button</h3>
+              <p className="text-muted-foreground mb-2 text-[10px] leading-tight">
+                Upgrades it instantly. ChatGPT for apps.
               </p>
-              <Badge variant="outline" className="border-primary/50 text-primary">
-                Keeps full context
+              <Badge variant="outline" className="border-primary/50 text-primary text-[8px] px-1 py-0">
+                Full context
               </Badge>
             </Card>
 
-            <Card className="p-6 border-destructive/30 bg-card hover:border-destructive hover:shadow-lg hover:shadow-destructive/20 transition-all group">
-              <div className="w-14 h-14 rounded-xl bg-destructive/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform glow-destructive">
-                <Shield weight="fill" className="text-destructive" size={28} />
+            <Card className="p-3 border-destructive/30 bg-card hover:border-destructive hover:shadow-lg hover:shadow-destructive/20 transition-all group">
+              <div className="w-8 h-8 rounded-lg bg-destructive/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform glow-destructive">
+                <Shield weight="fill" className="text-destructive" size={16} />
               </div>
-              <h3 className="text-2xl font-bold mb-3">$500 Security Shield</h3>
-              <p className="text-muted-foreground mb-4">
-                One-time purchase adds AI security agent that sits between your app and threats. Auto-blocks attacks.
+              <h3 className="text-xs font-bold mb-1">$500 Shield</h3>
+              <p className="text-muted-foreground mb-2 text-[10px] leading-tight">
+                AI security agent. Auto-blocks attacks.
               </p>
-              <Badge variant="outline" className="border-destructive/50 text-destructive">
-                High-margin premium
+              <Badge variant="outline" className="border-destructive/50 text-destructive text-[8px] px-1 py-0">
+                Premium
               </Badge>
             </Card>
           </div>

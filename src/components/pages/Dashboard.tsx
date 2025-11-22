@@ -172,51 +172,61 @@ export function Dashboard({ onNavigate }: DashboardProps) {
 
                     <Separator className="my-4" />
 
-                    <div className="grid md:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-3 gap-2">
                       <Button
                         variant="default"
-                        className="glow-primary"
+                        size="sm"
+                        className="glow-primary text-[10px] px-2 py-1 h-auto"
                         onClick={() => toast.success('Opening Evolve mode...')}
                       >
-                        <ArrowsClockwise weight="fill" size={18} />
-                        Evolve This App
+                        <ArrowsClockwise weight="fill" size={12} />
+                        Evolve
                       </Button>
                       <Button
                         variant="outline"
-                        className="border-destructive/50 text-destructive hover:bg-destructive/10"
+                        size="sm"
+                        className="border-destructive/50 text-destructive hover:bg-destructive/10 text-[10px] px-2 py-1 h-auto"
                         onClick={() => toast.success('Opening Security Shield checkout...')}
                       >
-                        <Shield weight="fill" size={18} />
-                        Add $500 Security Shield
+                        <Shield weight="fill" size={12} />
+                        Shield
                       </Button>
                       {project.url && (
                         <Button
                           variant="outline"
+                          size="sm"
+                          className="text-[10px] px-2 py-1 h-auto"
                           onClick={() => window.open(project.url, '_blank')}
                         >
-                          <Globe size={18} />
-                          Open Live App
+                          <Globe size={12} />
+                          Open
                         </Button>
                       )}
                       <Button
                         variant="outline"
+                        size="sm"
+                        className="text-[10px] px-2 py-1 h-auto"
                         onClick={() => toast.success('Creating Forge Card...')}
                       >
-                        <Share size={18} />
-                        Share Forge Card
+                        <Share size={12} />
+                        Share
                       </Button>
                       <Button
                         variant="outline"
+                        size="sm"
+                        className="text-[10px] px-2 py-1 h-auto"
                         onClick={() => toast.success('Downloading ZIP...')}
                       >
-                        <Download size={18} />
-                        Download Code
+                        <Download size={12} />
+                        Code
                       </Button>
                       <Button
                         variant="outline"
+                        size="sm"
+                        className="text-[10px] px-2 py-1 h-auto"
                         onClick={() => toast.success('Deploying to production...')}
                       >
-                        <Rocket size={18} />
+                        <Rocket size={12} />
                         Deploy
                       </Button>
                     </div>
