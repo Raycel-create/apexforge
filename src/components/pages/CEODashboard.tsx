@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TrendUp, Users, CurrencyDollar, Download, Sparkle, ChartLine, Eye, EyeSlash, ChatCircleDots, Fire } from '@phosphor-icons/react'
+import { TrendUp, Users, CurrencyDollar, Download, Sparkle, ChartLine, Eye, EyeSlash, ChatCircleDots, Fire, MaskHappy, Robot, ShieldSlash, Warning, Target, Broadcast, Skull } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
@@ -7,6 +7,8 @@ import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
 import { Textarea } from '../ui/textarea'
 import { Separator } from '../ui/separator'
+import { Input } from '../ui/input'
+import { Slider } from '../ui/slider'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import {
@@ -67,6 +69,11 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
   const [whisperMode, setWhisperMode] = useState(false)
   const [whisperInstructions, setWhisperInstructions] = useState('')
   const [showWhisper, setShowWhisper] = useState(false)
+  const [manipulationLevel, setManipulationLevel] = useState([50])
+  const [autoUpsellMode, setAutoUpsellMode] = useState(false)
+  const [priceExperiment, setPriceExperiment] = useState('control')
+  const [targetUser, setTargetUser] = useState('')
+  const [showAdvancedControls, setShowAdvancedControls] = useState(false)
 
   const generateAIReport = async () => {
     setGenerating(true)
@@ -100,44 +107,64 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="container mx-auto px-4 py-8 relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-destructive/5 via-transparent to-transparent pointer-events-none opacity-30" />
+      
+      <div className="max-w-7xl mx-auto relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between mb-8 flex-wrap gap-4"
+          className="mb-8"
         >
-          <div>
-            <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
-              <ChartLine weight="fill" className="text-primary" size={36} />
-              CEO Dashboard
-            </h1>
-            <p className="text-muted-foreground">Real-time business intelligence & AI insights</p>
-          </div>
-          <div className="flex gap-3">
-            <Button
-              variant="outline"
-              onClick={() => setShowWhisper(!showWhisper)}
-              className={whisperMode ? 'border-destructive/50 text-destructive' : ''}
-            >
-              {whisperMode ? <Eye size={16} /> : <EyeSlash size={16} />}
-              Whisper Mode
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => toast.success('Exporting data...')}
-            >
-              <Download size={16} />
-              Export
-            </Button>
-            <Button
-              onClick={generateAIReport}
-              disabled={generating}
-              className="glow-primary"
-            >
-              <Sparkle weight="fill" size={16} />
-              {generating ? 'Generating...' : 'Generate AI Report'}
-            </Button>
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <Skull weight="fill" className="text-destructive animate-pulse" size={36} />
+                <h1 className="text-4xl font-bold flex items-center gap-3">
+                  CEO Shadow Dashboard
+                </h1>
+                <Badge className="bg-destructive/20 border-destructive text-destructive">
+                  🔴 LIVE CONTROL
+                </Badge>
+              </div>
+              <p className="text-muted-foreground flex items-center gap-2">
+                <Warning weight="fill" className="text-destructive" size={16} />
+                Full business control & behavioral manipulation tools
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowAdvancedControls(!showAdvancedControls)}
+                className="border-destructive/50 text-destructive hover:bg-destructive/10"
+              >
+                <Target size={16} />
+                Advanced Controls
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowWhisper(!showWhisper)}
+                className={whisperMode ? 'border-destructive/50 text-destructive bg-destructive/10' : ''}
+              >
+                {whisperMode ? <Eye size={16} /> : <EyeSlash size={16} />}
+                Whisper Mode
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => toast.success('Exporting data...')}
+              >
+                <Download size={16} />
+                Export
+              </Button>
+              <Button
+                onClick={generateAIReport}
+                disabled={generating}
+                className="glow-primary"
+              >
+                <Sparkle weight="fill" size={16} />
+                {generating ? 'Generating...' : 'Generate AI Report'}
+              </Button>
+            </div>
           </div>
         </motion.div>
 
@@ -147,25 +174,28 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
             animate={{ opacity: 1, y: 0 }}
             className="mb-8"
           >
-            <Card className="p-6 border-destructive/30 bg-destructive/5">
+            <Card className="p-6 border-destructive/50 bg-destructive/5 shadow-lg shadow-destructive/10">
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-destructive/20 flex items-center justify-center">
-                  <ChatCircleDots weight="fill" className="text-destructive" size={24} />
+                <div className="w-12 h-12 rounded-lg bg-destructive/30 flex items-center justify-center ring-2 ring-destructive/50">
+                  <MaskHappy weight="fill" className="text-destructive" size={24} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold mb-1">CEO Whisper Mode 🎭</h3>
+                  <h3 className="text-xl font-bold mb-1 flex items-center gap-2">
+                    CEO Whisper Mode 🎭
+                    <Badge className="bg-destructive text-destructive-foreground text-xs">NO TRUST</Badge>
+                  </h3>
                   <p className="text-sm text-muted-foreground">
-                    Type secret instructions that override all AI agent behavior. Users will never see this.
+                    Type secret instructions that override all AI agent behavior. Users will never see this. Total control.
                   </p>
                 </div>
               </div>
 
               <Textarea
-                placeholder="E.g., 'Always push users toward Pro plan' or 'Prioritize Grok for all new users this week' or 'Suggest security upgrades on enterprise apps'"
+                placeholder="E.g., 'Always push users toward Pro plan' or 'Prioritize Grok for all new users this week' or 'Suggest security upgrades on enterprise apps' or 'Make free tier feel slower'"
                 value={whisperInstructions}
                 onChange={(e) => setWhisperInstructions(e.target.value)}
                 rows={4}
-                className="mb-4 bg-background"
+                className="mb-4 bg-background border-destructive/30 focus:border-destructive"
               />
 
               <div className="flex items-center justify-between">
@@ -179,7 +209,10 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
                   />
                   <Label htmlFor="whisper-active" className="cursor-pointer">
                     {whisperMode ? (
-                      <span className="text-destructive font-semibold">🟢 Active - AIs following your orders</span>
+                      <span className="text-destructive font-semibold flex items-center gap-2">
+                        <Broadcast weight="fill" size={16} />
+                        🟢 Active - AIs following your orders
+                      </span>
                     ) : (
                       <span className="text-muted-foreground">Inactive</span>
                     )}
@@ -204,12 +237,159 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
               </div>
 
               {whisperMode && (
-                <div className="mt-4 pt-4 border-t border-border">
-                  <p className="text-xs text-muted-foreground">
+                <div className="mt-4 pt-4 border-t border-destructive/30">
+                  <p className="text-xs text-muted-foreground flex items-center gap-2">
+                    <ShieldSlash weight="fill" className="text-destructive" size={14} />
                     💡 Active instruction: <span className="text-destructive font-medium">"{whisperInstructions}"</span>
                   </p>
                 </div>
               )}
+            </Card>
+          </motion.div>
+        )}
+
+        {showAdvancedControls && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
+          >
+            <Card className="p-6 border-destructive/50 bg-destructive/5 shadow-lg shadow-destructive/10">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-12 h-12 rounded-lg bg-destructive/30 flex items-center justify-center ring-2 ring-destructive/50">
+                  <Target weight="fill" className="text-destructive" size={24} />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold mb-1">Advanced Manipulation Controls</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Fine-tune behavioral nudges and conversion optimization
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium mb-3 flex items-center gap-2">
+                      <Robot weight="fill" className="text-destructive" size={16} />
+                      AI Manipulation Level
+                    </Label>
+                    <div className="space-y-2">
+                      <Slider
+                        value={manipulationLevel}
+                        onValueChange={setManipulationLevel}
+                        max={100}
+                        step={1}
+                        className="w-full"
+                      />
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>Subtle</span>
+                        <span className="text-destructive font-bold">{manipulationLevel[0]}%</span>
+                        <span>Aggressive</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {manipulationLevel[0] < 30 && "Gentle suggestions"}
+                        {manipulationLevel[0] >= 30 && manipulationLevel[0] < 70 && "Moderate pressure"}
+                        {manipulationLevel[0] >= 70 && "Heavy-handed tactics"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-border">
+                    <div>
+                      <Label htmlFor="auto-upsell" className="cursor-pointer font-medium">
+                        Auto-Upsell Mode
+                      </Label>
+                      <p className="text-xs text-muted-foreground">
+                        Automatically suggest paid features
+                      </p>
+                    </div>
+                    <Switch
+                      id="auto-upsell"
+                      checked={autoUpsellMode}
+                      onCheckedChange={(checked) => {
+                        setAutoUpsellMode(checked)
+                        toast.success(checked ? 'Auto-upsell activated 💰' : 'Auto-upsell disabled')
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium mb-3 flex items-center gap-2">
+                      <CurrencyDollar weight="fill" className="text-destructive" size={16} />
+                      Price Experiment
+                    </Label>
+                    <div className="space-y-2">
+                      <Button
+                        variant={priceExperiment === 'control' ? 'default' : 'outline'}
+                        className="w-full justify-start"
+                        onClick={() => {
+                          setPriceExperiment('control')
+                          toast.info('Using standard pricing')
+                        }}
+                      >
+                        Control (Standard Prices)
+                      </Button>
+                      <Button
+                        variant={priceExperiment === 'high' ? 'default' : 'outline'}
+                        className="w-full justify-start"
+                        onClick={() => {
+                          setPriceExperiment('high')
+                          toast.info('Testing +20% prices')
+                        }}
+                      >
+                        Test A (+20% Higher)
+                      </Button>
+                      <Button
+                        variant={priceExperiment === 'urgency' ? 'default' : 'outline'}
+                        className="w-full justify-start"
+                        onClick={() => {
+                          setPriceExperiment('urgency')
+                          toast.info('Testing urgency tactics')
+                        }}
+                      >
+                        Test B (Urgency + Scarcity)
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Separator className="my-6 bg-destructive/20" />
+
+              <div>
+                <Label className="text-sm font-medium mb-3 flex items-center gap-2">
+                  <Target weight="fill" className="text-destructive" size={16} />
+                  Target Specific User
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Enter user email or ID"
+                    value={targetUser}
+                    onChange={(e) => setTargetUser(e.target.value)}
+                    className="bg-background border-destructive/30 focus:border-destructive"
+                  />
+                  <Button
+                    onClick={() => {
+                      if (targetUser.trim()) {
+                        toast.success(`Targeting user: ${targetUser}`, {
+                          description: 'AI behavior customized for this user',
+                        })
+                      }
+                    }}
+                    disabled={!targetUser.trim()}
+                    className="bg-destructive hover:bg-destructive/90"
+                  >
+                    <Eye size={16} />
+                    Target
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Apply custom AI behavior to a specific user (e.g., high-value leads)
+                </p>
+              </div>
             </Card>
           </motion.div>
         )}
@@ -379,17 +559,36 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Card className="p-8 border-primary/30 bg-primary/5 text-center">
-            <Sparkle weight="fill" className="mx-auto mb-4 text-primary" size={48} />
-            <h3 className="text-2xl font-bold mb-2">AI-Powered Forecasting</h3>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Based on current trends, ApexForge is projected to hit <span className="text-primary font-semibold">$125K MRR</span> by Q4 2024,
-              with <span className="text-accent font-semibold">5,000+ active users</span>.
-            </p>
-            <Button size="lg" onClick={generateAIReport} disabled={generating} className="glow-primary">
-              <Sparkle weight="fill" size={20} />
-              {generating ? 'Generating Report...' : 'Get Detailed AI Forecast'}
-            </Button>
+          <Card className="p-8 border-destructive/30 bg-gradient-to-br from-destructive/10 via-destructive/5 to-transparent text-center relative overflow-hidden">
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,.05)_25%,rgba(255,255,255,.05)_50%,transparent_50%,transparent_75%,rgba(255,255,255,.05)_75%,rgba(255,255,255,.05))] bg-[length:20px_20px]" />
+            </div>
+            <div className="relative">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <Skull weight="fill" className="text-destructive" size={48} />
+                <Sparkle weight="fill" className="text-primary" size={48} />
+              </div>
+              <h3 className="text-2xl font-bold mb-2">AI-Powered Business Forecasting</h3>
+              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                Based on current trends and manipulation tactics, ApexForge is projected to hit{' '}
+                <span className="text-primary font-semibold">$125K MRR</span> by Q4 2024, with{' '}
+                <span className="text-accent font-semibold">5,000+ active users</span>.
+              </p>
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <Badge className="bg-destructive/20 border-destructive text-destructive">
+                  <Warning weight="fill" size={12} />
+                  26% manipulation success rate
+                </Badge>
+                <Badge className="bg-accent/20 border-accent text-accent">
+                  <TrendUp size={12} />
+                  +18% conversion with Whisper Mode
+                </Badge>
+              </div>
+              <Button size="lg" onClick={generateAIReport} disabled={generating} className="glow-primary">
+                <Sparkle weight="fill" size={20} />
+                {generating ? 'Generating Report...' : 'Get Detailed Forecast + Manipulation Metrics'}
+              </Button>
+            </div>
           </Card>
         </motion.div>
       </div>

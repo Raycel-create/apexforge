@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react'
 import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useKV } from '@github/spark/hooks'
+import { toast } from 'sonner'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -12,6 +14,32 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const [credits] = useKV<number>('user-credits', 5)
+  const [clickCount, setClickCount] = useState(0)
+  const [lastClickTime, setLastClickTime] = useState(0)
+
+  useEffect(() => {
+    if (clickCount >= 5) {
+      toast.success('🎭 CEO Dashboard Unlocked', {
+        description: 'Welcome to the shadow realm...',
+        duration: 3000,
+      })
+      onNavigate('ceo')
+      setClickCount(0)
+    }
+  }, [clickCount, onNavigate])
+
+  const handleLogoClick = () => {
+    const now = Date.now()
+    if (now - lastClickTime > 2000) {
+      setClickCount(1)
+    } else {
+      setClickCount(prev => prev + 1)
+      if (clickCount === 3) {
+        toast.info('Keep going...', { duration: 1000 })
+      }
+    }
+    setLastClickTime(now)
+  }
 
   return (
     <nav className="border-b border-border bg-card/80 backdrop-blur-lg sticky top-0 z-50">
@@ -19,8 +47,8 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-8">
             <button
-              onClick={() => onNavigate('home')}
-              className="flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity"
+              onClick={handleLogoClick}
+              className="flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity cursor-pointer"
             >
               <Fire weight="fill" className="text-destructive animate-pulse-glow" size={32} />
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
@@ -51,14 +79,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               >
                 <CreditCard size={16} />
                 Pricing
-              </Button>
-              <Button
-                variant={currentPage === 'ceo' ? 'secondary' : 'ghost'}
-                size="sm"
-                onClick={() => onNavigate('ceo')}
-              >
-                <ChartBar size={16} />
-                CEO
               </Button>
             </div>
           </div>
