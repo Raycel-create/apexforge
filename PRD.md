@@ -76,6 +76,22 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 - **Progression**: Enable Whisper → Type "Always suggest Pro plan" → All future AI debates subtly push Pro features
 - **Success criteria**: Works silently, no user-facing indication, truly feels like secret influence
 
+### Landscape Preview Frame with AI Robot Builders (🤖 THE #1 Viral Hook)
+- **Functionality**: After generation, show massive 1280×720px landscape iframe (desktop) with 5-7 animated 3D robots circling around it holding tools (hammer, wrench, paintbrush, rocket, shield)
+- **Purpose**: The most screenshot-able, impossibly cute, emotionally addictive builder interface of 2026 - robots literally debate in speech bubbles above their heads
+- **Trigger**: Automatically appears during and after generation as final section
+- **Progression**: Robots spawn → Wave "Ready to build!" → During generation they walk/fly around preview box → Stop to "work" on it → Speech bubbles show real debate text → Consensus meter fills 0→100% → At 100% all robots jump, throw confetti, hold "SHIPPED" sign together
+- **Success criteria**: Robots feel alive (not subtle), each has distinct personality (Grok=silver rocket robot, Claude=purple owl robot, Gemini=rainbow prism), mobile auto-switches to portrait with robot list below, confetti explosion on ship, feels like directing a tiny construction crew
+
+### Robot Personality & Behaviors (🎭 Cuteness Rules)
+- **On First Load**: All robots wave and say "Ready to build your dream!" in bubbles
+- **During Typing**: Robots lean in and look at prompt box with anticipation
+- **During Debate**: Speech bubbles pop up with actual debate text from The Forge panel
+- **When Stuck**: Robots shrug, one facepalms, another pulls hair dramatically
+- **On Credit Deduction**: One robot runs with tiny coin to piggy bank in corner
+- **On 100% Consensus**: All robots jump together, throw confetti, victory fanfare
+- **Black Forge Mode**: Robots turn demonic with glowing red eyes and tridents (future feature)
+
 ## Edge Case Handling
 - **Empty States**: Beautiful illustrations and clear CTAs when no projects exist or credits are depleted
 - **Loading States**: Skeleton screens and progress indicators for all async operations

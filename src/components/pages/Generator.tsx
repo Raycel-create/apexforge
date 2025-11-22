@@ -24,6 +24,8 @@ import {
 } from '../ui/dropdown-menu'
 import { IntegrationsPanel } from '../IntegrationsPanel'
 import { INTEGRATIONS } from '../../lib/integrations'
+import { PreviewFrame } from '../PreviewFrame'
+import { CoinAnimation } from '../CoinAnimation'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -112,6 +114,7 @@ export function Generator({ onNavigate }: GeneratorProps) {
   const [selectedIntegrations, setSelectedIntegrations] = useState<string[]>([])
   const [userTier] = useKV<'free' | 'pro' | 'gold' | 'enterprise'>('user-tier', 'free')
   const [showIntegrations, setShowIntegrations] = useState(false)
+  const [showCoinAnimation, setShowCoinAnimation] = useState(false)
 
   const generateRandomUrl = () => {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
@@ -227,6 +230,8 @@ export function Generator({ onNavigate }: GeneratorProps) {
     const url = generateRandomUrl()
     setLiveUrl(url)
     const creditsUsed = calculateTotalCredits()
+    setShowCoinAnimation(true)
+    setTimeout(() => setShowCoinAnimation(false), 2000)
     setCredits((current) => Math.max(0, (current ?? 15) - creditsUsed))
     setProjects((current) => [
       {
@@ -306,6 +311,8 @@ export function Generator({ onNavigate }: GeneratorProps) {
 
   return (
     <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-8 max-w-[1800px]">
+      {showCoinAnimation && <CoinAnimation />}
+      
       <div className="mb-4 sm:mb-6 lg:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2 flex items-center gap-2 sm:gap-3">
@@ -794,6 +801,14 @@ export function Generator({ onNavigate }: GeneratorProps) {
             </div>
           </Card>
         </motion.div>
+      )}
+
+      {(generated || generating) && (
+        <PreviewFrame
+          url={liveUrl || 'https://example.com'}
+          debates={debates}
+          isGenerating={generating}
+        />
       )}
     </div>
   )
