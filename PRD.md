@@ -99,6 +99,25 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Clear setup instructions and helpful error messages
   - Credentials: username `adminadminadmin`, password `19780111`
 
+### User Authentication Landing Page (🔐 Sign In/Sign Up)
+- **Functionality**: Beautiful signin/signup landing page with animated transitions, form validation, password strength indicator, and secure local storage
+- **Purpose**: Enable users to create accounts and authenticate to access platform features, maintain user sessions, and personalize experiences
+- **Trigger**: Clicking "Sign In" button in navigation, "Get Started" on home page, or accessing protected features
+- **Progression**: Click Sign In → View landing page → Toggle between Sign In/Sign Up → Fill form (name, email, password) → Password strength indicator updates → Submit → Success toast → Redirect to dashboard
+- **Success criteria**:
+  - Clean, modern design with gradient backgrounds and glass morphism
+  - Smooth animated transitions between sign in/sign up modes
+  - Real-time form validation (email format, password length)
+  - Password strength indicator (Weak/Good/Strong)
+  - Password visibility toggle
+  - Confirm password match validation on signup
+  - User data persists in KV storage
+  - Session management with current user tracking
+  - Display user name in navigation when authenticated
+  - Logout functionality clears session
+  - Responsive on all screen sizes
+  - Consistent with ApexForge design language (electric purple, neon cyan accents)
+
 ### CEO "Whisper Mode" (🎭 Fun Easter Egg)
 - **Functionality**: Secret toggle in CEO dashboard to type hidden instructions that override AI behavior. **Includes Integrations Hub** - full API key management system for AI models, services, and app stores with validation and testing capabilities. **Protected by authentication** - only accessible after successful login.
 - **Purpose**: Fun power-user feature + useful for business strategy, plus centralized key management

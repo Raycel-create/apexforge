@@ -13,7 +13,7 @@ import { APIKeyAlert } from '../APIKeyAlert'
 import { KeysManager } from '../KeysManager'
 import { useState } from 'react'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
 interface DashboardProps {
   onNavigate: (page: Page) => void

@@ -5,11 +5,12 @@ import { Pricing } from './components/pages/Pricing'
 import { CEODashboard } from './components/pages/CEODashboard'
 import { CEOLogin } from './components/pages/CEOLogin'
 import { Generator } from './components/pages/Generator'
+import { AuthLanding } from './components/pages/AuthLanding'
 import { Navigation } from './components/Navigation'
 import { BlackForgeProvider } from './lib/BlackForgeContext'
 import { CEOAuthProvider, useCEOAuth } from './lib/CEOAuthContext'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home')
@@ -30,12 +31,14 @@ function AppContent() {
         return <CEODashboard onNavigate={setCurrentPage} />
       case 'generator':
         return <Generator onNavigate={setCurrentPage} />
+      case 'auth':
+        return <AuthLanding onNavigate={setCurrentPage} />
       default:
         return <Home onNavigate={setCurrentPage} />
     }
   }
 
-  const showNavigation = currentPage !== 'ceo' || isAuthenticated
+  const showNavigation = (currentPage !== 'ceo' && currentPage !== 'auth') || (currentPage === 'ceo' && isAuthenticated)
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">

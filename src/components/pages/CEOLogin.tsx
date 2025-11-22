@@ -10,7 +10,7 @@ import { useCEOAuth } from '../../lib/CEOAuthContext'
 import QRCode from 'qrcode'
 import * as OTPAuth from 'otpauth'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
 interface CEOLoginProps {
   onNavigate: (page: Page) => void

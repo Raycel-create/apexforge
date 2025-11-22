@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { useScreenSize } from '../../hooks/use-mobile'
 import { useBlackForge } from '../../lib/BlackForgeContext'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
 interface HomeProps {
   onNavigate: (page: Page) => void
@@ -107,7 +107,7 @@ export function Home({ onNavigate }: HomeProps) {
           >
             <Button
               size={isMobile ? 'default' : 'lg'}
-              onClick={() => onNavigate('generator')}
+              onClick={() => onNavigate('auth')}
               className={`${isMobile ? 'text-sm px-4 py-2' : 'text-lg px-8 py-6'} ${
                 blackForgeMode 
                   ? 'glow-destructive bg-destructive hover:bg-destructive/90' 
@@ -116,8 +116,8 @@ export function Home({ onNavigate }: HomeProps) {
             >
               <Sparkle weight="fill" size={isMobile ? 18 : 24} />
               {blackForgeMode 
-                ? (isMobile ? '🔥 Summon' : '🔥 Summon Dark Forge') 
-                : (isMobile ? 'Start Free' : 'Start Building Free')
+                ? (isMobile ? '🔥 Join Now' : '🔥 Join Dark Forge') 
+                : (isMobile ? 'Get Started' : 'Get Started Free')
               }
             </Button>
             <Button

@@ -31,7 +31,7 @@ import { useBlackForge } from '../../lib/BlackForgeContext'
 import { useCEOAuth } from '../../lib/CEOAuthContext'
 import { SignOut } from '@phosphor-icons/react'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
 interface CEODashboardProps {
   onNavigate: (page: Page) => void

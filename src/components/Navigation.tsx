@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X, Key, CheckCircle, Warning } from '@phosphor-icons/react'
+import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X, Key, CheckCircle, Warning, UserCircle, SignOut } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useKV } from '@github/spark/hooks'
@@ -8,7 +8,7 @@ import { useScreenSize } from '../hooks/use-mobile'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import { useBlackForge } from '../lib/BlackForgeContext'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
 interface NavigationProps {
   currentPage: Page
@@ -18,12 +18,17 @@ interface NavigationProps {
 export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const { blackForgeMode } = useBlackForge()
   const [credits] = useKV<number>('user-credits', 5)
+  const [currentUser] = useKV<string | null>('apexforge-current-user', null)
+  const [users] = useKV<Record<string, { name: string; email: string }>>('apexforge-users', {})
+  const [, setCurrentUserState] = useKV<string | null>('apexforge-current-user', null)
   const [clickCount, setClickCount] = useState(0)
   const [lastClickTime, setLastClickTime] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { isMobile, isTablet } = useScreenSize()
   const [aiKeys] = useKV<any[]>('ceo-keys-ai', [])
   const [hasValidAIKeys, setHasValidAIKeys] = useState(false)
+
+  const currentUserData = currentUser && users ? users[currentUser] : null
 
   useEffect(() => {
     if (aiKeys && aiKeys.length > 0) {
@@ -61,6 +66,13 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const handleNavigation = (page: Page) => {
     onNavigate(page)
     setMobileMenuOpen(false)
+  }
+
+  const handleLogout = () => {
+    setCurrentUserState(null)
+    toast.success('Logged out successfully')
+    setMobileMenuOpen(false)
+    onNavigate('home')
   }
 
   return (
@@ -108,6 +120,24 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
+            {currentUser && currentUserData ? (
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" className="px-3 py-1.5 text-sm whitespace-nowrap hidden sm:flex">
+                  <UserCircle size={14} className="mr-1" />
+                  {currentUserData.name}
+                </Badge>
+              </div>
+            ) : !isMobile ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onNavigate('auth')}
+                className="whitespace-nowrap"
+              >
+                <UserCircle size={16} />
+                Sign In
+              </Button>
+            ) : null}
             {!isMobile && (
               <Badge 
                 className={`${
@@ -146,6 +176,36 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 </SheetTrigger>
                 <SheetContent side="right" className="w-[240px] sm:w-64">
                   <div className="flex flex-col gap-2 mt-8">
+                    {currentUser && currentUserData ? (
+                      <>
+                        <div className="px-3 py-2 bg-muted rounded-lg mb-2">
+                          <p className="text-xs text-muted-foreground">Signed in as</p>
+                          <p className="text-sm font-semibold truncate">{currentUserData.name}</p>
+                          <p className="text-xs text-muted-foreground truncate">{currentUser}</p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          className="justify-start"
+                          onClick={handleLogout}
+                        >
+                          <SignOut size={16} />
+                          Sign Out
+                        </Button>
+                        <div className="my-2 border-t border-border" />
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          variant="outline"
+                          className="justify-start"
+                          onClick={() => handleNavigation('auth')}
+                        >
+                          <UserCircle size={16} />
+                          Sign In
+                        </Button>
+                        <div className="my-2 border-t border-border" />
+                      </>
+                    )}
                     <Button
                       variant={currentPage === 'home' ? 'secondary' : 'ghost'}
                       className="justify-start"

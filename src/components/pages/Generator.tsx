@@ -30,7 +30,7 @@ import { useBlackForge } from '../../lib/BlackForgeContext'
 import { APIKeyAlert } from '../APIKeyAlert'
 import { KeysManager } from '../KeysManager'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
 interface GeneratorProps {
   onNavigate: (page: Page) => void

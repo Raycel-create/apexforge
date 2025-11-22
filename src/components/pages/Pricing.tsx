@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useBlackForge } from '../../lib/BlackForgeContext'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
 interface PricingProps {
   onNavigate: (page: Page) => void
