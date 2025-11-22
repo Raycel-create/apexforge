@@ -3,10 +3,14 @@ import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Separator } from '../ui/separator'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import { useBlackForge } from '../../lib/BlackForgeContext'
 import { StripeConnect } from '../StripeConnect'
+import { StripeCheckout } from '../StripeCheckout'
+import { STRIPE_PLAN_PRICES } from '../../lib/stripeIntegration'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -118,6 +122,7 @@ const PLANS = [
 
 export function Pricing({ onNavigate }: PricingProps) {
   const { blackForgeMode } = useBlackForge()
+  const [checkoutPlan, setCheckoutPlan] = useState<{ id: string; name: string; price: number } | null>(null)
   
   const handleUpgrade = (planName: string) => {
     if (planName === 'Free') {
@@ -130,20 +135,61 @@ export function Pricing({ onNavigate }: PricingProps) {
       })
       return
     }
-    toast.success(`Redirecting to Stripe checkout for ${planName}...`, {
-      description: 'In production, this integrates with Stripe',
-    })
+
+    const planPriceMap: { [key: string]: number } = {
+      'Pro': STRIPE_PLAN_PRICES.pro,
+      'Gold': STRIPE_PLAN_PRICES.gold,
+      'Enterprise': STRIPE_PLAN_PRICES.enterprise,
+      'Launch': STRIPE_PLAN_PRICES.launch,
+    }
+
+    const planIdMap: { [key: string]: string } = {
+      'Pro': 'price_pro_monthly',
+      'Gold': 'price_gold_monthly',
+      'Enterprise': 'price_enterprise_monthly',
+      'Launch': 'price_launch_monthly',
+    }
+
+    const price = planPriceMap[planName]
+    const planId = planIdMap[planName]
+
+    if (price && planId) {
+      setCheckoutPlan({ id: planId, name: planName, price })
+    }
   }
 
   const handleSecurityUpgrade = () => {
-    toast.success('Redirecting to $500 Security Shield checkout...', {
-      description: 'One-time payment via Stripe',
-      duration: 3000,
+    setCheckoutPlan({ 
+      id: 'price_security_shield_onetime', 
+      name: 'Security Shield', 
+      price: STRIPE_PLAN_PRICES.securityShield 
     })
   }
 
   return (
     <div className="w-full">
+      <Dialog open={!!checkoutPlan} onOpenChange={(open) => !open && setCheckoutPlan(null)}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Complete Your Purchase</DialogTitle>
+          </DialogHeader>
+          {checkoutPlan && (
+            <StripeCheckout
+              planId={checkoutPlan.id}
+              planName={checkoutPlan.name}
+              planPrice={checkoutPlan.price}
+              onSuccess={() => {
+                setCheckoutPlan(null)
+                toast.success('Successfully subscribed!', {
+                  description: `Welcome to ${checkoutPlan.name}`,
+                })
+              }}
+              onCancel={() => setCheckoutPlan(null)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12 max-w-[1400px]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -30,6 +30,8 @@ import { KeysManager } from '../KeysManager'
 import { useBlackForge } from '../../lib/BlackForgeContext'
 import { useCEOAuth } from '../../lib/CEOAuthContext'
 import { SignOut } from '@phosphor-icons/react'
+import { PayoutHistory } from '../PayoutHistory'
+import { TransactionTracking } from '../TransactionTracking'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -658,7 +660,25 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
           transition={{ delay: 0.35 }}
           className="mb-8"
         >
-          <KeysManager />
+          <Tabs defaultValue="keys" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-6">
+              <TabsTrigger value="keys">API Keys</TabsTrigger>
+              <TabsTrigger value="payouts">Payouts</TabsTrigger>
+              <TabsTrigger value="transactions">Transactions</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="keys">
+              <KeysManager />
+            </TabsContent>
+            
+            <TabsContent value="payouts">
+              <PayoutHistory />
+            </TabsContent>
+            
+            <TabsContent value="transactions">
+              <TransactionTracking />
+            </TabsContent>
+          </Tabs>
         </motion.div>
 
         <motion.div
