@@ -32,6 +32,9 @@ import { useCEOAuth } from '../../lib/CEOAuthContext'
 import { SignOut } from '@phosphor-icons/react'
 import { PayoutHistory } from '../PayoutHistory'
 import { TransactionTracking } from '../TransactionTracking'
+import { RevenueForecast } from '../RevenueForecast'
+import { CustomerManagement } from '../CustomerManagement'
+import { WebhookSimulator } from '../WebhookSimulator'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -660,12 +663,27 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
           transition={{ delay: 0.35 }}
           className="mb-8"
         >
-          <Tabs defaultValue="keys" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-6">
+          <Tabs defaultValue="forecast" className="w-full">
+            <TabsList className="grid w-full grid-cols-6 mb-6">
+              <TabsTrigger value="forecast">AI Forecast</TabsTrigger>
+              <TabsTrigger value="customers">Customers</TabsTrigger>
+              <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
               <TabsTrigger value="keys">API Keys</TabsTrigger>
               <TabsTrigger value="payouts">Payouts</TabsTrigger>
               <TabsTrigger value="transactions">Transactions</TabsTrigger>
             </TabsList>
+            
+            <TabsContent value="forecast">
+              <RevenueForecast />
+            </TabsContent>
+            
+            <TabsContent value="customers">
+              <CustomerManagement />
+            </TabsContent>
+            
+            <TabsContent value="webhooks">
+              <WebhookSimulator />
+            </TabsContent>
             
             <TabsContent value="keys">
               <KeysManager />
