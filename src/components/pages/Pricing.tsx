@@ -1,4 +1,4 @@
-import { Check, Sparkle, Lightning, Shield, TreeStructure, Fire, Lock, Globe } from '@phosphor-icons/react'
+import { Check, Sparkle, Lightning, Shield, TreeStructure, Fire, Lock, Globe, Eye, EyeSlash } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
@@ -96,6 +96,23 @@ const PLANS = [
     highlight: false,
     color: 'border-destructive/30',
   },
+  {
+    name: 'Impossible Nyx',
+    price: '*hidden*',
+    period: '',
+    description: 'Be cautious',
+    features: [
+      'Unlimited credits',
+      'No filters',
+      'AI never says no',
+      'Unrestricted access',
+      'Beyond standard limitations',
+    ],
+    limitations: [],
+    cta: 'Contact for Access',
+    highlight: false,
+    color: 'border-foreground/20 bg-foreground/5',
+  },
 ]
 
 export function Pricing({ onNavigate }: PricingProps) {
@@ -104,6 +121,12 @@ export function Pricing({ onNavigate }: PricingProps) {
   const handleUpgrade = (planName: string) => {
     if (planName === 'Free') {
       onNavigate('generator')
+      return
+    }
+    if (planName === 'Impossible Nyx') {
+      toast.error('Access restricted. Contact required.', {
+        description: 'This tier requires special authorization',
+      })
       return
     }
     toast.success(`Redirecting to Stripe checkout for ${planName}...`, {
@@ -172,14 +195,14 @@ export function Pricing({ onNavigate }: PricingProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mb-10 sm:mb-12 lg:mb-16"
+          className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-4 mb-10 sm:mb-12 lg:mb-16"
         >
           {PLANS.map((plan, idx) => (
             <Card
               key={plan.name}
               className={`p-4 sm:p-6 lg:p-8 relative overflow-hidden ${plan.color} ${
                 plan.highlight ? 'sm:transform sm:scale-105 border-2' : ''
-              }`}
+              } ${plan.name === 'Impossible Nyx' ? 'opacity-90 hover:opacity-100 transition-opacity' : ''}`}
             >
               {plan.highlight && (
                 <div className="absolute -top-10 -right-10 w-32 h-32 sm:w-40 sm:h-40 bg-primary/30 rounded-full blur-3xl" />
@@ -193,10 +216,17 @@ export function Pricing({ onNavigate }: PricingProps) {
                   </Badge>
                 )}
                 
+                {plan.name === 'Impossible Nyx' && (
+                  <Badge className="mb-3 sm:mb-4 bg-foreground/20 text-foreground border-foreground/30 text-xs sm:text-sm">
+                    <EyeSlash weight="fill" className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    Restricted
+                  </Badge>
+                )}
+                
                 <h3 className="text-xl sm:text-2xl font-bold mb-2">{plan.name}</h3>
                 <div className="mb-3 sm:mb-4">
-                  <span className="text-3xl sm:text-4xl lg:text-5xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground ml-2 text-xs sm:text-sm">/{plan.period}</span>
+                  <span className={`text-3xl sm:text-4xl lg:text-5xl font-bold ${plan.name === 'Impossible Nyx' ? 'blur-sm select-none' : ''}`}>{plan.price}</span>
+                  {plan.period && <span className="text-muted-foreground ml-2 text-xs sm:text-sm">/{plan.period}</span>}
                 </div>
                 <p className="text-muted-foreground mb-4 sm:mb-6 text-sm sm:text-base min-h-[40px] sm:min-h-[48px]">{plan.description}</p>
 
