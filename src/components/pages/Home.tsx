@@ -119,24 +119,39 @@ export function Home({ onNavigate }: HomeProps) {
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
               
               <div className={`relative ${isMobile ? 'p-6' : 'p-8 md:p-12'}`}>
-                <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ opacity: 0.3 }}>
+                <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ opacity: 0.4 }}>
                   <defs>
                     <linearGradient id="line-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.4" />
-                      <stop offset="100%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.6" />
+                      <stop offset="0%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.7" />
                     </linearGradient>
                     <linearGradient id="line-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.5" />
+                      <stop offset="0%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.7" />
+                      <stop offset="100%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.6" />
                     </linearGradient>
                     <linearGradient id="line-gradient-3" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.4" />
-                      <stop offset="100%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.5" />
+                      <stop offset="0%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.5" />
+                      <stop offset="100%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.6" />
                     </linearGradient>
                     <linearGradient id="line-gradient-4" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.5" />
-                      <stop offset="100%" stopColor="oklch(0.60 0.28 340)" stopOpacity="0.6" />
+                      <stop offset="0%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="oklch(0.60 0.28 340)" stopOpacity="0.7" />
                     </linearGradient>
+                    <linearGradient id="line-gradient-5" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.5" />
+                      <stop offset="100%" stopColor="oklch(0.60 0.30 285)" stopOpacity="0.6" />
+                    </linearGradient>
+                    <linearGradient id="line-gradient-6" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="oklch(0.60 0.28 340)" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="oklch(0.80 0.18 195)" stopOpacity="0.5" />
+                    </linearGradient>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
                   </defs>
                   
                   {!isMobile && (
@@ -146,10 +161,11 @@ export function Home({ onNavigate }: HomeProps) {
                         whileInView={{ pathLength: 1, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
                         viewport={{ once: true }}
-                        x1="16%" y1="30%" x2="38%" y2="30%"
+                        x1="16%" y1="28%" x2="38%" y2="28%"
                         stroke="url(#line-gradient-1)"
-                        strokeWidth="2"
-                        strokeDasharray="4 4"
+                        strokeWidth="2.5"
+                        strokeDasharray="6 3"
+                        filter="url(#glow)"
                       />
                       
                       <motion.line
@@ -157,10 +173,11 @@ export function Home({ onNavigate }: HomeProps) {
                         whileInView={{ pathLength: 1, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
                         viewport={{ once: true }}
-                        x1="50%" y1="30%" x2="72%" y2="30%"
+                        x1="52%" y1="28%" x2="72%" y2="28%"
                         stroke="url(#line-gradient-2)"
-                        strokeWidth="2"
-                        strokeDasharray="4 4"
+                        strokeWidth="2.5"
+                        strokeDasharray="6 3"
+                        filter="url(#glow)"
                       />
                       
                       <motion.line
@@ -168,10 +185,11 @@ export function Home({ onNavigate }: HomeProps) {
                         whileInView={{ pathLength: 1, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.5 }}
                         viewport={{ once: true }}
-                        x1="16%" y1="45%" x2="16%" y2="65%"
+                        x1="16%" y1="42%" x2="16%" y2="64%"
                         stroke="url(#line-gradient-3)"
-                        strokeWidth="2"
-                        strokeDasharray="4 4"
+                        strokeWidth="2.5"
+                        strokeDasharray="6 3"
+                        filter="url(#glow)"
                       />
                       
                       <motion.line
@@ -179,47 +197,169 @@ export function Home({ onNavigate }: HomeProps) {
                         whileInView={{ pathLength: 1, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.6 }}
                         viewport={{ once: true }}
-                        x1="28%" y1="70%" x2="60%" y2="70%"
+                        x1="28%" y1="68%" x2="60%" y2="68%"
                         stroke="url(#line-gradient-4)"
+                        strokeWidth="2.5"
+                        strokeDasharray="6 3"
+                        filter="url(#glow)"
+                      />
+                      
+                      <motion.path
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        whileInView={{ pathLength: 1, opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.7 }}
+                        viewport={{ once: true }}
+                        d="M 50% 42% Q 55% 50%, 50% 64%"
+                        stroke="url(#line-gradient-5)"
                         strokeWidth="2"
+                        fill="none"
                         strokeDasharray="4 4"
+                        filter="url(#glow)"
+                      />
+                      
+                      <motion.path
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        whileInView={{ pathLength: 1, opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.8 }}
+                        viewport={{ once: true }}
+                        d="M 84% 42% Q 80% 55%, 72% 64%"
+                        stroke="url(#line-gradient-6)"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeDasharray="4 4"
+                        filter="url(#glow)"
+                      />
+                      
+                      <motion.line
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        whileInView={{ pathLength: 1, opacity: 1 }}
+                        transition={{ duration: 0.7, delay: 0.9 }}
+                        viewport={{ once: true }}
+                        x1="52%" y1="42%" x2="72%" y2="64%"
+                        stroke="url(#line-gradient-2)"
+                        strokeWidth="1.5"
+                        strokeDasharray="2 4"
+                        opacity="0.4"
                       />
                       
                       <motion.circle
                         initial={{ scale: 0, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.4, delay: 0.7 }}
+                        transition={{ duration: 0.4, delay: 1.0 }}
                         viewport={{ once: true }}
-                        cx="16%" cy="30%" r="4"
+                        cx="16%" cy="28%" r="5"
                         fill="oklch(0.60 0.30 285)"
-                        opacity="0.6"
+                        opacity="0.7"
+                        filter="url(#glow)"
                       />
                       <motion.circle
                         initial={{ scale: 0, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.4, delay: 0.8 }}
+                        transition={{ duration: 0.4, delay: 1.1 }}
                         viewport={{ once: true }}
-                        cx="50%" cy="30%" r="4"
-                        fill="oklch(0.80 0.18 195)"
-                        opacity="0.7"
+                        cx="16%" cy="28%" r="2.5"
+                        fill="oklch(1 0 0)"
+                        opacity="0.9"
                       />
-                      <motion.circle
-                        initial={{ scale: 0, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.4, delay: 0.9 }}
-                        viewport={{ once: true }}
-                        cx="84%" cy="30%" r="4"
-                        fill="oklch(0.80 0.18 195)"
-                        opacity="0.7"
-                      />
+                      
                       <motion.circle
                         initial={{ scale: 0, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 0.4, delay: 1.0 }}
                         viewport={{ once: true }}
-                        cx="16%" cy="70%" r="4"
+                        cx="50%" cy="28%" r="5"
+                        fill="oklch(0.80 0.18 195)"
+                        opacity="0.8"
+                        filter="url(#glow)"
+                      />
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.1 }}
+                        viewport={{ once: true }}
+                        cx="50%" cy="28%" r="2.5"
+                        fill="oklch(1 0 0)"
+                        opacity="0.9"
+                      />
+                      
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.0 }}
+                        viewport={{ once: true }}
+                        cx="84%" cy="28%" r="5"
+                        fill="oklch(0.80 0.18 195)"
+                        opacity="0.8"
+                        filter="url(#glow)"
+                      />
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.1 }}
+                        viewport={{ once: true }}
+                        cx="84%" cy="28%" r="2.5"
+                        fill="oklch(1 0 0)"
+                        opacity="0.9"
+                      />
+                      
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.0 }}
+                        viewport={{ once: true }}
+                        cx="16%" cy="68%" r="5"
                         fill="oklch(0.60 0.30 285)"
-                        opacity="0.6"
+                        opacity="0.7"
+                        filter="url(#glow)"
+                      />
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.1 }}
+                        viewport={{ once: true }}
+                        cx="16%" cy="68%" r="2.5"
+                        fill="oklch(1 0 0)"
+                        opacity="0.9"
+                      />
+                      
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.0 }}
+                        viewport={{ once: true }}
+                        cx="50%" cy="68%" r="5"
+                        fill="oklch(0.60 0.30 285)"
+                        opacity="0.7"
+                        filter="url(#glow)"
+                      />
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.1 }}
+                        viewport={{ once: true }}
+                        cx="50%" cy="68%" r="2.5"
+                        fill="oklch(1 0 0)"
+                        opacity="0.9"
+                      />
+                      
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.0 }}
+                        viewport={{ once: true }}
+                        cx="84%" cy="68%" r="5"
+                        fill="oklch(0.60 0.28 340)"
+                        opacity="0.8"
+                        filter="url(#glow)"
+                      />
+                      <motion.circle
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 1.1 }}
+                        viewport={{ once: true }}
+                        cx="84%" cy="68%" r="2.5"
+                        fill="oklch(1 0 0)"
+                        opacity="0.9"
                       />
                     </>
                   )}
