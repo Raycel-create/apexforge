@@ -95,18 +95,23 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           transition={{ delay: 0.05 }}
           className="mb-4 sm:mb-8 space-y-4"
         >
+          <Card className="p-4 border-yellow-500/30 bg-yellow-500/10">
+            <div className="flex items-center gap-3">
+              <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40">
+                ⚠️ Testing Mode Active
+              </Badge>
+              <p className="text-sm text-muted-foreground">
+                All features unlocked for testing. Payment requirements disabled.
+              </p>
+            </div>
+          </Card>
+          
           {currentUser && (
             <EmailVerificationBanner 
               email={currentUser}
               onVerifyClick={() => setShowVerificationDialog(true)}
             />
           )}
-          
-          <APIKeyAlert 
-            onSetupKeys={() => setShowKeysManager(true)} 
-            feature="AI-powered features and project generation"
-            variant="full"
-          />
         </motion.div>
 
         {showKeysManager && (
@@ -140,30 +145,16 @@ export function Dashboard({ onNavigate }: DashboardProps) {
             <div className={`text-muted-foreground ${isMobile ? 'text-xs' : ''}`}>Apps Forged</div>
           </Card>
           <Card className={`${isMobile ? 'p-3' : 'p-6'} border-accent/30 hover:border-accent/50 transition-colors`}>
-            <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold mb-1 text-accent`}>{credits ?? 0}</div>
+            <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold mb-1 text-accent`}>∞</div>
             <div className={`text-muted-foreground flex items-center justify-between ${isMobile ? 'text-xs' : ''}`}>
-              <span>Credits Left</span>
-              {(credits ?? 0) === 0 && (
-                <Button
-                  variant="link"
-                  size="sm"
-                  className={`p-0 h-auto text-primary ${isMobile ? 'text-xs' : ''}`}
-                  onClick={() => onNavigate('pricing')}
-                >
-                  Get More →
-                </Button>
-              )}
+              <span>Unlimited (Testing)</span>
             </div>
           </Card>
           <Card className={`${isMobile ? 'p-3' : 'p-6'} border-border`}>
-            <div className={`${isMobile ? 'text-base' : 'text-2xl'} font-bold mb-1`}>Free Tier</div>
-            <Button
-              variant="link"
-              className={`p-0 h-auto text-primary ${isMobile ? 'text-xs' : 'text-base'}`}
-              onClick={() => onNavigate('pricing')}
-            >
-              Upgrade to Pro for unlimited →
-            </Button>
+            <div className={`${isMobile ? 'text-base' : 'text-2xl'} font-bold mb-1`}>Testing Mode</div>
+            <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40 text-xs">
+              All features unlocked
+            </Badge>
           </Card>
         </motion.div>
 
@@ -352,10 +343,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           <Card className={`${isMobile ? 'p-4' : 'p-8'} border-accent/30 bg-accent/5 text-center`}>
             <h3 className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold mb-2`}>Ready to Build Something New?</h3>
             <p className={`text-muted-foreground mb-4 sm:mb-6 ${isMobile ? 'text-xs' : ''}`}>
-              {(credits ?? 0) > 0 
-                ? `You have ${credits} credits remaining. Start your next project now!`
-                : 'Upgrade to Pro for unlimited generations and live deployment.'
-              }
+              Testing mode active - unlimited generations available!
             </p>
             <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
               <Button
@@ -366,16 +354,6 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                 <Fire weight="fill" size={isMobile ? 16 : 20} />
                 New Project
               </Button>
-              {(credits ?? 0) === 0 && (
-                <Button
-                  size={isMobile ? 'default' : 'lg'}
-                  variant="outline"
-                  onClick={() => onNavigate('pricing')}
-                  className="border-primary/50"
-                >
-                  View Pricing
-                </Button>
-              )}
             </div>
           </Card>
         </motion.div>

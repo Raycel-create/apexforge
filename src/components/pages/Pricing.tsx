@@ -125,44 +125,28 @@ export function Pricing({ onNavigate }: PricingProps) {
   const [checkoutPlan, setCheckoutPlan] = useState<{ id: string; name: string; price: number } | null>(null)
   
   const handleUpgrade = (planName: string) => {
+    toast.success(`Testing Mode: ${planName} features unlocked!`, {
+      description: 'Payment processing disabled - all features available for testing',
+      duration: 3000,
+    })
+    
     if (planName === 'Free') {
       onNavigate('generator')
       return
     }
+    
     if (planName === 'Impossible Nyx') {
       toast.error('Access restricted. Contact required.', {
         description: 'This tier requires special authorization',
       })
       return
     }
-
-    const planPriceMap: { [key: string]: number } = {
-      'Pro': STRIPE_PLAN_PRICES.pro,
-      'Gold': STRIPE_PLAN_PRICES.gold,
-      'Enterprise': STRIPE_PLAN_PRICES.enterprise,
-      'Launch': STRIPE_PLAN_PRICES.launch,
-    }
-
-    const planIdMap: { [key: string]: string } = {
-      'Pro': 'price_pro_monthly',
-      'Gold': 'price_gold_monthly',
-      'Enterprise': 'price_enterprise_monthly',
-      'Launch': 'price_launch_monthly',
-    }
-
-    const price = planPriceMap[planName]
-    const planId = planIdMap[planName]
-
-    if (price && planId) {
-      setCheckoutPlan({ id: planId, name: planName, price })
-    }
   }
 
   const handleSecurityUpgrade = () => {
-    setCheckoutPlan({ 
-      id: 'price_security_shield_onetime', 
-      name: 'Security Shield', 
-      price: STRIPE_PLAN_PRICES.securityShield 
+    toast.success('Testing Mode: Security Shield unlocked!', {
+      description: 'Payment processing disabled - feature available for testing',
+      duration: 3000,
     })
   }
 
@@ -191,6 +175,23 @@ export function Pricing({ onNavigate }: PricingProps) {
       </Dialog>
 
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12 max-w-[1400px]">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6"
+        >
+          <Card className="p-4 border-yellow-500/30 bg-yellow-500/10">
+            <div className="flex items-center gap-3">
+              <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40">
+                ⚠️ Testing Mode Active
+              </Badge>
+              <p className="text-sm text-muted-foreground">
+                Payment processing disabled. All features available for testing without payment.
+              </p>
+            </div>
+          </Card>
+        </motion.div>
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

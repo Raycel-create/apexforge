@@ -157,6 +157,17 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
+          <Card className="p-4 border-yellow-500/30 bg-yellow-500/10 mb-6">
+            <div className="flex items-center gap-3">
+              <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40">
+                ⚠️ Testing Mode Active
+              </Badge>
+              <p className="text-sm text-muted-foreground">
+                All payment requirements disabled. Test all features freely.
+              </p>
+            </div>
+          </Card>
+          
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">

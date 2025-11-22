@@ -28,22 +28,10 @@ export function IntegrationsPanel({
   const [expandedIntegration, setExpandedIntegration] = useState<string | null>(null)
 
   const canUseIntegration = (integration: Integration): boolean => {
-    const tierLevel = { free: 0, pro: 1, gold: 2, enterprise: 3 }
-    return tierLevel[userTier] >= tierLevel[integration.tier]
+    return true
   }
 
   const handleToggle = (integration: Integration) => {
-    if (!canUseIntegration(integration)) {
-      toast.error(`${integration.name} requires ${integration.tier.toUpperCase()} tier`, {
-        description: 'Upgrade your plan to unlock this integration',
-        action: {
-          label: 'Upgrade',
-          onClick: onUpgrade
-        }
-      })
-      return
-    }
-
     onToggleIntegration(integration.id)
     
     if (!selectedIntegrations.includes(integration.id)) {
