@@ -14,7 +14,7 @@ interface CEOAuthContextType {
 const CEOAuthContext = createContext<CEOAuthContextType | undefined>(undefined)
 
 const CEO_USERNAME = 'adminadminadmin'
-const CEO_PASSWORD = '197801111'
+const CEO_PASSWORD = '19780111'
 
 export function CEOAuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
