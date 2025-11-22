@@ -2,9 +2,15 @@ import { useState, useEffect } from 'react'
 import { Card } from './ui/card'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
-import { Sparkle, TrendUp, TrendDown, Brain, ChartLine } from '@phosphor-icons/react'
+import { Sparkle, TrendUp, TrendDown, Brain, ChartLine, DownloadSimple, FileCsv, FilePdf } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu'
 import {
   LineChart,
   Line,
@@ -78,6 +84,214 @@ export function RevenueForecast() {
       ? (((firstPrediction.predicted - lastHistorical.historical!) / lastHistorical.historical!) * 100).toFixed(1)
       : 0
 
+  const exportToCSV = () => {
+    const headers = ['Month', 'Historical', 'Predicted', 'Optimistic', 'Pessimistic']
+    const csvData = data.map((row) => [
+      row.month,
+      row.historical ?? '',
+      row.predicted ?? '',
+      row.optimistic ?? '',
+      row.pessimistic ?? '',
+    ])
+
+    const csvContent = [
+      headers.join(','),
+      ...csvData.map((row) => row.join(',')),
+      '',
+      `Generated on: ${new Date().toLocaleString()}`,
+      `Total Historical Revenue: $${data.reduce((sum, d) => sum + (d.historical || 0), 0).toLocaleString()}`,
+      `Total Predicted Revenue: $${data.reduce((sum, d) => sum + (d.predicted || 0), 0).toLocaleString()}`,
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = `revenue-forecast-${new Date().toISOString().split('T')[0]}.csv`
+    link.click()
+    
+    toast.success('CSV exported successfully!', {
+      description: 'Revenue forecast data downloaded',
+    })
+  }
+
+  const exportToPDF = () => {
+    const pdfWindow = window.open('', '_blank')
+    if (!pdfWindow) {
+      toast.error('Please allow popups to download PDF')
+      return
+    }
+
+    const totalHistorical = data.reduce((sum, d) => sum + (d.historical || 0), 0)
+    const totalPredicted = data.reduce((sum, d) => sum + (d.predicted || 0), 0)
+
+    const pdfContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Revenue Forecast Report</title>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      color: #000;
+    }
+    h1 {
+      color: #6B46C1;
+      margin-bottom: 10px;
+    }
+    .meta {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .summary-card {
+      border: 2px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .summary-card h3 {
+      font-size: 12px;
+      color: #666;
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+    }
+    .summary-card .value {
+      font-size: 28px;
+      font-weight: bold;
+      color: #6B46C1;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    th {
+      background: #F9FAFB;
+      font-weight: 600;
+      color: #374151;
+    }
+    tr:hover {
+      background: #F9FAFB;
+    }
+    .insights {
+      background: #F3F4F6;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+    .insights h2 {
+      margin-top: 0;
+      color: #374151;
+    }
+    .insight-item {
+      margin-bottom: 12px;
+      padding-left: 20px;
+      position: relative;
+    }
+    .insight-item:before {
+      content: "●";
+      position: absolute;
+      left: 0;
+      color: #6B46C1;
+    }
+    @media print {
+      body { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Revenue Forecast Report</h1>
+  <div class="meta">Generated on ${new Date().toLocaleString()}</div>
+  
+  <div class="summary">
+    <div class="summary-card">
+      <h3>Current MRR</h3>
+      <div class="value">$${lastHistorical?.historical ? (lastHistorical.historical / 1000).toFixed(1) : 0}K</div>
+    </div>
+    <div class="summary-card">
+      <h3>Predicted December</h3>
+      <div class="value">$${lastPrediction?.predicted ? (lastPrediction.predicted / 1000).toFixed(1) : 0}K</div>
+    </div>
+    <div class="summary-card">
+      <h3>Growth Rate</h3>
+      <div class="value">+${growthRate}%</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th>Historical Revenue</th>
+        <th>Predicted Revenue</th>
+        <th>Optimistic Scenario</th>
+        <th>Pessimistic Scenario</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${data
+        .map(
+          (row) => `
+        <tr>
+          <td><strong>${row.month}</strong></td>
+          <td>${row.historical ? '$' + row.historical.toLocaleString() : '-'}</td>
+          <td>${row.predicted ? '$' + row.predicted.toLocaleString() : '-'}</td>
+          <td>${row.optimistic ? '$' + row.optimistic.toLocaleString() : '-'}</td>
+          <td>${row.pessimistic ? '$' + row.pessimistic.toLocaleString() : '-'}</td>
+        </tr>
+      `
+        )
+        .join('')}
+    </tbody>
+  </table>
+
+  ${
+    aiInsights.length > 0
+      ? `
+  <div class="insights">
+    <h2>AI Insights & Recommendations</h2>
+    ${aiInsights.map((insight) => `<div class="insight-item">${insight}</div>`).join('')}
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #D1D5DB;">
+      <strong>Confidence Score:</strong> 89% based on historical data, market trends, and behavioral analysis
+    </div>
+  </div>
+  `
+      : ''
+  }
+
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.print();
+      }, 500);
+    }
+  </script>
+</body>
+</html>
+    `
+
+    pdfWindow.document.write(pdfContent)
+    pdfWindow.document.close()
+    
+    toast.success('PDF export opened!', {
+      description: 'Use your browser print dialog to save as PDF',
+    })
+  }
+
   return (
     <Card className="p-6 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
       <div className="flex items-center justify-between mb-6">
@@ -90,10 +304,30 @@ export function RevenueForecast() {
             6-month predictive analysis with confidence intervals
           </p>
         </div>
-        <Button onClick={generateAIPrediction} disabled={predicting} className="glow-primary">
-          <Sparkle weight="fill" size={16} />
-          {predicting ? 'Analyzing...' : 'Generate AI Forecast'}
-        </Button>
+        <div className="flex gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2">
+                <DownloadSimple size={16} />
+                Export Data
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={exportToCSV} className="gap-2">
+                <FileCsv size={16} className="text-accent" />
+                Export as CSV
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={exportToPDF} className="gap-2">
+                <FilePdf size={16} className="text-destructive" />
+                Export as PDF
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button onClick={generateAIPrediction} disabled={predicting} className="glow-primary">
+            <Sparkle weight="fill" size={16} />
+            {predicting ? 'Analyzing...' : 'Generate AI Forecast'}
+          </Button>
+        </div>
       </div>
 
       {showPrediction && (

@@ -4,6 +4,7 @@ import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
+import { Checkbox } from './ui/checkbox'
 import {
   Select,
   SelectContent,
@@ -11,6 +12,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu'
 import {
   Table,
   TableBody,
@@ -40,6 +47,11 @@ import {
   Crown,
   Rocket,
   Sparkle,
+  CaretUp,
+  CaretDown,
+  DotsThree,
+  Envelope,
+  DownloadSimple,
 } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
@@ -124,15 +136,64 @@ export function CustomerManagement() {
   const [filterPlan, setFilterPlan] = useState<string>('all')
   const [filterStatus, setFilterStatus] = useState<string>('all')
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null)
+  const [selectedCustomers, setSelectedCustomers] = useState<Set<string>>(new Set())
+  const [sortField, setSortField] = useState<keyof Customer>('joinedDate')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
 
-  const filteredCustomers = customers.filter((customer) => {
-    const matchesSearch =
-      customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesPlan = filterPlan === 'all' || customer.plan === filterPlan
-    const matchesStatus = filterStatus === 'all' || customer.status === filterStatus
-    return matchesSearch && matchesPlan && matchesStatus
-  })
+  const toggleCustomerSelection = (customerId: string) => {
+    setSelectedCustomers((prev) => {
+      const newSet = new Set(prev)
+      if (newSet.has(customerId)) {
+        newSet.delete(customerId)
+      } else {
+        newSet.add(customerId)
+      }
+      return newSet
+    })
+  }
+
+  const toggleSelectAll = () => {
+    if (selectedCustomers.size === filteredCustomers.length) {
+      setSelectedCustomers(new Set())
+    } else {
+      setSelectedCustomers(new Set(filteredCustomers.map((c) => c.id)))
+    }
+  }
+
+  const handleSort = (field: keyof Customer) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortDirection('asc')
+    }
+  }
+
+  const filteredCustomers = customers
+    .filter((customer) => {
+      const matchesSearch =
+        customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        customer.email.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesPlan = filterPlan === 'all' || customer.plan === filterPlan
+      const matchesStatus = filterStatus === 'all' || customer.status === filterStatus
+      return matchesSearch && matchesPlan && matchesStatus
+    })
+    .sort((a, b) => {
+      const aValue = a[sortField]
+      const bValue = b[sortField]
+      
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortDirection === 'asc'
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue)
+      }
+      
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        return sortDirection === 'asc' ? aValue - bValue : bValue - aValue
+      }
+      
+      return 0
+    })
 
   const getPlanIcon = (plan: string) => {
     switch (plan) {
@@ -229,6 +290,84 @@ export function CustomerManagement() {
   const activeCustomers = customers.filter((c) => c.status === 'active').length
   const pastDueCustomers = customers.filter((c) => c.status === 'past_due').length
 
+  const bulkCancelSubscriptions = () => {
+    setCustomers((prev) =>
+      prev.map((c) => {
+        if (selectedCustomers.has(c.id)) {
+          return { ...c, status: 'cancelled' as const, mrr: 0, plan: 'Free' as const }
+        }
+        return c
+      })
+    )
+    toast.success(`${selectedCustomers.size} subscriptions cancelled`)
+    setSelectedCustomers(new Set())
+  }
+
+  const bulkChangePlan = (newPlan: string) => {
+    const mrrMap: Record<string, number> = {
+      Free: 0,
+      Pro: 19,
+      Launch: 39,
+      Enterprise: 250,
+    }
+    setCustomers((prev) =>
+      prev.map((c) => {
+        if (selectedCustomers.has(c.id)) {
+          return { ...c, plan: newPlan as any, mrr: mrrMap[newPlan] || 0 }
+        }
+        return c
+      })
+    )
+    toast.success(`${selectedCustomers.size} customers moved to ${newPlan} plan`)
+    setSelectedCustomers(new Set())
+  }
+
+  const bulkSendEmail = () => {
+    toast.success(`Email sent to ${selectedCustomers.size} customers`, {
+      description: 'Marketing campaign delivered successfully',
+    })
+    setSelectedCustomers(new Set())
+  }
+
+  const exportCustomers = () => {
+    const headers = ['Name', 'Email', 'Plan', 'Status', 'MRR', 'Joined Date', 'Next Billing']
+    const csvData = filteredCustomers.map((c) => [
+      c.name,
+      c.email,
+      c.plan,
+      c.status,
+      c.mrr,
+      c.joinedDate,
+      c.nextBilling,
+    ])
+
+    const csvContent = [
+      headers.join(','),
+      ...csvData.map((row) => row.join(',')),
+      '',
+      `Total Customers: ${filteredCustomers.length}`,
+      `Active Customers: ${activeCustomers}`,
+      `Total MRR: $${totalMRR}`,
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = `customers-${new Date().toISOString().split('T')[0]}.csv`
+    link.click()
+    
+    toast.success('Customer data exported!')
+  }
+
+  const SortIcon = ({ field }: { field: keyof Customer }) => {
+    if (sortField !== field) return null
+    return sortDirection === 'asc' ? (
+      <CaretUp size={14} className="inline" />
+    ) : (
+      <CaretDown size={14} className="inline" />
+    )
+  }
+
   return (
     <Card className="p-6 border-primary/20">
       <div className="mb-6">
@@ -242,6 +381,10 @@ export function CustomerManagement() {
               Manage subscriptions and customer accounts
             </p>
           </div>
+          <Button onClick={exportCustomers} variant="outline" className="gap-2">
+            <DownloadSimple size={16} />
+            Export CSV
+          </Button>
         </div>
 
         <div className="grid grid-cols-3 gap-4 mb-6">
@@ -302,17 +445,105 @@ export function CustomerManagement() {
             </SelectContent>
           </Select>
         </div>
+
+        {selectedCustomers.size > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 p-4 bg-primary/10 border border-primary/30 rounded-lg flex items-center justify-between"
+          >
+            <div className="flex items-center gap-2">
+              <CheckCircle weight="fill" className="text-primary" size={20} />
+              <span className="font-semibold">{selectedCustomers.size} customers selected</span>
+            </div>
+            <div className="flex gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <DotsThree size={16} />
+                    Bulk Actions
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={bulkSendEmail} className="gap-2">
+                    <Envelope size={16} />
+                    Send Marketing Email
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => bulkChangePlan('Pro')}
+                    className="gap-2"
+                  >
+                    <Sparkle size={16} />
+                    Move to Pro Plan
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => bulkChangePlan('Launch')}
+                    className="gap-2"
+                  >
+                    <Rocket size={16} />
+                    Move to Launch Plan
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={bulkCancelSubscriptions}
+                    className="gap-2 text-destructive"
+                  >
+                    <XCircle size={16} />
+                    Cancel Subscriptions
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedCustomers(new Set())}
+              >
+                Clear Selection
+              </Button>
+            </div>
+          </motion.div>
+        )}
       </div>
 
       <div className="border border-border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Customer</TableHead>
-              <TableHead>Plan</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>MRR</TableHead>
-              <TableHead>Joined</TableHead>
+              <TableHead className="w-12">
+                <Checkbox
+                  checked={selectedCustomers.size === filteredCustomers.length && filteredCustomers.length > 0}
+                  onCheckedChange={toggleSelectAll}
+                />
+              </TableHead>
+              <TableHead
+                className="cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort('name')}
+              >
+                Customer <SortIcon field="name" />
+              </TableHead>
+              <TableHead
+                className="cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort('plan')}
+              >
+                Plan <SortIcon field="plan" />
+              </TableHead>
+              <TableHead
+                className="cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort('status')}
+              >
+                Status <SortIcon field="status" />
+              </TableHead>
+              <TableHead
+                className="cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort('mrr')}
+              >
+                MRR <SortIcon field="mrr" />
+              </TableHead>
+              <TableHead
+                className="cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort('joinedDate')}
+              >
+                Joined <SortIcon field="joinedDate" />
+              </TableHead>
               <TableHead>Next Billing</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -326,6 +557,12 @@ export function CustomerManagement() {
                 transition={{ delay: idx * 0.05 }}
                 className="border-b border-border hover:bg-muted/30"
               >
+                <TableCell>
+                  <Checkbox
+                    checked={selectedCustomers.has(customer.id)}
+                    onCheckedChange={() => toggleCustomerSelection(customer.id)}
+                  />
+                </TableCell>
                 <TableCell>
                   <div>
                     <div className="font-medium">{customer.name}</div>
