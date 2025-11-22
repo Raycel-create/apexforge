@@ -133,7 +133,70 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Responsive on all screen sizes
   - Consistent with ApexForge design language (electric purple, neon cyan accents)
 
-### CEO "Whisper Mode" (🎭 Fun Easter Egg)
+### CEO Dashboard with Advanced Analytics (🎯 Complete Control Center)
+- **Functionality**: Comprehensive business intelligence dashboard with real-time metrics, revenue forecasting, customer management, transaction tracking, payout history, webhook simulation, **advanced cohort analytics**, and **automated email campaign management**. Includes CEO "Whisper Mode" and full Integrations Hub for API key management.
+- **Purpose**: Give CEO complete visibility and control over business operations with data-driven insights, automated customer recovery tools, and behavioral manipulation capabilities
+- **Trigger**: Accessible via secure authentication (username: adminadminadmin, password: 19780111, with TOTP authentication)
+- **Progression**: Login with credentials → Authenticate via TOTP → Access dashboard with 8 tabs: Forecast, Customers, Cohorts, Campaigns, Webhooks, Keys, Payouts, Transactions
+- **Success criteria**: 
+  - Real-time revenue and user growth charts
+  - AI-powered forecasting with predictions and export functionality
+  - Customer management with subscription controls and bulk actions
+  - **Cohort retention heatmap with 6-month tracking and LTV analysis**
+  - **Automated email campaigns for past due customers with recovery tracking**
+  - CSV/PDF export for all analytics data
+  - Webhook simulation for testing payment flows
+  - Complete API key management hub
+  - Transaction tracking with filtering and search
+  - Payout history with Stripe integration
+  - Whisper Mode for AI behavior manipulation
+  - Black Forge Mode toggle (Konami code)
+
+### Advanced Cohort Analytics (📊 Data Intelligence Feature)
+- **Functionality**: Comprehensive cohort analysis dashboard tracking user retention, lifetime value, revenue by cohort, and engagement metrics over time. Interactive heatmap visualization with month-over-month retention rates (0-100% scale, color-coded in 5 tiers), detailed cohort metrics, LTV growth analysis, and engagement tracking (DAU/WAU/MAU).
+- **Purpose**: Provide deep insights into customer behavior patterns, retention trends, and revenue opportunities by analyzing user cohorts from acquisition through their lifecycle
+- **Trigger**: Accessed via CEO Dashboard → Cohorts tab
+- **Progression**: View cohort heatmap → Select timeframe (3/6/12 months/all) → Select metric type (retention/revenue/LTV/engagement) → Click cohort row for detailed metrics (retention rate, churn rate, LTV, ARPU) → Switch between tabs (heatmap/trends/LTV/engagement) → Export data as CSV or PDF
+- **Success criteria**:
+  - Color-coded retention heatmap with 7 months × 7 cohorts showing percentage retained each month
+  - Interactive cohort selection revealing expanded metrics panel
+  - Summary cards showing avg 3-month retention (72.3%), avg cohort LTV ($1,159), best performing cohort
+  - Trend charts comparing month-1, month-3, month-6 retention across all cohorts
+  - Revenue cohort analysis showing MRR growth by cohort over time (bar chart)
+  - LTV growth visualization with ARPU overlay (composed area + line chart)
+  - Engagement metrics by cohort showing DAU/WAU/MAU percentages (bar chart)
+  - Key insights panel with actionable recommendations
+  - Export functionality for both CSV and PDF formats with loading states
+  - Fully responsive design with horizontal scroll on mobile for wide tables
+  - Real-time metric calculations and filtering
+
+### Automated Email Campaigns (📧 Customer Recovery & Retention System)
+- **Functionality**: Comprehensive email campaign automation system for recovering past due customers, preventing churn, and re-engaging churned users. Create custom email sequences triggered by payment events (past_due, failed_payment, churned, expiring_soon) with configurable day delays, customizable subject lines and body text using dynamic variables ({{name}}, {{plan}}, {{amount}}, {{payment_link}}, {{reactivate_link}}). Track comprehensive performance metrics (sent, opened, clicked, recovered) with calculated rates. Manage past due customer queue with status tracking and manual override capabilities.
+- **Purpose**: Automate customer recovery to maximize revenue retention and reduce churn through timely, personalized email outreach with measurable ROI
+- **Trigger**: Accessed via CEO Dashboard → Campaigns tab, or auto-triggered by payment events based on active campaign rules
+- **Progression**: Create campaign → Set trigger event and delay (0-30 days) → Write subject/body with variable placeholders → Toggle activate immediately or save as draft → View campaign in list → Monitor past due customers table → Send manual emails or let automation run → Track recovery metrics and revenue impact → Preview/test campaigns before sending → Export campaign performance data
+- **Success criteria**:
+  - Campaign builder dialog with all required fields (name, trigger, delay, subject, body, status)
+  - Support for 4 trigger types: past_due, failed_payment, churned, expiring_soon
+  - Configurable day delays (0-30 days) as number input
+  - Dynamic variable support: {{name}}, {{plan}}, {{amount}}, {{payment_link}}, {{reactivate_link}}
+  - Campaign status management with visual badges (active/paused/draft)
+  - Summary cards: Active campaigns (3), past due customers (3), total past due ($449), recovery rate (41.2%)
+  - Real-time metrics per campaign: sent, opened (with open rate %), clicked (with click rate %), recovered (with recovery rate %), revenue generated
+  - Past due customer table showing: name, email, plan, amount, days past due (color-coded: <5 normal, 5-10 warning, >10 danger), emails sent count, status (pending/contacted/recovered/churned)
+  - Manual "Send Now" button for individual customers in table
+  - Bulk "Run Now" functionality to send campaign to all eligible customers immediately
+  - Campaign actions: Pause/Activate toggle, Preview with test email capability, Run Now, Delete
+  - Test email dialog with email input and send functionality
+  - Campaign preview showing full subject and body text
+  - Performance tracking with color-coded status badges
+  - Empty state with CTA when no campaigns exist
+  - Variable hint text below body textarea
+  - Responsive layout with horizontal scroll on mobile for customer table
+  - All customer and campaign data persists in KV storage
+  - Real-time toast notifications for all actions
+
+### CEO "Whisper Mode" (🎭 Behavioral Manipulation Tool)
 - **Functionality**: Secret toggle in CEO dashboard to type hidden instructions that override AI behavior. **Includes Integrations Hub** - full API key management system for AI models, services, and app stores with validation and testing capabilities. **Protected by authentication** - only accessible after successful login.
 - **Purpose**: Fun power-user feature + useful for business strategy, plus centralized key management
 - **Trigger**: CEO dashboard only (after authentication), hidden toggle + Integrations Hub card

@@ -35,6 +35,8 @@ import { TransactionTracking } from '../TransactionTracking'
 import { RevenueForecast } from '../RevenueForecast'
 import { CustomerManagement } from '../CustomerManagement'
 import { WebhookSimulator } from '../WebhookSimulator'
+import { CohortAnalytics } from '../CohortAnalytics'
+import { EmailCampaigns } from '../EmailCampaigns'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -664,9 +666,11 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
           className="mb-8"
         >
           <Tabs defaultValue="forecast" className="w-full">
-            <TabsList className="grid w-full grid-cols-6 mb-6">
+            <TabsList className="grid w-full grid-cols-8 mb-6">
               <TabsTrigger value="forecast">AI Forecast</TabsTrigger>
               <TabsTrigger value="customers">Customers</TabsTrigger>
+              <TabsTrigger value="cohorts">Cohorts</TabsTrigger>
+              <TabsTrigger value="emails">Campaigns</TabsTrigger>
               <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
               <TabsTrigger value="keys">API Keys</TabsTrigger>
               <TabsTrigger value="payouts">Payouts</TabsTrigger>
@@ -679,6 +683,14 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
             
             <TabsContent value="customers">
               <CustomerManagement />
+            </TabsContent>
+            
+            <TabsContent value="cohorts">
+              <CohortAnalytics />
+            </TabsContent>
+            
+            <TabsContent value="emails">
+              <EmailCampaigns />
             </TabsContent>
             
             <TabsContent value="webhooks">
