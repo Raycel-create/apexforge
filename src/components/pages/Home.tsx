@@ -108,101 +108,93 @@ export function Home({ onNavigate }: HomeProps) {
       </section>
 
       <section className="container mx-auto px-2 sm:px-4 py-10 sm:py-20">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8 sm:mb-16">
-            <Badge className={`mb-2 sm:mb-4 ${isMobile ? 'px-2 py-1 text-xs' : 'px-4 py-2'} bg-destructive/20 border-destructive/40 text-destructive`}>
-              <Fire weight="fill" size={isMobile ? 12 : 16} />
-              What Makes This Different
-            </Badge>
-            <h2 className={`${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl md:text-5xl'} font-bold mb-2 sm:mb-4`}>
-              This Just Killed{' '}
-              <span className="text-destructive line-through opacity-70">emergent.sh</span>
-              {' '}Every Other AI Builder
-            </h2>
-            <p className={`${isMobile ? 'text-sm' : isTablet ? 'text-base' : 'text-xl'} text-muted-foreground`}>
-              While competitors force you to open tabs, manually deploy, and wait...
-            </p>
-          </div>
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/5 via-card to-accent/5 hover:border-primary hover:shadow-2xl hover:shadow-primary/20 transition-all group">
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
+              
+              <div className={`relative ${isMobile ? 'p-6' : 'p-8 md:p-12'}`}>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
+                      <Fire weight="fill" className="text-primary" size={isMobile ? 20 : 24} />
+                    </div>
+                    <div>
+                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>The Forge</h3>
+                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                        5 AI agents argue LIVE. You vote. Winners auto-apply.
+                      </p>
+                    </div>
+                  </div>
 
-          <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Card className="p-2 sm:p-3 border-primary/30 bg-card hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all group">
-              <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-primary/20 flex items-center justify-center mb-1 sm:mb-2 group-hover:scale-110 transition-transform glow-primary`}>
-                <Fire weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
-              </div>
-              <h3 className={`${isMobile ? 'text-[10px]' : 'text-xs'} font-bold mb-0.5 sm:mb-1`}>The Forge</h3>
-              <p className={`text-muted-foreground mb-1 sm:mb-2 ${isMobile ? 'text-[8px]' : 'text-[10px]'} leading-tight`}>
-                5 AI agents argue LIVE. You vote. Winners auto-apply.
-              </p>
-              <Badge variant="outline" className={`border-primary/50 text-primary ${isMobile ? 'text-[6px] px-0.5 py-0' : 'text-[8px] px-1 py-0'}`}>
-                No competitor
-              </Badge>
-            </Card>
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
+                      <Swap weight="fill" className="text-accent" size={isMobile ? 20 : 24} />
+                    </div>
+                    <div>
+                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>Fusion Mode</h3>
+                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                        3 versions. Drag-drop parts. Create hybrid.
+                      </p>
+                    </div>
+                  </div>
 
-            <Card className="p-2 sm:p-3 border-accent/30 bg-card hover:border-accent hover:shadow-lg hover:shadow-accent/20 transition-all group">
-              <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-accent/20 flex items-center justify-center mb-1 sm:mb-2 group-hover:scale-110 transition-transform glow-accent`}>
-                <Swap weight="fill" className="text-accent" size={isMobile ? 12 : 16} />
-              </div>
-              <h3 className={`${isMobile ? 'text-[10px]' : 'text-xs'} font-bold mb-0.5 sm:mb-1`}>Fusion Mode</h3>
-              <p className={`text-muted-foreground mb-1 sm:mb-2 ${isMobile ? 'text-[8px]' : 'text-[10px]'} leading-tight`}>
-                3 versions. Drag-drop parts. Create hybrid.
-              </p>
-              <Badge variant="outline" className={`border-accent/50 text-accent ${isMobile ? 'text-[6px] px-0.5 py-0' : 'text-[8px] px-1 py-0'}`}>
-                Never done
-              </Badge>
-            </Card>
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
+                      <Rocket weight="fill" className="text-accent" size={isMobile ? 20 : 24} />
+                    </div>
+                    <div>
+                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>Live Deploy</h3>
+                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                        Instant HTTPS domain. No manual hosting.
+                      </p>
+                    </div>
+                  </div>
 
-            <Card className="p-2 sm:p-3 border-accent/30 bg-card hover:border-accent hover:shadow-lg hover:shadow-accent/20 transition-all group">
-              <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-accent/20 flex items-center justify-center mb-1 sm:mb-2 group-hover:scale-110 transition-transform glow-accent`}>
-                <Rocket weight="fill" className="text-accent" size={isMobile ? 12 : 16} />
-              </div>
-              <h3 className={`${isMobile ? 'text-[10px]' : 'text-xs'} font-bold mb-0.5 sm:mb-1`}>Live Deploy</h3>
-              <p className={`text-muted-foreground mb-1 sm:mb-2 ${isMobile ? 'text-[8px]' : 'text-[10px]'} leading-tight`}>
-                Instant HTTPS domain. No manual hosting.
-              </p>
-              <Badge variant="outline" className={`border-accent/50 text-accent ${isMobile ? 'text-[6px] px-0.5 py-0' : 'text-[8px] px-1 py-0'}`}>
-                Breaker
-              </Badge>
-            </Card>
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
+                      <TreeStructure weight="fill" className="text-primary" size={isMobile ? 20 : 24} />
+                    </div>
+                    <div>
+                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>FREE Incubator</h3>
+                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                        5 validated app ideas in 30 sec. Zero credits.
+                      </p>
+                    </div>
+                  </div>
 
-            <Card className="p-2 sm:p-3 border-primary/30 bg-card hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all group">
-              <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-primary/20 flex items-center justify-center mb-1 sm:mb-2 group-hover:scale-110 transition-transform glow-primary`}>
-                <TreeStructure weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
-              </div>
-              <h3 className={`${isMobile ? 'text-[10px]' : 'text-xs'} font-bold mb-0.5 sm:mb-1`}>FREE Incubator</h3>
-              <p className={`text-muted-foreground mb-1 sm:mb-2 ${isMobile ? 'text-[8px]' : 'text-[10px]'} leading-tight`}>
-                5 validated app ideas in 30 sec. Zero credits.
-              </p>
-              <Badge variant="outline" className={`border-accent/50 text-accent ${isMobile ? 'text-[6px] px-0.5 py-0' : 'text-[8px] px-1 py-0'}`}>
-                Hook
-              </Badge>
-            </Card>
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
+                      <Lightning weight="fill" className="text-primary" size={isMobile ? 20 : 24} />
+                    </div>
+                    <div>
+                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>Evolve Button</h3>
+                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                        Upgrades it instantly. ChatGPT for apps.
+                      </p>
+                    </div>
+                  </div>
 
-            <Card className="p-2 sm:p-3 border-primary/30 bg-card hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all group">
-              <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-primary/20 flex items-center justify-center mb-1 sm:mb-2 group-hover:scale-110 transition-transform glow-primary`}>
-                <Lightning weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-destructive/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-destructive`}>
+                      <Shield weight="fill" className="text-destructive" size={isMobile ? 20 : 24} />
+                    </div>
+                    <div>
+                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>$500 Shield</h3>
+                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                        AI security agent. Auto-blocks attacks.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className={`${isMobile ? 'text-[10px]' : 'text-xs'} font-bold mb-0.5 sm:mb-1`}>Evolve Button</h3>
-              <p className={`text-muted-foreground mb-1 sm:mb-2 ${isMobile ? 'text-[8px]' : 'text-[10px]'} leading-tight`}>
-                Upgrades it instantly. ChatGPT for apps.
-              </p>
-              <Badge variant="outline" className={`border-primary/50 text-primary ${isMobile ? 'text-[6px] px-0.5 py-0' : 'text-[8px] px-1 py-0'}`}>
-                Full context
-              </Badge>
             </Card>
-
-            <Card className="p-2 sm:p-3 border-destructive/30 bg-card hover:border-destructive hover:shadow-lg hover:shadow-destructive/20 transition-all group">
-              <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-destructive/20 flex items-center justify-center mb-1 sm:mb-2 group-hover:scale-110 transition-transform glow-destructive`}>
-                <Shield weight="fill" className="text-destructive" size={isMobile ? 12 : 16} />
-              </div>
-              <h3 className={`${isMobile ? 'text-[10px]' : 'text-xs'} font-bold mb-0.5 sm:mb-1`}>$500 Shield</h3>
-              <p className={`text-muted-foreground mb-1 sm:mb-2 ${isMobile ? 'text-[8px]' : 'text-[10px]'} leading-tight`}>
-                AI security agent. Auto-blocks attacks.
-              </p>
-              <Badge variant="outline" className={`border-destructive/50 text-destructive ${isMobile ? 'text-[6px] px-0.5 py-0' : 'text-[8px] px-1 py-0'}`}>
-                Premium
-              </Badge>
-            </Card>
-          </div>
+          </motion.div>
         </div>
       </section>
 
