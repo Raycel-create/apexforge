@@ -28,6 +28,8 @@ import {
 } from 'recharts'
 import { KeysManager } from '../KeysManager'
 import { useBlackForge } from '../../lib/BlackForgeContext'
+import { useCEOAuth } from '../../lib/CEOAuthContext'
+import { SignOut } from '@phosphor-icons/react'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -69,6 +71,7 @@ const TOP_PROMPTS = [
 
 export function CEODashboard({ onNavigate }: CEODashboardProps) {
   const { blackForgeMode, setBlackForgeMode } = useBlackForge()
+  const { logout } = useCEOAuth()
   const [generating, setGenerating] = useState(false)
   const [whisperMode, setWhisperMode] = useState(false)
   const [whisperInstructions, setWhisperInstructions] = useState('')
@@ -79,6 +82,12 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
   const [targetUser, setTargetUser] = useState('')
   const [showAdvancedControls, setShowAdvancedControls] = useState(false)
   const [konamiCode, setKonamiCode] = useState<string[]>([])
+
+  const handleLogout = () => {
+    logout()
+    toast.success('Logged out successfully')
+    onNavigate('home')
+  }
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -157,7 +166,7 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
                 Full business control & behavioral manipulation tools
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               <Button
                 variant="outline"
                 onClick={() => setShowAdvancedControls(!showAdvancedControls)}
@@ -180,6 +189,14 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
               >
                 <Download size={16} />
                 Export
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleLogout}
+                className="border-destructive/50 text-destructive hover:bg-destructive/10"
+              >
+                <SignOut size={16} />
+                Logout
               </Button>
               <Button
                 onClick={generateAIReport}

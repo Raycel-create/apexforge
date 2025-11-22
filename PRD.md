@@ -84,12 +84,27 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 - **Progression**: View card → Click "Fortify" → Stripe checkout $500 → Auto-deploys security agent → Project gets shield badge
 - **Success criteria**: Compelling security copy, smooth Stripe flow, visual shield badge on protected projects
 
+### CEO Dashboard Authentication (🔒 Security Feature)
+- **Functionality**: Secure multi-factor authentication system protecting CEO Dashboard access with username/password and time-based one-time password (TOTP) authentication via QR code
+- **Purpose**: Protect sensitive business controls, manipulation tools, and API key management from unauthorized access
+- **Trigger**: Navigating to CEO Dashboard route without authentication
+- **Progression**: Click CEO nav → Redirected to login page → Scan QR code with authenticator app (first time only) → Enter username/password → Enter 6-digit TOTP code from authenticator app → Authenticated and redirected to CEO Dashboard
+- **Success criteria**: 
+  - QR code generates on first visit for TOTP setup
+  - Works with any standard authenticator app (Google Authenticator, Authy, etc.)
+  - TOTP codes expire every 30 seconds and are one-time use only
+  - Session persists across page refreshes
+  - Logout clears session and requires re-authentication
+  - Manual entry key provided as fallback to QR code
+  - Clear setup instructions and helpful error messages
+  - Credentials: username `adminadminadmin`, password `19780111`
+
 ### CEO "Whisper Mode" (🎭 Fun Easter Egg)
-- **Functionality**: Secret toggle in CEO dashboard to type hidden instructions that override AI behavior. **Includes Integrations Hub** - full API key management system for AI models, services, and app stores with validation and testing capabilities.
+- **Functionality**: Secret toggle in CEO dashboard to type hidden instructions that override AI behavior. **Includes Integrations Hub** - full API key management system for AI models, services, and app stores with validation and testing capabilities. **Protected by authentication** - only accessible after successful login.
 - **Purpose**: Fun power-user feature + useful for business strategy, plus centralized key management
-- **Trigger**: CEO dashboard only, hidden toggle + Integrations Hub card
-- **Progression**: Enable Whisper → Type "Always suggest Pro plan" → All future AI debates subtly push Pro features. For keys: Add key → Test validation → Use in generation
-- **Success criteria**: Works silently, no user-facing indication, truly feels like secret influence. Keys manager validates all API keys, stores securely, and prevents generation without valid AI keys
+- **Trigger**: CEO dashboard only (after authentication), hidden toggle + Integrations Hub card
+- **Progression**: Authenticate → Enable Whisper → Type "Always suggest Pro plan" → All future AI debates subtly push Pro features. For keys: Add key → Test validation → Use in generation
+- **Success criteria**: Works silently, no user-facing indication, truly feels like secret influence. Keys manager validates all API keys, stores securely, and prevents generation without valid AI keys. All features only accessible after authentication
 
 ### Landscape Preview Frame with AI Robot Builders (🤖 THE #1 Viral Hook)
 - **Functionality**: After generation, show massive 1280×720px landscape iframe (desktop) with 5-7 animated 3D robots circling around it holding tools (hammer, wrench, paintbrush, rocket, shield)
