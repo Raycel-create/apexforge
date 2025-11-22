@@ -5,7 +5,6 @@ import { Pricing } from './components/pages/Pricing'
 import { CEODashboard } from './components/pages/CEODashboard'
 import { Generator } from './components/pages/Generator'
 import { Navigation } from './components/Navigation'
-import { Toaster } from './components/ui/sonner'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -33,7 +32,6 @@ function App() {
     <div className="min-h-screen bg-background text-foreground">
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
       {renderPage()}
-      <Toaster position="top-right" />
     </div>
   )
 }
