@@ -51,18 +51,57 @@ const PLANS = [
   },
   {
     name: 'Enterprise',
-    price: '$49',
+    price: '$180',
     period: 'per month',
     description: 'For teams and agencies',
     features: [
       'Everything in Pro',
       'Custom AI agents',
-      'Team collaboration (5 seats)',
+      'Team collaboration (10 seats)',
       'White-label deployments',
       'Advanced analytics',
       'Dedicated support',
       'Custom integrations',
       'SLA guarantee',
+    ],
+    limitations: [],
+    cta: 'Contact Sales',
+    highlight: false,
+  },
+  {
+    name: 'Pro Team',
+    price: '$250',
+    period: 'per month',
+    description: 'Advanced team collaboration',
+    features: [
+      'Everything in Enterprise',
+      'Unlimited team seats',
+      'Priority AI model access',
+      'Advanced workflow automation',
+      'Team performance analytics',
+      'Custom AI model fine-tuning',
+      'Dedicated account manager',
+      'Priority feature requests',
+    ],
+    limitations: [],
+    cta: 'Contact Sales',
+    highlight: false,
+  },
+  {
+    name: 'Custom Integration',
+    price: '$500',
+    period: 'per month',
+    description: 'Integrate with anything - MIM support included',
+    features: [
+      'Everything in Pro Team',
+      'Integrate with any platform or service',
+      'MIM (Multi-Integration Manager) support',
+      'Custom API development',
+      'Webhook & event automation',
+      'Legacy system integration',
+      'Real-time sync capabilities',
+      'Custom middleware development',
+      'White-glove onboarding',
     ],
     limitations: [],
     cta: 'Contact Sales',
@@ -93,8 +132,8 @@ export function Pricing({ onNavigate }: PricingProps) {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {PLANS.map((plan) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {PLANS.slice(0, 3).map((plan) => (
             <Card
               key={plan.name}
               className={`p-8 ${
@@ -143,6 +182,61 @@ export function Pricing({ onNavigate }: PricingProps) {
           ))}
         </div>
 
+        <div className="mb-12">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold mb-2">Premium Enterprise Plans</h2>
+            <p className="text-muted-foreground">Advanced solutions for scaling teams and custom integration needs</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {PLANS.slice(3).map((plan) => (
+              <Card
+                key={plan.name}
+                className={`p-8 ${
+                  plan.name === 'Custom Integration'
+                    ? 'border-accent/50 bg-accent/5 relative overflow-hidden'
+                    : 'border-border'
+                }`}
+              >
+                {plan.name === 'Custom Integration' && (
+                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl" />
+                )}
+                <div className="relative">
+                  {plan.name === 'Custom Integration' && (
+                    <Badge className="mb-4 bg-accent text-accent-foreground">
+                      Ultimate Flexibility
+                    </Badge>
+                  )}
+                  <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                  <div className="mb-4">
+                    <span className="text-4xl font-bold">{plan.price}</span>
+                    <span className="text-muted-foreground ml-2">/{plan.period}</span>
+                  </div>
+                  <p className="text-muted-foreground mb-6">{plan.description}</p>
+
+                  <Button
+                    onClick={() => handleUpgrade(plan.name)}
+                    className={`w-full mb-6 ${
+                      plan.name === 'Custom Integration' ? 'glow-accent' : ''
+                    }`}
+                    variant="outline"
+                  >
+                    {plan.cta}
+                  </Button>
+
+                  <div className="space-y-3">
+                    {plan.features.map((feature, index) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <Check weight="bold" className="text-accent shrink-0 mt-0.5" size={16} />
+                        <span className="text-sm">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+
         <Card className="p-8 bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20 text-center">
           <div className="max-w-2xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-4">
@@ -188,6 +282,18 @@ export function Pricing({ onNavigate }: PricingProps) {
               <h4 className="font-semibold mb-2">Do I own the generated code?</h4>
               <p className="text-sm text-muted-foreground">
                 Absolutely! All generated code is 100% yours. Download, modify, and deploy anywhere without restrictions.
+              </p>
+            </Card>
+            <Card className="p-6">
+              <h4 className="font-semibold mb-2">What is MIM support?</h4>
+              <p className="text-sm text-muted-foreground">
+                MIM (Multi-Integration Manager) allows Custom Integration plan users to connect any third-party service, API, or legacy system seamlessly.
+              </p>
+            </Card>
+            <Card className="p-6">
+              <h4 className="font-semibold mb-2">Can I integrate with my existing tools?</h4>
+              <p className="text-sm text-muted-foreground">
+                Yes! The Custom Integration plan at $500/month lets you integrate with anything you wish, including custom middleware and real-time sync.
               </p>
             </Card>
           </div>
