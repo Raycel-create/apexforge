@@ -19,16 +19,17 @@ const PLANS = [
     period: 'forever',
     description: 'Perfect for trying The Forge',
     features: [
-      '5 generations per month',
-      'Watermarked preview only',
+      '15 credits total',
+      '2 AI models (slow)',
       'AI debate panel access',
-      'Basic models (GPT, Claude)',
+      'Basic features',
       'Community support',
     ],
     limitations: [
       'No live deployment',
       'No Fusion Mode',
       'No Evolve feature',
+      'No integrations',
     ],
     cta: 'Start Free',
     highlight: false,
@@ -38,15 +39,15 @@ const PLANS = [
     name: 'Pro',
     price: '$19',
     period: 'per month',
-    description: 'Unlimited builds with live deployment',
+    description: 'For developers building real apps',
     features: [
-      'Unlimited generations',
-      'apexforge.app subdomain',
+      '125 credits/month',
+      '2 AI models',
       'Live HTTPS deployment',
-      'All 5 AI models (GPT, Claude, Grok, Gemini, Llama)',
+      'All AI models',
       'Fusion Mode included',
       'Evolve button unlocked',
-      'Priority generation queue',
+      '4 integrations: Extensions, Voice, Backend, SEO',
       'Download source code',
     ],
     limitations: [],
@@ -55,25 +56,44 @@ const PLANS = [
     color: 'border-primary/50 bg-primary/5',
   },
   {
-    name: 'Launch',
-    price: '$39',
+    name: 'Gold',
+    price: '$180',
     period: 'per month',
-    description: 'For serious projects going live',
+    description: 'For serious projects going native',
     features: [
+      '1,500 credits/month',
+      '5 AI models',
       'Everything in Pro',
-      'Custom domain support',
-      'Auto SSL certificates',
-      'GitHub repo integration',
-      'Daily auto-backups',
-      'White-label (remove branding)',
-      'Instant deploy (&lt;3 sec)',
-      'Advanced Evolve features',
+      'Native mobile (iOS/Android builds)',
+      'Desktop apps (macOS/Windows/Linux)',
+      'User testing & heatmaps',
+      'One-click App Store submission',
       'Priority support',
     ],
     limitations: [],
-    cta: 'Upgrade to Launch',
+    cta: 'Upgrade to Gold',
     highlight: false,
     color: 'border-accent/30',
+  },
+  {
+    name: 'Enterprise',
+    price: '$250',
+    period: 'per month',
+    description: 'All integrations unlocked',
+    features: [
+      '3,000 credits/month',
+      '7 AI models',
+      'Everything in Gold',
+      'All 11 integrations',
+      'Figma Two-Way sync',
+      'White-label (custom domain)',
+      'AI PM (ForgeMaster)',
+      'Dedicated support',
+    ],
+    limitations: [],
+    cta: 'Go Enterprise',
+    highlight: false,
+    color: 'border-destructive/30',
   },
 ]
 
@@ -149,7 +169,7 @@ export function Pricing({ onNavigate }: PricingProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-10 sm:mb-12 lg:mb-16"
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mb-10 sm:mb-12 lg:mb-16"
         >
           {PLANS.map((plan, idx) => (
             <Card
@@ -211,6 +231,98 @@ export function Pricing({ onNavigate }: PricingProps) {
               </div>
             </Card>
           ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mb-10 sm:mb-12 lg:mb-16"
+        >
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Powerful Add-Ons</h2>
+            <p className="text-muted-foreground text-sm sm:text-base">Available for all paid plans</p>
+          </div>
+          
+          <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
+            <Card className="p-4 sm:p-6 border-primary/30 bg-primary/5">
+              <div className="flex items-start gap-3 mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
+                  <Sparkle weight="fill" className="text-primary" size={20} />
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold mb-1">Perfectionist AI</h3>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-2xl sm:text-3xl font-bold text-primary">$20</span>
+                    <span className="text-muted-foreground text-xs sm:text-sm">/month</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm sm:text-base text-muted-foreground mb-4">
+                Automatically refines your prompts with smart auto-suggestions to save credits and get better results
+              </p>
+              <ul className="space-y-2 mb-4">
+                <li className="flex items-start gap-2 text-xs sm:text-sm">
+                  <Check weight="bold" className="text-primary shrink-0 mt-0.5" size={16} />
+                  Prompt refiner in dropdown
+                </li>
+                <li className="flex items-start gap-2 text-xs sm:text-sm">
+                  <Check weight="bold" className="text-primary shrink-0 mt-0.5" size={16} />
+                  Auto-suggest essentials (DB, Auth, etc.)
+                </li>
+                <li className="flex items-start gap-2 text-xs sm:text-sm">
+                  <Check weight="bold" className="text-primary shrink-0 mt-0.5" size={16} />
+                  Smart completion
+                </li>
+                <li className="flex items-start gap-2 text-xs sm:text-sm">
+                  <Check weight="bold" className="text-primary shrink-0 mt-0.5" size={16} />
+                  Saves credits with better prompts
+                </li>
+              </ul>
+              <Button className="w-full glow-primary" onClick={() => toast.success('Redirecting to Perfectionist AI checkout...')}>
+                Add to Plan
+              </Button>
+            </Card>
+
+            <Card className="p-4 sm:p-6 border-accent/30 bg-accent/5">
+              <div className="flex items-start gap-3 mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
+                  <Lightning weight="fill" className="text-accent" size={20} />
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold mb-1">God Mode</h3>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-2xl sm:text-3xl font-bold text-accent">$29</span>
+                    <span className="text-muted-foreground text-xs sm:text-sm">/month</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm sm:text-base text-muted-foreground mb-4">
+                Self-healing apps with vibe detection and quantum optimization for zero-downtime deploys
+              </p>
+              <ul className="space-y-2 mb-4">
+                <li className="flex items-start gap-2 text-xs sm:text-sm">
+                  <Check weight="bold" className="text-accent shrink-0 mt-0.5" size={16} />
+                  Auto-fix runtime errors
+                </li>
+                <li className="flex items-start gap-2 text-xs sm:text-sm">
+                  <Check weight="bold" className="text-accent shrink-0 mt-0.5" size={16} />
+                  Vibe-based design adjustments
+                </li>
+                <li className="flex items-start gap-2 text-xs sm:text-sm">
+                  <Check weight="bold" className="text-accent shrink-0 mt-0.5" size={16} />
+                  Quantum optimization
+                </li>
+                <li className="flex items-start gap-2 text-xs sm:text-sm">
+                  <Check weight="bold" className="text-accent shrink-0 mt-0.5" size={16} />
+                  Zero-downtime deploys
+                </li>
+              </ul>
+              <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground glow-accent" onClick={() => toast.success('Redirecting to God Mode checkout...')}>
+                Add to Plan
+              </Button>
+            </Card>
+          </div>
         </motion.div>
 
         <motion.div

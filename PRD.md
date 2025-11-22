@@ -1,14 +1,15 @@
 # Planning Guide
 
-ApexForge is the first AI app builder that feels like you hired a world-class 5-person AI dev team that argues, brainstorms, and ships production-ready apps in real time — all with live domains in ONE browser tab.
+ApexForge is the first AI app builder that feels like you hired a world-class 5-person AI dev team that argues, brainstorms, and ships production-ready apps in real time — all with live domains in ONE browser tab. Now with 11 killer integrations including native mobile builds, desktop apps, browser extensions, Figma sync, AI voice co-pilot, and more.
 
 **Experience Qualities**:
 1. **Addictive** - Real-time AI debates + drag-and-drop Fusion Mode creates TikTok-level engagement
 2. **Alive** - 5+ AI agents arguing, flaming, and shipping feels like watching a startup war room, not a loading screen
 3. **Viral** - Every project gets a shareable "Forge Card" + instant HTTPS domain → screenshot-worthy moments
+4. **All-in-One** - Native builds, desktop exports, extensions, Figma sync, voice control - users never need another tool
 
-**Complexity Level**: Complex Application (advanced functionality with real-time state, multiple interactive features, gamified elements)
-- Full AI debate simulation with 5+ agents, live chat UI with voting, Fusion Mode drag-and-drop, Idea Incubator, Evolve mode, heatmap visualization, CEO Whisper mode, and $500 security upsell. Every feature designed for virality and differentiation from emergent.sh/v0.
+**Complexity Level**: Complex Application (advanced functionality with real-time state, multiple interactive features, gamified elements, 11 integrations)
+- Full AI debate simulation with 5+ agents, live chat UI with voting, Fusion Mode drag-and-drop, Idea Incubator, Evolve mode, heatmap visualization, CEO Whisper mode, $500 security upsell, plus 11 killer integrations (Native Mobile, Desktop Apps, Browser Extensions, Figma Two-Way, AI Voice Co-Pilot, Live User Testing, App Store Submission, Backend Wizard, AI SEO, White-Label, AI PM). Every feature designed for virality and differentiation from emergent.sh/v0.
 
 ## Essential Features
 

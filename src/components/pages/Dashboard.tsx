@@ -7,6 +7,7 @@ import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useScreenSize } from '../../hooks/use-mobile'
+import { INTEGRATIONS } from '../../lib/integrations'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -19,12 +20,13 @@ interface Project {
   name: string
   prompt: string
   url?: string
+  integrations?: string[]
   createdAt: string
 }
 
 export function Dashboard({ onNavigate }: DashboardProps) {
   const [projects, setProjects] = useKV<Project[]>('user-projects', [])
-  const [credits] = useKV<number>('user-credits', 5)
+  const [credits] = useKV<number>('user-credits', 15)
   const { isMobile, isTablet } = useScreenSize()
 
   const deleteProject = (id: number) => {
@@ -169,6 +171,26 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                         <Badge variant="outline" className={isMobile ? 'text-[10px] px-1 py-0' : 'text-xs'}>
                           {formatDate(project.createdAt)}
                         </Badge>
+                        {project.integrations && project.integrations.length > 0 && (
+                          <div className="mt-2 flex flex-wrap gap-1">
+                            {project.integrations.slice(0, 3).map(intId => {
+                              const integration = INTEGRATIONS.find(int => int.id === intId)
+                              if (!integration) return null
+                              const Icon = integration.icon
+                              return (
+                                <Badge key={intId} variant="outline" className={`text-[10px] border-primary/30 ${isMobile ? 'px-1 py-0' : 'px-2 py-0.5'}`}>
+                                  <Icon className={`${integration.color} ${isMobile ? 'w-2.5 h-2.5' : 'w-3 h-3'}`} />
+                                  <span className="hidden sm:inline">{integration.name.split(' ')[0]}</span>
+                                </Badge>
+                              )
+                            })}
+                            {project.integrations.length > 3 && (
+                              <Badge variant="outline" className="text-[10px]">
+                                +{project.integrations.length - 3}
+                              </Badge>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
 

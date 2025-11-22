@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, Download, Rocket, CheckCircle, X, Check, Fire, ThumbsUp, ThumbsDown, Lightning, Shield, Palette, TreeStructure, Swap, Globe, Copy, ArrowsClockwise, Brain, Code, Database, CaretDown } from '@phosphor-icons/react'
+import { Sparkle, Download, Rocket, CheckCircle, X, Check, Fire, ThumbsUp, ThumbsDown, Lightning, Shield, Palette, TreeStructure, Swap, Globe, Copy, ArrowsClockwise, Brain, Code, Database, CaretDown, Gear } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Textarea } from '../ui/textarea'
@@ -22,6 +22,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
+import { IntegrationsPanel } from '../IntegrationsPanel'
+import { INTEGRATIONS } from '../../lib/integrations'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -104,9 +106,12 @@ export function Generator({ onNavigate }: GeneratorProps) {
   const [showFusion, setShowFusion] = useState(false)
   const [showIncubator, setShowIncubator] = useState(false)
   const [liveUrl, setLiveUrl] = useState('')
-  const [credits, setCredits] = useKV<number>('user-credits', 5)
+  const [credits, setCredits] = useKV<number>('user-credits', 15)
   const [projects, setProjects] = useKV<any[]>('user-projects', [])
   const [selectedFusion, setSelectedFusion] = useState<'fast' | 'secure' | 'beautiful'>('fast')
+  const [selectedIntegrations, setSelectedIntegrations] = useState<string[]>([])
+  const [userTier] = useKV<'free' | 'pro' | 'gold' | 'enterprise'>('user-tier', 'free')
+  const [showIntegrations, setShowIntegrations] = useState(false)
 
   const generateRandomUrl = () => {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
@@ -157,13 +162,23 @@ export function Generator({ onNavigate }: GeneratorProps) {
       return
     }
 
-    if ((credits ?? 0) <= 0) {
-      toast.error('Out of credits! Upgrade to continue.')
+    const totalCredits = calculateTotalCredits()
+    if ((credits ?? 15) < totalCredits) {
+      toast.error(`Not enough credits! Need ${totalCredits}, have ${credits}`)
       onNavigate('pricing')
       return
     }
 
     const fullPrompt = `${userPrompt.trim()} using ${frontendOptions.find(f => f.id === selectedFrontend)?.name} frontend and ${backendOptions.find(b => b.id === selectedBackend)?.name} backend, with AI models: ${selectedAIs.map(id => AI_AGENTS.find(a => a.id === id)?.name).join(', ')}`
+    
+    if (selectedIntegrations.length > 0) {
+      const integrationNames = INTEGRATIONS
+        .filter(int => selectedIntegrations.includes(int.id))
+        .map(int => int.name)
+        .join(', ')
+      toast.info(`Building with integrations: ${integrationNames}`, { duration: 3000 })
+    }
+    
     setPrompt(fullPrompt)
 
     setGenerating(true)
@@ -211,13 +226,15 @@ export function Generator({ onNavigate }: GeneratorProps) {
 
     const url = generateRandomUrl()
     setLiveUrl(url)
-    setCredits((current) => Math.max(0, (current ?? 5) - 1))
+    const creditsUsed = calculateTotalCredits()
+    setCredits((current) => Math.max(0, (current ?? 15) - creditsUsed))
     setProjects((current) => [
       {
         id: Date.now(),
         name: prompt.substring(0, 50),
         prompt,
         url,
+        integrations: selectedIntegrations,
         createdAt: new Date().toISOString(),
       },
       ...(current ?? []),
@@ -251,6 +268,24 @@ export function Generator({ onNavigate }: GeneratorProps) {
         return [...current, aiId]
       }
     })
+  }
+
+  const toggleIntegration = (integrationId: string) => {
+    setSelectedIntegrations((current) => {
+      if (current.includes(integrationId)) {
+        return current.filter(id => id !== integrationId)
+      } else {
+        return [...current, integrationId]
+      }
+    })
+  }
+
+  const calculateTotalCredits = (): number => {
+    const baseCredits = 2
+    const integrationCredits = INTEGRATIONS
+      .filter(int => selectedIntegrations.includes(int.id))
+      .reduce((sum, int) => sum + int.credits, 0)
+    return baseCredits + integrationCredits
   }
 
   const frontendOptions = [
@@ -426,6 +461,59 @@ export function Generator({ onNavigate }: GeneratorProps) {
               </div>
             </div>
 
+            <Separator className="my-4 sm:my-6" />
+
+            <div className="flex items-center justify-between mb-4">
+              <Label className="text-sm sm:text-base font-semibold flex items-center gap-2">
+                <Gear weight="fill" className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
+                Integrations ({selectedIntegrations.length}/11)
+              </Label>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowIntegrations(!showIntegrations)}
+                className="text-xs sm:text-sm"
+              >
+                <Gear size={14} />
+                {showIntegrations ? 'Hide' : 'Configure'}
+              </Button>
+            </div>
+
+            {showIntegrations && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mb-4"
+              >
+                <IntegrationsPanel
+                  selectedIntegrations={selectedIntegrations}
+                  onToggleIntegration={toggleIntegration}
+                  userTier={userTier ?? 'free'}
+                  onUpgrade={() => onNavigate('pricing')}
+                />
+              </motion.div>
+            )}
+
+            {selectedIntegrations.length > 0 && (
+              <div className="mb-4 p-3 bg-primary/10 border border-primary/30 rounded-lg">
+                <p className="text-xs sm:text-sm font-medium mb-2">Active Integrations:</p>
+                <div className="flex flex-wrap gap-2">
+                  {selectedIntegrations.map(id => {
+                    const integration = INTEGRATIONS.find(int => int.id === id)
+                    if (!integration) return null
+                    const Icon = integration.icon
+                    return (
+                      <Badge key={id} variant="outline" className="border-primary/50 text-xs">
+                        <Icon className={integration.color} size={12} />
+                        {integration.name}
+                      </Badge>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
             <Button
               size="lg"
               onClick={simulateGeneration}
@@ -441,8 +529,8 @@ export function Generator({ onNavigate }: GeneratorProps) {
               ) : (
                 <>
                   <Fire weight="fill" className="w-5 h-5 sm:w-6 sm:h-6" />
-                  <span className="hidden sm:inline">Ignite The Forge ({credits} credits)</span>
-                  <span className="sm:hidden">Forge ({credits})</span>
+                  <span className="hidden sm:inline">Ignite The Forge ({calculateTotalCredits()} credits)</span>
+                  <span className="sm:hidden">Forge ({calculateTotalCredits()})</span>
                 </>
               )}
             </Button>

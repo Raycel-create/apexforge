@@ -9,6 +9,7 @@ import { Textarea } from '../ui/textarea'
 import { Separator } from '../ui/separator'
 import { Input } from '../ui/input'
 import { Slider } from '../ui/slider'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import {
@@ -25,6 +26,7 @@ import {
   Pie,
   Cell,
 } from 'recharts'
+import { KeysManager } from '../KeysManager'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator'
 
@@ -574,6 +576,15 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
               ))}
             </div>
           </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="mb-8"
+        >
+          <KeysManager />
         </motion.div>
 
         <motion.div
