@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { useScreenSize } from '../hooks/use-mobile'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import { useBlackForge } from '../lib/BlackForgeContext'
+import { useCEOAuth } from '../lib/CEOAuthContext'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -17,6 +18,7 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const { blackForgeMode } = useBlackForge()
+  const { isAuthenticated } = useCEOAuth()
   const [credits] = useKV<number>('user-credits', 5)
   const [currentUser] = useKV<string | null>('apexforge-current-user', null)
   const [users] = useKV<Record<string, { name: string; email: string }>>('apexforge-users', {})
@@ -114,6 +116,18 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 >
                   <CreditCard size={16} />
                   Pricing
+                </Button>
+                <Button
+                  variant={currentPage === 'ceo' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  onClick={() => onNavigate('ceo')}
+                  className="border-primary/30"
+                >
+                  <Key size={16} />
+                  CEO
+                  {isAuthenticated && (
+                    <CheckCircle weight="fill" size={12} className="ml-1 text-accent" />
+                  )}
                 </Button>
               </div>
             )}
@@ -228,6 +242,20 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                     >
                       <CreditCard size={16} />
                       Pricing
+                    </Button>
+                    <div className="my-2 border-t border-border" />
+                    <Button
+                      variant={currentPage === 'ceo' ? 'secondary' : 'outline'}
+                      className="justify-start border-primary/50"
+                      onClick={() => handleNavigation('ceo')}
+                    >
+                      <Key size={16} />
+                      CEO Dashboard
+                      {isAuthenticated && (
+                        <Badge className="ml-auto bg-accent/20 text-accent border-accent/40 text-[10px] px-1.5">
+                          ✓
+                        </Badge>
+                      )}
                     </Button>
                     <Button
                       variant={currentPage === 'generator' ? 'secondary' : 'default'}

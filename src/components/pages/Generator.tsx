@@ -13,6 +13,7 @@ import { Input } from '../ui/input'
 import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
+import { CodeGenerationService, GeneratedFile } from '../../lib/codeGenerationService'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -127,6 +128,8 @@ export function Generator({ onNavigate }: GeneratorProps) {
   const [availableProviders, setAvailableProviders] = useState<string[]>([])
   const [showModelSelector, setShowModelSelector] = useState(false)
   const [selectedModelIds, setSelectedModelIds] = useState<string[]>(['gpt-4o', 'claude-3.5-sonnet', 'grok-2'])
+  const [generatedFiles, setGeneratedFiles] = useState<GeneratedFile[]>([])
+  const [useRealGeneration, setUseRealGeneration] = useState(false)
 
   useEffect(() => {
     if (aiKeys && aiKeys.length > 0) {
@@ -188,7 +191,7 @@ export function Generator({ onNavigate }: GeneratorProps) {
       return
     }
 
-    const fullPrompt = `${userPrompt.trim()} using ${frontendOptions.find(f => f.id === selectedFrontend)?.name} frontend and ${backendOptions.find(b => b.id === selectedBackend)?.name} backend, with AI models: ${selectedAIs.map(id => AI_AGENTS.find(a => a.id === id)?.name).join(', ')}`
+    const fullPrompt = `${userPrompt.trim()} using ${frontendOptions.find(f => f.id === selectedFrontend)?.name} frontend and ${backendOptions.find(b => b.id === selectedBackend)?.name} backend`
     
     if (selectedIntegrations.length > 0) {
       const integrationNames = INTEGRATIONS
@@ -199,14 +202,137 @@ export function Generator({ onNavigate }: GeneratorProps) {
     }
     
     setPrompt(fullPrompt)
-
     setGenerating(true)
     setProgress(0)
     setDebates([])
     setGenerated(false)
     setShowFusion(false)
     setLiveUrl('')
+    setGeneratedFiles([])
 
+    if (useRealGeneration && hasValidAIKeys && aiKeys && aiKeys.length > 0) {
+      await performRealGeneration(fullPrompt)
+    } else {
+      await performSimulatedGeneration()
+    }
+  }
+
+  const performRealGeneration = async (fullPrompt: string) => {
+    try {
+      const stages = [
+        { text: 'Initializing AI models...', duration: 800 },
+        { text: 'AI agents analyzing requirements...', duration: 1000 },
+        { text: 'Live debate & code generation...', duration: 0 },
+        { text: 'Generating frontend components...', duration: 0 },
+        { text: 'Building backend services...', duration: 0 },
+        { text: 'Optimizing & deploying...', duration: 1200 },
+        { text: 'LIVE! ✨', duration: 500 },
+      ]
+
+      setCurrentStage(stages[0].text)
+      setProgress(10)
+      await new Promise((resolve) => setTimeout(resolve, stages[0].duration))
+
+      setCurrentStage(stages[1].text)
+      setProgress(20)
+      await new Promise((resolve) => setTimeout(resolve, stages[1].duration))
+
+      const { CodeGenerationService } = await import('../../lib/codeGenerationService')
+      const codeGenService = new CodeGenerationService(aiKeys || [])
+
+      setCurrentStage(stages[2].text)
+      setProgress(30)
+
+      const selectedModels = AI_MODEL_CONFIGS.filter(m => 
+        selectedModelIds.includes(m.id)
+      )
+
+      const realDebates = await codeGenService.generateDebates(
+        {
+          prompt: fullPrompt,
+          frontend: selectedFrontend,
+          backend: selectedBackend,
+          integrations: selectedIntegrations,
+          selectedModelIds
+        },
+        selectedModels
+      )
+
+      for (const debate of realDebates) {
+        setDebates((current) => [...current, {
+          agent: {
+            id: debate.modelUsed,
+            name: debate.agentName,
+            avatar: debate.agentAvatar,
+            color: debate.agentColor,
+            personality: debate.agentName
+          },
+          message: debate.message,
+          timestamp: debate.timestamp,
+          votes: { up: Math.floor(Math.random() * 3), down: Math.floor(Math.random() * 2) },
+          userVote: null,
+          flames: 2
+        }])
+        await new Promise((resolve) => setTimeout(resolve, 1500))
+      }
+
+      setCurrentStage(stages[3].text)
+      setProgress(60)
+
+      const result = await codeGenService.generateApplication({
+        prompt: fullPrompt,
+        frontend: selectedFrontend,
+        backend: selectedBackend,
+        integrations: selectedIntegrations,
+        selectedModelIds
+      })
+
+      if (result.success) {
+        setGeneratedFiles(result.files)
+        
+        setCurrentStage(stages[4].text)
+        setProgress(80)
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+
+        setCurrentStage(stages[5].text)
+        setProgress(90)
+        await new Promise((resolve) => setTimeout(resolve, stages[5].duration))
+
+        const url = result.deploymentUrl || generateRandomUrl()
+        setLiveUrl(url)
+        
+        setProjects((current) => [
+          {
+            id: Date.now(),
+            name: fullPrompt.substring(0, 50),
+            prompt: fullPrompt,
+            url,
+            integrations: selectedIntegrations,
+            files: result.files,
+            createdAt: new Date().toISOString(),
+          },
+          ...(current ?? []),
+        ])
+
+        setCurrentStage(stages[6].text)
+        setProgress(100)
+        
+        setGenerated(true)
+        setShowFusion(true)
+        toast.success('App generated with real AI! 🚀')
+      } else {
+        throw new Error(result.error || 'Generation failed')
+      }
+    } catch (error) {
+      console.error('Real generation error:', error)
+      toast.error('Real generation failed, using simulated mode')
+      await performSimulatedGeneration()
+    } finally {
+      setGenerating(false)
+    }
+  }
+
+  const performSimulatedGeneration = async () => {
     const stages = [
       { text: 'Analyzing prompt...', duration: 800 },
       { text: 'AI agents joining The Forge...', duration: 1000 },
@@ -633,6 +759,23 @@ export function Generator({ onNavigate }: GeneratorProps) {
               </div>
             )}
 
+            {hasValidAIKeys && (
+              <div className="mb-4 p-3 bg-accent/10 border border-accent/30 rounded-lg flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-accent">🤖 Real AI Generation</p>
+                  <p className="text-xs text-muted-foreground">Use your API keys for actual code generation</p>
+                </div>
+                <Button
+                  variant={useRealGeneration ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setUseRealGeneration(!useRealGeneration)}
+                  className="flex-shrink-0"
+                >
+                  {useRealGeneration ? '✓ Enabled' : 'Enable'}
+                </Button>
+              </div>
+            )}
+
             <Button
               size="lg"
               onClick={simulateGeneration}
@@ -710,16 +853,55 @@ export function Generator({ onNavigate }: GeneratorProps) {
                     variant="outline"
                     className="flex-1 py-4 sm:py-5 lg:py-6 text-sm sm:text-base lg:text-lg"
                     onClick={() => {
-                      toast.info('Coming Soon', {
-                        description: 'Code export feature is under development',
-                        duration: 2000,
-                      })
+                      if (generatedFiles.length > 0) {
+                        const filesJson = JSON.stringify(generatedFiles, null, 2)
+                        const blob = new Blob([filesJson], { type: 'application/json' })
+                        const url = URL.createObjectURL(blob)
+                        const a = document.createElement('a')
+                        a.href = url
+                        a.download = 'generated-code.json'
+                        a.click()
+                        URL.revokeObjectURL(url)
+                        toast.success('Code files downloaded!')
+                      } else {
+                        toast.info('Coming Soon', {
+                          description: 'Code export feature is under development',
+                          duration: 2000,
+                        })
+                      }
                     }}
                   >
                     <Download className="w-4 h-4 sm:w-5 sm:h-5" />
                     Download Code
                   </Button>
                 </div>
+
+                {generatedFiles.length > 0 && (
+                  <div className="mb-4 sm:mb-6">
+                    <h4 className="font-semibold text-base sm:text-lg mb-3">Generated Files ({generatedFiles.length})</h4>
+                    <ScrollArea className="h-[300px] border border-border rounded-lg">
+                      <div className="p-3 space-y-2">
+                        {generatedFiles.map((file, idx) => (
+                          <Card key={idx} className="p-3 bg-card/50">
+                            <div className="flex items-start justify-between mb-2">
+                              <div>
+                                <code className="text-xs sm:text-sm font-mono text-accent">{file.path}</code>
+                                <p className="text-xs text-muted-foreground mt-1">{file.description}</p>
+                              </div>
+                              <Badge variant="outline" className="text-xs">{file.language}</Badge>
+                            </div>
+                            <div className="bg-background rounded p-2 overflow-x-auto">
+                              <pre className="text-[10px] sm:text-xs font-mono text-foreground/80 whitespace-pre-wrap break-words">
+                                {file.content.substring(0, 300)}
+                                {file.content.length > 300 && '...'}
+                              </pre>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  </div>
+                )}
 
                 <Separator className="my-4 sm:my-6" />
 

@@ -86,11 +86,49 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Model descriptions highlighting specializations
 
 ### Real-Time "The Forge" AI Debate Panel (🔥 #1 Viral Feature)
-- **Functionality**: Live sidebar with 5-6 AI agents (GPT-4o, Claude, Grok, Gemini, Llama) chatting, arguing, and debating in real-time like a Slack channel. **Requires valid API keys** - users must configure at least one AI model API key before generation.
-- **Purpose**: Make passive generation feel like watching a live startup war room → addictive + screenshot-worthy
-- **Trigger**: Automatically appears during any generation (after API keys are configured)
-- **Progression**: User sets up API keys → Agent posts suggestion → Others argue/agree → User thumbs up/down → Winning ideas auto-applied → Flame icons on hotly-debated files
-- **Success criteria**: Messages appear every 2-3 seconds, distinct AI personalities ("Grok is edgy, Claude is security-focused"), feel alive and chaotic, API key validation prevents generation without proper credentials
+- **Functionality**: Live sidebar with 5-6 AI agents (GPT-4o, Claude, Grok, Gemini, Llama, Mistral, Cohere) chatting, arguing, and debating in real-time like a Slack channel. **NOW WITH ACTUAL CODE GENERATION** - When real generation is enabled, debates use actual AI API responses from configured models. Supports both simulated mode (pre-written debates) and real mode (live AI responses).
+- **Purpose**: Make passive generation feel like watching a live startup war room → addictive + screenshot-worthy. Real AI mode provides genuine technical feedback and code suggestions from multiple AI perspectives.
+- **Trigger**: Automatically appears during any generation (simulated or real mode)
+- **Progression**: **Simulated Mode**: Pre-written debate messages appear → User thumbs up/down → Flame icons on debated topics. **Real Mode**: User enables real generation → Selects AI models → Models provide actual technical feedback → Real code suggestions appear → Each model reflects its personality (Claude: security, Mistral: efficiency, Cohere: enterprise focus)
+- **Success criteria**: Messages appear every 1-3 seconds, distinct AI personalities, feel alive and chaotic. Real mode shows actual model names, token usage, and genuine technical insights. Both modes support voting and flame indicators.
+
+### Real AI Code Generation System (🤖 NEW! Production-Ready Feature)
+- **Functionality**: Actual code generation using configured AI API keys. CodeGenerationService creates production-ready frontend components (React/TypeScript), backend services (Node.js/Python/etc.), and security middleware. Generates multiple files with syntax highlighting, code previews, and downloadable exports. Supports architecture design, multi-file generation, and real-time progress tracking.
+- **Purpose**: Transform ApexForge from simulated to real - users get actual working code they can deploy, not just mockups. Differentiates from competitors by providing genuine AI-powered development across 50+ models.
+- **Trigger**: Toggle "Real AI Generation" switch in Generator (appears when valid API keys configured)
+- **Progression**: Configure API keys → Enable real generation → Select AI models → Enter prompt with framework/backend choices → Click Generate → Watch AI debates (real responses) → See architecture design → View generated files (frontend, backend, security) → Preview code with syntax highlighting → Download as JSON → Deploy externally
+- **Success criteria**:
+  - Toggle appears only when at least one valid API key exists
+  - Falls back to simulated mode on API errors
+  - Generates 2-4 files minimum (App.tsx, server file, security middleware)
+  - Each file has proper syntax, imports, error handling
+  - Code previews show first 300 characters with "..." truncation
+  - Download exports full code as JSON with file paths and languages
+  - Real AI debates reflect actual model responses about the code
+  - Progress bar shows stages: Initializing → Analyzing → Debating → Generating Frontend → Generating Backend → Deploying
+  - Deployment URL generated and displayed
+  - Projects saved to dashboard with generated files included
+  - Works with all 8 providers (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere, Hugging Face)
+  - Personality-driven code generation (Claude adds security, Mistral optimizes, Cohere adds enterprise patterns)
+
+### CEO Dashboard Authentication (🔐 Re-Enabled Security Feature)
+- **Functionality**: TOTP-based two-factor authentication for CEO Dashboard access. QR code setup with Google Authenticator/Authy. Session persistence with secure storage. Login form with username, password, and 6-digit TOTP code. Visual authentication status indicators throughout the app.
+- **Purpose**: Secure access to sensitive admin features like API key management, user data, analytics, and integration configuration. Prevents unauthorized access to critical business systems.
+- **Trigger**: Clicking "CEO" button in navigation (visible on desktop and in mobile menu)
+- **Progression**: Click CEO button → Redirected to login if not authenticated → First time: Scan QR code with authenticator app → Save TOTP secret → Enter username (`adminadminadmin`) → Enter password (`19780111`) → Enter 6-digit code from app → Validate credentials and TOTP → Session created → Access granted → Navigation shows ✓ indicator → Subsequent visits: Enter credentials + current TOTP → Auto-authenticated if session valid
+- **Success criteria**:
+  - CEO Dashboard only accessible when authenticated
+  - Login page shows on unauthenticated access attempts
+  - QR code generated on first setup with manual entry option
+  - TOTP codes expire every 30 seconds
+  - Session persists across page reloads
+  - Logout functionality clears session
+  - Navigation shows authentication status (✓ when logged in)
+  - Setup instructions displayed for first-time users
+  - Visual feedback on validation (success/error messages)
+  - Mobile-responsive login interface
+  - No CEO dashboard access without proper authentication
+  - Works with any TOTP authenticator app (Google Authenticator, Authy, 1Password, etc.)
 
 ### Fusion Mode (🎯 Killer Unique Feature)
 - **Functionality**: After generation, show 3 final versions in split-screen: Fastest (Grok-optimized) | Most Secure (Claude) | Most Beautiful (Gemini)

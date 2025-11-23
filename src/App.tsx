@@ -17,6 +17,10 @@ function AppContent() {
   const { isAuthenticated } = useCEOAuth()
 
   const renderPage = () => {
+    if (currentPage === 'ceo' && !isAuthenticated) {
+      return <CEOLogin onNavigate={setCurrentPage} />
+    }
+
     switch (currentPage) {
       case 'home':
         return <Home onNavigate={setCurrentPage} />
@@ -35,7 +39,7 @@ function AppContent() {
     }
   }
 
-  const showNavigation = currentPage !== 'auth'
+  const showNavigation = currentPage !== 'auth' && !(currentPage === 'ceo' && !isAuthenticated)
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
