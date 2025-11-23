@@ -339,27 +339,47 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
   },
   {
     id: 'hf-zephyr-7b',
-    name: 'Zephyr 7B',
+    name: 'Zephyr 7B Beta',
     provider: 'huggingface',
     apiKeyId: 'huggingface',
     endpoint: 'https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta',
     modelName: 'HuggingFaceH4/zephyr-7b-beta',
     category: 'fast',
-    description: 'Fine-tuned Mistral 7B'
+    description: 'Fine-tuned Mistral 7B for chat'
   },
   {
     id: 'hf-falcon-180b',
-    name: 'Falcon 180B',
+    name: 'Falcon 180B Chat',
     provider: 'huggingface',
     apiKeyId: 'huggingface',
     endpoint: 'https://api-inference.huggingface.co/models/tiiuae/falcon-180B-chat',
     modelName: 'tiiuae/falcon-180B-chat',
     category: 'flagship',
-    description: 'Powerful open model'
+    description: 'UAE powerful open flagship'
+  },
+  {
+    id: 'hf-falcon-40b',
+    name: 'Falcon 40B Instruct',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/tiiuae/falcon-40b-instruct',
+    modelName: 'tiiuae/falcon-40b-instruct',
+    category: 'fast',
+    description: 'Mid-size balanced Falcon'
+  },
+  {
+    id: 'hf-falcon-7b',
+    name: 'Falcon 7B Instruct',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct',
+    modelName: 'tiiuae/falcon-7b-instruct',
+    category: 'mini',
+    description: 'Compact efficient Falcon'
   },
   {
     id: 'hf-mistral-7b',
-    name: 'Mistral 7B Instruct',
+    name: 'Mistral 7B Instruct v0.2',
     provider: 'huggingface',
     apiKeyId: 'huggingface',
     endpoint: 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2',
@@ -368,24 +388,104 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     description: 'Open source excellence'
   },
   {
+    id: 'hf-mixtral-8x7b',
+    name: 'Mixtral 8x7B Instruct',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1',
+    modelName: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    category: 'flagship',
+    description: 'Mixture of experts architecture'
+  },
+  {
     id: 'hf-starling-7b',
-    name: 'Starling 7B',
+    name: 'Starling LM 7B Alpha',
     provider: 'huggingface',
     apiKeyId: 'huggingface',
     endpoint: 'https://api-inference.huggingface.co/models/berkeley-nest/Starling-LM-7B-alpha',
     modelName: 'berkeley-nest/Starling-LM-7B-alpha',
     category: 'fast',
-    description: 'RLAIF trained model'
+    description: 'Berkeley RLAIF trained'
   },
   {
     id: 'hf-wizardcoder-34b',
-    name: 'WizardCoder 34B',
+    name: 'WizardCoder Python 34B',
     provider: 'huggingface',
     apiKeyId: 'huggingface',
     endpoint: 'https://api-inference.huggingface.co/models/WizardLM/WizardCoder-Python-34B-V1.0',
     modelName: 'WizardLM/WizardCoder-Python-34B-V1.0',
     category: 'code',
     description: 'Python code specialist'
+  },
+  {
+    id: 'hf-wizardcoder-15b',
+    name: 'WizardCoder 15B',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/WizardLM/WizardCoder-15B-V1.0',
+    modelName: 'WizardLM/WizardCoder-15B-V1.0',
+    category: 'code',
+    description: 'Multi-language code generation'
+  },
+  {
+    id: 'hf-codellama-34b',
+    name: 'CodeLlama 34B Instruct',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/codellama/CodeLlama-34b-Instruct-hf',
+    modelName: 'codellama/CodeLlama-34b-Instruct-hf',
+    category: 'code',
+    description: 'Meta code-focused Llama'
+  },
+  {
+    id: 'hf-deepseek-coder-33b',
+    name: 'DeepSeek Coder 33B',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/deepseek-ai/deepseek-coder-33b-instruct',
+    modelName: 'deepseek-ai/deepseek-coder-33b-instruct',
+    category: 'code',
+    description: 'DeepSeek code specialist'
+  },
+  {
+    id: 'hf-openchat-3.5',
+    name: 'OpenChat 3.5',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/openchat/openchat-3.5-0106',
+    modelName: 'openchat/openchat-3.5-0106',
+    category: 'fast',
+    description: 'Fine-tuned Mistral-based chat'
+  },
+  {
+    id: 'hf-yi-34b',
+    name: 'Yi 34B Chat',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/01-ai/Yi-34B-Chat',
+    modelName: '01-ai/Yi-34B-Chat',
+    category: 'fast',
+    description: 'Bilingual Chinese-English model'
+  },
+  {
+    id: 'hf-phi-2',
+    name: 'Phi-2',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/microsoft/phi-2',
+    modelName: 'microsoft/phi-2',
+    category: 'mini',
+    description: 'Microsoft compact model'
+  },
+  {
+    id: 'hf-nous-hermes-2',
+    name: 'Nous Hermes 2 Mixtral',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO',
+    modelName: 'NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO',
+    category: 'flagship',
+    description: 'Community fine-tuned excellence'
   },
   {
     id: 'cohere-command-r-plus',

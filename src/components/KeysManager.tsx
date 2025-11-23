@@ -26,7 +26,8 @@ const DEFAULT_KEYS = {
     { id: 'google', name: 'Google (Gemini)', key: '', status: 'untested' as const },
     { id: 'meta', name: 'Meta (Llama)', key: '', status: 'untested' as const },
     { id: 'mistral', name: 'Mistral AI', key: '', status: 'untested' as const },
-    { id: 'cohere', name: 'Cohere', key: '', status: 'untested' as const }
+    { id: 'cohere', name: 'Cohere', key: '', status: 'untested' as const },
+    { id: 'huggingface', name: 'Hugging Face', key: '', status: 'untested' as const }
   ],
   services: [
     { id: 'stripe', name: 'Stripe', key: 'sk_test_default', status: 'valid' as const },

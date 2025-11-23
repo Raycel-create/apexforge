@@ -29,10 +29,10 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Console logging of magic links in development mode
 
 ### API Key Management System (🔑 Security & Integration Feature)
-- **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere, Hugging Face), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage. **Now configured for actual AI model integrations** - keys are used to make real API calls to 8 AI providers with 40+ model variations including GPT-4o, Claude 3.5 Sonnet, Grok-2, Gemini 1.5 Pro, Llama 3.1, Mistral Large, Command R+, and Hugging Face models for code generation and AI debates.
-- **Purpose**: Enable users to bring their own API keys for AI generation, ensuring security and control over credentials while preventing unauthorized usage. Powers real-time AI collaboration with actual model responses across multiple providers and model variations.
+- **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere, Hugging Face), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage. **Now configured for actual AI model integrations** - keys are used to make real API calls to 8 AI providers with **50+ model variations** including GPT-4o, Claude 3.5 Sonnet, Grok-2, Gemini 1.5 Pro, Llama 3.1, Mistral Large, Command R+, and **15 Hugging Face open source models** for code generation and AI debates.
+- **Purpose**: Enable users to bring their own API keys for AI generation, ensuring security and control over credentials while preventing unauthorized usage. Powers real-time AI collaboration with actual model responses across multiple providers and model variations. **Hugging Face integration provides access to 15 open source models including Falcon 180B, Mixtral 8x7B, WizardCoder, DeepSeek Coder, and more.**
 - **Trigger**: Displayed prominently in CEO Dashboard Integrations Hub section and shown as alert/requirement in User Dashboard and Generator when keys are missing
-- **Progression**: User navigates to dashboard → Sees API key requirement alert → Clicks "Setup API Keys" → Opens Integrations Hub → Adds API key (from provider's API dashboard) → Tests validation against live API → Status changes to valid/invalid → Can now access 40+ AI model variations across 8 providers
+- **Progression**: User navigates to dashboard → Sees API key requirement alert → Clicks "Setup API Keys" → Opens Integrations Hub → Adds API key (from provider's API dashboard) → Tests validation against live API → Status changes to valid/invalid → Can now access **50+ AI model variations** across 8 providers including open source Hugging Face models
 - **Success criteria**: 
   - Alert shown when no valid AI keys configured
   - Generation blocked until at least one valid AI key is present
@@ -45,18 +45,19 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Live API integration with proper error handling and rate limiting
   - Support for multiple concurrent AI model calls across 8 providers
   - Token usage tracking per generation
-  - Support for 40+ model variations including flagship, mini, fast, vision, and code-specialized models
+  - Support for **50+ model variations** including flagship, mini, fast, vision, and code-specialized models
+  - **Hugging Face API key support for 15 open source models**
 
 ### AI Model Selector (🤖 Multi-Model Selection System)
-- **Functionality**: Advanced model selection interface allowing users to choose from 40+ AI model variations across 8 providers (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere, Hugging Face). Each provider offers 5 model variations categorized by capability: Flagship (most capable), Mini (fast & affordable), Fast (optimized speed), Vision (image understanding), Code (specialized for coding), and Instruct (fine-tuned). Includes provider filtering, category filtering, model descriptions, and visual selection interface with real-time availability based on configured API keys.
-- **Purpose**: Give users granular control over AI model selection, enabling them to mix flagship models for complex tasks with mini models for speed, or combine code-specialized models with vision models for diverse capabilities
+- **Functionality**: Advanced model selection interface allowing users to choose from **50+ AI model variations** across 8 providers (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere, Hugging Face). Each provider offers multiple model variations categorized by capability: Flagship (most capable), Mini (fast & affordable), Fast (optimized speed), Vision (image understanding), Code (specialized for coding). **Hugging Face provides 15 open source models** including Falcon 180B, Mixtral 8x7B, Zephyr 7B, WizardCoder Python 34B, CodeLlama 34B, DeepSeek Coder 33B, OpenChat 3.5, Yi 34B, Phi-2, Nous Hermes 2, and more. Includes provider filtering, category filtering, model descriptions, and visual selection interface with real-time availability based on configured API keys.
+- **Purpose**: Give users granular control over AI model selection, enabling them to mix flagship models for complex tasks with mini models for speed, or combine code-specialized models with vision models for diverse capabilities. **Access to open source Hugging Face models provides cost-effective alternatives with specialized capabilities like code generation, multilingual support, and community-driven innovation.**
 - **Trigger**: Accessed via "AI Models" selector in Generator page, expandable panel with full model browser
 - **Progression**: Click AI Models selector → Opens model browser → Filter by provider (OpenAI, Anthropic, etc.) or category (Flagship, Mini, Code, Vision) → View model descriptions and capabilities → Select/deselect models → View selected models summary → Generate with chosen model mix
 - **Success criteria**:
-  - 40+ models available across 8 providers
-  - 5 models per provider in various categories
-  - Provider tabs: OpenAI (5 models), Anthropic (5 models), xAI (5 models), Google (5 models), Meta (5 models), Mistral (5 models), Cohere (5 models), Hugging Face (5 models)
-  - Category filtering: Flagship, Mini, Fast, Vision, Code, Instruct
+  - **50+ models available across 8 providers** (expanded from 40)
+  - OpenAI (5 models), Anthropic (5 models), xAI (5 models), Google (5 models), Meta (5 models), Mistral (5 models), Cohere (5 models), **Hugging Face (15 models)**
+  - Category filtering: Flagship (11 models), Mini (7 models), Fast (20 models), Vision (3 models), Code (7 models)
+  - **Hugging Face models include**: Falcon family (180B, 40B, 7B), Mixtral 8x7B, Zephyr 7B, Mistral 7B, Starling 7B, WizardCoder (34B, 15B), CodeLlama 34B, DeepSeek Coder 33B, OpenChat 3.5, Yi 34B, Phi-2, Nous Hermes 2
   - Real-time availability checking based on configured API keys
   - Visual selection with checkmarks for selected models
   - Model cards showing provider icon, model name, category badge, and description
@@ -67,6 +68,7 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Responsive design with scrollable model list
   - Pro tip showing benefits of multi-model selection
   - Integration with debate system for diverse AI perspectives
+  - **Open source model badge/indicator for Hugging Face models**
 
 ### Hugging Face Integration (🤗 Open Source AI Models)
 - **Functionality**: Full integration with Hugging Face Inference API enabling access to open-source models including Zephyr 7B, Falcon 180B, Mistral 7B Instruct, Starling 7B, and WizardCoder 34B. Supports text generation with customizable temperature and token limits. API key authentication and validation with proper error handling.
