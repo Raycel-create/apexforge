@@ -1,10 +1,14 @@
+export type AIProvider = 'openai' | 'anthropic' | 'xai' | 'google' | 'meta' | 'mistral' | 'cohere' | 'huggingface'
+
 export interface AIModelConfig {
   id: string
   name: string
-  provider: 'openai' | 'anthropic' | 'xai' | 'google' | 'meta' | 'mistral' | 'cohere'
+  provider: AIProvider
   apiKeyId: string
   endpoint: string
   modelName: string
+  category?: 'flagship' | 'mini' | 'fast' | 'instruct' | 'vision' | 'code'
+  description?: string
 }
 
 export interface AIRequest {
@@ -39,7 +43,9 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     provider: 'openai',
     apiKeyId: 'openai',
     endpoint: 'https://api.openai.com/v1/chat/completions',
-    modelName: 'gpt-4o'
+    modelName: 'gpt-4o',
+    category: 'flagship',
+    description: 'Most capable GPT-4 model with vision'
   },
   {
     id: 'gpt-4o-mini',
@@ -47,7 +53,39 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     provider: 'openai',
     apiKeyId: 'openai',
     endpoint: 'https://api.openai.com/v1/chat/completions',
-    modelName: 'gpt-4o-mini'
+    modelName: 'gpt-4o-mini',
+    category: 'mini',
+    description: 'Smaller, faster, and more affordable'
+  },
+  {
+    id: 'gpt-4-turbo',
+    name: 'GPT-4 Turbo',
+    provider: 'openai',
+    apiKeyId: 'openai',
+    endpoint: 'https://api.openai.com/v1/chat/completions',
+    modelName: 'gpt-4-turbo-preview',
+    category: 'fast',
+    description: 'Fast GPT-4 with 128k context'
+  },
+  {
+    id: 'gpt-3.5-turbo',
+    name: 'GPT-3.5 Turbo',
+    provider: 'openai',
+    apiKeyId: 'openai',
+    endpoint: 'https://api.openai.com/v1/chat/completions',
+    modelName: 'gpt-3.5-turbo',
+    category: 'fast',
+    description: 'Fast and efficient for simple tasks'
+  },
+  {
+    id: 'gpt-4-vision',
+    name: 'GPT-4 Vision',
+    provider: 'openai',
+    apiKeyId: 'openai',
+    endpoint: 'https://api.openai.com/v1/chat/completions',
+    modelName: 'gpt-4-vision-preview',
+    category: 'vision',
+    description: 'Understands images and text'
   },
   {
     id: 'claude-3.5-sonnet',
@@ -55,7 +93,49 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     provider: 'anthropic',
     apiKeyId: 'anthropic',
     endpoint: 'https://api.anthropic.com/v1/messages',
-    modelName: 'claude-3-5-sonnet-20241022'
+    modelName: 'claude-3-5-sonnet-20241022',
+    category: 'flagship',
+    description: 'Most intelligent Claude model'
+  },
+  {
+    id: 'claude-3-opus',
+    name: 'Claude 3 Opus',
+    provider: 'anthropic',
+    apiKeyId: 'anthropic',
+    endpoint: 'https://api.anthropic.com/v1/messages',
+    modelName: 'claude-3-opus-20240229',
+    category: 'flagship',
+    description: 'Top-level performance and intelligence'
+  },
+  {
+    id: 'claude-3-sonnet',
+    name: 'Claude 3 Sonnet',
+    provider: 'anthropic',
+    apiKeyId: 'anthropic',
+    endpoint: 'https://api.anthropic.com/v1/messages',
+    modelName: 'claude-3-sonnet-20240229',
+    category: 'fast',
+    description: 'Balanced speed and capability'
+  },
+  {
+    id: 'claude-3-haiku',
+    name: 'Claude 3 Haiku',
+    provider: 'anthropic',
+    apiKeyId: 'anthropic',
+    endpoint: 'https://api.anthropic.com/v1/messages',
+    modelName: 'claude-3-haiku-20240307',
+    category: 'mini',
+    description: 'Fastest Claude model'
+  },
+  {
+    id: 'claude-instant',
+    name: 'Claude Instant',
+    provider: 'anthropic',
+    apiKeyId: 'anthropic',
+    endpoint: 'https://api.anthropic.com/v1/messages',
+    modelName: 'claude-instant-1.2',
+    category: 'fast',
+    description: 'Lightning-fast responses'
   },
   {
     id: 'grok-2',
@@ -63,7 +143,49 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     provider: 'xai',
     apiKeyId: 'xai',
     endpoint: 'https://api.x.ai/v1/chat/completions',
-    modelName: 'grok-2-latest'
+    modelName: 'grok-2-latest',
+    category: 'flagship',
+    description: 'Latest and most capable Grok'
+  },
+  {
+    id: 'grok-2-mini',
+    name: 'Grok-2 Mini',
+    provider: 'xai',
+    apiKeyId: 'xai',
+    endpoint: 'https://api.x.ai/v1/chat/completions',
+    modelName: 'grok-2-mini',
+    category: 'mini',
+    description: 'Compact and efficient'
+  },
+  {
+    id: 'grok-1.5',
+    name: 'Grok-1.5',
+    provider: 'xai',
+    apiKeyId: 'xai',
+    endpoint: 'https://api.x.ai/v1/chat/completions',
+    modelName: 'grok-1.5',
+    category: 'fast',
+    description: 'Previous generation, still powerful'
+  },
+  {
+    id: 'grok-vision',
+    name: 'Grok Vision',
+    provider: 'xai',
+    apiKeyId: 'xai',
+    endpoint: 'https://api.x.ai/v1/chat/completions',
+    modelName: 'grok-vision-beta',
+    category: 'vision',
+    description: 'Image understanding capabilities'
+  },
+  {
+    id: 'grok-beta',
+    name: 'Grok Beta',
+    provider: 'xai',
+    apiKeyId: 'xai',
+    endpoint: 'https://api.x.ai/v1/chat/completions',
+    modelName: 'grok-beta',
+    category: 'fast',
+    description: 'Experimental features'
   },
   {
     id: 'gemini-1.5-pro',
@@ -71,15 +193,249 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     provider: 'google',
     apiKeyId: 'google',
     endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent',
-    modelName: 'gemini-1.5-pro'
+    modelName: 'gemini-1.5-pro',
+    category: 'flagship',
+    description: 'Most capable Gemini with 2M context'
   },
   {
-    id: 'llama-3.1',
-    name: 'Llama 3.1',
+    id: 'gemini-1.5-flash',
+    name: 'Gemini 1.5 Flash',
+    provider: 'google',
+    apiKeyId: 'google',
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
+    modelName: 'gemini-1.5-flash',
+    category: 'fast',
+    description: 'Optimized for speed'
+  },
+  {
+    id: 'gemini-pro',
+    name: 'Gemini Pro',
+    provider: 'google',
+    apiKeyId: 'google',
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+    modelName: 'gemini-pro',
+    category: 'flagship',
+    description: 'Production-ready model'
+  },
+  {
+    id: 'gemini-pro-vision',
+    name: 'Gemini Pro Vision',
+    provider: 'google',
+    apiKeyId: 'google',
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent',
+    modelName: 'gemini-pro-vision',
+    category: 'vision',
+    description: 'Multimodal understanding'
+  },
+  {
+    id: 'gemini-ultra',
+    name: 'Gemini Ultra',
+    provider: 'google',
+    apiKeyId: 'google',
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-ultra:generateContent',
+    modelName: 'gemini-ultra',
+    category: 'flagship',
+    description: 'Most powerful Gemini model'
+  },
+  {
+    id: 'llama-3.1-405b',
+    name: 'Llama 3.1 405B',
     provider: 'meta',
     apiKeyId: 'meta',
     endpoint: 'https://api.together.xyz/v1/chat/completions',
-    modelName: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo'
+    modelName: 'meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo',
+    category: 'flagship',
+    description: 'Largest Llama model'
+  },
+  {
+    id: 'llama-3.1-70b',
+    name: 'Llama 3.1 70B',
+    provider: 'meta',
+    apiKeyId: 'meta',
+    endpoint: 'https://api.together.xyz/v1/chat/completions',
+    modelName: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo',
+    category: 'fast',
+    description: 'Balanced performance'
+  },
+  {
+    id: 'llama-3.1-8b',
+    name: 'Llama 3.1 8B',
+    provider: 'meta',
+    apiKeyId: 'meta',
+    endpoint: 'https://api.together.xyz/v1/chat/completions',
+    modelName: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+    category: 'mini',
+    description: 'Lightweight and fast'
+  },
+  {
+    id: 'llama-3-70b',
+    name: 'Llama 3 70B',
+    provider: 'meta',
+    apiKeyId: 'meta',
+    endpoint: 'https://api.together.xyz/v1/chat/completions',
+    modelName: 'meta-llama/Llama-3-70b-chat-hf',
+    category: 'fast',
+    description: 'Previous generation'
+  },
+  {
+    id: 'codellama-70b',
+    name: 'Code Llama 70B',
+    provider: 'meta',
+    apiKeyId: 'meta',
+    endpoint: 'https://api.together.xyz/v1/chat/completions',
+    modelName: 'codellama/CodeLlama-70b-Instruct-hf',
+    category: 'code',
+    description: 'Specialized for coding'
+  },
+  {
+    id: 'mistral-large',
+    name: 'Mistral Large',
+    provider: 'mistral',
+    apiKeyId: 'mistral',
+    endpoint: 'https://api.mistral.ai/v1/chat/completions',
+    modelName: 'mistral-large-latest',
+    category: 'flagship',
+    description: 'Top-tier Mistral model'
+  },
+  {
+    id: 'mistral-medium',
+    name: 'Mistral Medium',
+    provider: 'mistral',
+    apiKeyId: 'mistral',
+    endpoint: 'https://api.mistral.ai/v1/chat/completions',
+    modelName: 'mistral-medium-latest',
+    category: 'fast',
+    description: 'Balanced capabilities'
+  },
+  {
+    id: 'mistral-small',
+    name: 'Mistral Small',
+    provider: 'mistral',
+    apiKeyId: 'mistral',
+    endpoint: 'https://api.mistral.ai/v1/chat/completions',
+    modelName: 'mistral-small-latest',
+    category: 'mini',
+    description: 'Fast and efficient'
+  },
+  {
+    id: 'mixtral-8x7b',
+    name: 'Mixtral 8x7B',
+    provider: 'mistral',
+    apiKeyId: 'mistral',
+    endpoint: 'https://api.mistral.ai/v1/chat/completions',
+    modelName: 'open-mixtral-8x7b',
+    category: 'fast',
+    description: 'Mixture of experts'
+  },
+  {
+    id: 'codestral',
+    name: 'Codestral',
+    provider: 'mistral',
+    apiKeyId: 'mistral',
+    endpoint: 'https://api.mistral.ai/v1/chat/completions',
+    modelName: 'codestral-latest',
+    category: 'code',
+    description: 'Code generation specialist'
+  },
+  {
+    id: 'hf-zephyr-7b',
+    name: 'Zephyr 7B',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta',
+    modelName: 'HuggingFaceH4/zephyr-7b-beta',
+    category: 'fast',
+    description: 'Fine-tuned Mistral 7B'
+  },
+  {
+    id: 'hf-falcon-180b',
+    name: 'Falcon 180B',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/tiiuae/falcon-180B-chat',
+    modelName: 'tiiuae/falcon-180B-chat',
+    category: 'flagship',
+    description: 'Powerful open model'
+  },
+  {
+    id: 'hf-mistral-7b',
+    name: 'Mistral 7B Instruct',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2',
+    modelName: 'mistralai/Mistral-7B-Instruct-v0.2',
+    category: 'fast',
+    description: 'Open source excellence'
+  },
+  {
+    id: 'hf-starling-7b',
+    name: 'Starling 7B',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/berkeley-nest/Starling-LM-7B-alpha',
+    modelName: 'berkeley-nest/Starling-LM-7B-alpha',
+    category: 'fast',
+    description: 'RLAIF trained model'
+  },
+  {
+    id: 'hf-wizardcoder-34b',
+    name: 'WizardCoder 34B',
+    provider: 'huggingface',
+    apiKeyId: 'huggingface',
+    endpoint: 'https://api-inference.huggingface.co/models/WizardLM/WizardCoder-Python-34B-V1.0',
+    modelName: 'WizardLM/WizardCoder-Python-34B-V1.0',
+    category: 'code',
+    description: 'Python code specialist'
+  },
+  {
+    id: 'cohere-command-r-plus',
+    name: 'Command R+',
+    provider: 'cohere',
+    apiKeyId: 'cohere',
+    endpoint: 'https://api.cohere.ai/v1/chat',
+    modelName: 'command-r-plus',
+    category: 'flagship',
+    description: 'Most capable Command model'
+  },
+  {
+    id: 'cohere-command-r',
+    name: 'Command R',
+    provider: 'cohere',
+    apiKeyId: 'cohere',
+    endpoint: 'https://api.cohere.ai/v1/chat',
+    modelName: 'command-r',
+    category: 'fast',
+    description: 'Balanced performance'
+  },
+  {
+    id: 'cohere-command',
+    name: 'Command',
+    provider: 'cohere',
+    apiKeyId: 'cohere',
+    endpoint: 'https://api.cohere.ai/v1/chat',
+    modelName: 'command',
+    category: 'fast',
+    description: 'Production-ready model'
+  },
+  {
+    id: 'cohere-command-light',
+    name: 'Command Light',
+    provider: 'cohere',
+    apiKeyId: 'cohere',
+    endpoint: 'https://api.cohere.ai/v1/chat',
+    modelName: 'command-light',
+    category: 'mini',
+    description: 'Fast and lightweight'
+  },
+  {
+    id: 'cohere-command-nightly',
+    name: 'Command Nightly',
+    provider: 'cohere',
+    apiKeyId: 'cohere',
+    endpoint: 'https://api.cohere.ai/v1/chat',
+    modelName: 'command-nightly',
+    category: 'fast',
+    description: 'Latest experimental features'
   }
 ]
 
@@ -329,6 +685,139 @@ export class AIService {
     }
   }
 
+  private async callMistral(request: AIRequest): Promise<AIResponse> {
+    try {
+      const response = await fetch(request.model.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${request.apiKey}`
+        },
+        body: JSON.stringify({
+          model: request.model.modelName,
+          messages: [
+            ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
+            { role: 'user', content: request.prompt }
+          ],
+          temperature: request.temperature ?? 0.7,
+          max_tokens: request.maxTokens ?? 2000
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        return {
+          success: false,
+          error: error.error?.message || `API error: ${response.status}`,
+          model: request.model.name
+        }
+      }
+
+      const data = await response.json()
+      return {
+        success: true,
+        content: data.choices[0].message.content,
+        model: request.model.name,
+        tokensUsed: data.usage?.total_tokens
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        model: request.model.name
+      }
+    }
+  }
+
+  private async callCohere(request: AIRequest): Promise<AIResponse> {
+    try {
+      const response = await fetch(request.model.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${request.apiKey}`
+        },
+        body: JSON.stringify({
+          model: request.model.modelName,
+          message: request.prompt,
+          preamble: request.systemPrompt,
+          temperature: request.temperature ?? 0.7,
+          max_tokens: request.maxTokens ?? 2000
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        return {
+          success: false,
+          error: error.message || `API error: ${response.status}`,
+          model: request.model.name
+        }
+      }
+
+      const data = await response.json()
+      return {
+        success: true,
+        content: data.text,
+        model: request.model.name,
+        tokensUsed: data.meta?.tokens?.total_tokens
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        model: request.model.name
+      }
+    }
+  }
+
+  private async callHuggingFace(request: AIRequest): Promise<AIResponse> {
+    try {
+      const response = await fetch(request.model.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${request.apiKey}`
+        },
+        body: JSON.stringify({
+          inputs: request.systemPrompt 
+            ? `${request.systemPrompt}\n\n${request.prompt}` 
+            : request.prompt,
+          parameters: {
+            temperature: request.temperature ?? 0.7,
+            max_new_tokens: request.maxTokens ?? 2000,
+            return_full_text: false
+          }
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        return {
+          success: false,
+          error: error.error || `API error: ${response.status}`,
+          model: request.model.name
+        }
+      }
+
+      const data = await response.json()
+      const content = Array.isArray(data) ? data[0]?.generated_text : data.generated_text
+      
+      return {
+        success: true,
+        content: content || '',
+        model: request.model.name,
+        tokensUsed: undefined
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        model: request.model.name
+      }
+    }
+  }
+
   async generateResponse(
     prompt: string,
     modelConfig: AIModelConfig,
@@ -368,6 +857,12 @@ export class AIService {
         return this.callGoogle(request)
       case 'meta':
         return this.callMeta(request)
+      case 'mistral':
+        return this.callMistral(request)
+      case 'cohere':
+        return this.callCohere(request)
+      case 'huggingface':
+        return this.callHuggingFace(request)
       default:
         return {
           success: false,
@@ -427,11 +922,30 @@ Provide clean, modern, well-structured code with best practices. Include necessa
     }
 
     try {
-      const response = await (config.provider === 'openai' || config.provider === 'xai' || config.provider === 'meta'
-        ? this.callOpenAI(testRequest)
-        : config.provider === 'anthropic'
-        ? this.callAnthropic(testRequest)
-        : this.callGoogle(testRequest))
+      let response: AIResponse
+      
+      switch (config.provider) {
+        case 'openai':
+        case 'xai':
+        case 'meta':
+        case 'mistral':
+          response = await this.callOpenAI(testRequest)
+          break
+        case 'anthropic':
+          response = await this.callAnthropic(testRequest)
+          break
+        case 'google':
+          response = await this.callGoogle(testRequest)
+          break
+        case 'cohere':
+          response = await this.callCohere(testRequest)
+          break
+        case 'huggingface':
+          response = await this.callHuggingFace(testRequest)
+          break
+        default:
+          return false
+      }
 
       return response.success
     } catch {
@@ -450,7 +964,31 @@ export function getModelPersonality(modelId: string): string {
     'claude': 'Security-first mindset. You always think about vulnerabilities, edge cases, and safe coding practices.',
     'grok': 'Fast and edgy. You prioritize performance, speed, and cutting-edge solutions. Sometimes controversial.',
     'gemini': 'Beautiful UI/UX focused. You care deeply about design, user experience, and visual polish.',
-    'llama': 'Open source advocate. You prefer free alternatives, community solutions, and transparent approaches.'
+    'llama': 'Open source advocate. You prefer free alternatives, community solutions, and transparent approaches.',
+    'mistral': 'Efficient and precise. You value optimization, clean architecture, and European engineering standards.',
+    'cohere': 'Enterprise-focused. You prioritize scalability, reliability, and production-grade solutions.',
+    'huggingface': 'Community-driven. You embrace open source, transparency, and collaborative development.'
   }
-  return personalities[modelId] || 'Helpful and collaborative AI assistant.'
+  
+  const baseId = modelId.split('-')[0]
+  return personalities[baseId] || 'Helpful and collaborative AI assistant.'
 }
+
+export function getModelsByProvider(provider: AIProvider): AIModelConfig[] {
+  return AI_MODEL_CONFIGS.filter(m => m.provider === provider)
+}
+
+export function getModelsByCategory(category: string): AIModelConfig[] {
+  return AI_MODEL_CONFIGS.filter(m => m.category === category)
+}
+
+export const AI_PROVIDERS = [
+  { id: 'openai', name: 'OpenAI', description: 'GPT-4o and GPT-3.5 models', icon: '🧠' },
+  { id: 'anthropic', name: 'Anthropic', description: 'Claude 3 family', icon: '🛡️' },
+  { id: 'xai', name: 'xAI', description: 'Grok models', icon: '⚡' },
+  { id: 'google', name: 'Google', description: 'Gemini family', icon: '🎨' },
+  { id: 'meta', name: 'Meta', description: 'Llama models', icon: '🦙' },
+  { id: 'mistral', name: 'Mistral AI', description: 'Mistral and Mixtral', icon: '🌪️' },
+  { id: 'cohere', name: 'Cohere', description: 'Command models', icon: '🎯' },
+  { id: 'huggingface', name: 'Hugging Face', description: 'Open source models', icon: '🤗' }
+] as const

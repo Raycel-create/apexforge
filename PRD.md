@@ -29,10 +29,10 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Console logging of magic links in development mode
 
 ### API Key Management System (🔑 Security & Integration Feature)
-- **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage. **Now configured for actual AI model integrations** - keys are used to make real API calls to OpenAI (GPT-4o), Anthropic (Claude 3.5 Sonnet), xAI (Grok-2), Google (Gemini 1.5 Pro), and Meta (Llama 3.1) for code generation and AI debates.
-- **Purpose**: Enable users to bring their own API keys for AI generation, ensuring security and control over credentials while preventing unauthorized usage. Powers real-time AI collaboration with actual model responses.
+- **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere, Hugging Face), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage. **Now configured for actual AI model integrations** - keys are used to make real API calls to 8 AI providers with 40+ model variations including GPT-4o, Claude 3.5 Sonnet, Grok-2, Gemini 1.5 Pro, Llama 3.1, Mistral Large, Command R+, and Hugging Face models for code generation and AI debates.
+- **Purpose**: Enable users to bring their own API keys for AI generation, ensuring security and control over credentials while preventing unauthorized usage. Powers real-time AI collaboration with actual model responses across multiple providers and model variations.
 - **Trigger**: Displayed prominently in CEO Dashboard Integrations Hub section and shown as alert/requirement in User Dashboard and Generator when keys are missing
-- **Progression**: User navigates to dashboard → Sees API key requirement alert → Clicks "Setup API Keys" → Opens Integrations Hub → Adds API key (from provider's API dashboard) → Tests validation against live API → Status changes to valid/invalid → Can now use real AI generation features
+- **Progression**: User navigates to dashboard → Sees API key requirement alert → Clicks "Setup API Keys" → Opens Integrations Hub → Adds API key (from provider's API dashboard) → Tests validation against live API → Status changes to valid/invalid → Can now access 40+ AI model variations across 8 providers
 - **Success criteria**: 
   - Alert shown when no valid AI keys configured
   - Generation blocked until at least one valid AI key is present
@@ -43,8 +43,45 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - CEO Dashboard shows full Integrations Hub with 3 tabs (AI Models, Services, App Stores)
   - User Dashboard shows compact key requirement alert with setup button
   - Live API integration with proper error handling and rate limiting
-  - Support for multiple concurrent AI model calls
+  - Support for multiple concurrent AI model calls across 8 providers
   - Token usage tracking per generation
+  - Support for 40+ model variations including flagship, mini, fast, vision, and code-specialized models
+
+### AI Model Selector (🤖 Multi-Model Selection System)
+- **Functionality**: Advanced model selection interface allowing users to choose from 40+ AI model variations across 8 providers (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere, Hugging Face). Each provider offers 5 model variations categorized by capability: Flagship (most capable), Mini (fast & affordable), Fast (optimized speed), Vision (image understanding), Code (specialized for coding), and Instruct (fine-tuned). Includes provider filtering, category filtering, model descriptions, and visual selection interface with real-time availability based on configured API keys.
+- **Purpose**: Give users granular control over AI model selection, enabling them to mix flagship models for complex tasks with mini models for speed, or combine code-specialized models with vision models for diverse capabilities
+- **Trigger**: Accessed via "AI Models" selector in Generator page, expandable panel with full model browser
+- **Progression**: Click AI Models selector → Opens model browser → Filter by provider (OpenAI, Anthropic, etc.) or category (Flagship, Mini, Code, Vision) → View model descriptions and capabilities → Select/deselect models → View selected models summary → Generate with chosen model mix
+- **Success criteria**:
+  - 40+ models available across 8 providers
+  - 5 models per provider in various categories
+  - Provider tabs: OpenAI (5 models), Anthropic (5 models), xAI (5 models), Google (5 models), Meta (5 models), Mistral (5 models), Cohere (5 models), Hugging Face (5 models)
+  - Category filtering: Flagship, Mini, Fast, Vision, Code, Instruct
+  - Real-time availability checking based on configured API keys
+  - Visual selection with checkmarks for selected models
+  - Model cards showing provider icon, model name, category badge, and description
+  - Disabled models when API key not configured
+  - Selected models summary showing count and names
+  - Minimum 1 model selection enforced
+  - Smooth animations on model selection
+  - Responsive design with scrollable model list
+  - Pro tip showing benefits of multi-model selection
+  - Integration with debate system for diverse AI perspectives
+
+### Hugging Face Integration (🤗 Open Source AI Models)
+- **Functionality**: Full integration with Hugging Face Inference API enabling access to open-source models including Zephyr 7B, Falcon 180B, Mistral 7B Instruct, Starling 7B, and WizardCoder 34B. Supports text generation with customizable temperature and token limits. API key authentication and validation with proper error handling.
+- **Purpose**: Provide access to cutting-edge open-source AI models, giving users more options and supporting the open-source AI community
+- **Trigger**: Configure Hugging Face API key in Integrations Hub, then select Hugging Face models in Generator
+- **Progression**: Add Hugging Face API key → Validate against Hugging Face API → Browse 5 available Hugging Face models → Select models → Generate with open-source AI
+- **Success criteria**:
+  - 5 Hugging Face models available: Zephyr 7B (fast), Falcon 180B (flagship), Mistral 7B Instruct (fast), Starling 7B (fast), WizardCoder 34B (code)
+  - API key validation with Hugging Face Inference API
+  - Support for inputs parameter and parameters configuration
+  - Temperature and max_new_tokens control
+  - Proper response parsing for generated_text
+  - Error handling for rate limits and model loading
+  - Integration with debate system
+  - Model descriptions highlighting specializations
 
 ### Real-Time "The Forge" AI Debate Panel (🔥 #1 Viral Feature)
 - **Functionality**: Live sidebar with 5-6 AI agents (GPT-4o, Claude, Grok, Gemini, Llama) chatting, arguing, and debating in real-time like a Slack channel. **Requires valid API keys** - users must configure at least one AI model API key before generation.

@@ -18,4 +18,7 @@ export const AI_KEY_REQUIREMENTS: APIKeyRequirement[] = [
   { category: 'ai', keyId: 'xai', keyName: 'xAI (Grok)' },
   { category: 'ai', keyId: 'google', keyName: 'Google (Gemini)' },
   { category: 'ai', keyId: 'meta', keyName: 'Meta (Llama)' },
+  { category: 'ai', keyId: 'mistral', keyName: 'Mistral AI' },
+  { category: 'ai', keyId: 'cohere', keyName: 'Cohere' },
+  { category: 'ai', keyId: 'huggingface', keyName: 'Hugging Face' },
 ]

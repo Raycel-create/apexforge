@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, Download, Rocket, CheckCircle, X, Check, Fire, ThumbsUp, ThumbsDown, Lightning, Shield, Palette, TreeStructure, Swap, Globe, Copy, ArrowsClockwise, Brain, Code, Database, CaretDown, Gear } from '@phosphor-icons/react'
+import { Sparkle, Download, Rocket, CheckCircle, X, Check, Fire, ThumbsUp, ThumbsDown, Lightning, Shield, Palette, TreeStructure, Swap, Globe, Copy, ArrowsClockwise, Brain, Code, Database, CaretDown, Gear, List } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Textarea } from '../ui/textarea'
@@ -29,6 +29,8 @@ import { CoinAnimation } from '../CoinAnimation'
 import { useBlackForge } from '../../lib/BlackForgeContext'
 import { APIKeyAlert } from '../APIKeyAlert'
 import { KeysManager } from '../KeysManager'
+import { AIModelSelector } from '../AIModelSelector'
+import { AI_MODEL_CONFIGS } from '../../lib/aiService'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -122,13 +124,18 @@ export function Generator({ onNavigate }: GeneratorProps) {
   const [showKeysManager, setShowKeysManager] = useState(false)
   const [aiKeys] = useKV<any[]>('ceo-keys-ai', [])
   const [hasValidAIKeys, setHasValidAIKeys] = useState(false)
+  const [availableProviders, setAvailableProviders] = useState<string[]>([])
+  const [showModelSelector, setShowModelSelector] = useState(false)
+  const [selectedModelIds, setSelectedModelIds] = useState<string[]>(['gpt-4o', 'claude-3.5-sonnet', 'grok-2'])
 
   useEffect(() => {
     if (aiKeys && aiKeys.length > 0) {
       const validKeys = aiKeys.filter(k => k.key && k.key.length > 0 && k.status === 'valid')
       setHasValidAIKeys(validKeys.length > 0)
+      setAvailableProviders(validKeys.map(k => k.id))
     } else {
       setHasValidAIKeys(false)
+      setAvailableProviders([])
     }
   }, [aiKeys])
 
@@ -280,6 +287,31 @@ export function Generator({ onNavigate }: GeneratorProps) {
     })
   }
 
+  const toggleModel = (modelId: string) => {
+    setSelectedModelIds((current) => {
+      if (current.includes(modelId)) {
+        if (current.length === 1) {
+          toast.error('Select at least one model')
+          return current
+        }
+        return current.filter(id => id !== modelId)
+      } else {
+        return [...current, modelId]
+      }
+    })
+  }
+
+  const getSelectedModelsDisplay = () => {
+    if (selectedModelIds.length === 0) return 'No models selected'
+    if (selectedModelIds.length <= 2) {
+      return selectedModelIds
+        .map(id => AI_MODEL_CONFIGS.find(m => m.id === id)?.name)
+        .filter(Boolean)
+        .join(', ')
+    }
+    return `${selectedModelIds.length} models selected`
+  }
+
   const toggleIntegration = (integrationId: string) => {
     setSelectedIntegrations((current) => {
       if (current.includes(integrationId)) {
@@ -419,34 +451,17 @@ export function Generator({ onNavigate }: GeneratorProps) {
                   <Sparkle weight="fill" className="text-primary w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   <span className="truncate">AI Models</span>
                 </Label>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-between h-8 sm:h-9 lg:h-10 text-[10px] sm:text-xs px-2 sm:px-3"
-                      disabled={generating}
-                    >
-                      <span className="truncate">
-                        {selectedAIs.length} selected
-                      </span>
-                      <CaretDown className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="start">
-                    <DropdownMenuLabel>Select AI Models</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {AI_AGENTS.map((agent) => (
-                      <DropdownMenuCheckboxItem
-                        key={agent.id}
-                        checked={selectedAIs.includes(agent.id)}
-                        onCheckedChange={() => toggleAI(agent.id)}
-                      >
-                        <span className="mr-2">{agent.avatar}</span>
-                        {agent.name}
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Button
+                  variant="outline"
+                  className="w-full justify-between h-8 sm:h-9 lg:h-10 text-[10px] sm:text-xs px-2 sm:px-3"
+                  disabled={generating}
+                  onClick={() => setShowModelSelector(!showModelSelector)}
+                >
+                  <span className="truncate">
+                    {selectedModelIds.length} selected
+                  </span>
+                  <List className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                </Button>
               </div>
 
               <div>
@@ -525,6 +540,45 @@ export function Generator({ onNavigate }: GeneratorProps) {
                 </DropdownMenu>
               </div>
             </div>
+
+            <Separator className="my-4 sm:my-6" />
+
+            {showModelSelector && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mb-4"
+              >
+                <AIModelSelector
+                  selectedModels={selectedModelIds}
+                  onToggleModel={toggleModel}
+                  availableProviders={availableProviders}
+                />
+              </motion.div>
+            )}
+
+            {selectedModelIds.length > 0 && (
+              <div className="mb-4 p-3 bg-primary/10 border border-primary/30 rounded-lg">
+                <p className="text-xs sm:text-sm font-medium mb-2">Selected Models:</p>
+                <div className="flex flex-wrap gap-2">
+                  {selectedModelIds.slice(0, 5).map(id => {
+                    const model = AI_MODEL_CONFIGS.find(m => m.id === id)
+                    if (!model) return null
+                    return (
+                      <Badge key={id} variant="outline" className="border-primary/50 text-xs">
+                        {model.name}
+                      </Badge>
+                    )
+                  })}
+                  {selectedModelIds.length > 5 && (
+                    <Badge variant="outline" className="border-primary/50 text-xs">
+                      +{selectedModelIds.length - 5} more
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            )}
 
             <Separator className="my-4 sm:my-6" />
 
