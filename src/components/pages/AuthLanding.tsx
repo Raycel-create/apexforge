@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useKV } from '@github/spark/hooks'
 import { MagicLinkAuth } from '../MagicLinkAuth'
+import { GoogleAuthButton } from '../GoogleAuthButton'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -392,6 +393,20 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
                       </>
                     )}
                   </Button>
+
+                  <div className="relative my-6">
+                    <div className="absolute inset-0 flex items-center">
+                      <Separator />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                    </div>
+                  </div>
+
+                  <GoogleAuthButton 
+                    onSuccess={() => handleMagicLinkSuccess('')}
+                    mode={isSignUp ? 'signup' : 'signin'}
+                  />
                 </motion.form>
               </AnimatePresence>
 

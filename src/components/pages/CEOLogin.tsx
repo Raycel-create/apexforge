@@ -3,7 +3,7 @@ import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
-import { Skull, Key, ShieldCheck, QrCode } from '@phosphor-icons/react'
+import { Skull, Key, ShieldCheck, QrCode, User } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useCEOAuth } from '../../lib/CEOAuthContext'
@@ -17,7 +17,7 @@ interface CEOLoginProps {
 }
 
 export function CEOLogin({ onNavigate }: CEOLoginProps) {
-  const { login, initializeTOTP, totpSecret } = useCEOAuth()
+  const { login, initializeTOTP, totpSecret, biometricsEnabled } = useCEOAuth()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [totpToken, setTotpToken] = useState('')
@@ -26,14 +26,10 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
   const [showSetup, setShowSetup] = useState(false)
 
   useEffect(() => {
-    if (!totpSecret) {
-      const secret = initializeTOTP()
-      generateQRCode(secret)
-      setShowSetup(true)
-    } else {
+    if (totpSecret) {
       generateQRCode(totpSecret)
     }
-  }, [totpSecret, initializeTOTP])
+  }, [totpSecret])
 
   const generateQRCode = async (secret: string) => {
     const totp = new OTPAuth.TOTP({
@@ -65,12 +61,17 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!username || !password || !totpToken) {
-      toast.error('Please fill in all fields')
+    if (!username || !password) {
+      toast.error('Please fill in username and password')
       return
     }
 
-    if (totpToken.length !== 6) {
+    if (biometricsEnabled && !totpToken) {
+      toast.error('Authentication code required when biometric auth is enabled')
+      return
+    }
+
+    if (biometricsEnabled && totpToken.length !== 6) {
       toast.error('Authentication code must be 6 digits')
       return
     }
@@ -78,7 +79,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
     setIsLoggingIn(true)
 
     try {
-      const success = await login(username, password, totpToken)
+      const success = await login(username, password, biometricsEnabled ? totpToken : undefined)
       
       if (success) {
         toast.success('🔥 CEO Access Granted', {
@@ -90,7 +91,9 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
         }, 500)
       } else {
         toast.error('Authentication failed', {
-          description: 'Invalid credentials or authentication code',
+          description: biometricsEnabled 
+            ? 'Invalid credentials or authentication code'
+            : 'Invalid username or password',
         })
         setTotpToken('')
       }
@@ -135,15 +138,15 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
             <form onSubmit={handleLogin} className="space-y-6">
               <div>
                 <Label htmlFor="username" className="text-base font-semibold mb-2 flex items-center gap-2">
-                  <Key weight="fill" className="text-primary" size={18} />
-                  Username
+                  <User weight="fill" className="text-primary" size={18} />
+                  Email / Username
                 </Label>
                 <Input
                   id="username"
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter CEO username"
+                  placeholder="papakoEddie@tripzy.international"
                   className="h-12 bg-background border-primary/30 focus:border-primary text-base"
                   autoComplete="username"
                   disabled={isLoggingIn}
@@ -170,7 +173,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
               <div>
                 <Label htmlFor="totp-token" className="text-base font-semibold mb-2 flex items-center gap-2">
                   <ShieldCheck weight="fill" className="text-accent" size={18} />
-                  Authentication Code
+                  Authentication Code {!biometricsEnabled && '(Optional)'}
                 </Label>
                 <Input
                   id="totp-token"
@@ -184,7 +187,9 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
                   disabled={isLoggingIn}
                 />
                 <p className="text-xs text-muted-foreground mt-2">
-                  Enter the 6-digit code from your authenticator app
+                  {biometricsEnabled 
+                    ? 'Required: Enter the 6-digit code from your authenticator app'
+                    : 'Optional: Only required if biometric auth is enabled in Settings'}
                 </p>
               </div>
 
@@ -192,7 +197,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
                 type="submit"
                 size="lg"
                 className="w-full h-12 text-base glow-primary"
-                disabled={isLoggingIn || !username || !password || totpToken.length !== 6}
+                disabled={isLoggingIn || !username || !password || (biometricsEnabled && totpToken.length !== 6)}
               >
                 <ShieldCheck weight="fill" size={20} />
                 {isLoggingIn ? 'Authenticating...' : 'Login to CEO Dashboard'}
@@ -218,27 +223,14 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
                 <QrCode weight="fill" className="text-accent" size={24} />
               </div>
               <div>
-                <h3 className="text-xl font-bold">TOTP Setup</h3>
+                <h3 className="text-xl font-bold">TOTP Setup (Optional)</h3>
                 <p className="text-sm text-muted-foreground">
-                  {showSetup ? 'Scan to complete setup' : 'Your authenticator'}
+                  Enable in Settings after login
                 </p>
               </div>
             </div>
 
-            {showSetup && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="mb-6 p-4 bg-destructive/10 border border-destructive/30 rounded-lg"
-              >
-                <p className="text-sm text-destructive font-semibold mb-2">⚠️ First Time Setup Required</p>
-                <p className="text-xs text-muted-foreground">
-                  Scan the QR code below with your authenticator app (Google Authenticator, Authy, etc.) to complete setup.
-                </p>
-              </motion.div>
-            )}
-
-            {qrCodeUrl ? (
+            {totpSecret ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -264,21 +256,43 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
                     <li>Open your authenticator app (Google Authenticator, Authy, etc.)</li>
                     <li>Tap "Add" or "+" to add a new account</li>
                     <li>Scan the QR code above or enter the manual key</li>
-                    <li>Enter the 6-digit code from the app to login</li>
+                    <li>Enable biometric auth in CEO Settings after login</li>
                   </ol>
                 </div>
 
-                {!showSetup && (
+                {biometricsEnabled && (
                   <div className="pt-4 border-t border-border">
                     <p className="text-xs text-accent font-semibold text-center">
-                      ✓ Authenticator configured and ready
+                      ✓ Biometric authentication is ACTIVE
                     </p>
                   </div>
                 )}
               </motion.div>
             ) : (
-              <div className="flex items-center justify-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+              <div className="space-y-4">
+                <div className="p-4 border border-dashed border-border rounded-lg text-center">
+                  <ShieldCheck size={32} className="mx-auto mb-2 text-muted-foreground" />
+                  <p className="text-sm text-muted-foreground mb-1">
+                    TOTP not configured
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Enable biometric authentication in Settings after login
+                  </p>
+                </div>
+                <Button
+                  className="w-full"
+                  variant="outline"
+                  onClick={() => {
+                    const secret = initializeTOTP()
+                    setShowSetup(true)
+                    toast.info('TOTP Secret Generated', {
+                      description: 'You can now scan the QR code with your authenticator app',
+                    })
+                  }}
+                >
+                  <QrCode weight="fill" size={20} />
+                  Generate TOTP Secret
+                </Button>
               </div>
             )}
           </Card>
@@ -290,9 +304,9 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
           transition={{ delay: 0.3 }}
           className="mt-8 text-center"
         >
-          <Card className="inline-block px-6 py-3 bg-destructive/5 border-destructive/30">
+          <Card className="inline-block px-6 py-3 bg-primary/5 border-primary/30">
             <p className="text-xs text-muted-foreground">
-              🔒 <span className="font-semibold text-destructive">High Security</span> - TOTP codes expire every 30 seconds and can only be used once
+              🔒 <span className="font-semibold text-primary">Secure CEO Access</span> - Credentials: papakoEddie@tripzy.international • Biometric auth optional
             </p>
           </Card>
         </motion.div>

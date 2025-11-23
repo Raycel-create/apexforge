@@ -5,21 +5,24 @@ import * as OTPAuth from 'otpauth'
 interface CEOAuthContextType {
   isAuthenticated: boolean
   totpSecret: string | null
-  login: (username: string, password: string, token: string) => Promise<boolean>
+  login: (username: string, password: string, token?: string) => Promise<boolean>
   logout: () => void
   initializeTOTP: () => string
   verifyTOTP: (token: string) => boolean
+  biometricsEnabled: boolean
+  toggleBiometrics: () => void
 }
 
 const CEOAuthContext = createContext<CEOAuthContextType | undefined>(undefined)
 
-const CEO_USERNAME = 'adminadminadmin'
+const CEO_USERNAME = 'papakoEddie@tripzy.international'
 const CEO_PASSWORD = '19780111'
 
 export function CEOAuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [totpSecret, setTotpSecret] = useKV<string | null>('ceo-totp-secret', null)
   const [sessionActive, setSessionActive] = useKV<boolean>('ceo-session-active', false)
+  const [biometricsEnabled, setBiometricsEnabled] = useKV<boolean>('ceo-biometrics-enabled', false)
 
   useEffect(() => {
     if (sessionActive) {
@@ -58,18 +61,16 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
     return delta !== null
   }
 
-  const login = async (username: string, password: string, token: string): Promise<boolean> => {
+  const login = async (username: string, password: string, token?: string): Promise<boolean> => {
     if (username !== CEO_USERNAME || password !== CEO_PASSWORD) {
       return false
     }
 
-    if (!totpSecret) {
-      return false
-    }
-
-    const isValidToken = verifyTOTP(token)
-    if (!isValidToken) {
-      return false
+    if (biometricsEnabled && totpSecret && token) {
+      const isValidToken = verifyTOTP(token)
+      if (!isValidToken) {
+        return false
+      }
     }
 
     setIsAuthenticated(true)
@@ -82,6 +83,10 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
     setSessionActive(false)
   }
 
+  const toggleBiometrics = () => {
+    setBiometricsEnabled((current) => !current)
+  }
+
   return (
     <CEOAuthContext.Provider
       value={{
@@ -91,6 +96,8 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
         logout,
         initializeTOTP,
         verifyTOTP,
+        biometricsEnabled: biometricsEnabled ?? false,
+        toggleBiometrics,
       }}
     >
       {children}
