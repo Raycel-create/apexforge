@@ -25,9 +25,6 @@ function AppContent() {
       case 'pricing':
         return <Pricing onNavigate={setCurrentPage} />
       case 'ceo':
-        if (!isAuthenticated) {
-          return <CEOLogin onNavigate={setCurrentPage} />
-        }
         return <CEODashboard onNavigate={setCurrentPage} />
       case 'generator':
         return <Generator onNavigate={setCurrentPage} />
@@ -38,12 +35,12 @@ function AppContent() {
     }
   }
 
-  const showNavigation = (currentPage !== 'ceo' && currentPage !== 'auth') || (currentPage === 'ceo' && isAuthenticated)
+  const showNavigation = currentPage !== 'auth'
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       {showNavigation && <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />}
-      <main className="flex-1 overflow-x-hidden">
+      <main className="flex-1 overflow-x-hidden w-full">
         {renderPage()}
       </main>
     </div>

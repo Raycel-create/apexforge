@@ -347,7 +347,7 @@ export function Generator({ onNavigate }: GeneratorProps) {
   ]
 
   return (
-    <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-8 max-w-[1800px]">
+    <div className="w-full min-h-screen px-3 sm:px-4 py-4 sm:py-6 lg:py-8 max-w-[1800px] mx-auto">
       {showCoinAnimation && <CoinAnimation />}
       
       <div className="mb-4 sm:mb-6 lg:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
