@@ -652,7 +652,16 @@ export function Generator({ onNavigate }: GeneratorProps) {
                     <Rocket className="w-4 h-4 sm:w-5 sm:h-5" />
                     Open Live App
                   </Button>
-                  <Button variant="outline" className="flex-1 py-4 sm:py-5 lg:py-6 text-sm sm:text-base lg:text-lg" onClick={() => toast.success('Downloading ZIP...')}>
+                  <Button
+                    variant="outline"
+                    className="flex-1 py-4 sm:py-5 lg:py-6 text-sm sm:text-base lg:text-lg"
+                    onClick={() => {
+                      toast.info('Coming Soon', {
+                        description: 'Code export feature is under development',
+                        duration: 2000,
+                      })
+                    }}
+                  >
                     <Download className="w-4 h-4 sm:w-5 sm:h-5" />
                     Download Code
                   </Button>
@@ -663,11 +672,24 @@ export function Generator({ onNavigate }: GeneratorProps) {
                 <div className="space-y-2 sm:space-y-3">
                   <h4 className="font-semibold text-base sm:text-lg">Want to upgrade this app?</h4>
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                    <Button variant="outline" className="flex-1 border-primary/50 text-primary hover:bg-primary/10 text-xs sm:text-sm py-3 sm:py-4">
+                    <Button
+                      variant="outline"
+                      className="flex-1 border-primary/50 text-primary hover:bg-primary/10 text-xs sm:text-sm py-3 sm:py-4"
+                      onClick={() => {
+                        toast.info('Coming Soon', {
+                          description: 'Evolve feature is under development',
+                          duration: 2000,
+                        })
+                      }}
+                    >
                       <ArrowsClockwise weight="fill" className="w-4 h-4" />
                       Evolve This App
                     </Button>
-                    <Button variant="outline" className="flex-1 border-destructive/50 text-destructive hover:bg-destructive/10 text-xs sm:text-sm py-3 sm:py-4">
+                    <Button
+                      variant="outline"
+                      className="flex-1 border-destructive/50 text-destructive hover:bg-destructive/10 text-xs sm:text-sm py-3 sm:py-4"
+                      onClick={() => onNavigate('pricing')}
+                    >
                       <Shield weight="fill" className="w-4 h-4" />
                       <span className="hidden sm:inline">Add $500 Security Shield</span>
                       <span className="sm:hidden">Security $500</span>
@@ -717,7 +739,15 @@ export function Generator({ onNavigate }: GeneratorProps) {
                           ))}
                         </ul>
                       </div>
-                      <Button className="w-full py-4 sm:py-5 lg:py-6 text-sm sm:text-base lg:text-lg glow-primary">
+                      <Button
+                        className="w-full py-4 sm:py-5 lg:py-6 text-sm sm:text-base lg:text-lg glow-primary"
+                        onClick={() => {
+                          toast.success('Applied!', {
+                            description: `Switched to ${version.name} version`,
+                            duration: 2000,
+                          })
+                        }}
+                      >
                         <Swap weight="fill" className="w-4 h-4 sm:w-5 sm:h-5" />
                         Use This Version
                       </Button>

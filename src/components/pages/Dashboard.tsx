@@ -253,7 +253,12 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                         variant="default"
                         size="sm"
                         className={`glow-primary ${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
-                        onClick={() => toast.success('Opening Evolve mode...')}
+                        onClick={() => {
+                          toast.info('Coming Soon', {
+                            description: 'Evolve mode is under development',
+                            duration: 2000,
+                          })
+                        }}
                       >
                         <ArrowsClockwise weight="fill" size={isMobile ? 8 : 10} />
                         <span className="hidden sm:inline ml-1">Evolve</span>
@@ -262,7 +267,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                         variant="outline"
                         size="sm"
                         className={`border-destructive/50 text-destructive hover:bg-destructive/10 ${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
-                        onClick={() => toast.success('Opening Security Shield checkout...')}
+                        onClick={() => onNavigate('pricing')}
                       >
                         <Shield weight="fill" size={isMobile ? 8 : 10} />
                         <span className="hidden sm:inline ml-1">Shield</span>
@@ -282,7 +287,14 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                         variant="outline"
                         size="sm"
                         className={`${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
-                        onClick={() => toast.success('Creating Forge Card...')}
+                        onClick={() => {
+                          const shareUrl = project.url || 'https://apexforge.app'
+                          navigator.clipboard.writeText(shareUrl)
+                          toast.success('Link copied!', {
+                            description: 'Share your app with others',
+                            duration: 2000,
+                          })
+                        }}
                       >
                         <Share size={isMobile ? 8 : 10} />
                         <span className="hidden sm:inline ml-1">Share</span>
@@ -291,7 +303,12 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                         variant="outline"
                         size="sm"
                         className={`${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
-                        onClick={() => toast.success('Downloading ZIP...')}
+                        onClick={() => {
+                          toast.info('Coming Soon', {
+                            description: 'Code export feature is under development',
+                            duration: 2000,
+                          })
+                        }}
                       >
                         <Download size={isMobile ? 8 : 10} />
                         <span className="hidden sm:inline ml-1">Code</span>
@@ -300,7 +317,19 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                         variant="outline"
                         size="sm"
                         className={`${isMobile ? 'text-[8px] px-1 py-1' : 'text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-1 sm:py-1.5'} h-auto whitespace-nowrap`}
-                        onClick={() => toast.success('Deploying to production...')}
+                        onClick={() => {
+                          if (project.url) {
+                            toast.success('App is already live! 🚀', {
+                              description: project.url,
+                              duration: 3000,
+                            })
+                          } else {
+                            toast.info('Coming Soon', {
+                              description: 'Deployment feature is under development',
+                              duration: 2000,
+                            })
+                          }
+                        }}
                       >
                         <Rocket size={isMobile ? 8 : 10} />
                         <span className="hidden sm:inline ml-1">Deploy</span>

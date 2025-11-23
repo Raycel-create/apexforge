@@ -125,11 +125,6 @@ export function Pricing({ onNavigate }: PricingProps) {
   const [checkoutPlan, setCheckoutPlan] = useState<{ id: string; name: string; price: number } | null>(null)
   
   const handleUpgrade = (planName: string) => {
-    toast.success(`Testing Mode: ${planName} features unlocked!`, {
-      description: 'Payment processing disabled - all features available for testing',
-      duration: 3000,
-    })
-    
     if (planName === 'Free') {
       onNavigate('generator')
       return
@@ -141,6 +136,11 @@ export function Pricing({ onNavigate }: PricingProps) {
       })
       return
     }
+    
+    toast.success(`Testing Mode: ${planName} features unlocked!`, {
+      description: 'Payment processing disabled - all features available for testing',
+      duration: 3000,
+    })
   }
 
   const handleSecurityUpgrade = () => {
@@ -360,7 +360,12 @@ export function Pricing({ onNavigate }: PricingProps) {
                   Saves credits with better prompts
                 </li>
               </ul>
-              <Button className="w-full glow-primary" onClick={() => toast.success('Redirecting to Perfectionist AI checkout...')}>
+              <Button className="w-full glow-primary" onClick={() => {
+                toast.info('Coming Soon', {
+                  description: 'Perfectionist AI add-on is under development',
+                  duration: 2000,
+                })
+              }}>
                 Add to Plan
               </Button>
             </Card>
@@ -399,7 +404,12 @@ export function Pricing({ onNavigate }: PricingProps) {
                   Zero-downtime deploys
                 </li>
               </ul>
-              <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground glow-accent" onClick={() => toast.success('Redirecting to God Mode checkout...')}>
+              <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground glow-accent" onClick={() => {
+                toast.info('Coming Soon', {
+                  description: 'God Mode add-on is under development',
+                  duration: 2000,
+                })
+              }}>
                 Add to Plan
               </Button>
             </Card>
@@ -515,7 +525,12 @@ export function Pricing({ onNavigate }: PricingProps) {
             </p>
             <Button
               size="lg"
-              onClick={() => handleUpgrade('Launch')}
+              onClick={() => {
+                toast.info('Coming Soon', {
+                  description: 'Launch tier upgrade is under development',
+                  duration: 2000,
+                })
+              }}
               className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 lg:py-6 glow-primary w-full sm:w-auto"
             >
               <Lightning weight="fill" className="w-4 h-4 sm:w-5 sm:h-5" />
