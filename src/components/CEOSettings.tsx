@@ -9,6 +9,8 @@ import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useKV } from '@github/spark/hooks'
 import { useCEOAuth } from '../lib/CEOAuthContext'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
+import { EmailNotificationSettings } from './EmailNotificationSettings'
 
 export function CEOSettings() {
   const { biometricsEnabled, toggleBiometrics, initializeTOTP } = useCEOAuth()
@@ -60,9 +62,18 @@ export function CEOSettings() {
       <div>
         <h2 className="text-2xl font-bold mb-2">CEO Settings</h2>
         <p className="text-muted-foreground">
-          Configure payment gateways and security settings
+          Configure payment gateways, security, and email notifications
         </p>
       </div>
+
+      <Tabs defaultValue="payments" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="payments">Payments</TabsTrigger>
+          <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="notifications">Email Reports</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="payments" className="space-y-6 mt-6">
 
       <Card className="p-6 border-primary/30">
         <div className="flex items-center gap-3 mb-6">
@@ -168,7 +179,9 @@ export function CEOSettings() {
           </div>
         )}
       </Card>
+        </TabsContent>
 
+        <TabsContent value="security" className="space-y-6 mt-6">
       <Card className="p-6 border-accent/30">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
@@ -256,6 +269,12 @@ export function CEOSettings() {
           </div>
         </div>
       </Card>
+        </TabsContent>
+
+        <TabsContent value="notifications" className="space-y-6 mt-6">
+          <EmailNotificationSettings />
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
