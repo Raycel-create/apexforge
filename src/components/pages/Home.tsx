@@ -22,26 +22,26 @@ export function Home({ onNavigate }: HomeProps) {
   return (
     <div className={`min-h-screen w-full overflow-x-hidden ${blackForgeMode ? 'bg-gradient-to-b from-destructive/10 to-background' : ''} transition-all duration-1000`}>
       <LiveChatbot />
-      <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-20 text-center relative max-w-[1400px]">
+      <section className="container mx-auto px-2 sm:px-3 lg:px-4 py-4 sm:py-6 lg:py-10 text-center relative max-w-[1400px]">
         <div className={`absolute inset-0 ${
           blackForgeMode 
             ? 'bg-gradient-to-b from-destructive/20 via-transparent to-transparent' 
             : 'bg-gradient-to-b from-primary/10 via-transparent to-transparent'
         } pointer-events-none transition-all duration-1000`} />
         
-        <div className="max-w-5xl mx-auto space-y-4 sm:space-y-8 relative z-10">
+        <div className="max-w-5xl mx-auto space-y-2 sm:space-y-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="inline-block"
           >
-            <Badge className={`${isMobile ? 'px-3 py-1.5 text-xs' : 'px-6 py-3 text-base'} ${
+            <Badge className={`${isMobile ? 'px-2 py-0.5 text-[10px]' : 'px-3 py-1 text-xs'} ${
               blackForgeMode
                 ? 'bg-destructive/20 border-destructive/40 text-destructive glow-destructive'
                 : 'bg-primary/20 border-primary/40 text-primary glow-primary'
             } transition-all duration-500`}>
-              <Fire weight="fill" size={isMobile ? 14 : 18} className="animate-pulse-glow" />
+              <Fire weight="fill" size={isMobile ? 10 : 12} className="animate-pulse-glow" />
               <span>{blackForgeMode 
                 ? (isMobile ? '🔥 Dark AI team' : '🔥 Unleash the Dark AI Team') 
                 : (isMobile ? 'Hire an AI dev team' : 'Stop prompting solo AIs. Hire an entire AI dev team.')
@@ -53,7 +53,7 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className={`${isMobile ? 'text-3xl' : isTablet ? 'text-5xl' : 'text-5xl md:text-7xl lg:text-8xl'} font-bold leading-tight`}
+            className={`${isMobile ? 'text-xl' : isTablet ? 'text-3xl' : 'text-3xl md:text-4xl lg:text-5xl'} font-bold leading-tight`}
           >
             {blackForgeMode ? (
               <>
@@ -84,19 +84,19 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className={`${isMobile ? 'text-sm' : isTablet ? 'text-lg' : 'text-xl md:text-2xl'} text-muted-foreground max-w-3xl mx-auto leading-relaxed`}
+            className={`${isMobile ? 'text-[11px]' : isTablet ? 'text-sm' : 'text-sm md:text-base'} text-muted-foreground max-w-3xl mx-auto leading-relaxed`}
           >
             {blackForgeMode ? (
               <>
                 Summon your app → watch 5 demonic AI agents forge it in flames → it materializes on the dark web with your domain.
-                <span className="text-foreground font-semibold block mt-2">
+                <span className="text-foreground font-semibold block mt-1">
                   All in ONE infernal tab. In under 10 seconds. 🔥
                 </span>
               </>
             ) : (
               <>
                 Describe your app → watch 5 AI agents build & deploy it live → it's instantly on the internet with your domain.
-                <span className="text-foreground font-semibold block mt-2">
+                <span className="text-foreground font-semibold block mt-1">
                   All in ONE tab. In under 10 seconds.
                 </span>
               </>
@@ -107,30 +107,30 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap"
           >
             <Button
-              size={isMobile ? 'default' : 'lg'}
+              size={isMobile ? 'sm' : 'default'}
               onClick={() => onNavigate('auth')}
-              className={`${isMobile ? 'text-sm px-4 py-2' : 'text-lg px-8 py-6'} ${
+              className={`${isMobile ? 'text-xs px-3 py-1.5 h-7' : 'text-sm px-4 py-2 h-8'} ${
                 blackForgeMode 
                   ? 'glow-destructive bg-destructive hover:bg-destructive/90' 
                   : 'glow-primary'
               } hover:scale-105 transition-all duration-300`}
             >
-              <Sparkle weight="fill" size={isMobile ? 18 : 24} />
+              <Sparkle weight="fill" size={isMobile ? 12 : 14} />
               {blackForgeMode 
                 ? (isMobile ? '🔥 Join Now' : '🔥 Join Dark Forge') 
                 : (isMobile ? 'Get Started' : 'Get Started Free')
               }
             </Button>
             <Button
-              size={isMobile ? 'default' : 'lg'}
+              size={isMobile ? 'sm' : 'default'}
               variant="outline"
               onClick={() => onNavigate('generator')}
-              className={`${isMobile ? 'text-sm px-4 py-2' : 'text-lg px-8 py-6'} border-accent/50 text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all`}
+              className={`${isMobile ? 'text-xs px-3 py-1.5 h-7' : 'text-sm px-4 py-2 h-8'} border-accent/50 text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all`}
             >
-              <TreeStructure weight="fill" size={isMobile ? 18 : 24} />
+              <TreeStructure weight="fill" size={isMobile ? 12 : 14} />
               {isMobile ? 'Incubator' : 'Try FREE Idea Incubator'}
             </Button>
           </motion.div>
@@ -139,7 +139,7 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="pt-6"
+            className="pt-3"
           >
             <TrustBanner />
           </motion.div>
@@ -148,18 +148,18 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className={`flex items-center justify-center gap-4 sm:gap-8 ${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground pt-2 flex-wrap`}
+            className={`flex items-center justify-center gap-2 sm:gap-4 ${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground pt-1 flex-wrap`}
           >
-            <div className="flex items-center gap-1 sm:gap-2">
-              <Lightning weight="fill" className="text-accent" size={isMobile ? 16 : 24} />
+            <div className="flex items-center gap-0.5 sm:gap-1">
+              <Lightning weight="fill" className="text-accent" size={isMobile ? 12 : 16} />
               <span>Live in &lt;10 sec</span>
             </div>
-            <div className="flex items-center gap-1 sm:gap-2">
-              <Fire weight="fill" className="text-destructive" size={isMobile ? 16 : 24} />
+            <div className="flex items-center gap-0.5 sm:gap-1">
+              <Fire weight="fill" className="text-destructive" size={isMobile ? 12 : 16} />
               <span>Real-time AI debates</span>
             </div>
-            <div className="flex items-center gap-1 sm:gap-2">
-              <Swap weight="fill" className="text-primary" size={isMobile ? 16 : 24} />
+            <div className="flex items-center gap-0.5 sm:gap-1">
+              <Swap weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
               <span>Fusion Mode</span>
             </div>
           </motion.div>
@@ -168,7 +168,7 @@ export function Home({ onNavigate }: HomeProps) {
 
       <ProductDemoShowcase />
 
-      <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-20 max-w-[1400px]">
+      <section className="container mx-auto px-2 sm:px-3 lg:px-4 py-4 sm:py-6 lg:py-10 max-w-[1400px]">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -179,7 +179,7 @@ export function Home({ onNavigate }: HomeProps) {
             <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/5 via-card to-accent/5 hover:border-primary hover:shadow-2xl hover:shadow-primary/20 transition-all group">
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
               
-              <div className={`relative ${isMobile ? 'p-6' : 'p-8 md:p-12'}`}>
+              <div className={`relative ${isMobile ? 'p-3' : 'p-4 md:p-6'}`}>
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ opacity: 0.4 }}>
                   <defs>
                     <linearGradient id="line-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -426,74 +426,74 @@ export function Home({ onNavigate }: HomeProps) {
                   )}
                 </svg>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 relative z-10">
-                  <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
-                      <Fire weight="fill" className="text-primary" size={isMobile ? 20 : 24} />
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 relative z-10">
+                  <div className="flex flex-col items-start space-y-1">
+                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
+                      <Fire weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>The Forge</h3>
-                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>The Forge</h3>
+                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
                         5 AI agents argue LIVE. You vote. Winners auto-apply.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
-                      <Swap weight="fill" className="text-accent" size={isMobile ? 20 : 24} />
+                  <div className="flex flex-col items-start space-y-1">
+                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
+                      <Swap weight="fill" className="text-accent" size={isMobile ? 12 : 16} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>Fusion Mode</h3>
-                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>Fusion Mode</h3>
+                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
                         3 versions. Drag-drop parts. Create hybrid.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
-                      <Rocket weight="fill" className="text-accent" size={isMobile ? 20 : 24} />
+                  <div className="flex flex-col items-start space-y-1">
+                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
+                      <Rocket weight="fill" className="text-accent" size={isMobile ? 12 : 16} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>Live Deploy</h3>
-                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>Live Deploy</h3>
+                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
                         Instant HTTPS domain. No manual hosting.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
-                      <TreeStructure weight="fill" className="text-primary" size={isMobile ? 20 : 24} />
+                  <div className="flex flex-col items-start space-y-1">
+                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
+                      <TreeStructure weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>FREE Incubator</h3>
-                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>FREE Incubator</h3>
+                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
                         5 validated app ideas in 30 sec. Zero credits.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
-                      <Lightning weight="fill" className="text-primary" size={isMobile ? 20 : 24} />
+                  <div className="flex flex-col items-start space-y-1">
+                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
+                      <Lightning weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>Evolve Button</h3>
-                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>Evolve Button</h3>
+                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
                         Upgrades it instantly. ChatGPT for apps.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-destructive/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-destructive`}>
-                      <Shield weight="fill" className="text-destructive" size={isMobile ? 20 : 24} />
+                  <div className="flex flex-col items-start space-y-1">
+                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-destructive/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-destructive`}>
+                      <Shield weight="fill" className="text-destructive" size={isMobile ? 12 : 16} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-foreground`}>$500 Shield</h3>
-                      <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground leading-relaxed`}>
+                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>$500 Shield</h3>
+                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
                         AI security agent. Auto-blocks attacks.
                       </p>
                     </div>
@@ -505,45 +505,45 @@ export function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
-      <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-20 max-w-[1400px]">
+      <section className="container mx-auto px-2 sm:px-3 lg:px-4 py-4 sm:py-6 lg:py-10 max-w-[1400px]">
         <div className="max-w-5xl mx-auto">
           <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/10 via-card to-accent/10">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
             
-            <div className={`relative ${isMobile ? 'p-6' : 'p-12'} text-center`}>
+            <div className={`relative ${isMobile ? 'p-3' : 'p-6'} text-center`}>
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <Badge className={`mb-4 sm:mb-6 ${isMobile ? 'px-3 py-1.5 text-sm' : 'px-6 py-3 text-lg'} bg-primary/30 border-primary glow-primary`}>
-                  <Sparkle weight="fill" size={isMobile ? 16 : 20} />
+                <Badge className={`mb-2 sm:mb-3 ${isMobile ? 'px-2 py-0.5 text-[10px]' : 'px-3 py-1 text-sm'} bg-primary/30 border-primary glow-primary`}>
+                  <Sparkle weight="fill" size={isMobile ? 12 : 14} />
                   Ready to Break the Industry?
                 </Badge>
-                <h2 className={`${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl md:text-5xl'} font-bold mb-4 sm:mb-6`}>
+                <h2 className={`${isMobile ? 'text-base' : isTablet ? 'text-xl' : 'text-2xl md:text-3xl'} font-bold mb-2 sm:mb-3`}>
                   Start with 5 FREE Generations
                 </h2>
-                <p className={`${isMobile ? 'text-sm' : isTablet ? 'text-base' : 'text-xl'} text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto`}>
+                <p className={`${isMobile ? 'text-[11px]' : isTablet ? 'text-xs' : 'text-sm'} text-muted-foreground mb-3 sm:mb-4 max-w-2xl mx-auto`}>
                   Or try the FREE Idea Incubator if you're not sure what to build yet.
-                  <span className="text-foreground font-semibold block mt-2">
+                  <span className="text-foreground font-semibold block mt-1">
                     No credit card required. Takes 30 seconds.
                   </span>
                 </p>
-                <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
+                <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
                   <Button
-                    size={isMobile ? 'default' : 'lg'}
+                    size={isMobile ? 'sm' : 'default'}
                     onClick={() => onNavigate('generator')}
-                    className={`${isMobile ? 'text-base px-6 py-5' : 'text-xl px-10 py-7'} glow-primary hover:scale-105 transition-transform`}
+                    className={`${isMobile ? 'text-xs px-4 py-2 h-8' : 'text-sm px-5 py-3 h-9'} glow-primary hover:scale-105 transition-transform`}
                   >
-                    <Fire weight="fill" size={isMobile ? 20 : 24} />
+                    <Fire weight="fill" size={isMobile ? 14 : 16} />
                     Launch The Forge
                   </Button>
                   <Button
-                    size={isMobile ? 'default' : 'lg'}
+                    size={isMobile ? 'sm' : 'default'}
                     variant="outline"
                     onClick={() => onNavigate('pricing')}
-                    className={`${isMobile ? 'text-base px-6 py-5' : 'text-xl px-10 py-7'} border-accent/50 hover:bg-accent/10`}
+                    className={`${isMobile ? 'text-xs px-4 py-2 h-8' : 'text-sm px-5 py-3 h-9'} border-accent/50 hover:bg-accent/10`}
                   >
                     See Pricing
                   </Button>
