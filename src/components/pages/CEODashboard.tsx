@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { TrendUp, Users, CurrencyDollar, Download, Sparkle, ChartLine, Eye, EyeSlash, ChatCircleDots, Fire, MaskHappy, Robot, ShieldSlash, Warning, Target, Broadcast, Skull } from '@phosphor-icons/react'
+import { TrendUp, Users, CurrencyDollar, Download, Sparkle, ChartLine, Eye, EyeSlash, ChatCircleDots, Fire, MaskHappy, Robot, ShieldSlash, Warning, Target, Broadcast, Skull, ArrowsLeftRight } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
@@ -42,7 +42,7 @@ import { CEOAnalytics } from '../CEOAnalytics'
 import { CEOSettings } from '../CEOSettings'
 import { SessionIndicator } from '../SessionIndicator'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'figma'
 
 interface CEODashboardProps {
   onNavigate: (page: Page) => void
@@ -190,6 +190,14 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
               </p>
             </div>
             <div className="flex gap-3 flex-wrap">
+              <Button
+                variant="outline"
+                onClick={() => onNavigate('figma')}
+                className="border-primary/50 text-primary hover:bg-primary/10"
+              >
+                <ArrowsLeftRight size={16} />
+                Figma Sync
+              </Button>
               <Button
                 variant="outline"
                 onClick={() => setShowAdvancedControls(!showAdvancedControls)}

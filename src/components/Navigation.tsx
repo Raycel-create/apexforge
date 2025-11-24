@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import { useBlackForge } from '../lib/BlackForgeContext'
 import { useCEOAuth } from '../lib/CEOAuthContext'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'figma'
 
 interface NavigationProps {
   currentPage: Page
