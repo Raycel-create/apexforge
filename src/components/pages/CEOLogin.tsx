@@ -66,20 +66,15 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
       return
     }
 
-    if (biometricsEnabled && !totpToken) {
-      toast.error('Authentication code required when biometric auth is enabled')
-      return
-    }
-
-    if (biometricsEnabled && totpToken.length !== 6) {
-      toast.error('Authentication code must be 6 digits')
+    if (biometricsEnabled && (!totpToken || totpToken.length !== 6)) {
+      toast.error('Authentication code required (6 digits)')
       return
     }
 
     setIsLoggingIn(true)
 
     try {
-      const success = await login(username, password, biometricsEnabled ? totpToken : undefined)
+      const success = await login(username, password, totpToken || undefined)
       
       if (success) {
         toast.success('🔥 CEO Access Granted', {
@@ -170,34 +165,34 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
                 />
               </div>
 
-              <div>
-                <Label htmlFor="totp-token" className="text-base font-semibold mb-2 flex items-center gap-2">
-                  <ShieldCheck weight="fill" className="text-accent" size={18} />
-                  Authentication Code {!biometricsEnabled && '(Optional)'}
-                </Label>
-                <Input
-                  id="totp-token"
-                  type="text"
-                  value={totpToken}
-                  onChange={(e) => setTotpToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  placeholder="000000"
-                  className="h-12 bg-background border-accent/30 focus:border-accent text-base tracking-widest text-center font-mono text-2xl"
-                  maxLength={6}
-                  autoComplete="one-time-code"
-                  disabled={isLoggingIn}
-                />
-                <p className="text-xs text-muted-foreground mt-2">
-                  {biometricsEnabled 
-                    ? 'Required: Enter the 6-digit code from your authenticator app'
-                    : 'Optional: Only required if biometric auth is enabled in Settings'}
-                </p>
-              </div>
+              {biometricsEnabled && (
+                <div>
+                  <Label htmlFor="totp-token" className="text-base font-semibold mb-2 flex items-center gap-2">
+                    <ShieldCheck weight="fill" className="text-accent" size={18} />
+                    Authentication Code (Required)
+                  </Label>
+                  <Input
+                    id="totp-token"
+                    type="text"
+                    value={totpToken}
+                    onChange={(e) => setTotpToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    placeholder="000000"
+                    className="h-12 bg-background border-accent/30 focus:border-accent text-base tracking-widest text-center font-mono text-2xl"
+                    maxLength={6}
+                    autoComplete="one-time-code"
+                    disabled={isLoggingIn}
+                  />
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Enter the 6-digit code from your authenticator app
+                  </p>
+                </div>
+              )}
 
               <Button
                 type="submit"
                 size="lg"
                 className="w-full h-12 text-base glow-primary"
-                disabled={isLoggingIn || !username || !password || (biometricsEnabled && totpToken.length !== 6)}
+                disabled={isLoggingIn || !username || !password}
               >
                 <ShieldCheck weight="fill" size={20} />
                 {isLoggingIn ? 'Authenticating...' : 'Login to CEO Dashboard'}
@@ -305,8 +300,14 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
           className="mt-8 text-center"
         >
           <Card className="inline-block px-6 py-3 bg-primary/5 border-primary/30">
-            <p className="text-xs text-muted-foreground">
-              🔒 <span className="font-semibold text-primary">Secure CEO Access</span> - Credentials: papakoEddie@tripzy.international • Biometric auth optional
+            <p className="text-sm font-mono">
+              <span className="text-muted-foreground">Username:</span> <span className="text-foreground font-semibold">papakoEddie@tripzy.international</span>
+            </p>
+            <p className="text-sm font-mono mt-1">
+              <span className="text-muted-foreground">Password:</span> <span className="text-foreground font-semibold">19780111</span>
+            </p>
+            <p className="text-xs text-muted-foreground mt-3">
+              🔒 Biometric authentication is optional (enable in Settings after login)
             </p>
           </Card>
         </motion.div>

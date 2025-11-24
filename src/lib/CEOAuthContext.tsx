@@ -66,7 +66,10 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
       return false
     }
 
-    if (biometricsEnabled && totpSecret && token) {
+    if (biometricsEnabled && totpSecret) {
+      if (!token) {
+        return false
+      }
       const isValidToken = verifyTOTP(token)
       if (!isValidToken) {
         return false
