@@ -24,6 +24,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const [qrCodeUrl, setQrCodeUrl] = useState<string>('')
   const [showSetup, setShowSetup] = useState(false)
+  const [passwordVerified, setPasswordVerified] = useState(false)
 
   useEffect(() => {
     if (totpSecret) {
@@ -58,7 +59,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
     }
   }
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const verifyPassword = (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!username || !password) {
@@ -66,7 +67,34 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
       return
     }
 
-    if (biometricsEnabled && (!totpToken || totpToken.length !== 6)) {
+    const CEO_USERNAME = 'papakoEddie@tripzy.international'
+    const CEO_PASSWORD = '19780111'
+
+    if (username === CEO_USERNAME && password === CEO_PASSWORD) {
+      setPasswordVerified(true)
+      if (!totpSecret) {
+        const secret = initializeTOTP()
+        toast.success('Password verified!', {
+          description: 'TOTP has been generated. Scan the QR code with your authenticator app.',
+          duration: 4000,
+        })
+      } else {
+        toast.success('Password verified!', {
+          description: 'Enter your 6-digit authentication code to continue.',
+          duration: 3000,
+        })
+      }
+    } else {
+      toast.error('Invalid credentials', {
+        description: 'Username or password is incorrect',
+      })
+    }
+  }
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!totpToken || totpToken.length !== 6) {
       toast.error('Authentication code required (6 digits)')
       return
     }
@@ -74,7 +102,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
     setIsLoggingIn(true)
 
     try {
-      const success = await login(username, password, totpToken || undefined)
+      const success = await login(username, password, totpToken)
       
       if (success) {
         toast.success('🔥 CEO Access Granted', {
@@ -86,9 +114,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
         }, 500)
       } else {
         toast.error('Authentication failed', {
-          description: biometricsEnabled 
-            ? 'Invalid credentials or authentication code'
-            : 'Invalid username or password',
+          description: 'Invalid authentication code',
         })
         setTotpToken('')
       }
@@ -130,42 +156,98 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
 
         <div className="grid md:grid-cols-2 gap-6">
           <Card className="p-8 border-primary/30 bg-card/80 backdrop-blur">
-            <form onSubmit={handleLogin} className="space-y-6">
-              <div>
-                <Label htmlFor="username" className="text-base font-semibold mb-2 flex items-center gap-2">
-                  <User weight="fill" className="text-primary" size={18} />
-                  Email / Username
-                </Label>
-                <Input
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="papakoEddie@tripzy.international"
-                  className="h-12 bg-background border-primary/30 focus:border-primary text-base"
-                  autoComplete="username"
-                  disabled={isLoggingIn}
-                />
-              </div>
+            {!passwordVerified ? (
+              <form onSubmit={verifyPassword} className="space-y-6">
+                <div className="mb-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                      1
+                    </div>
+                    <h3 className="text-xl font-bold">Password Authentication</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground ml-10">
+                    Enter your CEO credentials
+                  </p>
+                </div>
 
-              <div>
-                <Label htmlFor="password" className="text-base font-semibold mb-2 flex items-center gap-2">
-                  <Key weight="fill" className="text-primary" size={18} />
-                  Password
-                </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter password"
-                  className="h-12 bg-background border-primary/30 focus:border-primary text-base"
-                  autoComplete="current-password"
-                  disabled={isLoggingIn}
-                />
-              </div>
+                <div>
+                  <Label htmlFor="username" className="text-base font-semibold mb-2 flex items-center gap-2">
+                    <User weight="fill" className="text-primary" size={18} />
+                    Email / Username
+                  </Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="papakoEddie@tripzy.international"
+                    className="h-12 bg-background border-primary/30 focus:border-primary text-base"
+                    autoComplete="username"
+                  />
+                </div>
 
-              {biometricsEnabled && (
+                <div>
+                  <Label htmlFor="password" className="text-base font-semibold mb-2 flex items-center gap-2">
+                    <Key weight="fill" className="text-primary" size={18} />
+                    Password
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter password"
+                    className="h-12 bg-background border-primary/30 focus:border-primary text-base"
+                    autoComplete="current-password"
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full h-12 text-base glow-primary"
+                  disabled={!username || !password}
+                >
+                  <Key weight="fill" size={20} />
+                  Verify Password
+                </Button>
+
+                <div className="pt-4 border-t border-border">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="w-full"
+                    onClick={() => onNavigate('home')}
+                  >
+                    ← Back to Home
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <form onSubmit={handleLogin} className="space-y-6">
+                <div className="mb-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold">
+                      2
+                    </div>
+                    <h3 className="text-xl font-bold">TOTP Verification</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground ml-10">
+                    Enter your 6-digit authentication code
+                  </p>
+                </div>
+
+                <div className="p-4 bg-primary/10 border border-primary/30 rounded-lg">
+                  <div className="flex items-center gap-2 text-sm">
+                    <ShieldCheck weight="fill" className="text-primary" size={16} />
+                    <span className="text-primary font-semibold">Password Verified ✓</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1 ml-6">
+                    User: {username}
+                  </p>
+                </div>
+
                 <div>
                   <Label htmlFor="totp-token" className="text-base font-semibold mb-2 flex items-center gap-2">
                     <ShieldCheck weight="fill" className="text-accent" size={18} />
@@ -181,113 +263,176 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
                     maxLength={6}
                     autoComplete="one-time-code"
                     disabled={isLoggingIn}
+                    autoFocus
                   />
                   <p className="text-xs text-muted-foreground mt-2">
                     Enter the 6-digit code from your authenticator app
                   </p>
                 </div>
-              )}
 
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full h-12 text-base glow-primary"
-                disabled={isLoggingIn || !username || !password}
-              >
-                <ShieldCheck weight="fill" size={20} />
-                {isLoggingIn ? 'Authenticating...' : 'Login to CEO Dashboard'}
-              </Button>
-
-              <div className="pt-4 border-t border-border">
                 <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="w-full"
-                  onClick={() => onNavigate('home')}
+                  type="submit"
+                  size="lg"
+                  className="w-full h-12 text-base glow-accent"
+                  disabled={isLoggingIn || !totpToken || totpToken.length !== 6}
                 >
-                  ← Back to Home
+                  <ShieldCheck weight="fill" size={20} />
+                  {isLoggingIn ? 'Authenticating...' : 'Complete Login'}
                 </Button>
-              </div>
-            </form>
+
+                <div className="pt-4 border-t border-border">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="w-full"
+                    onClick={() => {
+                      setPasswordVerified(false)
+                      setTotpToken('')
+                    }}
+                  >
+                    ← Back to Password
+                  </Button>
+                </div>
+              </form>
+            )}
           </Card>
 
           <Card className="p-8 border-accent/30 bg-card/80 backdrop-blur">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
-                <QrCode weight="fill" className="text-accent" size={24} />
-              </div>
+            {!passwordVerified ? (
               <div>
-                <h3 className="text-xl font-bold">TOTP Setup (Optional)</h3>
-                <p className="text-sm text-muted-foreground">
-                  Enable in Settings after login
-                </p>
-              </div>
-            </div>
-
-            {totpSecret ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="space-y-4"
-              >
-                <div className="flex items-center justify-center p-6 bg-white rounded-lg">
-                  <img src={qrCodeUrl} alt="TOTP QR Code" className="w-64 h-64" />
-                </div>
-
-                <div className="p-4 bg-muted/30 rounded-lg">
-                  <p className="text-xs text-muted-foreground mb-2 font-semibold">Manual Entry Key:</p>
-                  <code className="text-xs bg-background px-3 py-2 rounded border border-border block break-all font-mono">
-                    {totpSecret}
-                  </code>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    If you can't scan the QR code, enter this key manually in your authenticator app.
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold">Setup Instructions:</p>
-                  <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside">
-                    <li>Open your authenticator app (Google Authenticator, Authy, etc.)</li>
-                    <li>Tap "Add" or "+" to add a new account</li>
-                    <li>Scan the QR code above or enter the manual key</li>
-                    <li>Enable biometric auth in CEO Settings after login</li>
-                  </ol>
-                </div>
-
-                {biometricsEnabled && (
-                  <div className="pt-4 border-t border-border">
-                    <p className="text-xs text-accent font-semibold text-center">
-                      ✓ Biometric authentication is ACTIVE
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <ShieldCheck weight="fill" className="text-primary" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold">Two-Factor Authentication</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Enhanced security for CEO access
                     </p>
                   </div>
-                )}
-              </motion.div>
-            ) : (
-              <div className="space-y-4">
-                <div className="p-4 border border-dashed border-border rounded-lg text-center">
-                  <ShieldCheck size={32} className="mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground mb-1">
-                    TOTP not configured
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Enable biometric authentication in Settings after login
-                  </p>
                 </div>
-                <Button
-                  className="w-full"
-                  variant="outline"
-                  onClick={() => {
-                    const secret = initializeTOTP()
-                    setShowSetup(true)
-                    toast.info('TOTP Secret Generated', {
-                      description: 'You can now scan the QR code with your authenticator app',
-                    })
-                  }}
-                >
-                  <QrCode weight="fill" size={20} />
-                  Generate TOTP Secret
-                </Button>
+
+                <div className="space-y-4">
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-xs font-bold text-primary">1</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold mb-1">Password Authentication</p>
+                        <p className="text-xs text-muted-foreground">
+                          Enter your CEO username and password to verify your identity
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-xs font-bold text-accent">2</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold mb-1">TOTP Verification (Required)</p>
+                        <p className="text-xs text-muted-foreground">
+                          Enter a 6-digit code from your authenticator app
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-border">
+                    <p className="text-xs text-muted-foreground mb-3">
+                      📱 Supported Authenticator Apps:
+                    </p>
+                    <ul className="text-xs text-muted-foreground space-y-1 ml-4">
+                      <li>• Google Authenticator</li>
+                      <li>• Microsoft Authenticator</li>
+                      <li>• Authy</li>
+                      <li>• 1Password</li>
+                      <li>• Any TOTP-compatible app</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                    <QrCode weight="fill" className="text-accent" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold">TOTP Setup</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {totpSecret ? 'Scan QR code' : 'Generate your TOTP'}
+                    </p>
+                  </div>
+                </div>
+
+                {totpSecret ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center justify-center p-6 bg-white rounded-lg">
+                      <img src={qrCodeUrl} alt="TOTP QR Code" className="w-64 h-64" />
+                    </div>
+
+                    <div className="p-4 bg-muted/30 rounded-lg">
+                      <p className="text-xs text-muted-foreground mb-2 font-semibold">Manual Entry Key:</p>
+                      <code className="text-xs bg-background px-3 py-2 rounded border border-border block break-all font-mono">
+                        {totpSecret}
+                      </code>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        If you can't scan the QR code, enter this key manually in your authenticator app.
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-sm font-semibold">Setup Instructions:</p>
+                      <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside">
+                        <li>Open your authenticator app</li>
+                        <li>Tap "Add" or "+" to add a new account</li>
+                        <li>Scan the QR code above</li>
+                        <li>Enter the 6-digit code to complete login</li>
+                      </ol>
+                    </div>
+
+                    <div className="pt-4 border-t border-border">
+                      <p className="text-xs text-accent font-semibold text-center">
+                        ✓ TOTP is now REQUIRED for CEO login
+                      </p>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="p-4 border border-dashed border-border rounded-lg text-center">
+                      <ShieldCheck size={32} className="mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground mb-1">
+                        TOTP not configured yet
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Click below to generate your TOTP secret
+                      </p>
+                    </div>
+                    <Button
+                      className="w-full"
+                      variant="outline"
+                      onClick={() => {
+                        const secret = initializeTOTP()
+                        setShowSetup(true)
+                        toast.info('TOTP Secret Generated', {
+                          description: 'Scan the QR code with your authenticator app',
+                        })
+                      }}
+                    >
+                      <QrCode weight="fill" size={20} />
+                      Generate TOTP Secret
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
           </Card>
@@ -306,8 +451,11 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
             <p className="text-sm font-mono mt-1">
               <span className="text-muted-foreground">Password:</span> <span className="text-foreground font-semibold">19780111</span>
             </p>
-            <p className="text-xs text-muted-foreground mt-3">
-              🔒 Biometric authentication is optional (enable in Settings after login)
+            <p className="text-xs text-accent font-semibold mt-3">
+              🔒 TOTP verification is REQUIRED for login
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Two-factor authentication enforced for all CEO access
             </p>
           </Card>
         </motion.div>
