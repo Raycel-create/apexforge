@@ -505,45 +505,45 @@ export function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
-      <section className="container mx-auto px-2 sm:px-3 lg:px-4 py-4 sm:py-6 lg:py-10 max-w-[1400px]">
+      <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-20 max-w-[1400px]">
         <div className="max-w-5xl mx-auto">
           <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/10 via-card to-accent/10">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
             
-            <div className={`relative ${isMobile ? 'p-3' : 'p-6'} text-center`}>
+            <div className={`relative ${isMobile ? 'p-6' : 'p-12'} text-center`}>
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <Badge className={`mb-2 sm:mb-3 ${isMobile ? 'px-2 py-0.5 text-[10px]' : 'px-3 py-1 text-sm'} bg-primary/30 border-primary glow-primary`}>
-                  <Sparkle weight="fill" size={isMobile ? 12 : 14} />
+                <Badge className={`mb-4 sm:mb-6 ${isMobile ? 'px-3 py-1.5 text-sm' : 'px-6 py-3 text-lg'} bg-primary/30 border-primary glow-primary`}>
+                  <Sparkle weight="fill" size={isMobile ? 16 : 20} />
                   Ready to Break the Industry?
                 </Badge>
-                <h2 className={`${isMobile ? 'text-base' : isTablet ? 'text-xl' : 'text-2xl md:text-3xl'} font-bold mb-2 sm:mb-3`}>
+                <h2 className={`${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl md:text-5xl'} font-bold mb-4 sm:mb-6`}>
                   Start with 5 FREE Generations
                 </h2>
-                <p className={`${isMobile ? 'text-[11px]' : isTablet ? 'text-xs' : 'text-sm'} text-muted-foreground mb-3 sm:mb-4 max-w-2xl mx-auto`}>
+                <p className={`${isMobile ? 'text-sm' : isTablet ? 'text-base' : 'text-xl'} text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto`}>
                   Or try the FREE Idea Incubator if you're not sure what to build yet.
-                  <span className="text-foreground font-semibold block mt-1">
+                  <span className="text-foreground font-semibold block mt-2">
                     No credit card required. Takes 30 seconds.
                   </span>
                 </p>
-                <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
+                <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
                   <Button
-                    size={isMobile ? 'sm' : 'default'}
+                    size={isMobile ? 'default' : 'lg'}
                     onClick={() => onNavigate('generator')}
-                    className={`${isMobile ? 'text-xs px-4 py-2 h-8' : 'text-sm px-5 py-3 h-9'} glow-primary hover:scale-105 transition-transform`}
+                    className={`${isMobile ? 'text-base px-6 py-5' : 'text-xl px-10 py-7'} glow-primary hover:scale-105 transition-transform`}
                   >
-                    <Fire weight="fill" size={isMobile ? 14 : 16} />
+                    <Fire weight="fill" size={isMobile ? 20 : 24} />
                     Launch The Forge
                   </Button>
                   <Button
-                    size={isMobile ? 'sm' : 'default'}
+                    size={isMobile ? 'default' : 'lg'}
                     variant="outline"
                     onClick={() => onNavigate('pricing')}
-                    className={`${isMobile ? 'text-xs px-4 py-2 h-8' : 'text-sm px-5 py-3 h-9'} border-accent/50 hover:bg-accent/10`}
+                    className={`${isMobile ? 'text-base px-6 py-5' : 'text-xl px-10 py-7'} border-accent/50 hover:bg-accent/10`}
                   >
                     See Pricing
                   </Button>
