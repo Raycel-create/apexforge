@@ -18,13 +18,13 @@ interface CEOLoginProps {
 
 export function CEOLogin({ onNavigate }: CEOLoginProps) {
   const { login, initializeTOTP, totpSecret, biometricsEnabled } = useCEOAuth()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [totpToken, setTotpToken] = useState('')
-  const [isLoggingIn, setIsLoggingIn] = useState(false)
+  const [username, setUsername] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [totpToken, setTotpToken] = useState<string>('')
+  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false)
   const [qrCodeUrl, setQrCodeUrl] = useState<string>('')
-  const [showSetup, setShowSetup] = useState(false)
-  const [passwordVerified, setPasswordVerified] = useState(false)
+  const [showSetup, setShowSetup] = useState<boolean>(false)
+  const [passwordVerified, setPasswordVerified] = useState<boolean>(false)
 
   useEffect(() => {
     if (totpSecret) {
