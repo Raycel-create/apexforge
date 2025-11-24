@@ -17,13 +17,10 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const { blackForgeMode } = useBlackForge()
-  const [credits] = useKV<number>('user-credits', 5)
   const [currentUser] = useKV<string | null>('apexforge-current-user', null)
   const [users] = useKV<Record<string, { name: string; email: string }>>('apexforge-users', {})
   const [, setCurrentUserState] = useKV<string | null>('apexforge-current-user', null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { isMobile, isTablet } = useScreenSize()
-  const [aiKeys] = useKV<any[]>('ceo-keys-ai', [])
   const [hasValidAIKeys, setHasValidAIKeys] = useState(false)
 
   const currentUserData = currentUser && users ? users[currentUser] : null
@@ -40,27 +37,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const handleNavigation = (page: Page) => {
     onNavigate(page)
     setMobileMenuOpen(false)
-  }
-
-  const handleLogout = () => {
-    setCurrentUserState(null)
-    toast.success('Logged out successfully')
-    setMobileMenuOpen(false)
-    onNavigate('home')
-  }
-
-  return (
-    <nav className={`border-b ${blackForgeMode ? 'border-destructive/30 bg-destructive/5' : 'border-border bg-card/80'} backdrop-blur-lg sticky top-0 z-50 transition-all duration-500 w-full`}>
-      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 max-w-[1400px]">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center gap-2 sm:gap-4 lg:gap-8 min-w-0">
-            <div className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg lg:text-2xl font-bold shrink-0">
-              <Fire weight="fill" className={`${blackForgeMode ? 'text-destructive' : 'text-destructive'} animate-pulse-glow`} size={isMobile ? 20 : 28} />
-              <span className={`bg-gradient-to-r ${blackForgeMode ? 'from-destructive via-destructive/70 to-destructive' : 'from-primary via-accent to-primary'} bg-clip-text text-transparent transition-all duration-500 whitespace-nowrap`}>
-                {isMobile ? 'Apex' : (isTablet ? 'ApexForge' : (blackForgeMode ? '🔥 ApexForge' : 'ApexForge'))}
-              </span>
-            </div>
-
             {!isMobile && !isTablet && (
               <div className="hidden lg:flex items-center gap-1">
                 <Button
@@ -93,6 +69,18 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 >
                   <Cube size={16} />
                   Figma
+                </Button>
+                <Button
+                  variant={currentPage === 'ceo' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  onClick={() => onNavigate('ceo')}
+                  className="border-primary/30"
+                >
+                  <Key size={16} />
+                  CEO
+                  {isAuthenticated && (
+                    <CheckCircle weight="fill" size={12} className="ml-1 text-accent" />
+                  )}
                 </Button>
               </div>
             )}
@@ -207,6 +195,20 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                     >
                       <CreditCard size={16} />
                       Pricing
+                    </Button>
+                    <div className="my-2 border-t border-border" />
+                    <Button
+                      variant={currentPage === 'ceo' ? 'secondary' : 'outline'}
+                      className="justify-start border-primary/50"
+                      onClick={() => handleNavigation('ceo')}
+                    >
+                      <Key size={16} />
+                      CEO Dashboard
+                      {isAuthenticated && (
+                        <Badge className="ml-auto bg-accent/20 text-accent border-accent/40 text-[10px] px-1.5">
+                          ✓
+                        </Badge>
+                      )}
                     </Button>
                     <Button
                       variant={currentPage === 'generator' ? 'secondary' : 'default'}
