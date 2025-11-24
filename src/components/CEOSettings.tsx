@@ -11,6 +11,7 @@ import { useKV } from '@github/spark/hooks'
 import { useCEOAuth } from '../lib/CEOAuthContext'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { EmailNotificationSettings } from './EmailNotificationSettings'
+import { EmailServiceConfig } from './EmailServiceConfig'
 
 export function CEOSettings() {
   const { biometricsEnabled, toggleBiometrics, initializeTOTP } = useCEOAuth()
@@ -67,9 +68,10 @@ export function CEOSettings() {
       </div>
 
       <Tabs defaultValue="payments" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="payments">Payments</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="email-service">Email Service</TabsTrigger>
           <TabsTrigger value="notifications">Email Reports</TabsTrigger>
         </TabsList>
 
@@ -269,6 +271,10 @@ export function CEOSettings() {
           </div>
         </div>
       </Card>
+        </TabsContent>
+
+        <TabsContent value="email-service" className="space-y-6 mt-6">
+          <EmailServiceConfig />
         </TabsContent>
 
         <TabsContent value="notifications" className="space-y-6 mt-6">

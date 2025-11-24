@@ -47,10 +47,145 @@ export const verifyOTPCode = (otp: OTPCode, code: string): boolean => {
   return otp.code === code
 }
 
-export const simulateEmailOTPSend = (email: string, code: string, provider: 'email' | 'github'): Promise<void> => {
-  return new Promise((resolve) => {
-    const providerText = provider === 'github' ? 'GitHub' : 'Gmail'
+export const simulateEmailOTPSend = async (email: string, code: string, provider: 'email' | 'github'): Promise<void> => {
+  const providerText = provider === 'github' ? 'GitHub' : 'Gmail'
+  
+  const { emailService } = await import('./emailService')
+  
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your ApexForge Verification Code</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background-color: #0a0a0a;
+      color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+    .header {
+      background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .content {
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .code-container {
+      background-color: #262626;
+      border: 2px solid #7c3aed;
+      border-radius: 12px;
+      padding: 30px;
+      margin: 30px 0;
+    }
+    .code {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: 8px;
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+    }
+    .info-box {
+      background-color: #1e1b4b;
+      border: 1px solid #4f46e5;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      color: #e0e7ff;
+    }
+    .footer {
+      padding: 30px;
+      text-align: center;
+      background-color: #0a0a0a;
+      border-top: 1px solid #333;
+      color: #666;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔐 Verification Code</h1>
+    </div>
     
+    <div class="content">
+      <p style="font-size: 16px; color: #999; margin-bottom: 10px;">
+        Your ApexForge verification code is:
+      </p>
+      
+      <div class="code-container">
+        <div class="code">${code}</div>
+      </div>
+      
+      <div class="info-box">
+        <div class="info-item">⏱️ This code expires in <strong>10 minutes</strong></div>
+        <div class="info-item">🔢 You have <strong>3 attempts</strong> to enter the correct code</div>
+        <div class="info-item">🔒 Sent securely via <strong>${providerText}</strong></div>
+      </div>
+      
+      <p style="color: #999; font-size: 14px; margin-top: 30px;">
+        If you didn't request this code, please ignore this email.
+      </p>
+    </div>
+
+    <div class="footer">
+      <p><strong>ApexForge</strong> - The AI Team That Ships Perfection</p>
+      <p>security@apexforge.ai</p>
+    </div>
+  </div>
+</body>
+</html>
+  `
+
+  const text = `
+ApexForge Verification Code
+
+Your verification code is: ${code}
+
+This code expires in 10 minutes.
+You have 3 attempts to enter the correct code.
+Sent securely via ${providerText}
+
+If you didn't request this code, please ignore this email.
+
+ApexForge - The AI Team That Ships Perfection
+security@apexforge.ai
+  `
+
+  const result = await emailService.sendEmail({
+    to: email,
+    subject: 'Your ApexForge Verification Code',
+    html,
+    text
+  })
+
+  if (!result.success) {
     console.log(`
 ╔════════════════════════════════════════════════════════════════╗
 ║              🔐  ${providerText.toUpperCase()} OTP VERIFICATION CODE               ║
@@ -72,9 +207,7 @@ export const simulateEmailOTPSend = (email: string, code: string, provider: 'ema
 ║ 🔒 Sent securely via ${providerText.padEnd(44)}║
 ╚════════════════════════════════════════════════════════════════╝
     `)
-    
-    setTimeout(resolve, 500)
-  })
+  }
 }
 
 export const verifyEmail = (email: string, provider: 'email' | 'github'): OTPVerification => {

@@ -535,26 +535,56 @@ ${data.aiInsights ? `AI INSIGHTS:\n${data.aiInsights}` : ''}
   }
 
   private async sendEmail(to: string, subject: string, html: string): Promise<boolean> {
+    const { emailService } = await import('./emailService')
+    
+    const result = await emailService.sendEmail({
+      to,
+      subject,
+      html,
+      text: this.extractTextFromHtml(html)
+    })
+
     const emailLog = await window.spark.kv.get<any[]>('email-notification-log') || []
     
     const emailRecord = {
       to,
       subject,
       sentAt: new Date().toISOString(),
-      status: 'sent',
+      status: result.success ? 'sent' : 'failed',
+      messageId: result.messageId,
+      error: result.error,
       preview: html.substring(0, 200)
     }
 
     emailLog.unshift(emailRecord)
     await window.spark.kv.set('email-notification-log', emailLog.slice(0, 50))
 
-    console.log('📧 Email Report Sent:', {
-      to,
-      subject,
-      timestamp: new Date().toLocaleString()
-    })
+    if (!result.success) {
+      console.error('📧 Email Report Failed:', {
+        to,
+        subject,
+        error: result.error,
+        timestamp: new Date().toLocaleString()
+      })
+    } else {
+      console.log('📧 Email Report Sent:', {
+        to,
+        subject,
+        messageId: result.messageId,
+        timestamp: new Date().toLocaleString()
+      })
+    }
 
-    return true
+    return result.success
+  }
+
+  private extractTextFromHtml(html: string): string {
+    return html
+      .replace(/<style[^>]*>.*?<\/style>/gs, '')
+      .replace(/<script[^>]*>.*?<\/script>/gs, '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
   }
 
   private async logReportSent(data: DailyReportData): Promise<void> {
