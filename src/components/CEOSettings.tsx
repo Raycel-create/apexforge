@@ -17,6 +17,7 @@ import { PhoneVerificationFlow, QuickPhoneVerifyButton } from './PhoneVerificati
 import { VerificationStatus } from './TrustIndicators'
 import { Dialog, DialogContent } from './ui/dialog'
 import { WebhookNotificationSettings } from './WebhookNotificationSettings'
+import { IPWhitelistManager } from './IPWhitelistManager'
 
 export function CEOSettings() {
   const { biometricsEnabled, toggleBiometrics, initializeTOTP } = useCEOAuth()
@@ -84,9 +85,10 @@ export function CEOSettings() {
         </div>
 
         <Tabs defaultValue="payments" className="w-full">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="payments">Payments</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
+            <TabsTrigger value="ip-whitelist">IP Control</TabsTrigger>
             <TabsTrigger value="sms">SMS/Twilio</TabsTrigger>
             <TabsTrigger value="email-service">Email Service</TabsTrigger>
             <TabsTrigger value="notifications">Email Reports</TabsTrigger>
@@ -274,38 +276,12 @@ export function CEOSettings() {
                     </div>
                   </motion.div>
                 )}
-
-                <Separator />
-
-                <div className="space-y-3">
-                  <h4 className="font-semibold text-sm">Security Features</h4>
-                  <div className="grid gap-2">
-                    {[
-                      { label: '2FA Authentication', status: biometricsEnabled },
-                      { label: 'Session Encryption', status: true },
-                      { label: 'IP Whitelisting', status: false },
-                      { label: 'Audit Logging', status: true },
-                    ].map((feature) => (
-                      <div
-                        key={feature.label}
-                        className="flex items-center justify-between p-3 bg-muted/20 rounded-lg"
-                      >
-                        <span className="text-sm">{feature.label}</span>
-                        <span
-                          className={`text-xs px-2 py-1 rounded ${
-                            feature.status
-                              ? 'bg-accent/20 text-accent'
-                              : 'bg-muted text-muted-foreground'
-                          }`}
-                        >
-                          {feature.status ? 'Active' : 'Inactive'}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="ip-whitelist" className="mt-6">
+            <IPWhitelistManager />
           </TabsContent>
 
           <TabsContent value="sms" className="space-y-6 mt-6">

@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode, useCallback,
 import { useKV } from '@github/spark/hooks'
 import * as OTPAuth from 'otpauth'
 import { validateCEOCredentials } from './ceoCredentials'
+import { ipWhitelistService } from './ipWhitelistService'
 
 interface CEOAuthContextType {
   isAuthenticated: boolean
@@ -144,7 +145,18 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
   }
 
   const login = async (username: string, password: string, token?: string): Promise<boolean> => {
+    const currentIP = await ipWhitelistService.getCurrentIP()
+    
+    const isWhitelistEnabled = await ipWhitelistService.isWhitelistEnabled()
+    const isIPAllowed = await ipWhitelistService.isIPWhitelisted(currentIP)
+    
+    if (isWhitelistEnabled && !isIPAllowed) {
+      await ipWhitelistService.logAccess(currentIP, 'blocked', '/ceo-dashboard', navigator.userAgent)
+      return false
+    }
+
     if (!validateCEOCredentials(username, password)) {
+      await ipWhitelistService.logAccess(currentIP, 'blocked', '/ceo-dashboard', navigator.userAgent)
       return false
     }
 
@@ -158,9 +170,11 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
     
     const isValidToken = verifyTOTP(token)
     if (!isValidToken) {
+      await ipWhitelistService.logAccess(currentIP, 'blocked', '/ceo-dashboard', navigator.userAgent)
       return false
     }
 
+    await ipWhitelistService.logAccess(currentIP, 'allowed', '/ceo-dashboard', navigator.userAgent)
     setIsAuthenticated(true)
     setSessionActive(true)
     setLastActivity(Date.now())
