@@ -11,6 +11,7 @@ import { useBlackForge } from '../../lib/BlackForgeContext'
 import { StripeConnect } from '../StripeConnect'
 import { StripeCheckout } from '../StripeCheckout'
 import { STRIPE_PLAN_PRICES } from '../../lib/stripeIntegration'
+import { TrustBanner, TrustIndicator, SecurityBadge } from '../TrustIndicators'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -207,9 +208,10 @@ export function Pricing({ onNavigate }: PricingProps) {
               Better Pricing
             </span>
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
+          <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4 mb-6">
             While competitors charge $50+ just for basic features, we give you live deployment, all AI models, and Fusion Mode starting at $19.
           </p>
+          <TrustBanner />
         </motion.div>
 
         <motion.div

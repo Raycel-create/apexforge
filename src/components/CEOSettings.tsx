@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 import { Switch } from './ui/switch'
 import { Label } from './ui/label'
 import { Separator } from './ui/separator'
-import { Bank, ShieldCheck, Fingerprint, QrCode, CreditCard, Globe } from '@phosphor-icons/react'
+import { Bank, ShieldCheck, Fingerprint, QrCode, CreditCard, Globe, Phone } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useKV } from '@github/spark/hooks'
@@ -13,6 +13,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { EmailNotificationSettings } from './EmailNotificationSettings'
 import { EmailServiceConfig } from './EmailServiceConfig'
 import { TwilioConfigPanel } from './TwilioConfig'
+import { PhoneVerificationFlow, QuickPhoneVerifyButton } from './PhoneVerificationFlow'
+import { VerificationStatus } from './TrustIndicators'
+import { Dialog, DialogContent } from './ui/dialog'
 
 export function CEOSettings() {
   const { biometricsEnabled, toggleBiometrics, initializeTOTP } = useCEOAuth()
@@ -22,6 +25,10 @@ export function CEOSettings() {
     country: string
     connectedAt?: number
   } | null>('ceo-bank-details', null)
+  const [showPhoneVerification, setShowPhoneVerification] = useState(false)
+  const [phoneVerified, setPhoneVerified] = useKV<boolean>('ceo-phone-verified', false)
+  const [verifiedPhone, setVerifiedPhone] = useKV<string | null>('ceo-phone-number', null)
+  const [emailVerified] = useKV<boolean>('ceo-email-verified', true)
 
   const handleConnectBank = () => {
     const bankName = 'Philippine Bank (Ready for Worldwide)'
@@ -59,28 +66,34 @@ export function CEOSettings() {
     )
   }
 
+  const handlePhoneVerificationComplete = (phone: string) => {
+    setPhoneVerified(true)
+    setVerifiedPhone(phone)
+    setShowPhoneVerification(false)
+  }
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">CEO Settings</h2>
-        <p className="text-muted-foreground">
-          Configure payment gateways, security, and email notifications
-        </p>
-      </div>
+    <>
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">CEO Settings</h2>
+          <p className="text-muted-foreground">
+            Configure payment gateways, security, and email notifications
+          </p>
+        </div>
 
-      <Tabs defaultValue="payments" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="payments">Payments</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
-          <TabsTrigger value="sms">SMS/Twilio</TabsTrigger>
-          <TabsTrigger value="email-service">Email Service</TabsTrigger>
-          <TabsTrigger value="notifications">Email Reports</TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="payments" className="w-full">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="payments">Payments</TabsTrigger>
+            <TabsTrigger value="security">Security</TabsTrigger>
+            <TabsTrigger value="sms">SMS/Twilio</TabsTrigger>
+            <TabsTrigger value="email-service">Email Service</TabsTrigger>
+            <TabsTrigger value="notifications">Email Reports</TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="payments" className="space-y-6 mt-6">
-
-      <Card className="p-6 border-primary/30">
-        <div className="flex items-center gap-3 mb-6">
+          <TabsContent value="payments" className="space-y-6 mt-6">
+            <Card className="p-6 border-primary/30">
+              <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
             <Bank weight="fill" className="text-primary" size={24} />
           </div>
@@ -182,111 +195,140 @@ export function CEOSettings() {
             </div>
           </div>
         )}
-      </Card>
-        </TabsContent>
+            </Card>
+          </TabsContent>
 
-        <TabsContent value="security" className="space-y-6 mt-6">
-      <Card className="p-6 border-accent/30">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
-            <ShieldCheck weight="fill" className="text-accent" size={24} />
-          </div>
-          <div>
-            <h3 className="text-xl font-bold">Security Settings</h3>
-            <p className="text-sm text-muted-foreground">
-              Enhanced authentication and access control
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
-            <div className="flex items-center gap-3 flex-1">
-              <Fingerprint weight="fill" className="text-accent" size={24} />
-              <div className="flex-1">
-                <Label htmlFor="biometrics" className="font-semibold cursor-pointer">
-                  Biometric Authentication / Auth App
-                </Label>
-                <p className="text-xs text-muted-foreground">
-                  Require TOTP code from authenticator app for enhanced security
-                </p>
-              </div>
-            </div>
-            <Switch
-              id="biometrics"
-              checked={biometricsEnabled}
-              onCheckedChange={handleToggleBiometrics}
-            />
-          </div>
-
-          {biometricsEnabled && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="p-4 bg-accent/10 border border-accent/30 rounded-lg"
-            >
-              <div className="flex items-start gap-3">
-                <QrCode weight="fill" className="text-accent mt-1" size={20} />
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-accent mb-1">
-                    ✓ Enhanced Security Active
-                  </p>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    Your CEO Dashboard now requires a TOTP code from your authenticator app 
-                    (Google Authenticator, Authy, etc.) in addition to your password. 
-                    Check the login page for QR code setup if you haven't configured it yet.
+          <TabsContent value="security" className="space-y-6 mt-6">
+            <Card className="p-6 border-accent/30">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                  <ShieldCheck weight="fill" className="text-accent" size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">Security Settings</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Enhanced authentication and access control
                   </p>
                 </div>
               </div>
-            </motion.div>
-          )}
 
-          <Separator />
+              <div className="space-y-6">
+                <div className="p-4 bg-card border border-border rounded-lg">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-semibold">Account Verification Status</h4>
+                    <QuickPhoneVerifyButton 
+                      verified={phoneVerified ?? false}
+                      phoneNumber={verifiedPhone ?? undefined}
+                      onVerify={() => setShowPhoneVerification(true)}
+                    />
+                  </div>
+                  <VerificationStatus 
+                    phoneVerified={phoneVerified ?? false}
+                    emailVerified={emailVerified ?? true}
+                    twoFactorEnabled={biometricsEnabled ?? false}
+                  />
+                </div>
 
-          <div className="space-y-3">
-            <h4 className="font-semibold text-sm">Security Features</h4>
-            <div className="grid gap-2">
-              {[
-                { label: '2FA Authentication', status: biometricsEnabled },
-                { label: 'Session Encryption', status: true },
-                { label: 'IP Whitelisting', status: false },
-                { label: 'Audit Logging', status: true },
-              ].map((feature) => (
-                <div
-                  key={feature.label}
-                  className="flex items-center justify-between p-3 bg-muted/20 rounded-lg"
-                >
-                  <span className="text-sm">{feature.label}</span>
-                  <span
-                    className={`text-xs px-2 py-1 rounded ${
-                      feature.status
-                        ? 'bg-accent/20 text-accent'
-                        : 'bg-muted text-muted-foreground'
-                    }`}
+                <Separator />
+
+                <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                  <div className="flex items-center gap-3 flex-1">
+                    <Fingerprint weight="fill" className="text-accent" size={24} />
+                    <div className="flex-1">
+                      <Label htmlFor="biometrics" className="font-semibold cursor-pointer">
+                        Biometric Authentication / Auth App
+                      </Label>
+                      <p className="text-xs text-muted-foreground">
+                        Require TOTP code from authenticator app for enhanced security
+                      </p>
+                    </div>
+                  </div>
+                  <Switch
+                    id="biometrics"
+                    checked={biometricsEnabled}
+                    onCheckedChange={handleToggleBiometrics}
+                  />
+                </div>
+
+                {biometricsEnabled && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="p-4 bg-accent/10 border border-accent/30 rounded-lg"
                   >
-                    {feature.status ? 'Active' : 'Inactive'}
-                  </span>
+                    <div className="flex items-start gap-3">
+                      <QrCode weight="fill" className="text-accent mt-1" size={20} />
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-accent mb-1">
+                          ✓ Enhanced Security Active
+                        </p>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          Your CEO Dashboard now requires a TOTP code from your authenticator app 
+                          (Google Authenticator, Authy, etc.) in addition to your password. 
+                          Check the login page for QR code setup if you haven't configured it yet.
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                <Separator />
+
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-sm">Security Features</h4>
+                  <div className="grid gap-2">
+                    {[
+                      { label: '2FA Authentication', status: biometricsEnabled },
+                      { label: 'Session Encryption', status: true },
+                      { label: 'IP Whitelisting', status: false },
+                      { label: 'Audit Logging', status: true },
+                    ].map((feature) => (
+                      <div
+                        key={feature.label}
+                        className="flex items-center justify-between p-3 bg-muted/20 rounded-lg"
+                      >
+                        <span className="text-sm">{feature.label}</span>
+                        <span
+                          className={`text-xs px-2 py-1 rounded ${
+                            feature.status
+                              ? 'bg-accent/20 text-accent'
+                              : 'bg-muted text-muted-foreground'
+                          }`}
+                        >
+                          {feature.status ? 'Active' : 'Inactive'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Card>
-        </TabsContent>
+              </div>
+            </Card>
+          </TabsContent>
 
-        <TabsContent value="sms" className="space-y-6 mt-6">
-          <TwilioConfigPanel />
-        </TabsContent>
+          <TabsContent value="sms" className="space-y-6 mt-6">
+            <TwilioConfigPanel />
+          </TabsContent>
 
-        <TabsContent value="email-service" className="space-y-6 mt-6">
-          <EmailServiceConfig />
-        </TabsContent>
+          <TabsContent value="email-service" className="space-y-6 mt-6">
+            <EmailServiceConfig />
+          </TabsContent>
 
-        <TabsContent value="notifications" className="space-y-6 mt-6">
-          <EmailNotificationSettings />
-        </TabsContent>
-      </Tabs>
-    </div>
+          <TabsContent value="notifications" className="space-y-6 mt-6">
+            <EmailNotificationSettings />
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      <Dialog open={showPhoneVerification} onOpenChange={setShowPhoneVerification}>
+        <DialogContent className="max-w-md p-0 overflow-hidden">
+          <PhoneVerificationFlow 
+            onVerificationComplete={handlePhoneVerificationComplete}
+            onClose={() => setShowPhoneVerification(false)}
+            currentPhone={verifiedPhone ?? undefined}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }

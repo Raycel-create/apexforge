@@ -14,6 +14,7 @@ import { GoogleAuthButton } from '../GoogleAuthButton'
 import { OTPAuth } from '../OTPAuth'
 import { SMSOTPAuth } from '../SMSOTPAuth'
 import { GitHubOTPButton } from '../GitHubOTPButton'
+import { TrustBanner, TrustIndicator } from '../TrustIndicators'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -553,13 +554,16 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="mt-8 text-center"
+          className="mt-8"
         >
-          <Card className="inline-block px-6 py-3 bg-primary/5 border-primary/30">
-            <p className="text-xs text-muted-foreground">
-              🔒 <span className="font-semibold text-primary">Secure</span> - Your credentials are safely stored locally
-            </p>
-          </Card>
+          <TrustBanner />
+          <div className="text-center mt-4">
+            <Card className="inline-block px-6 py-3 bg-primary/5 border-primary/30">
+              <p className="text-xs text-muted-foreground">
+                🔒 <span className="font-semibold text-primary">Secure</span> - Your credentials are safely stored locally
+              </p>
+            </Card>
+          </div>
         </motion.div>
       </motion.div>
     </div>

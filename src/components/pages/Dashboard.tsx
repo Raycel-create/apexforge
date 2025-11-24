@@ -15,6 +15,8 @@ import { KeysManager } from '../KeysManager'
 import { EmailVerificationBanner } from '../EmailVerificationStatus'
 import { MagicLinkAuth } from '../MagicLinkAuth'
 import { StripeConnect } from '../StripeConnect'
+import { PhoneVerificationFlow, QuickPhoneVerifyButton } from '../PhoneVerificationFlow'
+import { VerificationStatus, SecurityBadge } from '../TrustIndicators'
 import { useState } from 'react'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
@@ -40,6 +42,11 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   const { isMobile, isTablet } = useScreenSize()
   const [showKeysManager, setShowKeysManager] = useState(false)
   const [showVerificationDialog, setShowVerificationDialog] = useState(false)
+  const [showPhoneVerification, setShowPhoneVerification] = useState(false)
+  const [phoneVerified, setPhoneVerified] = useKV<boolean>('user-phone-verified', false)
+  const [verifiedPhone, setVerifiedPhone] = useKV<string | null>('user-phone-number', null)
+  const [emailVerified] = useKV<boolean>('user-email-verified', false)
+  const [twoFactorEnabled] = useKV<boolean>('user-2fa-enabled', false)
 
   const deleteProject = (id: number) => {
     setProjects((current) => (current ?? []).filter((p) => p.id !== id))
@@ -66,6 +73,12 @@ export function Dashboard({ onNavigate }: DashboardProps) {
     toast.success('Email verified! 🎉', {
       description: 'Your account is now verified',
     })
+  }
+
+  const handlePhoneVerificationComplete = (phone: string) => {
+    setPhoneVerified(true)
+    setVerifiedPhone(phone)
+    setShowPhoneVerification(false)
   }
 
   return (
@@ -133,6 +146,41 @@ export function Dashboard({ onNavigate }: DashboardProps) {
             </div>
           </motion.div>
         )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="mb-4 sm:mb-8"
+        >
+          <Card className="p-4 sm:p-6 border-accent/30">
+            <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <Shield size={20} weight="fill" className="text-accent" />
+                    Account Security
+                  </h3>
+                  <QuickPhoneVerifyButton 
+                    verified={phoneVerified ?? false}
+                    phoneNumber={verifiedPhone ?? undefined}
+                    onVerify={() => setShowPhoneVerification(true)}
+                  />
+                </div>
+                <VerificationStatus 
+                  phoneVerified={phoneVerified ?? false}
+                  emailVerified={emailVerified ?? false}
+                  twoFactorEnabled={twoFactorEnabled ?? false}
+                />
+              </div>
+              {!isMobile && (
+                <div className="lg:w-64">
+                  <SecurityBadge />
+                </div>
+              )}
+            </div>
+          </Card>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -401,6 +449,16 @@ export function Dashboard({ onNavigate }: DashboardProps) {
               onSuccess={handleVerificationSuccess}
             />
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showPhoneVerification} onOpenChange={setShowPhoneVerification}>
+        <DialogContent className="max-w-md p-0 overflow-hidden">
+          <PhoneVerificationFlow 
+            onVerificationComplete={handlePhoneVerificationComplete}
+            onClose={() => setShowPhoneVerification(false)}
+            currentPhone={verifiedPhone ?? undefined}
+          />
         </DialogContent>
       </Dialog>
     </div>

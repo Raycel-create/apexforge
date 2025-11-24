@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { useScreenSize } from '../../hooks/use-mobile'
 import { useBlackForge } from '../../lib/BlackForgeContext'
 import { LiveChatbot } from '../LiveChatbot'
+import { TrustBanner } from '../TrustIndicators'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -137,7 +138,16 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className={`flex items-center justify-center gap-4 sm:gap-8 ${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground pt-4 sm:pt-8 flex-wrap`}
+            className="pt-6"
+          >
+            <TrustBanner />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className={`flex items-center justify-center gap-4 sm:gap-8 ${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground pt-2 flex-wrap`}
           >
             <div className="flex items-center gap-1 sm:gap-2">
               <Lightning weight="fill" className="text-accent" size={isMobile ? 16 : 24} />
