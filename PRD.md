@@ -330,10 +330,10 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Real-time metric calculations and filtering
 
 ### Automated Email Campaigns (📧 Customer Recovery & Retention System)
-- **Functionality**: Comprehensive email campaign automation system for recovering past due customers, preventing churn, and re-engaging churned users. Create custom email sequences triggered by payment events (past_due, failed_payment, churned, expiring_soon) with configurable day delays, customizable subject lines and body text using dynamic variables ({{name}}, {{plan}}, {{amount}}, {{payment_link}}, {{reactivate_link}}). Track comprehensive performance metrics (sent, opened, clicked, recovered) with calculated rates. Manage past due customer queue with status tracking and manual override capabilities.
-- **Purpose**: Automate customer recovery to maximize revenue retention and reduce churn through timely, personalized email outreach with measurable ROI
-- **Trigger**: Accessed via CEO Dashboard → Campaigns tab, or auto-triggered by payment events based on active campaign rules
-- **Progression**: Create campaign → Set trigger event and delay (0-30 days) → Write subject/body with variable placeholders → Toggle activate immediately or save as draft → View campaign in list → Monitor past due customers table → Send manual emails or let automation run → Track recovery metrics and revenue impact → Preview/test campaigns before sending → Export campaign performance data
+- **Functionality**: Comprehensive email campaign automation system for recovering past due customers, preventing churn, and re-engaging churned users. Create custom email sequences triggered by payment events (past_due, failed_payment, churned, expiring_soon) with configurable day delays, customizable subject lines and body text using dynamic variables ({{name}}, {{plan}}, {{amount}}, {{payment_link}}, {{reactivate_link}}). Track comprehensive performance metrics (sent, opened, clicked, recovered) with calculated rates. Manage past due customer queue with status tracking and manual override capabilities. **Now includes A/B testing for subject lines and content** - test multiple variants simultaneously to optimize campaign performance with statistical confidence tracking.
+- **Purpose**: Automate customer recovery to maximize revenue retention and reduce churn through timely, personalized email outreach with measurable ROI. A/B testing enables data-driven optimization of email content.
+- **Trigger**: Accessed via CEO Dashboard → Campaigns tab (campaigns management) or A/B Tests tab (testing interface), or auto-triggered by payment events based on active campaign rules
+- **Progression**: Create campaign → Set trigger event and delay (0-30 days) → Write subject/body with variable placeholders → Toggle activate immediately or save as draft → View campaign in list → **Optional: Create A/B test → Select campaign → Add 2-4 variants with different subjects/content → Set test percentage and minimum sample size → Run test → Monitor variant performance → Declare winner when confidence ≥95%** → Monitor past due customers table → Send manual emails or let automation run → Track recovery metrics and revenue impact → Preview/test campaigns before sending → Export campaign performance data
 - **Success criteria**:
   - Campaign builder dialog with all required fields (name, trigger, delay, subject, body, status)
   - Support for 4 trigger types: past_due, failed_payment, churned, expiring_soon
@@ -354,6 +354,21 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Responsive layout with horizontal scroll on mobile for customer table
   - All customer and campaign data persists in KV storage
   - Real-time toast notifications for all actions
+  - **A/B testing tab with full test management interface**
+  - **Create A/B tests linked to existing campaigns**
+  - **Support for 2-4 variants per test (A, B, C, D)**
+  - **Configurable test percentage (10-100%) and minimum sample size**
+  - **Statistical confidence calculation with visual progress indicator**
+  - **Per-variant metrics: sent, open rate, click rate, recovery rate, revenue**
+  - **Winner declaration with ≥95% confidence threshold recommendation**
+  - **Test status tracking (draft/running/paused/completed)**
+  - **Visual comparison of variant performance in split-screen**
+  - **Subject line and body content preview per variant**
+  - **Automatic distribution of emails across test variants**
+  - **Winner badge and leading variant indicators**
+  - **Complete test lifecycle: draft → running → completed with winner**
+  - **Export test results for analysis**
+  - **Integration with existing campaign infrastructure**
 
 ### Campaign Automation Scheduler (🤖 NEW! Intelligent Automation Engine)
 - **Functionality**: Advanced scheduled automation system that automatically triggers email campaigns based on customer payment status and behavior. Includes intelligent rules engine with customizable conditions (days after event, amount ranges, plan types, status exclusions), real-time job scheduler with configurable check intervals (default 1 minute), comprehensive job queue management showing pending/executed/failed jobs, automated payment event detection (past_due, failed_payment, churned, expiring_soon), duplicate job prevention with time-window checking, retry logic with max 3 attempts for failed jobs, automatic customer status updates after email delivery, campaign metrics auto-increment on execution, and email personalization with variable replacement. Background scheduler runs continuously checking for eligible customers and auto-scheduling jobs based on active rules.

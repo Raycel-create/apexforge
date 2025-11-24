@@ -28,6 +28,7 @@ import {
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import { useKV } from '@github/spark/hooks'
+import { ABTestManager } from './ABTestManager'
 
 interface EmailCampaign {
   id: string
@@ -459,8 +460,9 @@ export function EmailCampaigns() {
       </div>
 
       <Tabs defaultValue="campaigns" className="w-full">
-        <TabsList className="grid w-full max-w-md grid-cols-2">
+        <TabsList className="grid w-full max-w-2xl grid-cols-3">
           <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+          <TabsTrigger value="abtests">A/B Tests</TabsTrigger>
           <TabsTrigger value="customers">Past Due Customers</TabsTrigger>
         </TabsList>
 
@@ -616,6 +618,10 @@ export function EmailCampaigns() {
               </Button>
             </Card>
           )}
+        </TabsContent>
+
+        <TabsContent value="abtests">
+          <ABTestManager campaigns={campaigns || []} />
         </TabsContent>
 
         <TabsContent value="customers" className="space-y-4">
