@@ -8,6 +8,7 @@ import { FigmaIntegration } from './components/pages/FigmaIntegration'
 import { Navigation } from './components/Navigation'
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog'
 import { CursorTrail } from './components/CursorTrail'
+import { SparkleClickEffect } from './components/SparkleClickEffect'
 import { BlackForgeProvider } from './lib/BlackForgeContext'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
@@ -39,6 +40,7 @@ function AppContent() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <CursorTrail />
+      <SparkleClickEffect />
       {showNavigation && <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />}
       <main className="flex-1 overflow-x-hidden w-full">
         {renderPage()}
