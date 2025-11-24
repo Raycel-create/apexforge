@@ -471,6 +471,28 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Responsive design across all screen sizes
   - Integration with real Stripe Dashboard link
 
+### Interactive 3D Hero Animation (🎨 Visual Centerpiece)
+- **Functionality**: Full-viewport 3D animation in hero section using Three.js featuring floating geometric shapes (cubes, spheres, torus, octahedrons) in purple/pink gradient colors with particle effects, dynamic lighting, and mouse-parallax camera movement. Shapes continuously rotate, float, and pulse with organic motion patterns. Desktop only for performance.
+- **Purpose**: Create immediate visual impact following Figma design's 3D aesthetic, establish premium brand feel, showcase technical capability, differentiate from competitors with engaging animated background
+- **Trigger**: Automatically loads on Home page hero section (desktop viewports only)
+- **Progression**: Hero section loads → 3D scene initializes in background → 7 floating objects spawn with purple/pink materials → Ambient and point lights create gradient atmosphere → Objects rotate and float with sine wave motion → 100 particles drift in space → Mouse movement creates subtle parallax camera shift → Continuous animation loop at 60fps
+- **Success criteria**: 
+  - Smooth 60fps animation on modern devices
+  - 7 floating 3D objects (cubes, spheres, torus, octahedrons) in purple (#a855f7), pink (#ec4899), and magenta (#db2777, #c026d3, #e879f9)
+  - Each shape has emissive glow and transparency (0.8 opacity)
+  - Particle system with 100 points drifting through scene
+  - Two colored point lights (purple and pink) for gradient lighting
+  - Mouse parallax effect (camera follows cursor with smooth easing)
+  - Organic floating motion with different speeds per object (sine wave patterns)
+  - Scale pulsing animation on all shapes
+  - Rotation on all three axes with varied speeds
+  - Responsive canvas sizing with window resize handling
+  - Proper cleanup on unmount (geometry/material disposal)
+  - Hidden on mobile/tablet for performance
+  - Positioned behind hero content (z-index: 0, pointer-events: none)
+  - Smooth fade-in animation on load
+  - No UI blocking or interaction interference
+
 ### Landscape Preview Frame with AI Robot Builders (🤖 THE #1 Viral Hook)
 - **Functionality**: After generation, show massive 1280×720px landscape iframe (desktop) with 5-7 animated 3D robots circling around it holding tools (hammer, wrench, paintbrush, rocket, shield)
 - **Purpose**: The most screenshot-able, impossibly cute, emotionally addictive builder interface of 2026 - robots literally debate in speech bubbles above their heads

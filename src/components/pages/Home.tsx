@@ -12,6 +12,7 @@ import { ProductDemoShowcase } from '../ProductDemoShowcase'
 import { AuthModal } from '../AuthModal'
 import { TeamShowcase } from '../TeamShowcase'
 import { Footer } from '../Footer'
+import { Hero3DAnimation } from '../Hero3DAnimation'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
@@ -32,12 +33,14 @@ export function Home({ onNavigate }: HomeProps) {
     <div className={`min-h-screen w-full overflow-x-hidden ${blackForgeMode ? 'bg-gradient-to-b from-destructive/10 to-background' : ''} transition-all duration-1000`}>
       <LiveChatbot />
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} onSuccess={handleAuthSuccess} />
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 text-center relative max-w-[1400px]">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 text-center relative max-w-[1400px] min-h-[85vh] flex items-center">
         <div className={`absolute inset-0 ${
           blackForgeMode 
             ? 'bg-gradient-to-br from-destructive/20 via-transparent to-transparent' 
             : 'bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-transparent'
         } pointer-events-none transition-all duration-1000`} />
+        
+        {!isMobile && <Hero3DAnimation />}
         
         <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6 relative z-10">
           <motion.div
