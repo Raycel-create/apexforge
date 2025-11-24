@@ -66,11 +66,11 @@ interface FusionVersion {
 }
 
 const AI_AGENTS: AIAgent[] = [
-  { id: 'gpt', name: 'GPT-4o', avatar: '🧠', color: 'text-green-400', personality: 'Clean & Organized' },
-  { id: 'claude', name: 'Claude 3.5', avatar: '🛡️', color: 'text-orange-400', personality: 'Security First' },
-  { id: 'grok', name: 'Grok-2', avatar: '⚡', color: 'text-cyan-400', personality: 'Fast & Edgy' },
-  { id: 'gemini', name: 'Gemini 1.5', avatar: '🎨', color: 'text-blue-400', personality: 'Beautiful UI' },
-  { id: 'llama', name: 'Llama 3.1', avatar: '🦙', color: 'text-yellow-400', personality: 'Open Source' },
+  { id: 'gpt', name: 'GPT-4o', avatar: '🧠', color: 'text-primary', personality: 'Clean & Organized' },
+  { id: 'claude', name: 'Claude 3.5', avatar: '🛡️', color: 'text-accent', personality: 'Security First' },
+  { id: 'grok', name: 'Grok-2', avatar: '⚡', color: 'text-primary', personality: 'Fast & Edgy' },
+  { id: 'gemini', name: 'Gemini 1.5', avatar: '🎨', color: 'text-accent', personality: 'Beautiful UI' },
+  { id: 'llama', name: 'Llama 3.1', avatar: '🦙', color: 'text-primary', personality: 'Open Source' },
 ]
 
 const FUSION_VERSIONS: FusionVersion[] = [
@@ -78,7 +78,7 @@ const FUSION_VERSIONS: FusionVersion[] = [
     id: 'fast',
     name: 'Fastest',
     icon: Lightning,
-    color: 'text-cyan-400',
+    color: 'text-accent',
     description: 'Grok-optimized for maximum speed',
     features: ['WebSocket real-time', 'Edge computing', 'Lazy loading', 'Minimal dependencies']
   },
@@ -86,7 +86,7 @@ const FUSION_VERSIONS: FusionVersion[] = [
     id: 'secure',
     name: 'Most Secure',
     icon: Shield,
-    color: 'text-orange-400',
+    color: 'text-destructive',
     description: 'Claude-hardened security',
     features: ['Input sanitization', 'Rate limiting', 'CSRF protection', 'SQL injection prevention']
   },
@@ -94,7 +94,7 @@ const FUSION_VERSIONS: FusionVersion[] = [
     id: 'beautiful',
     name: 'Most Beautiful',
     icon: Palette,
-    color: 'text-purple-400',
+    color: 'text-primary',
     description: 'Gemini-designed UI/UX',
     features: ['Framer animations', 'Glassmorphism', 'Perfect spacing', 'Mobile-first responsive']
   }
@@ -592,7 +592,7 @@ export function Generator({ onNavigate }: GeneratorProps) {
 
               <div>
                 <Label className="text-[10px] sm:text-xs font-medium mb-1.5 sm:mb-2 flex items-center gap-1 sm:gap-2">
-                  <Code weight="fill" className="text-cyan-400 w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <Code weight="fill" className="text-primary w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   <span className="truncate">Frontend</span>
                 </Label>
                 <DropdownMenu>
@@ -630,7 +630,7 @@ export function Generator({ onNavigate }: GeneratorProps) {
 
               <div>
                 <Label className="text-[10px] sm:text-xs font-medium mb-1.5 sm:mb-2 flex items-center gap-1 sm:gap-2">
-                  <Database weight="fill" className="text-green-400 w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <Database weight="fill" className="text-accent w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   <span className="truncate">Backend</span>
                 </Label>
                 <DropdownMenu>

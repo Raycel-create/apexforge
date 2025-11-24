@@ -36,7 +36,7 @@ function AppContent() {
   const showNavigation = currentPage !== 'auth'
 
   return (
-    <div className="min-h-screen flex flex-col bg-zinc-950 text-sky-100">
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
       {showNavigation && <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />}
       <main className="flex-1 overflow-x-hidden w-full">
         {renderPage()}

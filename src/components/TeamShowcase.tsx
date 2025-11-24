@@ -17,7 +17,7 @@ const aiTeam = [
     name: 'Claude',
     role: 'Security Expert',
     icon: ShieldCheck,
-    color: 'from-purple-500 to-pink-500',
+    color: 'from-primary to-accent',
     description: 'Ensures code security, reviews vulnerabilities, implements best practices',
     specialty: 'Security'
   },
@@ -25,7 +25,7 @@ const aiTeam = [
     name: 'Grok',
     role: 'Speed Optimizer',
     icon: Lightning,
-    color: 'from-cyan-500 to-blue-500',
+    color: 'from-accent to-primary',
     description: 'Optimizes performance, reduces bundle size, enhances speed',
     specialty: 'Performance'
   },
@@ -33,7 +33,7 @@ const aiTeam = [
     name: 'Gemini',
     role: 'UI/UX Designer',
     icon: Palette,
-    color: 'from-pink-500 to-rose-500',
+    color: 'from-primary to-accent',
     description: 'Creates beautiful interfaces, perfect spacing, delightful interactions',
     specialty: 'Design'
   },
@@ -41,7 +41,7 @@ const aiTeam = [
     name: 'Llama',
     role: 'Backend Engineer',
     icon: Code,
-    color: 'from-emerald-500 to-teal-500',
+    color: 'from-accent to-primary',
     description: 'Builds robust APIs, database schemas, server infrastructure',
     specialty: 'Backend'
   },
@@ -49,7 +49,7 @@ const aiTeam = [
     name: 'Mistral',
     role: 'DevOps Lead',
     icon: Rocket,
-    color: 'from-orange-500 to-red-500',
+    color: 'from-primary to-accent',
     description: 'Handles deployment, CI/CD pipelines, cloud infrastructure',
     specialty: 'DevOps'
   }
