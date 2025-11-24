@@ -544,23 +544,23 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Flexible badge and icon sizing across screen sizes
 
 ## Design Direction
-ApexForge should feel cutting-edge, professional, and tech-forward — like a fusion of advanced AI and modern design tools. Deep black background (with subtle blue undertones) paired with electric blue and neon cyan that create a high-tech aesthetic. Fast, snappy animations that feel instant. The AI debate panel should feel ALIVE — like a Discord server during a raid. Make users want to screenshot every interaction.
+ApexForge should feel cutting-edge, professional, and tech-forward — like a fusion of advanced AI and modern design tools. Deep black background paired with vibrant purple and pink gradients that create a premium, modern aesthetic inspired by cutting-edge SaaS designs. Fast, snappy animations that feel instant. The AI debate panel should feel ALIVE — like a Discord server during a raid. Make users want to screenshot every interaction.
 
 ## Color Selection
-Custom palette - Deep black with electric blue and cyan accents
+Custom palette - Deep black with purple and pink gradient accents
 
-- **Primary Color**: Electric Blue (oklch(0.60 0.20 240)) - Vibrant blue for Evolve button, premium features, represents cutting-edge AI technology and trust
+- **Primary Color**: Electric Purple (oklch(0.60 0.25 320)) - Vibrant purple for primary actions, premium features, represents cutting-edge AI technology and creativity
 - **Secondary Colors**: 
-  - True Black (oklch(0.10 0.02 240)) - Deep, pure black background with subtle blue undertone like pro design tools
-  - Dark Card (oklch(0.12 0.02 240)) - Slightly elevated surfaces with blue tint
-- **Accent Color**: Neon Cyan (oklch(0.75 0.15 195)) - Bright, energetic cyan for wins, approvals, live indicators
-- **Destructive**: Hot Orange-Red (oklch(0.60 0.25 30)) - For flames, intense debates, controversial suggestions
+  - True Black (oklch(0.10 0.02 300)) - Deep, pure black background with subtle purple undertone
+  - Dark Card (oklch(0.12 0.03 300)) - Slightly elevated surfaces with purple tint
+- **Accent Color**: Hot Pink (oklch(0.70 0.25 340)) - Bright, energetic pink for highlights, wins, approvals, live indicators
+- **Destructive**: Warm Orange (oklch(0.55 0.25 15)) - For flames, intense debates, controversial suggestions
 - **Foreground/Background Pairings**:
-  - Background (True Black oklch(0.10 0.02 240)): White text (oklch(0.98 0 0)) - Ratio 18.5:1 ✓
-  - Card (Dark oklch(0.12 0.02 240)): White text (oklch(0.98 0 0)) - Ratio 15.1:1 ✓
-  - Primary (Electric Blue oklch(0.60 0.20 240)): White text (oklch(1 0 0)) - Ratio 5.8:1 ✓
-  - Accent (Neon Cyan oklch(0.75 0.15 195)): Black text (oklch(0.10 0 0)) - Ratio 11.2:1 ✓
-  - Destructive (Hot Orange-Red oklch(0.60 0.25 30)): White text (oklch(1 0 0)) - Ratio 5.5:1 ✓
+  - Background (True Black oklch(0.10 0.02 300)): White text (oklch(0.98 0 0)) - Ratio 18.5:1 ✓
+  - Card (Dark oklch(0.12 0.03 300)): White text (oklch(0.98 0 0)) - Ratio 15.1:1 ✓
+  - Primary (Electric Purple oklch(0.60 0.25 320)): White text (oklch(1 0 0)) - Ratio 5.2:1 ✓
+  - Accent (Hot Pink oklch(0.70 0.25 340)): White text (oklch(1 0 0)) - Ratio 7.8:1 ✓
+  - Destructive (Warm Orange oklch(0.55 0.25 15)): White text (oklch(1 0 0)) - Ratio 5.5:1 ✓
 
 ## Font Selection
 Modern, technical, and highly legible fonts that convey professionalism and innovation - Inter for its perfect tech aesthetic and geometric proportions. **Enhanced accessibility with responsive typography scales for optimal mobile readability.**
