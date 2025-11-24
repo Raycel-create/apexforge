@@ -19,7 +19,7 @@ import { PhoneVerificationFlow, QuickPhoneVerifyButton } from '../PhoneVerificat
 import { VerificationStatus, SecurityBadge } from '../TrustIndicators'
 import { useState } from 'react'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
 interface DashboardProps {
   onNavigate: (page: Page) => void

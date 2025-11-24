@@ -33,7 +33,7 @@ import { KeysManager } from '../KeysManager'
 import { AIModelSelector } from '../AIModelSelector'
 import { AI_MODEL_CONFIGS } from '../../lib/aiService'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
 interface GeneratorProps {
   onNavigate: (page: Page) => void

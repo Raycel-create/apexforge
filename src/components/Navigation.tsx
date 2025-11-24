@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X, Key, CheckCircle, Warning, UserCircle, SignOut, Cube } from '@phosphor-icons/react'
+import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X, CheckCircle, Warning, UserCircle, SignOut, Cube } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useKV } from '@github/spark/hooks'
@@ -7,9 +7,8 @@ import { toast } from 'sonner'
 import { useScreenSize } from '../hooks/use-mobile'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import { useBlackForge } from '../lib/BlackForgeContext'
-import { useCEOAuth } from '../lib/CEOAuthContext'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
 interface NavigationProps {
   currentPage: Page
@@ -18,13 +17,10 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const { blackForgeMode } = useBlackForge()
-  const { isAuthenticated } = useCEOAuth()
   const [credits] = useKV<number>('user-credits', 5)
   const [currentUser] = useKV<string | null>('apexforge-current-user', null)
   const [users] = useKV<Record<string, { name: string; email: string }>>('apexforge-users', {})
   const [, setCurrentUserState] = useKV<string | null>('apexforge-current-user', null)
-  const [clickCount, setClickCount] = useState(0)
-  const [lastClickTime, setLastClickTime] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { isMobile, isTablet } = useScreenSize()
   const [aiKeys] = useKV<any[]>('ceo-keys-ai', [])
@@ -40,30 +36,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
       setHasValidAIKeys(false)
     }
   }, [aiKeys])
-
-  useEffect(() => {
-    if (clickCount >= 5) {
-      toast.success('🎭 CEO Dashboard Unlocked', {
-        description: 'Welcome to the shadow realm...',
-        duration: 3000,
-      })
-      onNavigate('ceo')
-      setClickCount(0)
-    }
-  }, [clickCount, onNavigate])
-
-  const handleLogoClick = () => {
-    const now = Date.now()
-    if (now - lastClickTime > 2000) {
-      setClickCount(1)
-    } else {
-      setClickCount(prev => prev + 1)
-      if (clickCount === 3) {
-        toast.info('Keep going...', { duration: 1000 })
-      }
-    }
-    setLastClickTime(now)
-  }
 
   const handleNavigation = (page: Page) => {
     onNavigate(page)
@@ -82,15 +54,12 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 max-w-[1400px]">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2 sm:gap-4 lg:gap-8 min-w-0">
-            <button
-              onClick={handleLogoClick}
-              className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg lg:text-2xl font-bold hover:opacity-80 transition-opacity cursor-pointer shrink-0"
-            >
+            <div className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg lg:text-2xl font-bold shrink-0">
               <Fire weight="fill" className={`${blackForgeMode ? 'text-destructive' : 'text-destructive'} animate-pulse-glow`} size={isMobile ? 20 : 28} />
               <span className={`bg-gradient-to-r ${blackForgeMode ? 'from-destructive via-destructive/70 to-destructive' : 'from-primary via-accent to-primary'} bg-clip-text text-transparent transition-all duration-500 whitespace-nowrap`}>
                 {isMobile ? 'Apex' : (isTablet ? 'ApexForge' : (blackForgeMode ? '🔥 ApexForge' : 'ApexForge'))}
               </span>
-            </button>
+            </div>
 
             {!isMobile && !isTablet && (
               <div className="hidden lg:flex items-center gap-1">
@@ -124,18 +93,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 >
                   <Cube size={16} />
                   Figma
-                </Button>
-                <Button
-                  variant={currentPage === 'ceo' ? 'secondary' : 'ghost'}
-                  size="sm"
-                  onClick={() => onNavigate('ceo')}
-                  className="border-primary/30"
-                >
-                  <Key size={16} />
-                  CEO
-                  {isAuthenticated && (
-                    <CheckCircle weight="fill" size={12} className="ml-1 text-accent" />
-                  )}
                 </Button>
               </div>
             )}
@@ -250,20 +207,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                     >
                       <CreditCard size={16} />
                       Pricing
-                    </Button>
-                    <div className="my-2 border-t border-border" />
-                    <Button
-                      variant={currentPage === 'ceo' ? 'secondary' : 'outline'}
-                      className="justify-start border-primary/50"
-                      onClick={() => handleNavigation('ceo')}
-                    >
-                      <Key size={16} />
-                      CEO Dashboard
-                      {isAuthenticated && (
-                        <Badge className="ml-auto bg-accent/20 text-accent border-accent/40 text-[10px] px-1.5">
-                          ✓
-                        </Badge>
-                      )}
                     </Button>
                     <Button
                       variant={currentPage === 'generator' ? 'secondary' : 'default'}

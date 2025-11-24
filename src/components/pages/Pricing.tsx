@@ -13,7 +13,7 @@ import { StripeCheckout } from '../StripeCheckout'
 import { STRIPE_PLAN_PRICES } from '../../lib/stripeIntegration'
 import { TrustBanner, TrustIndicator, SecurityBadge } from '../TrustIndicators'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
 interface PricingProps {
   onNavigate: (page: Page) => void

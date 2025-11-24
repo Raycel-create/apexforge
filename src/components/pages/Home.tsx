@@ -9,7 +9,7 @@ import { LiveChatbot } from '../LiveChatbot'
 import { TrustBanner } from '../TrustIndicators'
 import { ProductDemoShowcase } from '../ProductDemoShowcase'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
 interface HomeProps {
   onNavigate: (page: Page) => void
