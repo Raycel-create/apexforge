@@ -28,6 +28,31 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Seamless integration with existing password auth
   - Console logging of magic links in development mode
 
+### Real-Time OTP Authentication (🔐 Email & GitHub Verification)
+- **Functionality**: Advanced OTP (One-Time Password) authentication system supporting both email (Gmail) and GitHub sign-in/sign-up. Users receive a 6-digit verification code sent in real-time to their email or GitHub-associated email. Features auto-focus input fields, paste support, attempt tracking (max 3 attempts), and real-time countdown timer. Integrated with both password and magic link authentication methods.
+- **Purpose**: Provide enterprise-grade security with familiar OTP verification flow, supporting multiple authentication providers (Email/Gmail and GitHub). Enhances security while maintaining user experience through real-time code delivery and smart input handling.
+- **Trigger**: Primary authentication method on auth page via "OTP" tab (default), or GitHub OTP button in password authentication section
+- **Progression**: **Email OTP**: User enters email → Clicks "Send Verification Code" → Receives 6-digit code (console in dev mode) → Enters code in 6 individual input fields → Auto-verifies on completion → Redirected to dashboard. **GitHub OTP**: User clicks "Sign in with GitHub OTP" → GitHub authenticates user → Receives code at GitHub email → Enters 6-digit code → Verified & redirected to dashboard
+- **Success criteria**:
+  - 6-digit numeric OTP generation with secure random generation
+  - Code expires after 10 minutes with live countdown timer
+  - Maximum 3 verification attempts per code
+  - Auto-focus progression through input fields
+  - Smart paste support (splits 6-digit code across inputs)
+  - Backspace navigation between input fields
+  - Real-time email simulation (console logging in dev mode)
+  - Support for both email and GitHub providers
+  - GitHub OAuth integration for automatic email retrieval
+  - Attempt counter with visual feedback
+  - Code marked as used after successful verification
+  - Resend code functionality with state reset
+  - Change email option to restart flow
+  - Beautiful UI with animations and provider-specific icons
+  - Secure storage using useKV for OTP codes and verifications
+  - Integration with existing user system
+  - Toast notifications for all states (success, error, expired, invalid)
+  - Responsive design optimized for mobile and desktop
+
 ### API Key Management System (🔑 Security & Integration Feature)
 - **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere, Hugging Face), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage. **Now configured for actual AI model integrations** - keys are used to make real API calls to 8 AI providers with **50+ model variations** including GPT-4o, Claude 3.5 Sonnet, Grok-2, Gemini 1.5 Pro, Llama 3.1, Mistral Large, Command R+, and **15 Hugging Face open source models** for code generation and AI debates.
 - **Purpose**: Enable users to bring their own API keys for AI generation, ensuring security and control over credentials while preventing unauthorized usage. Powers real-time AI collaboration with actual model responses across multiple providers and model variations. **Hugging Face integration provides access to 15 open source models including Falcon 180B, Mixtral 8x7B, WizardCoder, DeepSeek Coder, and more.**

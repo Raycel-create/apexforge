@@ -5,12 +5,14 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Separator } from '../ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
-import { Sparkle, Lightning, UserCircle, EnvelopeSimple, Lock, Eye, EyeSlash, Check, MagicWand } from '@phosphor-icons/react'
+import { Sparkle, Lightning, UserCircle, EnvelopeSimple, Lock, Eye, EyeSlash, Check, MagicWand, ShieldCheck } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useKV } from '@github/spark/hooks'
 import { MagicLinkAuth } from '../MagicLinkAuth'
 import { GoogleAuthButton } from '../GoogleAuthButton'
+import { OTPAuth } from '../OTPAuth'
+import { GitHubOTPButton } from '../GitHubOTPButton'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -26,7 +28,7 @@ interface User {
 }
 
 export function AuthLanding({ onNavigate }: AuthLandingProps) {
-  const [authMode, setAuthMode] = useState<'password' | 'magic'>('magic')
+  const [authMode, setAuthMode] = useState<'password' | 'magic' | 'otp'>('otp')
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -140,6 +142,37 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
     }, 1000)
   }
 
+  const handleOTPSuccess = async (email: string, provider: 'email' | 'github') => {
+    setCurrentUser(email)
+    
+    if (!users?.[email]) {
+      const newUser: User = {
+        email,
+        password: '',
+        name: email.split('@')[0],
+        createdAt: Date.now(),
+      }
+      
+      setUsers((current) => ({
+        ...current,
+        [email]: newUser,
+      }))
+    }
+    
+    const user = users?.[email]
+    const userName = user?.name || email.split('@')[0]
+    const providerName = provider === 'github' ? 'GitHub' : 'email'
+    
+    toast.success(`Welcome${user ? ' back' : ''}, ${userName}! 🚀`, {
+      description: `Signed in successfully with ${providerName} OTP`,
+      duration: 2000,
+    })
+
+    setTimeout(() => {
+      onNavigate('dashboard')
+    }, 1000)
+  }
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -236,8 +269,12 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
         </div>
 
         <Card className="p-8 border-primary/30 bg-card/90 backdrop-blur">
-          <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as 'password' | 'magic')} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
+          <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as 'password' | 'magic' | 'otp')} className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-6">
+              <TabsTrigger value="otp" className="flex items-center gap-2">
+                <ShieldCheck weight="fill" size={16} />
+                OTP
+              </TabsTrigger>
               <TabsTrigger value="magic" className="flex items-center gap-2">
                 <MagicWand weight="fill" size={16} />
                 Magic Link
@@ -247,6 +284,14 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
                 Password
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="otp">
+              <OTPAuth 
+                onSuccess={handleOTPSuccess}
+                onCancel={() => setAuthMode('password')}
+                provider="email"
+              />
+            </TabsContent>
 
             <TabsContent value="magic">
               <MagicLinkAuth 
@@ -407,6 +452,16 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
                     onSuccess={() => handleMagicLinkSuccess('')}
                     mode={isSignUp ? 'signup' : 'signin'}
                   />
+
+                  <div className="mt-3">
+                    <GitHubOTPButton
+                      onCodeSent={(email) => {
+                        setEmail(email)
+                        setAuthMode('otp')
+                      }}
+                      mode={isSignUp ? 'signup' : 'signin'}
+                    />
+                  </div>
                 </motion.form>
               </AnimatePresence>
 

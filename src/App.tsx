@@ -43,14 +43,14 @@ function AppContent() {
   const showNavigation = currentPage !== 'auth' && !(currentPage === 'ceo' && !isAuthenticated)
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-screen flex flex-col bg-zinc-950 text-sky-100">
       {showNavigation && <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />}
       <main className="flex-1 overflow-x-hidden w-full">
         {renderPage()}
       </main>
       <SessionTimeoutDialog onNavigate={setCurrentPage} />
     </div>
-  )
+  );
 }
 
 function App() {
