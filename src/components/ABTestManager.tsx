@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card } from './ui/card'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
@@ -8,6 +8,7 @@ import { Label } from './ui/label'
 import { Progress } from './ui/progress'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { Switch } from './ui/switch'
 import { 
   Flask, 
   ChartLine,
@@ -18,7 +19,8 @@ import {
   Trash,
   CheckCircle,
   XCircle,
-  ArrowsClockwise
+  ArrowsClockwise,
+  Lightning
 } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
@@ -49,6 +51,7 @@ interface ABTest {
   testPercentage: number
   minSampleSize: number
   createdAt: string
+  autoSelectWinner?: boolean
 }
 
 const DEFAULT_AB_TESTS: ABTest[] = [
@@ -62,6 +65,7 @@ const DEFAULT_AB_TESTS: ABTest[] = [
     minSampleSize: 100,
     totalSent: 234,
     startDate: '2025-02-10',
+    autoSelectWinner: true,
     variants: [
       {
         id: 'a',
@@ -98,6 +102,7 @@ const DEFAULT_AB_TESTS: ABTest[] = [
     startDate: '2025-02-01',
     endDate: '2025-02-15',
     winnerVariantId: 'b',
+    autoSelectWinner: true,
     variants: [
       {
         id: 'a',
@@ -138,11 +143,57 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
     testPercentage: 50,
     minSampleSize: 100,
     status: 'draft',
+    autoSelectWinner: true,
     variants: [
       { id: 'a', name: 'Variant A', subject: '', body: '', sent: 0, opened: 0, clicked: 0, recovered: 0 },
       { id: 'b', name: 'Variant B', subject: '', body: '', sent: 0, opened: 0, clicked: 0, recovered: 0 },
     ],
   })
+
+  useEffect(() => {
+    const checkAutoWinner = () => {
+      setTests((currentTests) => {
+        if (!currentTests) return []
+
+        let hasChanges = false
+        const updatedTests = currentTests.map((test) => {
+          if (
+            test.status === 'running' &&
+            test.autoSelectWinner &&
+            !test.winnerVariantId &&
+            test.variants.length === 2
+          ) {
+            const confidence = calculateConfidence(test.variants[0], test.variants[1])
+            
+            if (confidence >= 95) {
+              const winner = getWinningVariant(test)
+              if (winner && winner.sent >= test.minSampleSize) {
+                hasChanges = true
+                toast.success(`🎉 Winner automatically selected for "${test.name}"! ${winner.name} won with ${confidence}% confidence.`, {
+                  duration: 8000,
+                })
+                
+                return {
+                  ...test,
+                  status: 'completed' as const,
+                  winnerVariantId: winner.id,
+                  endDate: new Date().toISOString().split('T')[0],
+                }
+              }
+            }
+          }
+          return test
+        })
+
+        return hasChanges ? updatedTests : currentTests
+      })
+    }
+
+    const interval = setInterval(checkAutoWinner, 5000)
+    checkAutoWinner()
+
+    return () => clearInterval(interval)
+  }, [setTests])
 
   const calculateOpenRate = (variant: ABTestVariant) => {
     if (variant.sent === 0) return 0
@@ -208,6 +259,7 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
       status: newTest.status as any || 'draft',
       testPercentage: newTest.testPercentage || 50,
       minSampleSize: newTest.minSampleSize || 100,
+      autoSelectWinner: newTest.autoSelectWinner ?? true,
       totalSent: 0,
       variants: newTest.variants!.map((v) => ({
         ...v,
@@ -227,6 +279,7 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
       testPercentage: 50,
       minSampleSize: 100,
       status: 'draft',
+      autoSelectWinner: true,
       variants: [
         { id: 'a', name: 'Variant A', subject: '', body: '', sent: 0, opened: 0, clicked: 0, recovered: 0 },
         { id: 'b', name: 'Variant B', subject: '', body: '', sent: 0, opened: 0, clicked: 0, recovered: 0 },
@@ -266,6 +319,22 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
       )
     )
     toast.success('Winner declared! This variant will be used for future campaigns.')
+  }
+
+  const toggleAutoWinner = (testId: string) => {
+    setTests((current) =>
+      (current || []).map((t) =>
+        t.id === testId
+          ? { ...t, autoSelectWinner: !t.autoSelectWinner }
+          : t
+      )
+    )
+    const test = (tests || []).find((t) => t.id === testId)
+    if (test?.autoSelectWinner) {
+      toast.info('Auto-winner selection disabled')
+    } else {
+      toast.success('Auto-winner selection enabled - winner will be declared at 95% confidence')
+    }
   }
 
   const deleteTest = (testId: string) => {
@@ -438,6 +507,25 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
                 </div>
               </div>
 
+              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg border border-border">
+                <div className="flex items-center gap-3">
+                  <Lightning weight="fill" className="text-accent" size={24} />
+                  <div>
+                    <Label htmlFor="auto-winner" className="text-sm font-semibold cursor-pointer">
+                      Auto-Select Winner at 95% Confidence
+                    </Label>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Automatically declare winner when confidence reaches 95%+
+                    </p>
+                  </div>
+                </div>
+                <Switch
+                  id="auto-winner"
+                  checked={newTest.autoSelectWinner ?? true}
+                  onCheckedChange={(checked) => setNewTest({ ...newTest, autoSelectWinner: checked })}
+                />
+              </div>
+
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <Label>Variants ({newTest.variants?.length || 0})</Label>
@@ -590,6 +678,12 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
                     {test.startDate && ` • Started: ${test.startDate}`}
                     {test.endDate && ` • Ended: ${test.endDate}`}
                   </p>
+                  {test.autoSelectWinner && test.status === 'running' && (
+                    <div className="flex items-center gap-2 text-sm text-accent mb-2">
+                      <Lightning weight="fill" size={16} />
+                      <span>Auto-winner enabled</span>
+                    </div>
+                  )}
                   {test.status === 'running' && confidence > 0 && (
                     <div className="mt-3 p-3 bg-muted/50 rounded-md">
                       <div className="flex items-center justify-between mb-2">
@@ -597,7 +691,13 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
                         <span className="text-sm font-bold text-primary">{confidence}%</span>
                       </div>
                       <Progress value={confidence} className="h-2" />
-                      {confidence >= 95 && (
+                      {confidence >= 95 && test.autoSelectWinner && (
+                        <p className="text-xs text-accent mt-2 flex items-center gap-1">
+                          <Lightning weight="fill" size={14} />
+                          Winner will be auto-selected when minimum sample size is reached
+                        </p>
+                      )}
+                      {confidence >= 95 && !test.autoSelectWinner && (
                         <p className="text-xs text-primary mt-2">
                           ✓ Ready to declare winner (95%+ confidence)
                         </p>
@@ -606,6 +706,17 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
                   )}
                 </div>
                 <div className="flex gap-2">
+                  {test.status === 'running' && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => toggleAutoWinner(test.id)}
+                      className={test.autoSelectWinner ? 'border-accent text-accent' : ''}
+                    >
+                      <Lightning weight={test.autoSelectWinner ? 'fill' : 'regular'} size={16} />
+                      Auto
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     size="sm"
