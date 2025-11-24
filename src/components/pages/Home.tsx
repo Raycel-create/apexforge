@@ -7,6 +7,7 @@ import { useScreenSize } from '../../hooks/use-mobile'
 import { useBlackForge } from '../../lib/BlackForgeContext'
 import { LiveChatbot } from '../LiveChatbot'
 import { TrustBanner } from '../TrustIndicators'
+import { ProductDemoShowcase } from '../ProductDemoShowcase'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -164,6 +165,8 @@ export function Home({ onNavigate }: HomeProps) {
           </motion.div>
         </div>
       </section>
+
+      <ProductDemoShowcase />
 
       <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-20 max-w-[1400px]">
         <div className="max-w-4xl mx-auto">
