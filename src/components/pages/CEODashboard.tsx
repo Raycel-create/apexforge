@@ -37,6 +37,7 @@ import { CustomerManagement } from '../CustomerManagement'
 import { WebhookSimulator } from '../WebhookSimulator'
 import { CohortAnalytics } from '../CohortAnalytics'
 import { EmailCampaigns } from '../EmailCampaigns'
+import { CampaignAutomation } from '../CampaignAutomation'
 import { CEOAnalytics } from '../CEOAnalytics'
 import { CEOSettings } from '../CEOSettings'
 import { SessionIndicator } from '../SessionIndicator'
@@ -681,13 +682,14 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
           className="mb-8"
         >
           <Tabs defaultValue="analytics" className="w-full">
-            <TabsList className="grid w-full grid-cols-10 mb-6">
+            <TabsList className="grid w-full grid-cols-11 mb-6">
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="settings">Settings</TabsTrigger>
               <TabsTrigger value="forecast">AI Forecast</TabsTrigger>
               <TabsTrigger value="customers">Customers</TabsTrigger>
               <TabsTrigger value="cohorts">Cohorts</TabsTrigger>
               <TabsTrigger value="emails">Campaigns</TabsTrigger>
+              <TabsTrigger value="automation">Automation</TabsTrigger>
               <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
               <TabsTrigger value="keys">API Keys</TabsTrigger>
               <TabsTrigger value="payouts">Payouts</TabsTrigger>
@@ -716,6 +718,10 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
             
             <TabsContent value="emails">
               <EmailCampaigns />
+            </TabsContent>
+            
+            <TabsContent value="automation">
+              <CampaignAutomation />
             </TabsContent>
             
             <TabsContent value="webhooks">

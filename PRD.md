@@ -355,6 +355,75 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - All customer and campaign data persists in KV storage
   - Real-time toast notifications for all actions
 
+### Campaign Automation Scheduler (🤖 NEW! Intelligent Automation Engine)
+- **Functionality**: Advanced scheduled automation system that automatically triggers email campaigns based on customer payment status and behavior. Includes intelligent rules engine with customizable conditions (days after event, amount ranges, plan types, status exclusions), real-time job scheduler with configurable check intervals (default 1 minute), comprehensive job queue management showing pending/executed/failed jobs, automated payment event detection (past_due, failed_payment, churned, expiring_soon), duplicate job prevention with time-window checking, retry logic with max 3 attempts for failed jobs, automatic customer status updates after email delivery, campaign metrics auto-increment on execution, and email personalization with variable replacement. Background scheduler runs continuously checking for eligible customers and auto-scheduling jobs based on active rules.
+- **Purpose**: Eliminate manual campaign management by automatically detecting payment events and triggering appropriate recovery campaigns at optimal times, maximizing recovery rates through timely intervention while freeing CEO from constant monitoring
+- **Trigger**: Accessed via CEO Dashboard → Automation tab. Scheduler initializes automatically on page load and runs continuously in background
+- **Progression**: **Setup**: Create automation rule → Select trigger event (past_due/failed_payment/churned/expiring_soon) → Set days after event (e.g., 3 days after past due) → Add conditions (min/max amount, plan types, exclude statuses) → Link to email campaign → Enable rule. **Auto-Execution**: Background scheduler detects payment events → Checks customer against rule conditions → Schedules job for eligible customers → Executes job at scheduled time → Sends personalized email → Updates customer status → Increments campaign metrics → Logs job as executed. **Monitoring**: View active rules with execution counts → Monitor pending jobs queue → Track executed/failed jobs → Adjust check interval → Manually run scheduler → Start/stop scheduler
+- **Success criteria**:
+  - Background scheduler that auto-starts on dashboard load
+  - Configurable check interval (default 1 minute, adjustable 1-60 minutes)
+  - Scheduler status display showing running/stopped state, last check time, next check time
+  - Start/stop scheduler controls with real-time status updates
+  - Manual "Run Now" button to force immediate execution
+  - **Automation Rules Management**:
+    - Create rule dialog with all fields (name, trigger, days after event, campaign selection, conditions)
+    - Conditions: min/max amount filters, plan type whitelist, status exclusions
+    - Priority levels for rule execution order
+    - Enable/disable toggle per rule without deleting
+    - Rule metrics: total executions, last run timestamp, created date
+    - Delete rule functionality
+    - Visual status badges (active/paused)
+  - **Intelligent Event Detection**:
+    - Auto-detects past_due customers (payment failed, tracks days past due)
+    - Auto-detects failed_payment events
+    - Auto-detects churned customers (cancelled subscriptions 7+ days ago)
+    - Auto-detects expiring_soon subscriptions (7 days before billing)
+    - Calculates days since/until event for precise timing
+  - **Smart Job Scheduling**:
+    - Creates unique job IDs with timestamp and random suffix
+    - Schedules jobs based on rule delay (days after event)
+    - Prevents duplicate jobs within time window
+    - Checks all active rules against detected events
+    - Only schedules if customer meets all rule conditions
+  - **Job Queue Management**:
+    - Pending jobs table showing: job ID, customer ID, trigger type, scheduled time, status, attempts
+    - Executed jobs with completion timestamps
+    - Failed jobs with error messages and attempt counts
+    - Automatic retry up to 3 attempts with exponential backoff
+    - Job cancellation capability
+  - **Email Execution**:
+    - Fetches campaign template and customer data
+    - Personalizes email with variable replacement ({{name}}, {{plan}}, {{amount}}, etc.)
+    - Sends via email service (console log in dev mode)
+    - Updates customer.emailsSent counter
+    - Changes customer status to 'contacted'
+    - Increments campaign.sent metric
+    - Marks job as executed with timestamp
+  - **Analytics Dashboard**:
+    - Summary cards: Active rules count, pending jobs, executed count, failed count, total executions all-time
+    - Real-time metrics refresh every 5 seconds
+    - Color-coded status indicators (pending: yellow, executed: green, failed: red)
+    - Trigger type badges with appropriate colors
+  - **Tabs Interface**:
+    - Automation Rules tab: Full rule management with create/edit/delete
+    - Scheduled Jobs tab: Complete job queue with status tracking
+  - **Persistence**:
+    - All rules stored in KV storage under 'automation-rules'
+    - All jobs stored in KV storage under 'scheduled-jobs'
+    - Automatic sync between scheduler and storage
+    - State survives page reloads
+  - **Error Handling**:
+    - Graceful failure with error logging
+    - Retry logic for transient failures
+    - Failed job marking after 3 attempts
+    - Toast notifications for all operations
+  - Empty states with CTAs when no rules exist
+  - Responsive design with mobile-optimized tables
+  - Integration with existing email campaigns and customer data
+  - Real-time scheduler status updates
+  - Professional UI with Robot icon and electric blue accents
+
 ### CEO "Whisper Mode" (🎭 Behavioral Manipulation Tool)
 - **Functionality**: Secret toggle in CEO dashboard to type hidden instructions that override AI behavior. **Includes Integrations Hub** - full API key management system for AI models, services, and app stores with validation and testing capabilities. **Protected by authentication** - only accessible after successful login.
 - **Purpose**: Fun power-user feature + useful for business strategy, plus centralized key management
