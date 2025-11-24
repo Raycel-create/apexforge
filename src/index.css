@@ -45,33 +45,33 @@
 
 
 :root {
-  --background: oklch(12.9% 0.042 264.695);
+  --background: oklch(10% 0.02 240);
   --foreground: oklch(0.98 0 0);
 
-  --card: oklch(12.9% 0.042 264.695);
+  --card: oklch(12% 0.02 240);
   --card-foreground: oklch(0.98 0 0);
   
-  --popover: oklch(12.9% 0.042 264.695);
+  --popover: oklch(12% 0.02 240);
   --popover-foreground: oklch(0.98 0 0);
 
-  --primary: oklch(42.4% 0.199 265.638);
+  --primary: oklch(60% 0.20 240);
   --primary-foreground: oklch(1 0 0);
 
-  --secondary: oklch(12.9% 0.042 264.695);
+  --secondary: oklch(12% 0.02 240);
   --secondary-foreground: oklch(0.98 0 0);
 
-  --muted: oklch(44.6% 0.043 257.281);
-  --muted-foreground: oklch(98.4% 0.003 247.858);
+  --muted: oklch(25% 0.04 240);
+  --muted-foreground: oklch(70% 0.02 240);
 
-  --accent: oklch(70.7% 0.165 254.624);
+  --accent: oklch(75% 0.15 195);
   --accent-foreground: oklch(0.10 0 0);
 
-  --destructive: oklch(42.4% 0.199 265.638);
+  --destructive: oklch(60% 0.25 30);
   --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(13% 0.028 261.692);
-  --input: oklch(12.9% 0.042 264.695);
-  --ring: oklch(48.8% 0.243 264.376);
+  --border: oklch(20% 0.03 240);
+  --input: oklch(15% 0.02 240);
+  --ring: oklch(65% 0.18 240);
 
   --radius: 0.5rem;
 
@@ -108,15 +108,15 @@
 }
 
 .glow-primary {
-  box-shadow: 0 0 30px oklch(0.60 0.30 285 / 0.5), 0 0 60px oklch(0.60 0.30 285 / 0.2);
+  box-shadow: 0 0 30px oklch(0.60 0.20 240 / 0.5), 0 0 60px oklch(0.60 0.20 240 / 0.2);
 }
 
 .glow-accent {
-  box-shadow: 0 0 30px oklch(0.80 0.18 195 / 0.5), 0 0 60px oklch(0.80 0.18 195 / 0.2);
+  box-shadow: 0 0 30px oklch(0.75 0.15 195 / 0.5), 0 0 60px oklch(0.75 0.15 195 / 0.2);
 }
 
 .glow-destructive {
-  box-shadow: 0 0 30px oklch(0.60 0.28 340 / 0.5), 0 0 60px oklch(0.60 0.28 340 / 0.2);
+  box-shadow: 0 0 30px oklch(0.60 0.25 30 / 0.5), 0 0 60px oklch(0.60 0.25 30 / 0.2);
 }
 
 @keyframes pulse-glow {

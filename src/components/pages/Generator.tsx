@@ -69,7 +69,7 @@ const AI_AGENTS: AIAgent[] = [
   { id: 'gpt', name: 'GPT-4o', avatar: '🧠', color: 'text-green-400', personality: 'Clean & Organized' },
   { id: 'claude', name: 'Claude 3.5', avatar: '🛡️', color: 'text-orange-400', personality: 'Security First' },
   { id: 'grok', name: 'Grok-2', avatar: '⚡', color: 'text-cyan-400', personality: 'Fast & Edgy' },
-  { id: 'gemini', name: 'Gemini 1.5', avatar: '🎨', color: 'text-purple-400', personality: 'Beautiful UI' },
+  { id: 'gemini', name: 'Gemini 1.5', avatar: '🎨', color: 'text-blue-400', personality: 'Beautiful UI' },
   { id: 'llama', name: 'Llama 3.1', avatar: '🦙', color: 'text-yellow-400', personality: 'Open Source' },
 ]
 
