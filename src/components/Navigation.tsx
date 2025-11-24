@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X, CheckCircle, Warning, UserCircle, SignOut, Cube } from '@phosphor-icons/react'
+import { Sparkle, SquaresFour, CreditCard, Fire, List, UserCircle, SignOut, Cube, CheckCircle, Warning } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useKV } from '@github/spark/hooks'
@@ -17,11 +17,14 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const { blackForgeMode } = useBlackForge()
+  const { isMobile, isTablet } = useScreenSize()
   const [currentUser] = useKV<string | null>('apexforge-current-user', null)
   const [users] = useKV<Record<string, { name: string; email: string }>>('apexforge-users', {})
   const [, setCurrentUserState] = useKV<string | null>('apexforge-current-user', null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [hasValidAIKeys, setHasValidAIKeys] = useState(false)
+  const [aiKeys] = useKV<Array<{ key: string; status: string }>>('ceo-keys-ai', [])
+  const [credits] = useKV<number>('user-credits', 15)
 
   const currentUserData = currentUser && users ? users[currentUser] : null
 
@@ -37,6 +40,26 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   const handleNavigation = (page: Page) => {
     onNavigate(page)
     setMobileMenuOpen(false)
+  }
+
+  const handleLogout = () => {
+    setCurrentUserState(null)
+    toast.success('Signed out successfully')
+    setMobileMenuOpen(false)
+  }
+
+  return (
+    <nav className="sticky top-0 z-50 w-full border-b border-border/40 backdrop-blur-md bg-background/80">
+      <div className="w-full">
+        <div className="flex h-14 sm:h-16 items-center justify-between px-3 sm:px-4 lg:px-6 max-w-[100vw] mx-auto gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <Sparkle weight="fill" size={isMobile ? 20 : 24} className="text-primary shrink-0" />
+              <span className={`font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent whitespace-nowrap ${isMobile ? 'text-base' : 'text-lg sm:text-xl'}`}>
+                ApexForge
+              </span>
+            </div>
+
             {!isMobile && !isTablet && (
               <div className="hidden lg:flex items-center gap-1">
                 <Button
@@ -69,18 +92,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 >
                   <Cube size={16} />
                   Figma
-                </Button>
-                <Button
-                  variant={currentPage === 'ceo' ? 'secondary' : 'ghost'}
-                  size="sm"
-                  onClick={() => onNavigate('ceo')}
-                  className="border-primary/30"
-                >
-                  <Key size={16} />
-                  CEO
-                  {isAuthenticated && (
-                    <CheckCircle weight="fill" size={12} className="ml-1 text-accent" />
-                  )}
                 </Button>
               </div>
             )}
@@ -196,20 +207,15 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                       <CreditCard size={16} />
                       Pricing
                     </Button>
-                    <div className="my-2 border-t border-border" />
                     <Button
-                      variant={currentPage === 'ceo' ? 'secondary' : 'outline'}
-                      className="justify-start border-primary/50"
-                      onClick={() => handleNavigation('ceo')}
+                      variant={currentPage === 'figma' ? 'secondary' : 'ghost'}
+                      className="justify-start"
+                      onClick={() => handleNavigation('figma')}
                     >
-                      <Key size={16} />
-                      CEO Dashboard
-                      {isAuthenticated && (
-                        <Badge className="ml-auto bg-accent/20 text-accent border-accent/40 text-[10px] px-1.5">
-                          ✓
-                        </Badge>
-                      )}
+                      <Cube size={16} />
+                      Figma
                     </Button>
+                    <div className="my-2 border-t border-border" />
                     <Button
                       variant={currentPage === 'generator' ? 'secondary' : 'default'}
                       className="justify-start mt-4 glow-primary"
@@ -237,4 +243,3 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
     </nav>
   )
 }
-
