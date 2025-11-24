@@ -198,17 +198,17 @@ export function Pricing({ onNavigate }: PricingProps) {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8 sm:mb-10 lg:mb-12"
         >
-          <Badge className="mb-3 sm:mb-4 px-4 sm:px-6 py-2 sm:py-3 bg-destructive/20 text-destructive border-destructive/40 text-xs sm:text-sm lg:text-base">
-            <Fire weight="fill" className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-[18px] lg:h-[18px]" />
+          <Badge className="mb-3 sm:mb-4 px-4 sm:px-6 py-2 sm:py-3 bg-destructive/20 text-destructive border-destructive/40 text-responsive-sm">
+            <Fire weight="fill" className="w-4 h-4 sm:w-5 sm:h-5" />
             This Just Killed Emergent.sh's Pricing Model
           </Badge>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 px-2">
+          <h1 className="heading-responsive font-bold mb-3 sm:mb-4 px-2">
             Simple, Radically{' '}
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
               Better Pricing
             </span>
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4 mb-6">
+          <p className="text-responsive-lg text-muted-foreground max-w-3xl mx-auto px-4 mb-6">
             While competitors charge $50+ just for basic features, we give you live deployment, all AI models, and Fusion Mode starting at $19.
           </p>
           <TrustBanner />
@@ -222,17 +222,17 @@ export function Pricing({ onNavigate }: PricingProps) {
         >
           <Card className="p-4 sm:p-6 lg:p-8 bg-accent/10 border-accent/30 glow-accent">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-              <TreeStructure weight="fill" className="text-accent w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10" />
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center sm:text-left">Not Sure What to Build?</h2>
+              <TreeStructure weight="fill" className="text-accent w-8 h-8 sm:w-10 sm:h-10" />
+              <h2 className="heading-responsive-sm text-center sm:text-left">Not Sure What to Build?</h2>
             </div>
-            <p className="text-center text-sm sm:text-base lg:text-lg text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto px-2">
+            <p className="text-center text-responsive text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto px-2">
               Use our <span className="text-accent font-semibold">FREE Idea Incubator</span> (no credits used) to generate 5 validated app ideas with wireframes, tech stack, and revenue models in 30 seconds.
             </p>
             <div className="text-center">
               <Button
                 size="lg"
                 onClick={() => onNavigate('generator')}
-                className="text-base sm:text-lg lg:text-xl px-6 sm:px-7 lg:px-8 py-4 sm:py-5 lg:py-6 glow-accent bg-accent text-accent-foreground hover:bg-accent/90 w-full sm:w-auto"
+                className="text-responsive-lg px-6 sm:px-8 py-4 sm:py-6 glow-accent bg-accent text-accent-foreground hover:bg-accent/90 w-full sm:w-auto touch-target"
               >
                 <TreeStructure weight="fill" className="w-5 h-5 sm:w-6 sm:h-6" />
                 Try FREE Idea Incubator Now

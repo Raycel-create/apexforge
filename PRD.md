@@ -541,15 +541,23 @@ Custom palette - Deep black with electric blue and cyan accents
   - Destructive (Hot Orange-Red oklch(0.60 0.25 30)): White text (oklch(1 0 0)) - Ratio 5.5:1 ✓
 
 ## Font Selection
-Modern, technical, and highly legible fonts that convey professionalism and innovation - Inter for its perfect tech aesthetic and geometric proportions.
+Modern, technical, and highly legible fonts that convey professionalism and innovation - Inter for its perfect tech aesthetic and geometric proportions. **Enhanced accessibility with responsive typography scales for optimal mobile readability.**
 
 - **Typographic Hierarchy**:
-  - H1 (Hero Title): Inter Bold/48px/tight (-0.02em) - Maximum impact
-  - H2 (Section Headers): Inter SemiBold/32px/tight (-0.01em) - Clear hierarchy
-  - H3 (Card Titles): Inter SemiBold/20px/normal - Readable focus points
-  - Body (Main Content): Inter Regular/16px/relaxed (1.6) - Comfortable reading
-  - Small (Captions): Inter Medium/14px/normal - Clear but compact
+  - H1 (Hero Title): Inter Bold/clamp(2rem, 5vw + 1rem, 3.5rem)/tight (-0.02em) - **Responsive scaling for all screens**
+  - H2 (Section Headers): Inter SemiBold/clamp(1.5rem, 4vw + 0.5rem, 2.5rem)/tight (-0.015em) - **Fluid responsive sizing**
+  - H3 (Card Titles): Inter SemiBold/clamp(1.25rem, 3vw + 0.25rem, 2rem)/normal - **Scales smoothly**
+  - Body (Main Content): Inter Regular/clamp(0.9375rem, 1vw + 0.5rem, 1.125rem)/relaxed (1.7) - **Enhanced line-height for readability**
+  - Small (Captions): Inter Regular/clamp(0.875rem, 1vw + 0.5rem, 1rem)/normal (1.6) - **Minimum 14px on mobile**
   - Code/Technical: Inter Regular/15px/normal - Monospace feel for tech content
+  - **Accessibility Features**:
+    - Minimum font size 15px (0.9375rem) for body text on mobile
+    - Button text minimum 16px to prevent iOS zoom
+    - Touch targets minimum 44×44px (WCAG AAA compliant)
+    - Fluid typography using CSS clamp() for smooth scaling
+    - Enhanced line-height (1.6-1.7) for improved readability
+    - Letter-spacing optimization for headings (-0.02em to -0.015em)
+    - Smooth font rendering with -webkit-font-smoothing and -moz-osx-font-smoothing
 
 ## Animations
 Animations should feel intelligent and purposeful - like the AI is actively working. Smooth, physics-based motion that suggests speed and efficiency without being distracting. Key moments: AI agents "appearing" in debate panel, progress bars filling with slight easing, cards sliding in when projects load.

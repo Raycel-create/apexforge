@@ -90,14 +90,14 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           className="flex items-center justify-between mb-6 sm:mb-10 flex-wrap gap-4"
         >
           <div>
-            <h1 className={`${isMobile ? 'text-3xl' : 'text-5xl'} font-bold mb-2 sm:mb-3 flex items-center gap-3`}>
-              <Fire weight="fill" className="text-destructive" size={isMobile ? 28 : 40} />
+            <h1 className="heading-responsive-sm font-bold mb-2 sm:mb-3 flex items-center gap-3">
+              <Fire weight="fill" className="text-destructive" size={isMobile ? 32 : 40} />
               Your Forge
             </h1>
-            <p className={`text-muted-foreground ${isMobile ? 'text-sm' : 'text-base'}`}>Manage and evolve your generated apps</p>
+            <p className="text-responsive text-muted-foreground">Manage and evolve your generated apps</p>
           </div>
-          <Button onClick={() => onNavigate('generator')} size={isMobile ? 'default' : 'lg'} className="glow-primary">
-            <Sparkle weight="fill" size={isMobile ? 18 : 20} />
+          <Button onClick={() => onNavigate('generator')} size={isMobile ? 'default' : 'lg'} className="glow-primary touch-target">
+            <Sparkle weight="fill" size={isMobile ? 20 : 22} />
             {isMobile ? 'New Project' : 'Ignite New Project'}
           </Button>
         </motion.div>

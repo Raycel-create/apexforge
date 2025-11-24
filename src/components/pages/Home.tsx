@@ -53,7 +53,7 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className={`${isMobile ? 'text-2xl' : isTablet ? 'text-4xl' : 'text-4xl md:text-5xl lg:text-6xl'} font-bold leading-tight`}
+            className="heading-responsive font-bold"
           >
             {blackForgeMode ? (
               <>
@@ -84,7 +84,7 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className={`${isMobile ? 'text-sm' : isTablet ? 'text-base' : 'text-base md:text-lg'} text-muted-foreground max-w-3xl mx-auto leading-relaxed`}
+            className="text-responsive-lg text-muted-foreground max-w-3xl mx-auto"
           >
             {blackForgeMode ? (
               <>
@@ -112,13 +112,13 @@ export function Home({ onNavigate }: HomeProps) {
             <Button
               size={isMobile ? 'default' : 'lg'}
               onClick={() => onNavigate('auth')}
-              className={`${isMobile ? 'text-sm px-6 h-11' : 'text-base px-8 h-12'} ${
+              className={`touch-target ${isMobile ? 'text-base px-6' : 'text-base px-8 h-12'} ${
                 blackForgeMode 
                   ? 'glow-destructive bg-destructive hover:bg-destructive/90' 
                   : 'glow-primary'
               } hover:scale-105 transition-all duration-300 font-semibold`}
             >
-              <Sparkle weight="fill" size={isMobile ? 16 : 18} />
+              <Sparkle weight="fill" size={isMobile ? 18 : 20} />
               {blackForgeMode 
                 ? (isMobile ? '🔥 Join Dark Forge' : '🔥 Join Dark Forge Now') 
                 : (isMobile ? 'Get Started Free' : 'Get Started Free')
@@ -128,9 +128,9 @@ export function Home({ onNavigate }: HomeProps) {
               size={isMobile ? 'default' : 'lg'}
               variant="outline"
               onClick={() => onNavigate('generator')}
-              className={`${isMobile ? 'text-sm px-6 h-11' : 'text-base px-8 h-12'} border-accent/50 text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all font-semibold`}
+              className={`touch-target ${isMobile ? 'text-base px-6' : 'text-base px-8 h-12'} border-accent/50 text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all font-semibold`}
             >
-              <TreeStructure weight="fill" size={isMobile ? 16 : 18} />
+              <TreeStructure weight="fill" size={isMobile ? 18 : 20} />
               {isMobile ? 'Free Incubator' : 'Try FREE Idea Incubator'}
             </Button>
           </motion.div>
@@ -148,18 +148,18 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className={`flex items-center justify-center gap-3 sm:gap-4 ${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground pt-2 flex-wrap`}
+            className="flex items-center justify-center gap-3 sm:gap-4 text-responsive-sm text-muted-foreground pt-2 flex-wrap"
           >
-            <div className="flex items-center gap-1 sm:gap-1.5">
-              <Lightning weight="fill" className="text-accent" size={isMobile ? 14 : 18} />
+            <div className="flex items-center gap-1.5">
+              <Lightning weight="fill" className="text-accent" size={isMobile ? 16 : 18} />
               <span>Live in &lt;10 sec</span>
             </div>
-            <div className="flex items-center gap-1 sm:gap-1.5">
-              <Fire weight="fill" className="text-destructive" size={isMobile ? 14 : 18} />
+            <div className="flex items-center gap-1.5">
+              <Fire weight="fill" className="text-destructive" size={isMobile ? 16 : 18} />
               <span>Real-time AI debates</span>
             </div>
-            <div className="flex items-center gap-1 sm:gap-1.5">
-              <Swap weight="fill" className="text-primary" size={isMobile ? 14 : 18} />
+            <div className="flex items-center gap-1.5">
+              <Swap weight="fill" className="text-primary" size={isMobile ? 16 : 18} />
               <span>Fusion Mode</span>
             </div>
           </motion.div>
@@ -426,74 +426,74 @@ export function Home({ onNavigate }: HomeProps) {
                   )}
                 </svg>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 relative z-10">
-                  <div className="flex flex-col items-start space-y-1">
-                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
-                      <Fire weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 relative z-10">
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
+                      <Fire weight="fill" className="text-primary" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>The Forge</h3>
-                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
+                      <h3 className="text-responsive-sm font-bold text-foreground">The Forge</h3>
+                      <p className="text-responsive-sm text-muted-foreground leading-relaxed">
                         5 AI agents argue LIVE. You vote. Winners auto-apply.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-1">
-                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
-                      <Swap weight="fill" className="text-accent" size={isMobile ? 12 : 16} />
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
+                      <Swap weight="fill" className="text-accent" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>Fusion Mode</h3>
-                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
+                      <h3 className="text-responsive-sm font-bold text-foreground">Fusion Mode</h3>
+                      <p className="text-responsive-sm text-muted-foreground leading-relaxed">
                         3 versions. Drag-drop parts. Create hybrid.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-1">
-                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
-                      <Rocket weight="fill" className="text-accent" size={isMobile ? 12 : 16} />
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-accent`}>
+                      <Rocket weight="fill" className="text-accent" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>Live Deploy</h3>
-                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
+                      <h3 className="text-responsive-sm font-bold text-foreground">Live Deploy</h3>
+                      <p className="text-responsive-sm text-muted-foreground leading-relaxed">
                         Instant HTTPS domain. No manual hosting.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-1">
-                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
-                      <TreeStructure weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
+                      <TreeStructure weight="fill" className="text-primary" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>FREE Incubator</h3>
-                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
+                      <h3 className="text-responsive-sm font-bold text-foreground">FREE Incubator</h3>
+                      <p className="text-responsive-sm text-muted-foreground leading-relaxed">
                         5 validated app ideas in 30 sec. Zero credits.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-1">
-                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
-                      <Lightning weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-primary`}>
+                      <Lightning weight="fill" className="text-primary" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>Evolve Button</h3>
-                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
+                      <h3 className="text-responsive-sm font-bold text-foreground">Evolve Button</h3>
+                      <p className="text-responsive-sm text-muted-foreground leading-relaxed">
                         Upgrades it instantly. ChatGPT for apps.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-start space-y-1">
-                    <div className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} rounded-lg bg-destructive/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-destructive`}>
-                      <Shield weight="fill" className="text-destructive" size={isMobile ? 12 : 16} />
+                  <div className="flex flex-col items-start space-y-2">
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-destructive/20 flex items-center justify-center group-hover:scale-110 transition-transform glow-destructive`}>
+                      <Shield weight="fill" className="text-destructive" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
-                      <h3 className={`${isMobile ? 'text-xs' : 'text-sm'} font-bold text-foreground`}>$500 Shield</h3>
-                      <p className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground leading-relaxed`}>
+                      <h3 className="text-responsive-sm font-bold text-foreground">$500 Shield</h3>
+                      <p className="text-responsive-sm text-muted-foreground leading-relaxed">
                         AI security agent. Auto-blocks attacks.
                       </p>
                     </div>
