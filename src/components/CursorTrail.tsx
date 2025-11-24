@@ -8,7 +8,8 @@ interface Particle {
   life: number
   maxLife: number
   size: number
-  hue: number
+  color: string
+  glitter: number
 }
 
 export function CursorTrail() {
@@ -41,8 +42,16 @@ export function CursorTrail() {
       const dy = mouseRef.current.y - lastMouseRef.current.y
       const distance = Math.sqrt(dx * dx + dy * dy)
 
-      if (distance > 2) {
-        const numParticles = Math.min(Math.floor(distance / 8), 3)
+      if (distance > 5) {
+        const numParticles = Math.min(Math.floor(distance / 20), 2)
+        
+        const colors = [
+          'rgba(192, 192, 192, ', 
+          'rgba(255, 192, 203, ', 
+          'rgba(221, 160, 221, ', 
+          'rgba(218, 112, 214, ', 
+          'rgba(238, 130, 238, '  
+        ]
         
         for (let i = 0; i < numParticles; i++) {
           const t = i / numParticles
@@ -52,35 +61,37 @@ export function CursorTrail() {
           particlesRef.current.push({
             x,
             y,
-            vx: (Math.random() - 0.5) * 2,
-            vy: (Math.random() - 0.5) * 2,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: (Math.random() - 0.5) * 1.5,
             life: 1,
             maxLife: 1,
-            size: Math.random() * 3 + 2,
-            hue: 280 + Math.random() * 40
+            size: Math.random() * 2 + 1.5,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            glitter: Math.random()
           })
         }
       }
 
-      if (particlesRef.current.length > 200) {
-        particlesRef.current = particlesRef.current.slice(-200)
+      if (particlesRef.current.length > 100) {
+        particlesRef.current = particlesRef.current.slice(-100)
       }
     }
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       particlesRef.current = particlesRef.current.filter(particle => {
         particle.x += particle.vx
         particle.y += particle.vy
-        particle.vy += 0.1
-        particle.life -= 0.02
+        particle.vy += 0.05
+        particle.life -= 0.025
         
         if (particle.life <= 0) return false
 
         const opacity = particle.life
         const size = particle.size * particle.life
+        
+        const glitterIntensity = particle.glitter > 0.7 ? 1 : 0.6
         
         const gradient = ctx.createRadialGradient(
           particle.x,
@@ -91,14 +102,21 @@ export function CursorTrail() {
           size * 2
         )
         
-        gradient.addColorStop(0, `hsla(${particle.hue}, 70%, 60%, ${opacity * 0.8})`)
-        gradient.addColorStop(0.5, `hsla(${particle.hue}, 70%, 50%, ${opacity * 0.4})`)
-        gradient.addColorStop(1, `hsla(${particle.hue}, 70%, 40%, 0)`)
+        gradient.addColorStop(0, `${particle.color}${opacity * 0.9 * glitterIntensity})`)
+        gradient.addColorStop(0.5, `${particle.color}${opacity * 0.5 * glitterIntensity})`)
+        gradient.addColorStop(1, `${particle.color}0)`)
         
         ctx.fillStyle = gradient
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, size * 2, 0, Math.PI * 2)
         ctx.fill()
+        
+        if (particle.glitter > 0.85) {
+          ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.8})`
+          ctx.beginPath()
+          ctx.arc(particle.x, particle.y, size * 0.5, 0, Math.PI * 2)
+          ctx.fill()
+        }
 
         return true
       })
