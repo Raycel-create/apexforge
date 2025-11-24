@@ -5,11 +5,10 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Separator } from '../ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
-import { Sparkle, Lightning, UserCircle, EnvelopeSimple, Lock, Eye, EyeSlash, Check, MagicWand, ShieldCheck, DeviceMobile } from '@phosphor-icons/react'
+import { Sparkle, Lightning, UserCircle, EnvelopeSimple, Lock, Eye, EyeSlash, Check, ShieldCheck, DeviceMobile } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useKV } from '@github/spark/hooks'
-import { MagicLinkAuth } from '../MagicLinkAuth'
 import { GoogleAuthButton } from '../GoogleAuthButton'
 import { OTPAuth } from '../OTPAuth'
 import { SMSOTPAuth } from '../SMSOTPAuth'
@@ -30,7 +29,7 @@ interface User {
 }
 
 export function AuthLanding({ onNavigate }: AuthLandingProps) {
-  const [authMode, setAuthMode] = useState<'password' | 'magic' | 'otp' | 'sms'>('otp')
+  const [authMode, setAuthMode] = useState<'password' | 'otp' | 'sms'>('otp')
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -112,36 +111,6 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const handleMagicLinkSuccess = async (email: string) => {
-    setCurrentUser(email)
-    
-    if (!users?.[email]) {
-      const newUser: User = {
-        email,
-        password: '',
-        name: email.split('@')[0],
-        createdAt: Date.now(),
-      }
-      
-      setUsers((current) => ({
-        ...current,
-        [email]: newUser,
-      }))
-    }
-    
-    const user = users?.[email]
-    const userName = user?.name || email.split('@')[0]
-    
-    toast.success(`Welcome${user ? ' back' : ''}, ${userName}! 🚀`, {
-      description: 'Signed in successfully with magic link',
-      duration: 2000,
-    })
-
-    setTimeout(() => {
-      onNavigate('dashboard')
-    }, 1000)
   }
 
   const handleOTPSuccess = async (email: string, provider: 'email' | 'github') => {
@@ -302,8 +271,8 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
         </div>
 
         <Card className="p-8 border-primary/30 bg-card/90 backdrop-blur">
-          <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as 'password' | 'magic' | 'otp' | 'sms')} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-6">
+          <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as 'password' | 'otp' | 'sms')} className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-6">
               <TabsTrigger value="otp" className="flex items-center gap-2">
                 <ShieldCheck weight="fill" size={16} />
                 Email OTP
@@ -311,10 +280,6 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
               <TabsTrigger value="sms" className="flex items-center gap-2">
                 <DeviceMobile weight="fill" size={16} />
                 SMS OTP
-              </TabsTrigger>
-              <TabsTrigger value="magic" className="flex items-center gap-2">
-                <MagicWand weight="fill" size={16} />
-                Magic Link
               </TabsTrigger>
               <TabsTrigger value="password" className="flex items-center gap-2">
                 <Lock weight="fill" size={16} />
@@ -333,13 +298,6 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
             <TabsContent value="sms">
               <SMSOTPAuth 
                 onSuccess={handleSMSOTPSuccess}
-                onCancel={() => setAuthMode('password')}
-              />
-            </TabsContent>
-
-            <TabsContent value="magic">
-              <MagicLinkAuth 
-                onSuccess={handleMagicLinkSuccess}
                 onCancel={() => setAuthMode('password')}
               />
             </TabsContent>
@@ -493,7 +451,7 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
                   </div>
 
                   <GoogleAuthButton 
-                    onSuccess={() => handleMagicLinkSuccess('')}
+                    onSuccess={() => handleOTPSuccess('', 'email')}
                     mode={isSignUp ? 'signup' : 'signin'}
                   />
 

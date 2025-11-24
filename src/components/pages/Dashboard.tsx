@@ -1,4 +1,4 @@
-import { Download, Rocket, Trash, Sparkle, ArrowsClockwise, Shield, Globe, Fire, Copy, Share, MagicWand } from '@phosphor-icons/react'
+import { Download, Rocket, Trash, Sparkle, ArrowsClockwise, Shield, Globe, Fire, Copy, Share, ShieldCheck } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
@@ -13,7 +13,7 @@ import { useBlackForge } from '../../lib/BlackForgeContext'
 import { APIKeyAlert } from '../APIKeyAlert'
 import { KeysManager } from '../KeysManager'
 import { EmailVerificationBanner } from '../EmailVerificationStatus'
-import { MagicLinkAuth } from '../MagicLinkAuth'
+import { OTPAuth } from '../OTPAuth'
 import { StripeConnect } from '../StripeConnect'
 import { PhoneVerificationFlow, QuickPhoneVerifyButton } from '../PhoneVerificationFlow'
 import { VerificationStatus, SecurityBadge } from '../TrustIndicators'
@@ -68,7 +68,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
     toast.success('Link copied! 🔗')
   }
 
-  const handleVerificationSuccess = (email: string) => {
+  const handleVerificationSuccess = (email: string, provider: 'email' | 'github') => {
     setShowVerificationDialog(false)
     toast.success('Email verified! 🎉', {
       description: 'Your account is now verified',
@@ -440,13 +440,14 @@ export function Dashboard({ onNavigate }: DashboardProps) {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <MagicWand weight="fill" className="text-primary" size={24} />
+              <ShieldCheck weight="fill" className="text-primary" size={24} />
               Verify Your Email
             </DialogTitle>
           </DialogHeader>
           {currentUser && (
-            <MagicLinkAuth 
+            <OTPAuth 
               onSuccess={handleVerificationSuccess}
+              provider="email"
             />
           )}
         </DialogContent>
