@@ -28,11 +28,11 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Seamless integration with existing password auth
   - Console logging of magic links in development mode
 
-### Real-Time OTP Authentication (🔐 Email & GitHub Verification)
-- **Functionality**: Advanced OTP (One-Time Password) authentication system supporting both email (Gmail) and GitHub sign-in/sign-up. Users receive a 6-digit verification code sent in real-time to their email or GitHub-associated email. Features auto-focus input fields, paste support, attempt tracking (max 3 attempts), and real-time countdown timer. Integrated with both password and magic link authentication methods.
-- **Purpose**: Provide enterprise-grade security with familiar OTP verification flow, supporting multiple authentication providers (Email/Gmail and GitHub). Enhances security while maintaining user experience through real-time code delivery and smart input handling.
-- **Trigger**: Primary authentication method on auth page via "OTP" tab (default), or GitHub OTP button in password authentication section
-- **Progression**: **Email OTP**: User enters email → Clicks "Send Verification Code" → Receives 6-digit code (console in dev mode) → Enters code in 6 individual input fields → Auto-verifies on completion → Redirected to dashboard. **GitHub OTP**: User clicks "Sign in with GitHub OTP" → GitHub authenticates user → Receives code at GitHub email → Enters 6-digit code → Verified & redirected to dashboard
+### Real-Time OTP Authentication (🔐 Email, SMS & GitHub Verification)
+- **Functionality**: Advanced OTP (One-Time Password) authentication system supporting email (Gmail), SMS, and GitHub sign-in/sign-up. Users receive a 6-digit verification code sent in real-time via email, SMS (using Twilio), or to their GitHub-associated email. Features auto-focus input fields, paste support, attempt tracking (max 3 attempts), and real-time countdown timer. **NEW: SMS OTP via Twilio integration** - Send verification codes via SMS to phone numbers worldwide. Integrated with both password and magic link authentication methods.
+- **Purpose**: Provide enterprise-grade security with familiar OTP verification flow, supporting multiple authentication providers (Email/Gmail, SMS, and GitHub). SMS OTP adds an additional layer of security and accessibility for users who prefer phone-based authentication. Enhances security while maintaining user experience through real-time code delivery and smart input handling.
+- **Trigger**: Primary authentication method on auth page via "Email OTP" tab (default), "SMS OTP" tab for phone verification, or GitHub OTP button in password authentication section
+- **Progression**: **Email OTP**: User enters email → Clicks "Send Verification Code" → Receives 6-digit code (console in dev mode) → Enters code in 6 individual input fields → Auto-verifies on completion → Redirected to dashboard. **SMS OTP**: User enters phone number with country code → Clicks "Send Verification Code" → Receives SMS via Twilio (or console in dev mode) → Enters 6-digit code → Verified & redirected to dashboard. **GitHub OTP**: User clicks "Sign in with GitHub OTP" → GitHub authenticates user → Receives code at GitHub email → Enters 6-digit code → Verified & redirected to dashboard
 - **Success criteria**:
   - 6-digit numeric OTP generation with secure random generation
   - Code expires after 10 minutes with live countdown timer
@@ -41,17 +41,24 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Smart paste support (splits 6-digit code across inputs)
   - Backspace navigation between input fields
   - Real-time email simulation (console logging in dev mode)
-  - Support for both email and GitHub providers
+  - **SMS delivery via Twilio API with fallback to console mode**
+  - **Phone number validation with international format support (+1, +44, etc.)**
+  - **Configurable Twilio credentials (Account SID, Auth Token, Phone Number)**
+  - **Twilio configuration panel in CEO Dashboard → SMS/Twilio tab**
+  - **Test connection functionality for Twilio credentials**
+  - **Graceful fallback when Twilio not configured (console mode)**
+  - Support for email, SMS, and GitHub providers
   - GitHub OAuth integration for automatic email retrieval
   - Attempt counter with visual feedback
   - Code marked as used after successful verification
   - Resend code functionality with state reset
-  - Change email option to restart flow
-  - Beautiful UI with animations and provider-specific icons
-  - Secure storage using useKV for OTP codes and verifications
+  - Change email/phone option to restart flow
+  - Beautiful UI with animations and provider-specific icons (DeviceMobile for SMS)
+  - Secure storage using useKV for OTP codes, verifications, and Twilio config
   - Integration with existing user system
   - Toast notifications for all states (success, error, expired, invalid)
   - Responsive design optimized for mobile and desktop
+  - Alert indicators when Twilio not configured
 
 ### API Key Management System (🔑 Security & Integration Feature)
 - **Functionality**: Comprehensive API key management for AI models (OpenAI, Anthropic, xAI, Google, Meta, Mistral, Cohere, Hugging Face), services (Stripe, Supabase, Firebase, Vercel, Figma, Expo), and app stores (Apple, Google Play). Integrated into both CEO Dashboard and User Dashboard with validation, testing, and secure storage. **Now configured for actual AI model integrations** - keys are used to make real API calls to 8 AI providers with **50+ model variations** including GPT-4o, Claude 3.5 Sonnet, Grok-2, Gemini 1.5 Pro, Llama 3.1, Mistral Large, Command R+, and **15 Hugging Face open source models** for code generation and AI debates.
@@ -271,6 +278,28 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Logout functionality clears session
   - Responsive on all screen sizes
   - Consistent with ApexForge design language (electric purple, neon cyan accents)
+
+### Twilio SMS Configuration (📱 SMS OTP Integration)
+- **Functionality**: Complete Twilio integration configuration panel in CEO Dashboard for setting up SMS OTP authentication. Configure Account SID, Auth Token, and Twilio phone number with validation testing. Supports worldwide SMS delivery with automatic fallback to development mode when credentials not configured.
+- **Purpose**: Enable SMS-based OTP authentication for users who prefer phone verification. Provides enterprise-grade security through multi-channel authentication options while maintaining flexibility with simulated mode for development.
+- **Trigger**: Accessible from CEO Dashboard → Settings → SMS/Twilio tab
+- **Progression**: Navigate to CEO Settings → Select SMS/Twilio tab → Enter Twilio Account SID → Enter Auth Token (with show/hide toggle) → Enter Twilio phone number → Click "Test Connection" to validate → Save configuration → SMS OTP becomes available on auth page
+- **Success criteria**:
+  - Input fields for Account SID, Auth Token, and Twilio phone number
+  - Auth Token visibility toggle (show/hide) for security
+  - Copy to clipboard functionality for all credentials
+  - "Test Connection" button validates credentials against Twilio API
+  - Visual status indicators (configured/not configured badge)
+  - Current configuration display with masked values
+  - Real-time validation feedback (success/error alerts)
+  - Configuration persists in KV storage
+  - Instructions with link to Twilio console
+  - Alert on SMS OTP page when Twilio not configured
+  - Graceful fallback to console logging in development mode
+  - Phone number format validation with country code requirement
+  - Save and update functionality with loading states
+  - Responsive design consistent with ApexForge theme
+  - Integration with existing CEO authentication system
 
 ### CEO Dashboard with Advanced Analytics (🎯 Complete Control Center)
 - **Functionality**: Comprehensive business intelligence dashboard with real-time metrics, revenue forecasting, customer management, transaction tracking, payout history, webhook simulation, **advanced cohort analytics**, and **automated email campaign management**. Includes CEO "Whisper Mode" and full Integrations Hub for API key management.

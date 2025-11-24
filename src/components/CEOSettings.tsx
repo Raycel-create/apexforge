@@ -12,6 +12,7 @@ import { useCEOAuth } from '../lib/CEOAuthContext'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { EmailNotificationSettings } from './EmailNotificationSettings'
 import { EmailServiceConfig } from './EmailServiceConfig'
+import { TwilioConfigPanel } from './TwilioConfig'
 
 export function CEOSettings() {
   const { biometricsEnabled, toggleBiometrics, initializeTOTP } = useCEOAuth()
@@ -68,9 +69,10 @@ export function CEOSettings() {
       </div>
 
       <Tabs defaultValue="payments" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="payments">Payments</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="sms">SMS/Twilio</TabsTrigger>
           <TabsTrigger value="email-service">Email Service</TabsTrigger>
           <TabsTrigger value="notifications">Email Reports</TabsTrigger>
         </TabsList>
@@ -271,6 +273,10 @@ export function CEOSettings() {
           </div>
         </div>
       </Card>
+        </TabsContent>
+
+        <TabsContent value="sms" className="space-y-6 mt-6">
+          <TwilioConfigPanel />
         </TabsContent>
 
         <TabsContent value="email-service" className="space-y-6 mt-6">

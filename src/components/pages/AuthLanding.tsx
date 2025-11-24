@@ -5,13 +5,14 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Separator } from '../ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
-import { Sparkle, Lightning, UserCircle, EnvelopeSimple, Lock, Eye, EyeSlash, Check, MagicWand, ShieldCheck } from '@phosphor-icons/react'
+import { Sparkle, Lightning, UserCircle, EnvelopeSimple, Lock, Eye, EyeSlash, Check, MagicWand, ShieldCheck, DeviceMobile } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useKV } from '@github/spark/hooks'
 import { MagicLinkAuth } from '../MagicLinkAuth'
 import { GoogleAuthButton } from '../GoogleAuthButton'
 import { OTPAuth } from '../OTPAuth'
+import { SMSOTPAuth } from '../SMSOTPAuth'
 import { GitHubOTPButton } from '../GitHubOTPButton'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
@@ -28,7 +29,7 @@ interface User {
 }
 
 export function AuthLanding({ onNavigate }: AuthLandingProps) {
-  const [authMode, setAuthMode] = useState<'password' | 'magic' | 'otp'>('otp')
+  const [authMode, setAuthMode] = useState<'password' | 'magic' | 'otp' | 'sms'>('otp')
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -173,6 +174,37 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
     }, 1000)
   }
 
+  const handleSMSOTPSuccess = async (phoneNumber: string) => {
+    const email = `${phoneNumber.replace(/\D/g, '')}@sms.apexforge.app`
+    setCurrentUser(email)
+    
+    if (!users?.[email]) {
+      const newUser: User = {
+        email,
+        password: '',
+        name: phoneNumber,
+        createdAt: Date.now(),
+      }
+      
+      setUsers((current) => ({
+        ...current,
+        [email]: newUser,
+      }))
+    }
+    
+    const user = users?.[email]
+    const userName = user?.name || phoneNumber
+    
+    toast.success(`Welcome${user ? ' back' : ''}, ${userName}! 🚀`, {
+      description: 'Signed in successfully with SMS OTP',
+      duration: 2000,
+    })
+
+    setTimeout(() => {
+      onNavigate('dashboard')
+    }, 1000)
+  }
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -269,11 +301,15 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
         </div>
 
         <Card className="p-8 border-primary/30 bg-card/90 backdrop-blur">
-          <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as 'password' | 'magic' | 'otp')} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-6">
+          <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as 'password' | 'magic' | 'otp' | 'sms')} className="w-full">
+            <TabsList className="grid w-full grid-cols-4 mb-6">
               <TabsTrigger value="otp" className="flex items-center gap-2">
                 <ShieldCheck weight="fill" size={16} />
-                OTP
+                Email OTP
+              </TabsTrigger>
+              <TabsTrigger value="sms" className="flex items-center gap-2">
+                <DeviceMobile weight="fill" size={16} />
+                SMS OTP
               </TabsTrigger>
               <TabsTrigger value="magic" className="flex items-center gap-2">
                 <MagicWand weight="fill" size={16} />
@@ -290,6 +326,13 @@ export function AuthLanding({ onNavigate }: AuthLandingProps) {
                 onSuccess={handleOTPSuccess}
                 onCancel={() => setAuthMode('password')}
                 provider="email"
+              />
+            </TabsContent>
+
+            <TabsContent value="sms">
+              <SMSOTPAuth 
+                onSuccess={handleSMSOTPSuccess}
+                onCancel={() => setAuthMode('password')}
               />
             </TabsContent>
 
