@@ -251,14 +251,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                       <CreditCard size={16} />
                       Pricing
                     </Button>
-                    <Button
-                      variant={currentPage === 'figma' ? 'secondary' : 'ghost'}
-                      className="justify-start"
-                      onClick={() => handleNavigation('figma')}
-                    >
-                      <Cube size={16} />
-                      Figma Integration
-                    </Button>
                     <div className="my-2 border-t border-border" />
                     <Button
                       variant={currentPage === 'ceo' ? 'secondary' : 'outline'}
