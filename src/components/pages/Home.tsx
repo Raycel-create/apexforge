@@ -22,29 +22,29 @@ export function Home({ onNavigate }: HomeProps) {
   return (
     <div className={`min-h-screen w-full overflow-x-hidden ${blackForgeMode ? 'bg-gradient-to-b from-destructive/10 to-background' : ''} transition-all duration-1000`}>
       <LiveChatbot />
-      <section className="container mx-auto px-2 sm:px-3 lg:px-4 py-4 sm:py-6 lg:py-10 text-center relative max-w-[1400px]">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 text-center relative max-w-[1400px]">
         <div className={`absolute inset-0 ${
           blackForgeMode 
             ? 'bg-gradient-to-b from-destructive/20 via-transparent to-transparent' 
             : 'bg-gradient-to-b from-primary/10 via-transparent to-transparent'
         } pointer-events-none transition-all duration-1000`} />
         
-        <div className="max-w-5xl mx-auto space-y-2 sm:space-y-4 relative z-10">
+        <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="inline-block"
           >
-            <Badge className={`${isMobile ? 'px-2 py-0.5 text-[10px]' : 'px-3 py-1 text-xs'} ${
+            <Badge className={`${isMobile ? 'px-3 py-1 text-xs' : 'px-4 py-1.5 text-sm'} ${
               blackForgeMode
                 ? 'bg-destructive/20 border-destructive/40 text-destructive glow-destructive'
                 : 'bg-primary/20 border-primary/40 text-primary glow-primary'
             } transition-all duration-500`}>
-              <Fire weight="fill" size={isMobile ? 10 : 12} className="animate-pulse-glow" />
+              <Fire weight="fill" size={isMobile ? 14 : 16} className="animate-pulse-glow" />
               <span>{blackForgeMode 
-                ? (isMobile ? '🔥 Dark AI team' : '🔥 Unleash the Dark AI Team') 
-                : (isMobile ? 'Hire an AI dev team' : 'Stop prompting solo AIs. Hire an entire AI dev team.')
+                ? (isMobile ? '🔥 Dark AI Team' : '🔥 Unleash the Dark AI Team') 
+                : (isMobile ? 'Hire an AI Dev Team' : 'Stop prompting solo AIs. Hire an entire AI dev team.')
               }</span>
             </Badge>
           </motion.div>
@@ -53,7 +53,7 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className={`${isMobile ? 'text-xl' : isTablet ? 'text-3xl' : 'text-3xl md:text-4xl lg:text-5xl'} font-bold leading-tight`}
+            className={`${isMobile ? 'text-2xl' : isTablet ? 'text-4xl' : 'text-4xl md:text-5xl lg:text-6xl'} font-bold leading-tight`}
           >
             {blackForgeMode ? (
               <>
@@ -84,7 +84,7 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className={`${isMobile ? 'text-[11px]' : isTablet ? 'text-sm' : 'text-sm md:text-base'} text-muted-foreground max-w-3xl mx-auto leading-relaxed`}
+            className={`${isMobile ? 'text-sm' : isTablet ? 'text-base' : 'text-base md:text-lg'} text-muted-foreground max-w-3xl mx-auto leading-relaxed`}
           >
             {blackForgeMode ? (
               <>
@@ -107,31 +107,31 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap"
+            className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap"
           >
             <Button
-              size={isMobile ? 'sm' : 'default'}
+              size={isMobile ? 'default' : 'lg'}
               onClick={() => onNavigate('auth')}
-              className={`${isMobile ? 'text-xs px-3 py-1.5 h-7' : 'text-sm px-4 py-2 h-8'} ${
+              className={`${isMobile ? 'text-sm px-6 h-11' : 'text-base px-8 h-12'} ${
                 blackForgeMode 
                   ? 'glow-destructive bg-destructive hover:bg-destructive/90' 
                   : 'glow-primary'
-              } hover:scale-105 transition-all duration-300`}
+              } hover:scale-105 transition-all duration-300 font-semibold`}
             >
-              <Sparkle weight="fill" size={isMobile ? 12 : 14} />
+              <Sparkle weight="fill" size={isMobile ? 16 : 18} />
               {blackForgeMode 
-                ? (isMobile ? '🔥 Join Now' : '🔥 Join Dark Forge') 
-                : (isMobile ? 'Get Started' : 'Get Started Free')
+                ? (isMobile ? '🔥 Join Dark Forge' : '🔥 Join Dark Forge Now') 
+                : (isMobile ? 'Get Started Free' : 'Get Started Free')
               }
             </Button>
             <Button
-              size={isMobile ? 'sm' : 'default'}
+              size={isMobile ? 'default' : 'lg'}
               variant="outline"
               onClick={() => onNavigate('generator')}
-              className={`${isMobile ? 'text-xs px-3 py-1.5 h-7' : 'text-sm px-4 py-2 h-8'} border-accent/50 text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all`}
+              className={`${isMobile ? 'text-sm px-6 h-11' : 'text-base px-8 h-12'} border-accent/50 text-accent hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all font-semibold`}
             >
-              <TreeStructure weight="fill" size={isMobile ? 12 : 14} />
-              {isMobile ? 'Incubator' : 'Try FREE Idea Incubator'}
+              <TreeStructure weight="fill" size={isMobile ? 16 : 18} />
+              {isMobile ? 'Free Incubator' : 'Try FREE Idea Incubator'}
             </Button>
           </motion.div>
 
@@ -148,18 +148,18 @@ export function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className={`flex items-center justify-center gap-2 sm:gap-4 ${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground pt-1 flex-wrap`}
+            className={`flex items-center justify-center gap-3 sm:gap-4 ${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground pt-2 flex-wrap`}
           >
-            <div className="flex items-center gap-0.5 sm:gap-1">
-              <Lightning weight="fill" className="text-accent" size={isMobile ? 12 : 16} />
+            <div className="flex items-center gap-1 sm:gap-1.5">
+              <Lightning weight="fill" className="text-accent" size={isMobile ? 14 : 18} />
               <span>Live in &lt;10 sec</span>
             </div>
-            <div className="flex items-center gap-0.5 sm:gap-1">
-              <Fire weight="fill" className="text-destructive" size={isMobile ? 12 : 16} />
+            <div className="flex items-center gap-1 sm:gap-1.5">
+              <Fire weight="fill" className="text-destructive" size={isMobile ? 14 : 18} />
               <span>Real-time AI debates</span>
             </div>
-            <div className="flex items-center gap-0.5 sm:gap-1">
-              <Swap weight="fill" className="text-primary" size={isMobile ? 12 : 16} />
+            <div className="flex items-center gap-1 sm:gap-1.5">
+              <Swap weight="fill" className="text-primary" size={isMobile ? 14 : 18} />
               <span>Fusion Mode</span>
             </div>
           </motion.div>
@@ -168,7 +168,7 @@ export function Home({ onNavigate }: HomeProps) {
 
       <ProductDemoShowcase />
 
-      <section className="container mx-auto px-2 sm:px-3 lg:px-4 py-4 sm:py-6 lg:py-10 max-w-[1400px]">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 max-w-[1400px]">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -179,7 +179,7 @@ export function Home({ onNavigate }: HomeProps) {
             <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/5 via-card to-accent/5 hover:border-primary hover:shadow-2xl hover:shadow-primary/20 transition-all group">
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
               
-              <div className={`relative ${isMobile ? 'p-3' : 'p-4 md:p-6'}`}>
+              <div className={`relative ${isMobile ? 'p-5' : 'p-6 md:p-8'}`}>
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ opacity: 0.4 }}>
                   <defs>
                     <linearGradient id="line-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">

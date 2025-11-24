@@ -83,22 +83,22 @@ export function Dashboard({ onNavigate }: DashboardProps) {
 
   return (
     <div className="w-full">
-      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 max-w-[1400px]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 max-w-[1400px]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between mb-4 sm:mb-8 flex-wrap gap-2 sm:gap-4"
+          className="flex items-center justify-between mb-6 sm:mb-10 flex-wrap gap-4"
         >
           <div>
-            <h1 className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold mb-1 sm:mb-2 flex items-center gap-2 sm:gap-3`}>
-              <Fire weight="fill" className="text-destructive" size={isMobile ? 24 : 36} />
+            <h1 className={`${isMobile ? 'text-3xl' : 'text-5xl'} font-bold mb-2 sm:mb-3 flex items-center gap-3`}>
+              <Fire weight="fill" className="text-destructive" size={isMobile ? 28 : 40} />
               Your Forge
             </h1>
-            <p className={`text-muted-foreground ${isMobile ? 'text-xs' : ''}`}>Manage and evolve your generated apps</p>
+            <p className={`text-muted-foreground ${isMobile ? 'text-sm' : 'text-base'}`}>Manage and evolve your generated apps</p>
           </div>
-          <Button onClick={() => onNavigate('generator')} size={isMobile ? 'sm' : 'lg'} className="glow-primary">
-            <Sparkle weight="fill" size={isMobile ? 16 : 20} />
-            {isMobile ? 'New' : 'Ignite New Project'}
+          <Button onClick={() => onNavigate('generator')} size={isMobile ? 'default' : 'lg'} className="glow-primary">
+            <Sparkle weight="fill" size={isMobile ? 18 : 20} />
+            {isMobile ? 'New Project' : 'Ignite New Project'}
           </Button>
         </motion.div>
 
@@ -106,9 +106,9 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="mb-4 sm:mb-8 space-y-4"
+          className="mb-6 sm:mb-10 space-y-4"
         >
-          <Card className="p-4 border-yellow-500/30 bg-yellow-500/10">
+          <Card className="p-5 border-yellow-500/30 bg-yellow-500/10">
             <div className="flex items-center gap-3">
               <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40">
                 ⚠️ Testing Mode Active
