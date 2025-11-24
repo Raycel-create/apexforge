@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FigmaCredentialsSetup } from '@/components/FigmaCredentialsSetup'
 import { FigmaSyncPanel } from '@/components/FigmaSyncPanel'
 import { FigmaComponentBrowser } from '@/components/FigmaComponentBrowser'
+import { FigmaAvailabilityMonitor } from '@/components/FigmaAvailabilityMonitor'
 import { IPWhitelistManager } from '@/components/IPWhitelistManager'
 import { Shield, ArrowsLeftRight, Key, Cube } from '@phosphor-icons/react'
 
@@ -20,6 +21,10 @@ export function FigmaIntegration({ onNavigate }: FigmaIntegrationProps) {
           <p className="text-muted-foreground text-lg">
             Two-way sync between Figma designs and code with enterprise-grade security
           </p>
+        </div>
+
+        <div className="mb-8">
+          <FigmaAvailabilityMonitor />
         </div>
 
         <Tabs defaultValue="browser" className="w-full">
