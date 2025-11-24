@@ -20,7 +20,9 @@ import {
   FilePlus,
   Trash,
   Play,
-  File
+  File,
+  Cube,
+  Info
 } from '@phosphor-icons/react'
 import { figmaSyncService, FigmaFile, SyncHistory } from '@/lib/figmaSyncService'
 import { toast } from 'sonner'
@@ -172,6 +174,13 @@ export function FigmaSyncPanel() {
 
   return (
     <div className="space-y-6">
+      <Alert className="bg-primary/5 border-primary/20">
+        <Info className="h-4 w-4 text-primary" />
+        <AlertDescription className="text-sm">
+          <span className="font-medium">New:</span> Use the Component Browser tab to preview and search individual Figma components before syncing them to your project.
+        </AlertDescription>
+      </Alert>
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

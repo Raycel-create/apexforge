@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X, Key, CheckCircle, Warning, UserCircle, SignOut } from '@phosphor-icons/react'
+import { Sparkle, SquaresFour, CreditCard, ChartBar, Fire, List, X, Key, CheckCircle, Warning, UserCircle, SignOut, Cube } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useKV } from '@github/spark/hooks'
@@ -116,6 +116,14 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 >
                   <CreditCard size={16} />
                   Pricing
+                </Button>
+                <Button
+                  variant={currentPage === 'figma' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  onClick={() => onNavigate('figma')}
+                >
+                  <Cube size={16} />
+                  Figma
                 </Button>
                 <Button
                   variant={currentPage === 'ceo' ? 'secondary' : 'ghost'}
@@ -242,6 +250,14 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                     >
                       <CreditCard size={16} />
                       Pricing
+                    </Button>
+                    <Button
+                      variant={currentPage === 'figma' ? 'secondary' : 'ghost'}
+                      className="justify-start"
+                      onClick={() => handleNavigation('figma')}
+                    >
+                      <Cube size={16} />
+                      Figma Integration
                     </Button>
                     <div className="my-2 border-t border-border" />
                     <Button

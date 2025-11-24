@@ -36,6 +36,8 @@ function AppContent() {
         return <Generator onNavigate={setCurrentPage} />
       case 'auth':
         return <AuthLanding onNavigate={setCurrentPage} />
+      case 'figma':
+        return <FigmaIntegration onNavigate={setCurrentPage} />
       default:
         return <Home onNavigate={setCurrentPage} />
     }

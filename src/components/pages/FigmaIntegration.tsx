@@ -1,8 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FigmaCredentialsSetup } from '@/components/FigmaCredentialsSetup'
 import { FigmaSyncPanel } from '@/components/FigmaSyncPanel'
+import { FigmaComponentBrowser } from '@/components/FigmaComponentBrowser'
 import { IPWhitelistManager } from '@/components/IPWhitelistManager'
-import { Shield, ArrowsLeftRight, Key } from '@phosphor-icons/react'
+import { Shield, ArrowsLeftRight, Key, Cube } from '@phosphor-icons/react'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'figma'
 
@@ -21,8 +22,12 @@ export function FigmaIntegration({ onNavigate }: FigmaIntegrationProps) {
           </p>
         </div>
 
-        <Tabs defaultValue="sync" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+        <Tabs defaultValue="browser" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 mb-8">
+            <TabsTrigger value="browser" className="flex items-center gap-2">
+              <Cube size={18} />
+              Component Browser
+            </TabsTrigger>
             <TabsTrigger value="sync" className="flex items-center gap-2">
               <ArrowsLeftRight size={18} />
               Sync Panel
@@ -36,6 +41,10 @@ export function FigmaIntegration({ onNavigate }: FigmaIntegrationProps) {
               Security
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="browser" className="space-y-6">
+            <FigmaComponentBrowser />
+          </TabsContent>
 
           <TabsContent value="sync" className="space-y-6">
             <FigmaSyncPanel />
