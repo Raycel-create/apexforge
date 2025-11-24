@@ -7,6 +7,7 @@ import { Skull, Key, ShieldCheck, QrCode, User } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useCEOAuth } from '../../lib/CEOAuthContext'
+import { validateCEOCredentials } from '../../lib/ceoCredentials'
 import QRCode from 'qrcode'
 import * as OTPAuth from 'otpauth'
 
@@ -67,10 +68,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
       return
     }
 
-    const CEO_USERNAME = 'papakoEddie@tripzy.international'
-    const CEO_PASSWORD = '19780111'
-
-    if (username === CEO_USERNAME && password === CEO_PASSWORD) {
+    if (validateCEOCredentials(username, password)) {
       setPasswordVerified(true)
       if (!totpSecret) {
         const secret = initializeTOTP()
@@ -179,7 +177,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="papakoEddie@tripzy.international"
+                    placeholder="Enter username"
                     className="h-12 bg-background border-primary/30 focus:border-primary text-base"
                     autoComplete="username"
                   />
@@ -436,25 +434,6 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
             )}
           </Card>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-8 text-center"
-        >
-          <Card className="inline-block px-6 py-3 bg-primary/5 border-primary/30">
-            <p className="text-sm font-mono">
-              <span className="text-muted-foreground">Username:</span> <span className="text-foreground font-semibold">papakoEddie@tripzy.international</span>
-            </p>
-            <p className="text-sm font-mono mt-1">
-              <span className="text-muted-foreground">Password:</span> <span className="text-foreground font-semibold">19780111</span>
-            </p>
-            <p className="text-xs text-muted-foreground mt-3">
-              🔒 Biometric authentication is optional (enable in Settings after login)
-            </p>
-          </Card>
-        </motion.div>
       </motion.div>
     </div>
   )

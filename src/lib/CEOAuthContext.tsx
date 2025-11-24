@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef } from 'react'
 import { useKV } from '@github/spark/hooks'
 import * as OTPAuth from 'otpauth'
+import { validateCEOCredentials } from './ceoCredentials'
 
 interface CEOAuthContextType {
   isAuthenticated: boolean
@@ -18,9 +19,6 @@ interface CEOAuthContextType {
 }
 
 const CEOAuthContext = createContext<CEOAuthContextType | undefined>(undefined)
-
-const CEO_USERNAME = 'papakoEddie@tripzy.international'
-const CEO_PASSWORD = '19780111'
 
 const SESSION_TIMEOUT = 30 * 60 * 1000
 const WARNING_TIME = 2 * 60 * 1000
@@ -146,7 +144,7 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
   }
 
   const login = async (username: string, password: string, token?: string): Promise<boolean> => {
-    if (username !== CEO_USERNAME || password !== CEO_PASSWORD) {
+    if (!validateCEOCredentials(username, password)) {
       return false
     }
 
