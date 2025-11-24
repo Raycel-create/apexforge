@@ -551,17 +551,6 @@ export function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
-      <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12 mb-8 sm:mb-12 lg:mb-20 max-w-[1400px]">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className={`text-muted-foreground ${isMobile ? 'text-xs' : isTablet ? 'text-sm' : 'text-base lg:text-lg'}`}>
-            "This is what people screenshot and post on X saying{' '}
-            <span className="text-accent font-semibold">
-              'this just killed every other AI builder'
-            </span>
-            "
-          </p>
-        </div>
-      </section>
     </div>
   )
 }
