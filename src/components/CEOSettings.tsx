@@ -16,6 +16,7 @@ import { TwilioConfigPanel } from './TwilioConfig'
 import { PhoneVerificationFlow, QuickPhoneVerifyButton } from './PhoneVerificationFlow'
 import { VerificationStatus } from './TrustIndicators'
 import { Dialog, DialogContent } from './ui/dialog'
+import { WebhookNotificationSettings } from './WebhookNotificationSettings'
 
 export function CEOSettings() {
   const { biometricsEnabled, toggleBiometrics, initializeTOTP } = useCEOAuth()
@@ -78,17 +79,18 @@ export function CEOSettings() {
         <div>
           <h2 className="text-2xl font-bold mb-2">CEO Settings</h2>
           <p className="text-muted-foreground">
-            Configure payment gateways, security, and email notifications
+            Configure payment gateways, security, webhooks, and notifications
           </p>
         </div>
 
         <Tabs defaultValue="payments" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="payments">Payments</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
             <TabsTrigger value="sms">SMS/Twilio</TabsTrigger>
             <TabsTrigger value="email-service">Email Service</TabsTrigger>
             <TabsTrigger value="notifications">Email Reports</TabsTrigger>
+            <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
           </TabsList>
 
           <TabsContent value="payments" className="space-y-6 mt-6">
@@ -316,6 +318,10 @@ export function CEOSettings() {
 
           <TabsContent value="notifications" className="space-y-6 mt-6">
             <EmailNotificationSettings />
+          </TabsContent>
+
+          <TabsContent value="webhooks" className="space-y-6 mt-6">
+            <WebhookNotificationSettings />
           </TabsContent>
         </Tabs>
       </div>

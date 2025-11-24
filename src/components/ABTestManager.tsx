@@ -25,6 +25,15 @@ import {
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import { useKV } from '@github/spark/hooks'
+import { sendMultipleWebhooks } from '@/lib/webhookNotificationService'
+
+interface WebhookConfig {
+  id: string
+  url: string
+  enabled: boolean
+  type: 'slack' | 'webhook'
+  name: string
+}
 
 interface ABTestVariant {
   id: string
@@ -135,6 +144,7 @@ interface ABTestManagerProps {
 
 export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
   const [tests, setTests] = useKV<ABTest[]>('ab-tests', DEFAULT_AB_TESTS)
+  const [webhooks] = useKV<WebhookConfig[]>('webhook-configs', [])
   const [isCreating, setIsCreating] = useState(false)
   const [selectedTest, setSelectedTest] = useState<ABTest | null>(null)
   const [newTest, setNewTest] = useState<Partial<ABTest>>({
@@ -173,6 +183,8 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
                   duration: 8000,
                 })
                 
+                sendWinnerNotifications(test, winner, confidence)
+                
                 return {
                   ...test,
                   status: 'completed' as const,
@@ -195,18 +207,18 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
     return () => clearInterval(interval)
   }, [setTests])
 
-  const calculateOpenRate = (variant: ABTestVariant) => {
-    if (variant.sent === 0) return 0
+  const calculateOpenRate = (variant: ABTestVariant): string => {
+    if (variant.sent === 0) return '0.0'
     return ((variant.opened / variant.sent) * 100).toFixed(1)
   }
 
-  const calculateClickRate = (variant: ABTestVariant) => {
-    if (variant.sent === 0) return 0
+  const calculateClickRate = (variant: ABTestVariant): string => {
+    if (variant.sent === 0) return '0.0'
     return ((variant.clicked / variant.sent) * 100).toFixed(1)
   }
 
-  const calculateRecoveryRate = (variant: ABTestVariant) => {
-    if (variant.sent === 0) return 0
+  const calculateRecoveryRate = (variant: ABTestVariant): string => {
+    if (variant.sent === 0) return '0.0'
     return ((variant.recovered / variant.sent) * 100).toFixed(1)
   }
 
@@ -235,6 +247,47 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
     
     const confidence = Math.min(95, (diff / avgRate) * 100 * Math.sqrt(Math.min(variantA.sent, variantB.sent) / 50))
     return Math.round(confidence)
+  }
+
+  const sendWinnerNotifications = async (test: ABTest, winner: ABTestVariant, confidence: number) => {
+    if (!webhooks || webhooks.length === 0) return
+
+    const payload = {
+      testId: test.id,
+      testName: test.name,
+      campaignName: test.campaignName,
+      winnerVariant: {
+        id: winner.id,
+        name: winner.name,
+        subject: winner.subject,
+        stats: {
+          sent: winner.sent,
+          opened: winner.opened,
+          clicked: winner.clicked,
+          recovered: winner.recovered,
+          openRate: calculateOpenRate(winner),
+          clickRate: calculateClickRate(winner),
+          recoveryRate: calculateRecoveryRate(winner),
+        },
+      },
+      confidence,
+      timestamp: new Date().toISOString(),
+    }
+
+    try {
+      const results = await sendMultipleWebhooks(webhooks, payload)
+      const successCount = results.filter((r) => r.result.success).length
+      const failCount = results.filter((r) => !r.result.success).length
+
+      if (successCount > 0) {
+        toast.success(`Sent notifications to ${successCount} webhook${successCount > 1 ? 's' : ''}`)
+      }
+      if (failCount > 0) {
+        toast.error(`Failed to send ${failCount} webhook notification${failCount > 1 ? 's' : ''}`)
+      }
+    } catch (error) {
+      console.error('Failed to send webhook notifications:', error)
+    }
   }
 
   const createTest = () => {
@@ -306,6 +359,16 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
   }
 
   const declareWinner = (testId: string, variantId: string) => {
+    const test = (tests || []).find((t) => t.id === testId)
+    if (!test) return
+
+    const winner = test.variants.find((v) => v.id === variantId)
+    if (!winner) return
+
+    const confidence = test.variants.length === 2 
+      ? calculateConfidence(test.variants[0], test.variants[1])
+      : 0
+
     setTests((current) =>
       (current || []).map((t) =>
         t.id === testId
@@ -318,6 +381,8 @@ export function ABTestManager({ campaigns = [] }: ABTestManagerProps) {
           : t
       )
     )
+    
+    sendWinnerNotifications(test, winner, confidence)
     toast.success('Winner declared! This variant will be used for future campaigns.')
   }
 
