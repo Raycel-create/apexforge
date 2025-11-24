@@ -117,7 +117,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
           description: 'Invalid authentication code',
         })
       }
-    } catch {
+    } catch (error) {
       toast.error('Login error', {
         description: 'Something went wrong. Please try again.',
       })
