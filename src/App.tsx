@@ -7,6 +7,7 @@ import { CEOLogin } from './components/pages/CEOLogin'
 import { Generator } from './components/pages/Generator'
 import { AuthLanding } from './components/pages/AuthLanding'
 import { Navigation } from './components/Navigation'
+import { SessionTimeoutDialog } from './components/SessionTimeoutDialog'
 import { BlackForgeProvider } from './lib/BlackForgeContext'
 import { CEOAuthProvider, useCEOAuth } from './lib/CEOAuthContext'
 
@@ -47,6 +48,7 @@ function AppContent() {
       <main className="flex-1 overflow-x-hidden w-full">
         {renderPage()}
       </main>
+      <SessionTimeoutDialog onNavigate={setCurrentPage} />
     </div>
   )
 }

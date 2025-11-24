@@ -39,6 +39,7 @@ import { CohortAnalytics } from '../CohortAnalytics'
 import { EmailCampaigns } from '../EmailCampaigns'
 import { CEOAnalytics } from '../CEOAnalytics'
 import { CEOSettings } from '../CEOSettings'
+import { SessionIndicator } from '../SessionIndicator'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
 
@@ -180,6 +181,7 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
                 <Badge className="bg-destructive/20 border-destructive text-destructive">
                   🔴 LIVE CONTROL
                 </Badge>
+                <SessionIndicator />
               </div>
               <p className="text-muted-foreground flex items-center gap-2">
                 <Warning weight="fill" className="text-destructive" size={16} />

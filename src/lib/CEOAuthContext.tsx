@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef } from 'react'
 import { useKV } from '@github/spark/hooks'
 import * as OTPAuth from 'otpauth'
 
@@ -11,6 +11,10 @@ interface CEOAuthContextType {
   verifyTOTP: (token: string) => boolean
   biometricsEnabled: boolean
   toggleBiometrics: () => void
+  timeUntilExpiry: number | null
+  showTimeoutWarning: boolean
+  extendSession: () => void
+  dismissWarning: () => void
 }
 
 const CEOAuthContext = createContext<CEOAuthContextType | undefined>(undefined)
@@ -18,17 +22,97 @@ const CEOAuthContext = createContext<CEOAuthContextType | undefined>(undefined)
 const CEO_USERNAME = 'papakoEddie@tripzy.international'
 const CEO_PASSWORD = '19780111'
 
+const SESSION_TIMEOUT = 30 * 60 * 1000
+const WARNING_TIME = 2 * 60 * 1000
+
 export function CEOAuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [totpSecret, setTotpSecret] = useKV<string | null>('ceo-totp-secret', null)
   const [sessionActive, setSessionActive] = useKV<boolean>('ceo-session-active', false)
   const [biometricsEnabled, setBiometricsEnabled] = useKV<boolean>('ceo-biometrics-enabled', false)
+  const [lastActivity, setLastActivity] = useKV<number>('ceo-last-activity', Date.now())
+  
+  const [timeUntilExpiry, setTimeUntilExpiry] = useState<number | null>(null)
+  const [showTimeoutWarning, setShowTimeoutWarning] = useState(false)
+  
+  const timeoutCheckInterval = useRef<NodeJS.Timeout | null>(null)
+  const activityListenersAttached = useRef(false)
+
+  const updateActivity = useCallback(() => {
+    if (isAuthenticated) {
+      setLastActivity(Date.now())
+      setShowTimeoutWarning(false)
+    }
+  }, [isAuthenticated, setLastActivity])
+
+  const checkSessionTimeout = useCallback(() => {
+    if (!isAuthenticated || !lastActivity) return
+
+    const timeSinceActivity = Date.now() - lastActivity
+    const timeRemaining = SESSION_TIMEOUT - timeSinceActivity
+
+    setTimeUntilExpiry(Math.max(0, timeRemaining))
+
+    if (timeRemaining <= 0) {
+      logout()
+    } else if (timeRemaining <= WARNING_TIME && !showTimeoutWarning) {
+      setShowTimeoutWarning(true)
+    }
+  }, [isAuthenticated, lastActivity, showTimeoutWarning])
 
   useEffect(() => {
     if (sessionActive) {
       setIsAuthenticated(true)
+      updateActivity()
     }
-  }, [sessionActive])
+  }, [sessionActive, updateActivity])
+
+  useEffect(() => {
+    if (isAuthenticated && !activityListenersAttached.current) {
+      const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click']
+      
+      const throttledUpdate = (() => {
+        let lastCall = 0
+        return () => {
+          const now = Date.now()
+          if (now - lastCall >= 5000) {
+            lastCall = now
+            updateActivity()
+          }
+        }
+      })()
+
+      events.forEach(event => {
+        window.addEventListener(event, throttledUpdate)
+      })
+
+      activityListenersAttached.current = true
+
+      return () => {
+        events.forEach(event => {
+          window.removeEventListener(event, throttledUpdate)
+        })
+        activityListenersAttached.current = false
+      }
+    }
+  }, [isAuthenticated, updateActivity])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      timeoutCheckInterval.current = setInterval(checkSessionTimeout, 1000)
+      return () => {
+        if (timeoutCheckInterval.current) {
+          clearInterval(timeoutCheckInterval.current)
+        }
+      }
+    } else {
+      if (timeoutCheckInterval.current) {
+        clearInterval(timeoutCheckInterval.current)
+      }
+      setTimeUntilExpiry(null)
+      setShowTimeoutWarning(false)
+    }
+  }, [isAuthenticated, checkSessionTimeout])
 
   const initializeTOTP = () => {
     if (!totpSecret) {
@@ -81,12 +165,28 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
 
     setIsAuthenticated(true)
     setSessionActive(true)
+    setLastActivity(Date.now())
+    setShowTimeoutWarning(false)
     return true
   }
 
   const logout = () => {
     setIsAuthenticated(false)
     setSessionActive(false)
+    setShowTimeoutWarning(false)
+    setTimeUntilExpiry(null)
+    if (timeoutCheckInterval.current) {
+      clearInterval(timeoutCheckInterval.current)
+    }
+  }
+
+  const extendSession = () => {
+    updateActivity()
+    setShowTimeoutWarning(false)
+  }
+
+  const dismissWarning = () => {
+    setShowTimeoutWarning(false)
   }
 
   const toggleBiometrics = () => {
@@ -104,6 +204,10 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
         verifyTOTP,
         biometricsEnabled: biometricsEnabled ?? false,
         toggleBiometrics,
+        timeUntilExpiry,
+        showTimeoutWarning,
+        extendSession,
+        dismissWarning,
       }}
     >
       {children}

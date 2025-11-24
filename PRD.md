@@ -112,16 +112,23 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Personality-driven code generation (Claude adds security, Mistral optimizes, Cohere adds enterprise patterns)
 
 ### CEO Dashboard Authentication (🔐 Re-Enabled Security Feature)
-- **Functionality**: TOTP-based two-factor authentication for CEO Dashboard access. QR code setup with Google Authenticator/Authy. Session persistence with secure storage. Login form with username, password, and 6-digit TOTP code. Visual authentication status indicators throughout the app.
-- **Purpose**: Secure access to sensitive admin features like API key management, user data, analytics, and integration configuration. Prevents unauthorized access to critical business systems.
+- **Functionality**: TOTP-based two-factor authentication for CEO Dashboard access. QR code setup with Google Authenticator/Authy. Session persistence with secure storage. Login form with username, password, and 6-digit TOTP code. Visual authentication status indicators throughout the app. **Now includes automatic session timeout and inactivity detection** for enhanced security.
+- **Purpose**: Secure access to sensitive admin features like API key management, user data, analytics, and integration configuration. Prevents unauthorized access to critical business systems. Session timeout ensures that unattended sessions automatically logout for security.
 - **Trigger**: Clicking "CEO" button in navigation (visible on desktop and in mobile menu)
-- **Progression**: Click CEO button → Redirected to login if not authenticated → First time: Scan QR code with authenticator app → Save TOTP secret → Enter username (`papakoEddie@tripzy.international`) → Enter password (`19780111`) → Enter 6-digit code from app → Validate credentials and TOTP → Session created → Access granted → Navigation shows ✓ indicator → Subsequent visits: Enter credentials + current TOTP → Auto-authenticated if session valid
+- **Progression**: Click CEO button → Redirected to login if not authenticated → First time: Scan QR code with authenticator app → Save TOTP secret → Enter username (`papakoEddie@tripzy.international`) → Enter password (`19780111`) → Enter 6-digit code from app → Validate credentials and TOTP → Session created → Access granted → Navigation shows ✓ indicator → Session tracks activity → Warning appears 2 minutes before timeout → Auto-logout after 30 minutes of inactivity → Can extend session from warning dialog
 - **Success criteria**:
   - CEO Dashboard only accessible when authenticated
   - Login page shows on unauthenticated access attempts
   - QR code generated on first setup with manual entry option
   - TOTP codes expire every 30 seconds
   - Session persists across page reloads
+  - **Session automatically expires after 30 minutes of inactivity**
+  - **Warning dialog appears 2 minutes before session expires**
+  - **Ability to extend session from warning dialog**
+  - **Activity tracking: mouse movement, clicks, keyboard input reset timeout**
+  - **Visual countdown timer in warning dialog**
+  - **Auto-redirect to login page on timeout**
+  - **Toast notification on auto-logout**
   - Logout functionality clears session
   - Navigation shows authentication status (✓ when logged in)
   - Setup instructions displayed for first-time users
