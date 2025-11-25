@@ -15,7 +15,7 @@ import { SMSOTPAuth } from '../SMSOTPAuth'
 import { GitHubOTPButton } from '../GitHubOTPButton'
 import { TrustBanner, TrustIndicator } from '../TrustIndicators'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login' | 'ceo'
 
 interface AuthLandingProps {
   onNavigate: (page: Page) => void

@@ -21,7 +21,7 @@ import { ApexForgeLogo } from '../ApexForgeLogo'
 import { Footer } from '../Footer'
 import { useState } from 'react'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login' | 'ceo'
 
 interface DashboardProps {
   onNavigate: (page: Page) => void

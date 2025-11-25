@@ -45,7 +45,7 @@ import { SessionIndicator } from '../SessionIndicator'
 import { CEOAuditLog } from '../CEOAuditLog'
 import { SecurityMonitor } from '../SecurityMonitor'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'figma' | 'ceo-login'
 
 interface CEODashboardProps {
   onNavigate: (page: Page) => void

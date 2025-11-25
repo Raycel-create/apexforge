@@ -13,7 +13,7 @@ import { ceoAuditService } from '../../lib/ceoAuditService'
 import QRCode from 'qrcode'
 import * as OTPAuth from 'otpauth'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth'
+type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'ceo-login'
 
 interface CEOLoginProps {
   onNavigate: (page: Page) => void

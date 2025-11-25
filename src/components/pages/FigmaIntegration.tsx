@@ -7,7 +7,7 @@ import { IPWhitelistManager } from '@/components/IPWhitelistManager'
 import { Footer } from '@/components/Footer'
 import { Shield, ArrowsLeftRight, Key, Cube } from '@phosphor-icons/react'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login' | 'ceo'
 
 interface FigmaIntegrationProps {
   onNavigate: (page: Page) => void

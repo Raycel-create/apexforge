@@ -1,15 +1,17 @@
-import { GithubLogo, TwitterLogo, LinkedinLogo, DiscordLogo } from '@phosphor-icons/react'
+import { GithubLogo, TwitterLogo, LinkedinLogo, DiscordLogo, ShieldCheck } from '@phosphor-icons/react'
 import { Separator } from './ui/separator'
 import { ApexForgeLogo } from './ApexForgeLogo'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
+import { motion } from 'framer-motion'
 
 interface FooterProps {
-  onNavigate?: (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma') => void
+  onNavigate?: (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login') => void
 }
 
 export function Footer({ onNavigate }: FooterProps) {
   const currentYear = new Date().getFullYear()
 
-  const handleNavClick = (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma') => {
+  const handleNavClick = (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login') => {
     if (onNavigate) {
       onNavigate(page)
     }
@@ -154,9 +156,34 @@ export function Footer({ onNavigate }: FooterProps) {
         <Separator className="my-8 bg-border/50" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
-            © {currentYear} ApexForge. All rights reserved.
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-sm text-muted-foreground">
+              © {currentYear} ApexForge. All rights reserved.
+            </p>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <motion.button
+                    onClick={() => handleNavClick('ceo-login')}
+                    className="w-8 h-8 rounded-md bg-background/50 hover:bg-destructive/20 border border-border/50 hover:border-destructive/50 flex items-center justify-center transition-all group opacity-30 hover:opacity-100"
+                    whileHover={{ scale: 1.1, rotate: [0, -10, 10, -10, 0] }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ShieldCheck 
+                      weight="fill" 
+                      size={18} 
+                      className="text-muted-foreground group-hover:text-destructive transition-colors" 
+                    />
+                  </motion.button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="bg-destructive/90 text-destructive-foreground border-destructive/50">
+                  <p className="text-xs font-medium">CEO Dashboard</p>
+                  <p className="text-[10px] opacity-80">Shift + Ctrl + M</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <div className="flex items-center gap-6">
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy

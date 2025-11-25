@@ -15,7 +15,7 @@ import { TrustBanner, TrustIndicator, SecurityBadge } from '../TrustIndicators'
 import { ApexForgeLogo } from '../ApexForgeLogo'
 import { Footer } from '../Footer'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login' | 'ceo'
 
 interface PricingProps {
   onNavigate: (page: Page) => void
