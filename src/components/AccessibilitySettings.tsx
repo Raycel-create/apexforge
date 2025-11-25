@@ -81,10 +81,21 @@ export function AccessibilitySettings() {
   ) => {
     setSettings((current) => {
       const base = current || defaultSettings
-      return {
+      const newSettings = {
         ...base,
         [key]: value
       }
+      
+      if (key === 'fontSize') {
+        const matchingPreset = (Object.keys(textScalePresets) as Array<keyof typeof textScalePresets>).find(
+          presetKey => textScalePresets[presetKey].fontSize === value
+        )
+        if (matchingPreset) {
+          newSettings.textScale = matchingPreset
+        }
+      }
+      
+      return newSettings
     })
   }
 
