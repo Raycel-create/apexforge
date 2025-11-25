@@ -35,7 +35,7 @@ import { AI_MODEL_CONFIGS } from '../../lib/aiService'
 import { ApexForgeLogo } from '../ApexForgeLogo'
 import { Footer } from '../Footer'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
 interface GeneratorProps {
   onNavigate: (page: Page) => void

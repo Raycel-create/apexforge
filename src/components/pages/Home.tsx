@@ -15,7 +15,7 @@ import { Footer } from '../Footer'
 import { Hero3DAnimation } from '../Hero3DAnimation'
 import { ApexForgeLogo } from '../ApexForgeLogo'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'otp' | 'ceo-login' | 'ceo'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'otp'
 
 interface HomeProps {
   onNavigate: (page: Page) => void
