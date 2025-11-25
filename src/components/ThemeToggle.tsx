@@ -21,16 +21,16 @@ export function ThemeToggle() {
 
   return (
     <Button
-      variant="ghost"
+      variant="outline"
       size="icon"
       onClick={toggleTheme}
-      className="touch-target"
+      className="touch-target shrink-0 border-border/50 hover:bg-accent hover:border-accent/40 transition-all duration-300 hover:scale-105"
       aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {theme === 'dark' ? (
-        <Sun className="transition-transform duration-200" />
+        <Sun weight="fill" className="transition-transform duration-300 hover:rotate-180" />
       ) : (
-        <Moon className="transition-transform duration-200" />
+        <Moon weight="fill" className="transition-transform duration-300 hover:-rotate-12" />
       )}
     </Button>
   )

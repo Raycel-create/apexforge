@@ -104,7 +104,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <ThemeToggle />
             {!isMobile && !isTablet && (
               <FigmaAvailabilityIndicator />
             )}
@@ -154,6 +153,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
             } transition-all duration-500 whitespace-nowrap touch-target`}>
               {blackForgeMode ? '🔥' : '🔥'} {credits}
             </Badge>
+            <ThemeToggle />
             
             {isMobile || isTablet ? (
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -164,6 +164,10 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 </SheetTrigger>
                 <SheetContent side="right" className="w-64 sm:w-72">
                   <div className="flex flex-col gap-2 mt-6">
+                    <div className="flex items-center justify-between mb-4 px-1">
+                      <span className="text-responsive font-semibold">Theme</span>
+                      <ThemeToggle />
+                    </div>
                     {currentUser && currentUserData ? (
                       <>
                         <div className="px-3 py-2.5 bg-muted rounded-lg mb-2">
