@@ -1,67 +1,56 @@
 import { useScreenSize } from './use-mobile'
 
+type ButtonSize = 'default' | 'sm' | 'lg'
+type IconSize = 16 | 18 | 20 | 22 | 24
+type Spacing = 'gap-2' | 'gap-3' | 'gap-4'
+type Padding = 'p-3' | 'p-4' | 'p-5' | 'p-6'
+
 export function useResponsiveSize() {
   const { isMobile, isTablet, isDesktop } = useScreenSize()
 
-  const getResponsiveValue = <T,>(mobile: T, tablet: T, desktop: T): T => {
-    if (isMobile) return mobile
-    if (isTablet) return tablet
-    return desktop
+  const buttonSize: ButtonSize = isMobile ? 'default' : isTablet ? 'sm' : 'default'
+  
+  const iconSize: IconSize = isMobile ? 20 : isTablet ? 18 : 20
+  
+  const spacing: Spacing = isMobile ? 'gap-3' : isTablet ? 'gap-2' : 'gap-3'
+  
+  const padding: Padding = isMobile ? 'p-4' : isTablet ? 'p-3' : 'p-4'
+
+  const getResponsiveValue = <T,>(mobileValue: T, tabletValue: T, desktopValue: T): T => {
+    if (isMobile) return mobileValue
+    if (isTablet) return tabletValue
+    return desktopValue
   }
 
-  const buttonSize = getResponsiveValue('default', 'sm', 'default') as 'sm' | 'default' | 'lg'
-  const inputHeight = getResponsiveValue('h-10', 'h-9', 'h-10')
-  const iconSize = getResponsiveValue(20, 18, 20)
-  const spacing = getResponsiveValue('gap-3', 'gap-2', 'gap-3')
-  const padding = getResponsiveValue('p-4', 'p-3', 'p-4')
-  const fontSize = getResponsiveValue('text-base', 'text-sm', 'text-base')
+  const getIconSizeByVariant = (variant: 'sm' | 'default' | 'lg'): IconSize => {
+    if (variant === 'sm') return isMobile ? 18 : isTablet ? 16 : 18
+    if (variant === 'lg') return isMobile ? 24 : isTablet ? 22 : 24
+    return iconSize
+  }
+
+  const getSpacingByDensity = (density: 'tight' | 'normal' | 'loose'): Spacing => {
+    if (density === 'tight') return isMobile ? 'gap-2' : isTablet ? 'gap-2' : 'gap-2'
+    if (density === 'loose') return isMobile ? 'gap-4' : isTablet ? 'gap-3' : 'gap-4'
+    return spacing
+  }
+
+  const getPaddingByDensity = (density: 'tight' | 'normal' | 'loose'): Padding => {
+    if (density === 'tight') return isMobile ? 'p-3' : isTablet ? 'p-3' : 'p-3'
+    if (density === 'loose') return isMobile ? 'p-6' : isTablet ? 'p-5' : 'p-6'
+    return padding
+  }
 
   return {
     isMobile,
     isTablet,
     isDesktop,
-    getResponsiveValue,
     buttonSize,
-    inputHeight,
     iconSize,
     spacing,
     padding,
-    fontSize,
+    getResponsiveValue,
+    getIconSizeByVariant,
+    getSpacingByDensity,
+    getPaddingByDensity,
   }
-}
-
-export function getResponsiveIconSize(screenSize: 'mobile' | 'tablet' | 'desktop', baseSize: number = 20) {
-  const multipliers = {
-    mobile: 1.1,
-    tablet: 0.9,
-    desktop: 1,
-  }
-  return Math.round(baseSize * multipliers[screenSize])
-}
-
-export function getResponsiveSpacing(screenSize: 'mobile' | 'tablet' | 'desktop') {
-  const spacingMap = {
-    mobile: {
-      xs: 'gap-1.5',
-      sm: 'gap-2',
-      md: 'gap-3',
-      lg: 'gap-4',
-      xl: 'gap-5',
-    },
-    tablet: {
-      xs: 'gap-1',
-      sm: 'gap-1.5',
-      md: 'gap-2',
-      lg: 'gap-3',
-      xl: 'gap-4',
-    },
-    desktop: {
-      xs: 'gap-1.5',
-      sm: 'gap-2',
-      md: 'gap-3',
-      lg: 'gap-4',
-      xl: 'gap-6',
-    },
-  }
-  return spacingMap[screenSize]
 }
