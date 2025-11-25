@@ -27,6 +27,7 @@ import {
   Cell,
 } from 'recharts'
 import { KeysManager } from '../KeysManager'
+import { RealAPIKeyConnector } from '../RealAPIKeyConnector'
 import { useBlackForge } from '../../lib/BlackForgeContext'
 import { useCEOAuth } from '../../lib/CEOAuthContext'
 import { SignOut } from '@phosphor-icons/react'
@@ -744,7 +745,8 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
               <WebhookSimulator />
             </TabsContent>
             
-            <TabsContent value="keys">
+            <TabsContent value="keys" className="space-y-6">
+              <RealAPIKeyConnector />
               <KeysManager />
             </TabsContent>
             
