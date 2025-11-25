@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { toast } from 'sonner'
 import { useKV } from '@github/spark/hooks'
 import { APIKeySetupWizard } from './APIKeySetupWizard'
+import { useScreenSize } from '@/hooks/use-mobile'
 
 interface APIKey {
   id: string
@@ -50,6 +51,7 @@ export function KeysManager() {
   
   const [showKeys, setShowKeys] = useState<{ [key: string]: boolean }>({})
   const [showWizard, setShowWizard] = useState(false)
+  const { isMobile, isTablet } = useScreenSize()
 
   const updateKey = (category: 'ai' | 'services' | 'stores', id: string, newKey: string) => {
     const updateFn = (keys: APIKey[]) =>
@@ -143,16 +145,16 @@ export function KeysManager() {
     const hasKey = keyData.key.length > 0
 
     return (
-      <Card key={keyData.id} className="p-4 border-border">
+      <Card key={keyData.id} className={`${isMobile ? 'p-3' : 'p-4'} border-border`}>
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Label className="font-semibold text-sm">{keyData.name}</Label>
+              <Label className={`font-semibold ${isMobile ? 'text-xs' : 'text-sm'}`}>{keyData.name}</Label>
               {keyData.status === 'valid' && (
-                <CheckCircle weight="fill" className="text-accent" size={16} />
+                <CheckCircle weight="fill" className="text-accent" size={isMobile ? 14 : 16} />
               )}
               {keyData.status === 'invalid' && (
-                <XCircle weight="fill" className="text-destructive" size={16} />
+                <XCircle weight="fill" className="text-destructive" size={isMobile ? 14 : 16} />
               )}
             </div>
             {keyData.status !== 'untested' && (
@@ -176,16 +178,17 @@ export function KeysManager() {
                 value={isVisible ? keyData.key : maskKey(keyData.key, false)}
                 onChange={(e) => updateKey(category, keyData.id, e.target.value)}
                 placeholder="Enter API key..."
-                className="pr-10 text-sm font-mono"
+                className={`pr-10 ${isMobile ? 'text-xs h-11' : 'text-sm'} font-mono touch-target`}
               />
               {hasKey && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => toggleVisibility(keyData.id)}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 p-0"
+                  className={`absolute right-1 top-1/2 -translate-y-1/2 ${isMobile ? 'h-9 w-9' : 'h-7 w-7'} p-0 touch-target`}
+                  aria-label={isVisible ? 'Hide key' : 'Show key'}
                 >
-                  {isVisible ? <EyeSlash size={14} /> : <Eye size={14} />}
+                  {isVisible ? <EyeSlash size={isMobile ? 16 : 14} /> : <Eye size={isMobile ? 16 : 14} />}
                 </Button>
               )}
             </div>
@@ -197,9 +200,9 @@ export function KeysManager() {
               size="sm"
               onClick={() => testKey(category, keyData.id)}
               disabled={!hasKey}
-              className="flex-1 text-xs"
+              className={`flex-1 ${isMobile ? 'text-xs h-10' : 'text-xs'} touch-target`}
             >
-              <CheckCircle size={14} />
+              <CheckCircle size={isMobile ? 16 : 14} />
               Test
             </Button>
             {hasKey && (
@@ -208,17 +211,19 @@ export function KeysManager() {
                   variant="outline"
                   size="sm"
                   onClick={() => copyKey(keyData.key)}
-                  className="text-xs"
+                  className={`${isMobile ? 'text-xs h-10 px-3' : 'text-xs'} touch-target`}
+                  aria-label="Copy key"
                 >
-                  <Copy size={14} />
+                  <Copy size={isMobile ? 16 : 14} />
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => deleteKey(category, keyData.id)}
-                  className="text-xs text-destructive hover:text-destructive"
+                  className={`${isMobile ? 'text-xs h-10 px-3' : 'text-xs'} text-destructive hover:text-destructive touch-target`}
+                  aria-label="Delete key"
                 >
-                  <Trash size={14} />
+                  <Trash size={isMobile ? 16 : 14} />
                 </Button>
               </>
             )}
@@ -230,35 +235,50 @@ export function KeysManager() {
 
   return (
     <>
-      <Card className="p-6 border-primary/30">
-        <div className="flex items-center justify-between mb-6">
+      <Card className={`${isMobile ? 'p-4' : 'p-6'} border-primary/30`}>
+        <div className={`flex items-center justify-between ${isMobile ? 'mb-4 flex-col gap-3' : 'mb-6'}`}>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
-              <Key weight="fill" className="text-primary" size={24} />
+            <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-lg bg-primary/20 flex items-center justify-center`}>
+              <Key weight="fill" className="text-primary" size={isMobile ? 20 : 24} />
             </div>
             <div>
-              <h3 className="text-xl font-bold">Integrations Hub</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold`}>Integrations Hub</h3>
+              <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-muted-foreground`}>
                 Manage all API keys and services
               </p>
             </div>
           </div>
           <Button
             variant="default"
-            size="sm"
+            size={isMobile ? "default" : "sm"}
             onClick={() => setShowWizard(true)}
-            className="gap-2"
+            className={`gap-2 touch-target ${isMobile ? 'w-full h-11' : ''}`}
           >
-            <Sparkle weight="fill" />
+            <Sparkle weight="fill" size={isMobile ? 18 : 16} />
             Setup Wizard
           </Button>
         </div>
 
         <Tabs defaultValue="ai" className="w-full">
-          <TabsList className="grid grid-cols-3 w-full mb-6">
-            <TabsTrigger value="ai">AI Models ({aiKeys?.filter(k => k.key).length || 0})</TabsTrigger>
-            <TabsTrigger value="services">Services ({serviceKeys?.filter(k => k.key).length || 0})</TabsTrigger>
-            <TabsTrigger value="stores">App Stores ({storeKeys?.filter(k => k.key).length || 0})</TabsTrigger>
+          <TabsList className={`grid grid-cols-3 w-full ${isMobile ? 'mb-4 h-auto' : 'mb-6'}`}>
+            <TabsTrigger 
+              value="ai"
+              className={`${isMobile ? 'text-xs py-2.5' : ''} touch-target`}
+            >
+              {isMobile ? 'AI' : `AI Models`} ({aiKeys?.filter(k => k.key).length || 0})
+            </TabsTrigger>
+            <TabsTrigger 
+              value="services"
+              className={`${isMobile ? 'text-xs py-2.5' : ''} touch-target`}
+            >
+              {isMobile ? 'Services' : `Services`} ({serviceKeys?.filter(k => k.key).length || 0})
+            </TabsTrigger>
+            <TabsTrigger 
+              value="stores"
+              className={`${isMobile ? 'text-xs py-2.5' : ''} touch-target`}
+            >
+              {isMobile ? 'Stores' : `App Stores`} ({storeKeys?.filter(k => k.key).length || 0})
+            </TabsTrigger>
           </TabsList>
 
         <TabsContent value="ai" className="space-y-3">
@@ -280,8 +300,8 @@ export function KeysManager() {
         </TabsContent>
       </Tabs>
 
-      <div className="mt-6 p-4 bg-muted/20 rounded-lg">
-        <p className="text-xs text-muted-foreground">
+      <div className={`${isMobile ? 'mt-4 p-3' : 'mt-6 p-4'} bg-muted/20 rounded-lg`}>
+        <p className={`${isMobile ? 'text-[0.65rem]' : 'text-xs'} text-muted-foreground`}>
           🔒 All keys are encrypted with AES-256 and stored securely. Test keys are using sandbox environment by default (sk_test_default for Stripe).
         </p>
       </div>

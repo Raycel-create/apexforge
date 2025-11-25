@@ -194,10 +194,10 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                       <>
                         <Button
                           variant="outline"
-                          className="justify-start h-10 text-sm"
+                          className="justify-start h-11 text-responsive touch-target"
                           onClick={() => handleNavigation('auth')}
                         >
-                          <UserCircle size={18} />
+                          <UserCircle size={20} />
                           Sign In
                         </Button>
                         <div className="my-2 border-t border-border" />
@@ -205,42 +205,42 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                     )}
                     <Button
                       variant={currentPage === 'home' ? 'secondary' : 'ghost'}
-                      className="justify-start h-10 text-sm"
+                      className="justify-start h-11 text-responsive touch-target"
                       onClick={() => handleNavigation('home')}
                     >
                       Home
                     </Button>
                     <Button
                       variant={currentPage === 'dashboard' ? 'secondary' : 'ghost'}
-                      className="justify-start h-10 text-sm"
+                      className="justify-start h-11 text-responsive touch-target"
                       onClick={() => handleNavigation('dashboard')}
                     >
-                      <SquaresFour size={18} />
+                      <SquaresFour size={20} />
                       Dashboard
                     </Button>
                     <Button
                       variant={currentPage === 'pricing' ? 'secondary' : 'ghost'}
-                      className="justify-start h-10 text-sm"
+                      className="justify-start h-11 text-responsive touch-target"
                       onClick={() => handleNavigation('pricing')}
                     >
-                      <CreditCard size={18} />
+                      <CreditCard size={20} />
                       Pricing
                     </Button>
                     <Button
                       variant={currentPage === 'figma' ? 'secondary' : 'ghost'}
-                      className="justify-start h-10 text-sm"
+                      className="justify-start h-11 text-responsive touch-target"
                       onClick={() => handleNavigation('figma')}
                     >
-                      <Cube size={18} />
+                      <Cube size={20} />
                       Figma
                     </Button>
                     <div className="my-2 border-t border-border" />
                     <Button
                       variant={currentPage === 'generator' ? 'secondary' : 'default'}
-                      className="justify-start mt-2 glow-primary h-11 text-sm font-semibold"
+                      className="justify-start mt-2 glow-primary h-12 text-responsive font-semibold touch-target"
                       onClick={() => handleNavigation('generator')}
                     >
-                      <Fire weight="fill" size={18} />
+                      <Fire weight="fill" size={20} />
                       Ignite Forge
                     </Button>
                   </div>
