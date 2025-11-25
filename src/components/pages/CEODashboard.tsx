@@ -44,6 +44,7 @@ import { CEOSettings } from '../CEOSettings'
 import { SessionIndicator } from '../SessionIndicator'
 import { CEOAuditLog } from '../CEOAuditLog'
 import { SecurityMonitor } from '../SecurityMonitor'
+import { StripeConfigPanel } from '../StripeConfigPanel'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'figma' | 'ceo-login'
 
@@ -703,6 +704,7 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
               <TabsTrigger value="emails">Campaigns</TabsTrigger>
               <TabsTrigger value="automation">Automation</TabsTrigger>
               <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
+              <TabsTrigger value="stripe">Stripe</TabsTrigger>
               <TabsTrigger value="keys">API Keys</TabsTrigger>
               <TabsTrigger value="payouts">Payouts</TabsTrigger>
               <TabsTrigger value="transactions">Transactions</TabsTrigger>
@@ -743,6 +745,10 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
             
             <TabsContent value="webhooks">
               <WebhookSimulator />
+            </TabsContent>
+            
+            <TabsContent value="stripe">
+              <StripeConfigPanel />
             </TabsContent>
             
             <TabsContent value="keys" className="space-y-6">

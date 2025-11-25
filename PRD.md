@@ -512,11 +512,11 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 - **Progression**: Authenticate → Enable Whisper → Type "Always suggest Pro plan" → All future AI debates subtly push Pro features. For keys: Add key → Test validation → Use in generation
 - **Success criteria**: Works silently, no user-facing indication, truly feels like secret influence. Keys manager validates all API keys, stores securely, and prevents generation without valid AI keys. All features only accessible after authentication
 
-### Stripe Connect Integration (💳 Global Payment System)
-- **Functionality**: Real Stripe Connect integration for connecting bank accounts worldwide. Users can add bank accounts from 40+ countries (US, UK, Canada, Australia, Germany, France, Netherlands, Spain, Italy, Japan, Singapore, Hong Kong, India, Brazil, Mexico, etc.) to receive payouts in local currency. Features account status tracking, multiple bank account support, verification status, and secure credential management.
-- **Purpose**: Enable users to receive real payments from customers globally, supporting worldwide bank connections with proper currency handling and compliance
-- **Trigger**: Available in Dashboard and Pricing pages via dedicated Stripe Connect card
-- **Progression**: Click "Connect with Stripe" → Account created with unique ID → Add bank details (country, email, business name, account holder, account number, routing/sort code) → Verify account → Status changes to active with charges and payouts enabled → Can add multiple bank accounts → View all connected accounts with status badges
+### Stripe Connect Integration (💳 Global Payment System + Real Payment Processing)
+- **Functionality**: Real Stripe Connect integration for connecting bank accounts worldwide. Users can add bank accounts from 40+ countries (US, UK, Canada, Australia, Germany, France, Netherlands, Spain, Italy, Japan, Singapore, Hong Kong, India, Brazil, Mexico, etc.) to receive payouts in local currency. Features account status tracking, multiple bank account support, verification status, and secure credential management. **NEW: Actual Stripe payment processing** - Configure real Stripe API keys (publishable, secret, webhook secret) in CEO Dashboard → Stripe tab to enable live payment processing with automatic redirect to Stripe Checkout, webhook event handling, and real transaction tracking.
+- **Purpose**: Enable users to receive real payments from customers globally, supporting worldwide bank connections with proper currency handling and compliance. Real Stripe integration eliminates simulation mode and processes actual payments through Stripe's secure infrastructure.
+- **Trigger**: Available in Dashboard and Pricing pages via dedicated Stripe Connect card. **Payment processing configuration**: CEO Dashboard → Stripe tab
+- **Progression**: **Bank Connection**: Click "Connect with Stripe" → Account created with unique ID → Add bank details → Verify account. **Payment Configuration**: CEO Dashboard → Stripe tab → Enter keys (pk_live, sk_live, whsec_) → Test → Save → Real payments enabled
 - **Success criteria**:
   - Stripe account creation with unique account ID
   - Support for 15+ countries with proper currency mapping (USD, GBP, EUR, CAD, AUD, JPY, SGD, HKD, INR, BRL, MXN)
@@ -531,6 +531,15 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Data persistence via KV storage
   - Responsive design across all screen sizes
   - Integration with real Stripe Dashboard link
+  - **Stripe config panel in CEO Dashboard with API key inputs**
+  - **Key validation (pk_live/test, sk_live/test, whsec_)**
+  - **Show/hide toggles and copy functionality**
+  - **Test connection with mode detection**
+  - **Configuration status badges**
+  - **Automatic simulation fallback when not configured**
+  - **Real Stripe Checkout redirect when configured**
+  - **Warning alerts in simulation mode**
+  - **Webhook secret support**
 
 ### Interactive 3D Hero Animation (🎨 Visual Centerpiece)
 - **Functionality**: Full-viewport 3D animation in hero section using Three.js featuring floating geometric shapes (cubes, spheres, torus, octahedrons) in purple/pink gradient colors with particle effects, dynamic lighting, and mouse-parallax camera movement. Shapes continuously rotate, float, and pulse with organic motion patterns. Desktop only for performance.

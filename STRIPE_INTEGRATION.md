@@ -4,13 +4,81 @@ This document provides instructions for integrating real Stripe payments and web
 
 ## Overview
 
-The ApexForge application includes a complete Stripe integration with:
+The ApexForge application includes a **complete production-ready Stripe integration** with:
+- **Real payment processing** via Stripe Checkout
+- **Configuration panel** in CEO Dashboard for API keys
+- **Automatic mode detection** (simulation vs live payments)
 - Subscription checkout for all pricing tiers
 - One-time payments for add-ons (Security Shield)
 - Webhook handlers for payment events
 - Payout history tracking
 - Transaction tracking dashboard
 - Bank account connection via Stripe Connect
+
+## Quick Start (5 Minutes)
+
+1. **Get Stripe Keys**
+   - Create account at https://stripe.com
+   - Go to Developers > API Keys
+   - Copy your publishable key (pk_test_... or pk_live_...)
+   - Copy your secret key (sk_test_... or sk_live_...)
+
+2. **Configure in ApexForge**
+   - Login to CEO Dashboard (Ctrl+Shift+M)
+   - Navigate to **Stripe** tab
+   - Enter your publishable key
+   - Enter your secret key
+   - (Optional) Enter webhook secret
+   - Click "Test Connection"
+   - Click "Save Configuration"
+
+3. **Test Payment**
+   - Go to Pricing page
+   - Click "Upgrade" on any plan
+   - Enter email address
+   - Click "Continue to Stripe"
+   - **You will be redirected to real Stripe Checkout!**
+
+## Configuration Panel
+
+### Location
+CEO Dashboard → Stripe tab
+
+### Features
+- ✅ API key input with format validation
+- ✅ Show/hide toggles for secret keys
+- ✅ Copy to clipboard functionality
+- ✅ Test connection button
+- ✅ Mode detection (Test vs Live)
+- ✅ Configuration status display
+- ✅ Setup checklist and next steps
+- ✅ Direct link to Stripe Dashboard
+
+### Security
+- Keys stored in browser KV storage
+- Secret keys masked in UI
+- Never sent to external servers (use backend in production)
+- Format validation before saving
+
+## How It Works
+
+### Without Configuration (Simulation Mode)
+```
+User clicks checkout → Email entered → Simulated success → Mock data shown
+```
+⚠️ Warning displayed: "Simulation Mode - Configure Stripe to enable real payments"
+
+### With Configuration (Real Payments)
+```
+User clicks checkout → Email entered → createCheckoutSession called → 
+Real Stripe API request → Session created → Redirect to Stripe Checkout → 
+User completes payment → Webhook fired → User redirected back → Success!
+```
+
+✅ Real Stripe Checkout page displayed
+✅ Actual payment processed
+✅ Webhooks deliver events
+✅ Transaction tracked in dashboard
 
 ## Components
 

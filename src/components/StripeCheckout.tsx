@@ -1,16 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useKV } from '@github/spark/hooks'
 import { Button } from './ui/button'
 import { Card } from './ui/card'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Badge } from './ui/badge'
 import { Separator } from './ui/separator'
+import { Alert, AlertDescription } from './ui/alert'
 import { 
   CreditCard, 
   Lock, 
   CheckCircle,
   Lightning,
-  ShieldCheck
+  ShieldCheck,
+  Warning
 } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
@@ -35,6 +38,21 @@ export function StripeCheckout({
   const { isMobile } = useScreenSize()
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
+  const [stripeConfig] = useKV<{ publishableKey: string, secretKey: string } | null>('stripe-config', null)
+  const [isConfigured, setIsConfigured] = useState(false)
+
+  useEffect(() => {
+    const checkStripeConfig = async () => {
+      if (stripeConfig?.publishableKey && 
+          !stripeConfig.publishableKey.startsWith('pk_test_') && 
+          stripeConfig.publishableKey !== 'your_stripe_publishable_key') {
+        setIsConfigured(true)
+      } else {
+        setIsConfigured(false)
+      }
+    }
+    checkStripeConfig()
+  }, [stripeConfig])
 
   const formatAmount = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -57,23 +75,37 @@ export function StripeCheckout({
         planId,
         email,
         `${window.location.origin}/dashboard?success=true`,
-        `${window.location.origin}/pricing?canceled=true`
+        `${window.location.origin}/pricing?canceled=true`,
+        stripeConfig?.publishableKey
       )
 
-      toast.success('Redirecting to Stripe Checkout...', {
-        description: 'In production, you would be redirected to the secure payment page',
-        duration: 4000,
-      })
-
-      setTimeout(() => {
-        toast.success('Payment successful! 🎉', {
-          description: `You are now subscribed to the ${planName} plan`,
-          duration: 5000,
+      if (isConfigured && !session.id.startsWith('cs_sim_') && !session.id.startsWith('cs_fallback_')) {
+        toast.success('Redirecting to Stripe Checkout...', {
+          description: 'You will be redirected to the secure payment page',
+          duration: 2000,
         })
-        onSuccess?.()
-      }, 2000)
+        
+        setTimeout(() => {
+          window.location.href = session.url
+        }, 2000)
+      } else {
+        toast.info('Simulation Mode', {
+          description: 'Configure Stripe API keys in CEO Dashboard to enable real payments',
+          duration: 4000,
+        })
+
+        setTimeout(() => {
+          toast.success('Payment simulation successful! 🎉', {
+            description: `You would be subscribed to the ${planName} plan with real Stripe`,
+            duration: 5000,
+          })
+          onSuccess?.()
+        }, 2500)
+      }
     } catch (error) {
-      toast.error('Failed to create checkout session')
+      toast.error('Failed to create checkout session', {
+        description: error instanceof Error ? error.message : 'Please try again'
+      })
     } finally {
       setLoading(false)
     }
@@ -102,6 +134,15 @@ export function StripeCheckout({
         </div>
 
         <Separator className="my-6" />
+
+        {!isConfigured && (
+          <Alert className="mb-6 border-primary/30 bg-primary/5">
+            <Warning weight="fill" className="text-primary" size={20} />
+            <AlertDescription>
+              <strong>Simulation Mode:</strong> Stripe is not configured. Configure API keys in CEO Dashboard to enable real payments.
+            </AlertDescription>
+          </Alert>
+        )}
 
         <div className="space-y-4 mb-6">
           <div>

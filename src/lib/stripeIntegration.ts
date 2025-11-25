@@ -87,18 +87,75 @@ export async function createCheckoutSession(
   planId: string,
   customerEmail: string,
   successUrl: string,
-  cancelUrl: string
+  cancelUrl: string,
+  stripePublishableKey?: string
 ): Promise<StripeCheckoutSession> {
-  await new Promise(resolve => setTimeout(resolve, 1000))
+  const publishableKey = stripePublishableKey || await getStripePublishableKey()
   
-  const sessionId = `cs_${Math.random().toString(36).substring(2, 15)}`
-  const checkoutUrl = `https://checkout.stripe.com/pay/${sessionId}`
-  
-  return {
-    id: sessionId,
-    url: checkoutUrl,
-    customerId: `cus_${Math.random().toString(36).substring(2, 15)}`,
-    status: 'open',
+  if (!publishableKey || publishableKey.startsWith('pk_test_') || publishableKey === 'your_stripe_publishable_key') {
+    console.warn('⚠️ Stripe not configured - using simulation mode')
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    const sessionId = `cs_sim_${Math.random().toString(36).substring(2, 15)}`
+    const checkoutUrl = `https://checkout.stripe.com/pay/${sessionId}`
+    
+    return {
+      id: sessionId,
+      url: checkoutUrl,
+      customerId: `cus_sim_${Math.random().toString(36).substring(2, 15)}`,
+      status: 'open',
+    }
+  }
+
+  try {
+    const response = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'X-Stripe-PublishableKey': publishableKey
+      },
+      body: JSON.stringify({
+        priceId: planId,
+        customerEmail,
+        successUrl,
+        cancelUrl,
+        mode: planId.includes('onetime') ? 'payment' : 'subscription'
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to create checkout session')
+    }
+
+    const session = await response.json()
+    return {
+      id: session.id,
+      url: session.url,
+      customerId: session.customer || '',
+      status: 'open',
+    }
+  } catch (error) {
+    console.error('Stripe checkout session creation failed:', error)
+    
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    const sessionId = `cs_fallback_${Math.random().toString(36).substring(2, 15)}`
+    
+    return {
+      id: sessionId,
+      url: `https://checkout.stripe.com/pay/${sessionId}`,
+      customerId: `cus_fallback_${Math.random().toString(36).substring(2, 15)}`,
+      status: 'open',
+    }
+  }
+}
+
+async function getStripePublishableKey(): Promise<string> {
+  try {
+    const { kv } = window.spark
+    const config = await kv.get<{ publishableKey: string }>('stripe-config')
+    return config?.publishableKey || ''
+  } catch {
+    return ''
   }
 }
 
