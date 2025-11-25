@@ -37,7 +37,7 @@ export function Home({ onNavigate }: HomeProps) {
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 text-center relative max-w-[1400px] min-h-[85vh] flex items-center">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
           <ApexForgeLogo 
-            variant="watermark" 
+            variant="hero" 
             className={`${isMobile ? 'w-[400px] h-[400px]' : 'w-[700px] h-[700px]'} ${
               blackForgeMode ? 'text-foreground' : 'text-foreground'
             } transition-all duration-1000`}

@@ -477,7 +477,7 @@ export function Generator({ onNavigate }: GeneratorProps) {
     <div className="w-full min-h-screen px-3 sm:px-4 py-4 sm:py-6 lg:py-8 max-w-[1800px] mx-auto relative">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-30">
         <ApexForgeLogo 
-          variant="watermark" 
+          opacity={0.015}
           className={`w-[900px] h-[900px] ${
             blackForgeMode ? 'text-foreground' : 'text-foreground'
           }`}

@@ -1,5 +1,6 @@
-import { GithubLogo, TwitterLogo, LinkedinLogo, DiscordLogo, Sparkle } from '@phosphor-icons/react'
+import { GithubLogo, TwitterLogo, LinkedinLogo, DiscordLogo } from '@phosphor-icons/react'
 import { Separator } from './ui/separator'
+import { ApexForgeLogo } from './ApexForgeLogo'
 
 interface FooterProps {
   onNavigate?: (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma') => void
@@ -20,9 +21,7 @@ export function Footer({ onNavigate }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <Sparkle weight="fill" size={18} className="text-white" />
-              </div>
+              <ApexForgeLogo variant="footer" className="w-8 h-8 text-foreground" />
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 ApexForge
               </span>

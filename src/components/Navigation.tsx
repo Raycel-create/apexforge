@@ -58,7 +58,10 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
         <div className="flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6 lg:px-8 max-w-[100vw] mx-auto gap-3 sm:gap-4">
           <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
             <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-              <ApexForgeLogo className={`${isMobile ? 'w-7 h-7' : 'w-9 h-9'} text-foreground shrink-0`} />
+              <ApexForgeLogo 
+                variant="navigation" 
+                className={`${isMobile ? 'w-7 h-7' : 'w-9 h-9'} text-foreground shrink-0`} 
+              />
               <span className="text-responsive font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent whitespace-nowrap">
                 ApexForge
               </span>

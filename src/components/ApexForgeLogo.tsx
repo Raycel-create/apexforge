@@ -1,10 +1,30 @@
 interface ApexForgeLogoProps {
   className?: string
-  variant?: 'default' | 'watermark'
+  variant?: 'default' | 'watermark' | 'navigation' | 'footer' | 'hero' | 'card'
+  opacity?: number
 }
 
-export function ApexForgeLogo({ className = '', variant = 'default' }: ApexForgeLogoProps) {
-  const isWatermark = variant === 'watermark'
+export function ApexForgeLogo({ className = '', variant = 'default', opacity }: ApexForgeLogoProps) {
+  const getOpacity = () => {
+    if (opacity !== undefined) return opacity
+    
+    switch (variant) {
+      case 'watermark':
+        return 0.03
+      case 'navigation':
+        return 0.95
+      case 'footer':
+        return 0.8
+      case 'hero':
+        return 0.04
+      case 'card':
+        return 0.6
+      default:
+        return 1
+    }
+  }
+  
+  const isWatermark = variant === 'watermark' || variant === 'hero'
   
   const lightModeColor = 'oklch(0.85 0.05 345)'
   const darkModeColor = 'oklch(0.55 0.01 0)'
@@ -15,7 +35,7 @@ export function ApexForgeLogo({ className = '', variant = 'default' }: ApexForge
       className={className}
       xmlns="http://www.w3.org/2000/svg"
       style={{
-        opacity: isWatermark ? 0.03 : 1,
+        opacity: getOpacity(),
         mixBlendMode: isWatermark ? 'multiply' : 'normal'
       }}
     >

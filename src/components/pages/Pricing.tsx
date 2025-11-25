@@ -156,7 +156,7 @@ export function Pricing({ onNavigate }: PricingProps) {
     <div className="w-full relative">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-50">
         <ApexForgeLogo 
-          variant="watermark" 
+          opacity={0.025}
           className={`w-[800px] h-[800px] ${
             blackForgeMode ? 'text-foreground' : 'text-foreground'
           }`}

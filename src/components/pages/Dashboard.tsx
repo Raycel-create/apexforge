@@ -86,7 +86,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
     <div className="w-full relative">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-50">
         <ApexForgeLogo 
-          variant="watermark" 
+          opacity={0.02}
           className={`${isMobile ? 'w-[500px] h-[500px]' : 'w-[800px] h-[800px]'} ${
             blackForgeMode ? 'text-foreground' : 'text-foreground'
           }`}
