@@ -1,9 +1,10 @@
-import { Download, Rocket, Trash, Sparkle, ArrowsClockwise, Shield, Globe, Fire, Copy, Share, ShieldCheck } from '@phosphor-icons/react'
+import { Download, Rocket, Trash, Sparkle, ArrowsClockwise, Shield, Globe, Fire, Copy, Share, ShieldCheck, CreditCard } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Separator } from '../ui/separator'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
@@ -19,6 +20,7 @@ import { PhoneVerificationFlow, QuickPhoneVerifyButton } from '../PhoneVerificat
 import { VerificationStatus, SecurityBadge } from '../TrustIndicators'
 import { ApexForgeLogo } from '../ApexForgeLogo'
 import { Footer } from '../Footer'
+import { CustomerPortal } from '../CustomerPortal'
 import { useState } from 'react'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login' | 'ceo'
@@ -49,6 +51,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   const [verifiedPhone, setVerifiedPhone] = useKV<string | null>('user-phone-number', null)
   const [emailVerified] = useKV<boolean>('user-email-verified', false)
   const [twoFactorEnabled] = useKV<boolean>('user-2fa-enabled', false)
+  const [activeTab, setActiveTab] = useState<string>('projects')
 
   const deleteProject = (id: number) => {
     setProjects((current) => (current ?? []).filter((p) => p.id !== id))
@@ -206,7 +209,26 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           </Card>
         </motion.div>
 
-        {(!projects || projects.length === 0) ? (
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className={`grid w-full ${isMobile ? 'grid-cols-2' : 'grid-cols-3'} mb-6`}>
+            <TabsTrigger value="projects" className="gap-2">
+              <Sparkle size={isMobile ? 16 : 18} />
+              {!isMobile && 'Projects'}
+            </TabsTrigger>
+            <TabsTrigger value="subscription" className="gap-2">
+              <CreditCard size={isMobile ? 16 : 18} />
+              {!isMobile && 'Subscription'}
+            </TabsTrigger>
+            {!isMobile && (
+              <TabsTrigger value="integrations" className="gap-2">
+                <Shield size={16} />
+                Integrations
+              </TabsTrigger>
+            )}
+          </TabsList>
+
+          <TabsContent value="projects" className="mt-0">
+            {(!projects || projects.length === 0) ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -401,15 +423,44 @@ export function Dashboard({ onNavigate }: DashboardProps) {
             </div>
           </motion.div>
         )}
+          </TabsContent>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mt-6 sm:mt-12"
-        >
-          <StripeConnect />
-        </motion.div>
+          <TabsContent value="subscription" className="mt-0">
+            <CustomerPortal />
+          </TabsContent>
+
+          {!isMobile && (
+            <TabsContent value="integrations" className="mt-0">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <KeysManager />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="mt-6"
+              >
+                <StripeConnect />
+              </motion.div>
+            </TabsContent>
+          )}
+        </Tabs>
+
+        {isMobile && activeTab === 'projects' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mt-6 sm:mt-12"
+          >
+            <StripeConnect />
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

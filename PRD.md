@@ -372,6 +372,74 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - Whisper Mode for AI behavior manipulation
   - Black Forge Mode toggle (Konami code)
 
+### Customer Portal for Subscription Management (💳 NEW! Self-Service Billing)
+- **Functionality**: Comprehensive customer-facing subscription management portal allowing users to view and manage their subscription plan, payment methods, and billing history. Users can upgrade/downgrade plans (Free → Pro → Launch → Enterprise), view current subscription status with billing cycle progress, manage payment methods, cancel or reactivate subscriptions, view and download invoices, and access detailed plan features. Fully responsive with mobile-optimized layouts, integrated with Stripe for payment processing, and provides clear plan comparison during upgrade flow.
+- **Purpose**: Empower users with self-service subscription management to reduce support burden while increasing plan upgrade conversions through transparent billing information and seamless upgrade experience. Provides full transparency into subscription status, billing history, and plan features.
+- **Trigger**: Accessed via Dashboard → Subscription tab (new tabbed interface with Projects, Subscription, and Integrations)
+- **Progression**: Navigate to Dashboard → Click "Subscription" tab → View current plan details with billing cycle progress → Manage subscription (upgrade/cancel/reactivate) → View/manage payment methods → View/download billing history → Select upgrade plan from comparison cards → Confirm upgrade → New plan activated immediately
+- **Success criteria**:
+  - **Subscription Overview Card**:
+    - Display current plan (Free/Pro/Launch/Enterprise) with plan icon and pricing
+    - Status badge (Active/Canceled/Past Due/Trial)
+    - Billing cycle progress bar with days remaining
+    - Current period start and end dates
+    - Cancellation warning if subscription set to cancel at period end
+    - Reactivation button for canceled subscriptions
+    - Plan features list with checkmarks
+    - Cancel subscription button for active subscriptions
+    - Upgrade button for non-enterprise plans
+  - **Payment Methods Section**:
+    - List all payment methods with brand, last 4 digits, expiry date
+    - Default payment method indicator
+    - Empty state with "Add Payment Method" CTA
+    - Responsive card layout with hover effects
+  - **Billing History Section**:
+    - Invoice list with date, amount, and status badges (Paid/Open/Void/Uncollectible)
+    - Download button for paid invoices
+    - Empty state with helpful message
+    - Responsive table/card layout
+  - **Upgrade Dialog**:
+    - Side-by-side plan comparison cards (Pro/Launch/Enterprise)
+    - Plan pricing, icons, and color coding
+    - Complete feature lists for each plan
+    - Visual selection with border highlighting
+    - Current plan indicator (grayed out, "Current Plan" badge)
+    - Disabled state for current plan selection
+    - Confirm button with selected plan name
+    - Processing state during upgrade
+    - Success toast notification with plan details
+  - **Cancel Subscription Dialog**:
+    - Clear warning about cancellation consequences
+    - "Keep Subscription" and "Cancel Subscription" actions
+    - Processing state during cancellation
+    - Update subscription to cancelAtPeriodEnd
+    - Success notification with end date
+  - **Responsive Design**:
+    - Mobile: Single column layout, compact spacing, smaller fonts
+    - Tablet: Optimized card layouts and responsive grids
+    - Desktop: Multi-column grids, full feature displays
+    - Touch-optimized buttons (44px minimum on mobile)
+  - **Data Persistence**:
+    - Subscription details stored in KV storage ('user-subscription')
+    - Payment methods stored in KV storage ('user-payment-methods')
+    - Invoices stored in KV storage ('user-invoices')
+    - All data persists across sessions
+  - **Integration with Existing Systems**:
+    - Uses existing Stripe configuration from CEO Dashboard
+    - Integrates with plan pricing from PLAN_DETAILS constant
+    - Respects Stripe Connect configuration
+    - Works with real Stripe API when configured
+  - **User Experience**:
+    - Smooth animations with framer-motion
+    - Toast notifications for all actions (success/error)
+    - Loading states during processing (upgrades, cancellations)
+    - Clear status badges with appropriate colors
+    - Empty states with helpful CTAs
+    - Intuitive navigation with tabbed interface
+  - Production-ready with actual Stripe integration support
+  - Fully accessible with keyboard navigation
+  - All features tested across mobile, tablet, and desktop
+
 ### Advanced Cohort Analytics (📊 Data Intelligence Feature)
 - **Functionality**: Comprehensive cohort analysis dashboard tracking user retention, lifetime value, revenue by cohort, and engagement metrics over time. Interactive heatmap visualization with month-over-month retention rates (0-100% scale, color-coded in 5 tiers), detailed cohort metrics, LTV growth analysis, and engagement tracking (DAU/WAU/MAU).
 - **Purpose**: Provide deep insights into customer behavior patterns, retention trends, and revenue opportunities by analyzing user cohorts from acquisition through their lifecycle
