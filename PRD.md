@@ -607,6 +607,43 @@ Custom palette - Pale pinks for light mode, metal grays for dark mode with enhan
 - All contrast ratios now exceed WCAG AAA standards (7:1 for normal text, 4.5:1 for large text)
 - Pure grayscale maintained in dark mode (0 chroma) - no pink/purple hues
 
+### Accessibility Settings Panel (♿ User Customization)
+- **Functionality**: Comprehensive accessibility settings panel with font size controls, line height adjustment, letter spacing, high contrast mode, reduced motion toggle, and enhanced focus indicators. Persistent settings stored in KV storage that apply immediately across the entire application. Quick presets for text size (Small 87.5%, Medium 100%, Large 112.5%, Extra Large 125%) with fine-tuned controls for advanced customization.
+- **Purpose**: Empower users with visual impairments, motor disabilities, or reading difficulties to customize the interface to their specific needs. Ensures WCAG AAA compliance and provides inclusive experience for all users regardless of abilities.
+- **Trigger**: Accessible via eye icon button in navigation bar (desktop) and mobile menu settings section
+- **Progression**: Click accessibility button → Opens settings dialog → Choose quick preset OR adjust individual controls (font size 75-150%, line height 1.2-2.0, letter spacing -0.05 to 0.1em) → Toggle visual preferences (high contrast, reduced motion, enhanced focus) → See live preview → Changes apply immediately → Settings persist across sessions → Reset to defaults available
+- **Success criteria**:
+  - **Text Customization**:
+    - Font size slider: 75% to 150% in 5% increments with live percentage display
+    - Line height slider: 1.2 to 2.0 in 0.1 increments with descriptive labels (Compact/Comfortable/Spacious)
+    - Letter spacing slider: -0.05em to 0.1em in 0.01em increments (Tighter/Normal/Wider)
+    - Quick preset selector: Small/Medium/Large/Extra Large with one-click application
+    - Live preview text showing actual size changes
+  - **Visual Preferences**:
+    - High contrast mode: Increases contrast to maximum (pure black text on white, pure white text on black)
+    - Reduced motion: Disables all animations and transitions (0.01ms duration)
+    - Enhanced focus indicators: 3px solid outline with 2px offset for keyboard navigation
+    - Theme display: Shows current theme (light/dark) with reference to navigation toggle
+  - **User Experience**:
+    - Settings persist in KV storage across sessions and page reloads
+    - CSS custom properties apply changes globally (--accessibility-font-size, --accessibility-line-height, --accessibility-letter-spacing)
+    - Class-based toggles for high-contrast, reduce-motion, and enhanced-focus
+    - Toast notifications on setting changes
+    - Reset to defaults button restores all settings to baseline
+    - Accessible dialog with proper ARIA labels and keyboard navigation
+    - Touch-friendly controls with 44px minimum touch targets
+    - Responsive layout adapts to mobile screens
+  - **Integration**:
+    - Positioned in navigation bar alongside theme toggle
+    - Available in both desktop navigation and mobile menu
+    - Works seamlessly with existing theme system (light/dark mode)
+    - Applies to all text elements throughout application
+    - Compatible with all existing components and pages
+  - Settings apply to html root font-size and body typography properties
+  - All controls include descriptive labels and status indicators
+  - Maximum accessibility (WCAG AAA) maintained at all setting levels
+
+
 ## Font Selection
 Modern, technical, and highly legible fonts that convey professionalism and innovation - Inter for its perfect tech aesthetic and geometric proportions. **Enhanced accessibility with responsive typography scales for optimal mobile readability.**
 

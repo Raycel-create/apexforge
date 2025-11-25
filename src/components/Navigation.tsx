@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import { useBlackForge } from '../lib/BlackForgeContext'
 import { FigmaAvailabilityIndicator } from './FigmaAvailabilityIndicator'
 import { ThemeToggle } from './ThemeToggle'
+import { AccessibilitySettings } from './AccessibilitySettings'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
@@ -153,6 +154,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
             } transition-all duration-500 whitespace-nowrap touch-target`}>
               {blackForgeMode ? '🔥' : '🔥'} {credits}
             </Badge>
+            {!isMobile && <AccessibilitySettings />}
             <ThemeToggle />
             
             {isMobile || isTablet ? (
@@ -165,8 +167,11 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
                 <SheetContent side="right" className="w-64 sm:w-72">
                   <div className="flex flex-col gap-2 mt-6">
                     <div className="flex items-center justify-between mb-4 px-1">
-                      <span className="text-responsive font-semibold">Theme</span>
-                      <ThemeToggle />
+                      <span className="text-responsive font-semibold">Settings</span>
+                      <div className="flex items-center gap-2">
+                        <AccessibilitySettings />
+                        <ThemeToggle />
+                      </div>
                     </div>
                     {currentUser && currentUserData ? (
                       <>
