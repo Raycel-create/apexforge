@@ -8,10 +8,12 @@ import { FigmaIntegration } from './components/pages/FigmaIntegration'
 import { RealtimeOTPDemo } from './components/pages/RealtimeOTPDemo'
 import { CEOLogin } from './components/pages/CEOLogin'
 import { CEODashboard } from './components/pages/CEODashboard'
+import { ButtonTestPage } from './components/pages/ButtonTestPage'
 import { Navigation } from './components/Navigation'
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog'
 import { CursorTrail } from './components/CursorTrail'
 import { SparkleClickEffect } from './components/SparkleClickEffect'
+import { ButtonTestFloatingButton } from './components/ButtonTestFloatingButton'
 import { BlackForgeProvider } from './lib/BlackForgeContext'
 import { ResponsiveFontProvider } from './lib/ResponsiveFontProvider'
 import { CEOAuthProvider, useCEOAuth } from './lib/CEOAuthContext'
@@ -19,7 +21,7 @@ import { ceoAuditService } from './lib/ceoAuditService'
 import { securityNotificationService } from './lib/securityNotificationService'
 import { toast } from 'sonner'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'otp' | 'ceo-login' | 'ceo'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'otp' | 'ceo-login' | 'ceo' | 'button-test'
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home')
@@ -100,12 +102,14 @@ function AppContent() {
         return <CEOLogin onNavigate={handleNavigate} />
       case 'ceo':
         return isAuthenticated ? <CEODashboard onNavigate={handleNavigate} /> : <CEOLogin onNavigate={handleNavigate} />
+      case 'button-test':
+        return <ButtonTestPage onNavigate={handleNavigate} />
       default:
         return <Home onNavigate={handleNavigate} />
     }
   }
 
-  const showNavigation = currentPage !== 'auth' && currentPage !== 'otp' && currentPage !== 'ceo-login' && currentPage !== 'ceo'
+  const showNavigation = currentPage !== 'auth' && currentPage !== 'otp' && currentPage !== 'ceo-login' && currentPage !== 'ceo' && currentPage !== 'button-test'
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
@@ -116,6 +120,7 @@ function AppContent() {
         {renderPage()}
       </main>
       <SessionTimeoutDialog onNavigate={handleNavigate} />
+      <ButtonTestFloatingButton />
     </div>
   );
 }
