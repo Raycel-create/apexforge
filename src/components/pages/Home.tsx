@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Sparkle, Lightning, Rocket, Users, Code, Shield, Fire, Swap, TreeStructure } from '@phosphor-icons/react'
+import { Sparkle, Lightning, Rocket, Users, Code, Shield, Fire, Swap, TreeStructure, ShieldCheck } from '@phosphor-icons/react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
@@ -14,7 +14,7 @@ import { TeamShowcase } from '../TeamShowcase'
 import { Footer } from '../Footer'
 import { Hero3DAnimation } from '../Hero3DAnimation'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'otp'
 
 interface HomeProps {
   onNavigate: (page: Page) => void
@@ -145,6 +145,15 @@ export function Home({ onNavigate }: HomeProps) {
             >
               <TreeStructure weight="fill" size={isMobile ? 18 : 20} />
               {isMobile ? 'Free Incubator' : 'Try FREE Idea Incubator'}
+            </Button>
+            <Button
+              size={isMobile ? 'sm' : 'default'}
+              variant="ghost"
+              onClick={() => onNavigate('otp')}
+              className="touch-target border border-accent/30 text-accent hover:bg-accent/10 hover:scale-105 transition-all"
+            >
+              <ShieldCheck weight="fill" size={isMobile ? 16 : 18} />
+              OTP Demo
             </Button>
           </motion.div>
 

@@ -5,6 +5,7 @@ import { Pricing } from './components/pages/Pricing'
 import { Generator } from './components/pages/Generator'
 import { AuthLanding } from './components/pages/AuthLanding'
 import { FigmaIntegration } from './components/pages/FigmaIntegration'
+import { RealtimeOTPDemo } from './components/pages/RealtimeOTPDemo'
 import { Navigation } from './components/Navigation'
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog'
 import { CursorTrail } from './components/CursorTrail'
@@ -12,41 +13,47 @@ import { SparkleClickEffect } from './components/SparkleClickEffect'
 import { BlackForgeProvider } from './lib/BlackForgeContext'
 import { ResponsiveFontProvider } from './lib/ResponsiveFontProvider'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'otp'
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home')
 
+  const handleNavigate = (page: string) => {
+    setCurrentPage(page as Page)
+  }
+
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <Home onNavigate={setCurrentPage} />
+        return <Home onNavigate={handleNavigate} />
       case 'dashboard':
-        return <Dashboard onNavigate={setCurrentPage} />
+        return <Dashboard onNavigate={handleNavigate} />
       case 'pricing':
-        return <Pricing onNavigate={setCurrentPage} />
+        return <Pricing onNavigate={handleNavigate} />
       case 'generator':
-        return <Generator onNavigate={setCurrentPage} />
+        return <Generator onNavigate={handleNavigate} />
       case 'auth':
-        return <AuthLanding onNavigate={setCurrentPage} />
+        return <AuthLanding onNavigate={handleNavigate} />
       case 'figma':
-        return <FigmaIntegration onNavigate={setCurrentPage} />
+        return <FigmaIntegration onNavigate={handleNavigate} />
+      case 'otp':
+        return <RealtimeOTPDemo onNavigate={handleNavigate} />
       default:
-        return <Home onNavigate={setCurrentPage} />
+        return <Home onNavigate={handleNavigate} />
     }
   }
 
-  const showNavigation = currentPage !== 'auth'
+  const showNavigation = currentPage !== 'auth' && currentPage !== 'otp'
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <CursorTrail />
       <SparkleClickEffect />
-      {showNavigation && <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />}
+      {showNavigation && <Navigation currentPage={currentPage} onNavigate={handleNavigate} />}
       <main className="flex-1 overflow-x-hidden w-full">
         {renderPage()}
       </main>
-      <SessionTimeoutDialog onNavigate={setCurrentPage} />
+      <SessionTimeoutDialog onNavigate={handleNavigate} />
     </div>
   );
 }
