@@ -4,9 +4,10 @@ import { FigmaSyncPanel } from '@/components/FigmaSyncPanel'
 import { FigmaComponentBrowser } from '@/components/FigmaComponentBrowser'
 import { FigmaAvailabilityMonitor } from '@/components/FigmaAvailabilityMonitor'
 import { IPWhitelistManager } from '@/components/IPWhitelistManager'
+import { Footer } from '@/components/Footer'
 import { Shield, ArrowsLeftRight, Key, Cube } from '@phosphor-icons/react'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login'
 
 interface FigmaIntegrationProps {
   onNavigate: (page: Page) => void
@@ -64,6 +65,8 @@ export function FigmaIntegration({ onNavigate }: FigmaIntegrationProps) {
           </TabsContent>
         </Tabs>
       </div>
+
+      <Footer onNavigate={onNavigate} />
     </div>
   )
 }

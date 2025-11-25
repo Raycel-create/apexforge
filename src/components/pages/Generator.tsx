@@ -33,8 +33,9 @@ import { KeysManager } from '../KeysManager'
 import { AIModelSelector } from '../AIModelSelector'
 import { AI_MODEL_CONFIGS } from '../../lib/aiService'
 import { ApexForgeLogo } from '../ApexForgeLogo'
+import { Footer } from '../Footer'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login'
 
 interface GeneratorProps {
   onNavigate: (page: Page) => void
@@ -1144,6 +1145,8 @@ export function Generator({ onNavigate }: GeneratorProps) {
           isGenerating={generating}
         />
       )}
+
+      <Footer onNavigate={onNavigate} />
     </div>
   )
 }

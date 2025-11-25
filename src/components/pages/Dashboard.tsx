@@ -18,9 +18,10 @@ import { StripeConnect } from '../StripeConnect'
 import { PhoneVerificationFlow, QuickPhoneVerifyButton } from '../PhoneVerificationFlow'
 import { VerificationStatus, SecurityBadge } from '../TrustIndicators'
 import { ApexForgeLogo } from '../ApexForgeLogo'
+import { Footer } from '../Footer'
 import { useState } from 'react'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login'
 
 interface DashboardProps {
   onNavigate: (page: Page) => void
@@ -472,6 +473,8 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           />
         </DialogContent>
       </Dialog>
+
+      <Footer onNavigate={onNavigate} />
     </div>
   )
 }

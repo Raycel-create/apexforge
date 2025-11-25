@@ -169,10 +169,11 @@ export function Footer({ onNavigate }: FooterProps) {
             </a>
             <button
               onClick={() => handleNavClick('ceo-login')}
-              className="text-xs text-muted-foreground/40 hover:text-destructive/60 transition-colors flex items-center gap-1"
-              title="CEO Access"
+              className="text-xs text-muted-foreground/30 hover:text-primary/70 transition-all duration-300 flex items-center gap-1 opacity-50 hover:opacity-100"
+              title="Secure Access"
+              aria-label="CEO Dashboard Access"
             >
-              <ShieldCheck size={12} />
+              <ShieldCheck size={14} weight="duotone" className="transition-transform hover:scale-110" />
             </button>
           </div>
         </div>

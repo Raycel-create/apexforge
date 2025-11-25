@@ -13,8 +13,9 @@ import { StripeCheckout } from '../StripeCheckout'
 import { STRIPE_PLAN_PRICES } from '../../lib/stripeIntegration'
 import { TrustBanner, TrustIndicator, SecurityBadge } from '../TrustIndicators'
 import { ApexForgeLogo } from '../ApexForgeLogo'
+import { Footer } from '../Footer'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login'
 
 interface PricingProps {
   onNavigate: (page: Page) => void
@@ -609,6 +610,8 @@ export function Pricing({ onNavigate }: PricingProps) {
           </Card>
         </div>
       </div>
+
+      <Footer onNavigate={onNavigate} />
     </div>
   )
 }
