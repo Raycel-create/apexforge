@@ -10,6 +10,7 @@ import { SessionTimeoutDialog } from './components/SessionTimeoutDialog'
 import { CursorTrail } from './components/CursorTrail'
 import { SparkleClickEffect } from './components/SparkleClickEffect'
 import { BlackForgeProvider } from './lib/BlackForgeContext'
+import { ResponsiveFontProvider } from './lib/ResponsiveFontProvider'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
@@ -52,9 +53,11 @@ function AppContent() {
 
 function App() {
   return (
-    <BlackForgeProvider>
-      <AppContent />
-    </BlackForgeProvider>
+    <ResponsiveFontProvider>
+      <BlackForgeProvider>
+        <AppContent />
+      </BlackForgeProvider>
+    </ResponsiveFontProvider>
   )
 }
 

@@ -10,7 +10,7 @@
   html {
     overflow-x: hidden;
     width: 100%;
-    font-size: calc(16px * var(--accessibility-font-size, 100%) / 100%);
+    font-size: var(--base-font-size, 16px);
   }
   
   body {
@@ -39,28 +39,76 @@
   }
   
   h1 {
-    font-size: clamp(2rem, 5vw + 1rem, 3.5rem);
+    font-size: clamp(1.75rem, 4vw + 0.5rem, 3.5rem);
   }
   
   h2 {
-    font-size: clamp(1.5rem, 4vw + 0.5rem, 2.5rem);
+    font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
   }
   
   h3 {
-    font-size: clamp(1.25rem, 3vw + 0.25rem, 2rem);
+    font-size: clamp(1.25rem, 2.5vw + 0.25rem, 2rem);
   }
   
   h4 {
-    font-size: clamp(1.125rem, 2vw + 0.25rem, 1.5rem);
+    font-size: clamp(1.125rem, 2vw + 0.125rem, 1.5rem);
+  }
+  
+  h5 {
+    font-size: clamp(1rem, 1.5vw + 0.125rem, 1.25rem);
+  }
+  
+  h6 {
+    font-size: clamp(0.9375rem, 1vw + 0.125rem, 1.125rem);
   }
   
   p {
     line-height: 1.7;
-    font-size: clamp(0.9375rem, 1vw + 0.5rem, 1.125rem);
+    font-size: clamp(0.875rem, 0.5vw + 0.75rem, 1.125rem);
   }
   
   button, input, textarea, select {
     font-size: max(16px, 1rem);
+  }
+  
+  @media (max-width: 639px) {
+    h1 {
+      font-size: clamp(1.5rem, 8vw, 2.25rem);
+    }
+    
+    h2 {
+      font-size: clamp(1.25rem, 6vw, 1.875rem);
+    }
+    
+    h3 {
+      font-size: clamp(1.125rem, 5vw, 1.5rem);
+    }
+    
+    h4 {
+      font-size: clamp(1rem, 4vw, 1.25rem);
+    }
+    
+    p {
+      font-size: clamp(0.875rem, 3.5vw, 1rem);
+    }
+  }
+  
+  @media (min-width: 1920px) {
+    h1 {
+      font-size: clamp(3rem, 2vw + 2rem, 4rem);
+    }
+    
+    h2 {
+      font-size: clamp(2.25rem, 1.5vw + 1.5rem, 3rem);
+    }
+    
+    h3 {
+      font-size: clamp(1.875rem, 1.25vw + 1.25rem, 2.5rem);
+    }
+    
+    p {
+      font-size: clamp(1.0625rem, 0.5vw + 0.875rem, 1.25rem);
+    }
   }
 }
 
@@ -72,40 +120,90 @@
   }
   
   .text-responsive {
-    font-size: clamp(0.9375rem, 1.5vw + 0.5rem, 1.0625rem);
+    font-size: clamp(0.875rem, 1vw + 0.5rem, 1.0625rem);
     line-height: 1.7;
   }
   
   .text-responsive-sm {
-    font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem);
+    font-size: clamp(0.8125rem, 0.75vw + 0.5rem, 0.9375rem);
     line-height: 1.6;
   }
   
   .text-responsive-lg {
-    font-size: clamp(1.0625rem, 2vw + 0.5rem, 1.25rem);
+    font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem);
     line-height: 1.7;
   }
   
+  .text-responsive-xl {
+    font-size: clamp(1.125rem, 2vw + 0.5rem, 1.5rem);
+    line-height: 1.6;
+  }
+  
   .heading-responsive {
-    font-size: clamp(2rem, 5vw + 1rem, 3.5rem);
+    font-size: clamp(1.75rem, 4vw + 0.5rem, 3.5rem);
     line-height: 1.15;
     letter-spacing: -0.02em;
   }
   
   .heading-responsive-sm {
-    font-size: clamp(1.5rem, 4vw + 0.5rem, 2.5rem);
+    font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
     line-height: 1.2;
     letter-spacing: -0.015em;
+  }
+  
+  .heading-responsive-lg {
+    font-size: clamp(2rem, 5vw + 1rem, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
   }
   
   .touch-target {
     min-height: 44px;
     min-width: 44px;
   }
+  
+  @media (max-width: 639px) {
+    .text-responsive {
+      font-size: clamp(0.875rem, 3.5vw, 1rem);
+    }
+    
+    .text-responsive-lg {
+      font-size: clamp(1rem, 4vw, 1.125rem);
+    }
+    
+    .heading-responsive {
+      font-size: clamp(1.5rem, 8vw, 2.25rem);
+    }
+    
+    .heading-responsive-sm {
+      font-size: clamp(1.25rem, 6vw, 1.875rem);
+    }
+  }
+  
+  @media (min-width: 1920px) {
+    .text-responsive {
+      font-size: clamp(1.0625rem, 0.5vw + 0.875rem, 1.25rem);
+    }
+    
+    .text-responsive-lg {
+      font-size: clamp(1.25rem, 0.75vw + 1rem, 1.5rem);
+    }
+    
+    .heading-responsive {
+      font-size: clamp(3rem, 2vw + 2rem, 4.5rem);
+    }
+    
+    .heading-responsive-sm {
+      font-size: clamp(2.25rem, 1.5vw + 1.5rem, 3.25rem);
+    }
+  }
 }
 
 
 :root {
+  --base-font-size: 16px;
+  --scale-factor: 1;
+  
   --background: oklch(98.5% 0.008 350);
   --foreground: oklch(0.25 0.01 340);
 
@@ -137,6 +235,41 @@
   --radius: 0.25rem;
 
   --spacing: 0.20rem;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --base-font-size: 14px;
+    --scale-factor: 0.875;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  :root {
+    --base-font-size: 15px;
+    --scale-factor: 0.9375;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  :root {
+    --base-font-size: 16px;
+    --scale-factor: 1;
+  }
+}
+
+@media (min-width: 1440px) and (max-width: 1919px) {
+  :root {
+    --base-font-size: 16px;
+    --scale-factor: 1;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --base-font-size: 17px;
+    --scale-factor: 1.0625;
+  }
 }
 
 .dark {

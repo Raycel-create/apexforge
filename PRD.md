@@ -13,6 +13,27 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
 
 ## Essential Features
 
+### Responsive Font System (📐 Auto-Adjusting Typography)
+- **Functionality**: Intelligent font sizing system that automatically adjusts typography based on user's screen size and viewport dimensions. Implements CSS custom properties, React hooks, and fluid typography using clamp() functions. Supports 5 breakpoints: mobile (<640px), tablet (640-1023px), desktop (1024-1439px), desktop-large (1440-1919px), and large displays (≥1920px). Base font sizes scale from 14px (mobile) to 17px (large displays) with corresponding scale factors (0.875 to 1.0625). Includes utility classes for responsive headings, text, and spacing.
+- **Purpose**: Ensure optimal readability and visual hierarchy across all device sizes, eliminating manual font adjustments and providing consistent, accessible typography that scales naturally with screen dimensions. Improves user experience on mobile devices with appropriately sized text and enhances readability on large displays without overwhelming content.
+- **Trigger**: Automatically applied on page load and dynamically adjusts on window resize with debounced updates (150ms)
+- **Progression**: Page loads → ResponsiveFontProvider initializes → useResponsiveFont hook detects viewport width → Calculates screen size category → Sets CSS custom properties (--base-font-size, --scale-factor) → Applies to document root → All typography scales accordingly → Window resize triggers recalculation → Smooth transition to new font sizes
+- **Success criteria**:
+  - Base font size adjusts across 5 breakpoints (14px, 15px, 16px, 16px, 17px)
+  - Scale factors calculated correctly (0.875, 0.9375, 1.0, 1.0, 1.0625)
+  - Headings (h1-h6) use fluid clamp() functions with viewport-relative scaling
+  - Mobile displays show appropriately smaller text (1.5rem-2.25rem for h1)
+  - Large displays show enhanced text (3rem-4.5rem for h1)
+  - Utility classes available: .text-responsive, .text-responsive-sm/lg/xl, .heading-responsive, .heading-responsive-sm/lg
+  - CSS custom properties (--base-font-size, --scale-factor) update on resize
+  - Debounced resize handler prevents performance issues
+  - Screen size attribute (data-screen-size) set on document root
+  - Responsive demo component shows live font metrics
+  - All text remains readable at minimum 14px on mobile
+  - Touch targets maintain 44px minimum size
+  - Smooth transitions between breakpoints
+  - Integration with accessibility settings preserved
+
 ### Real Email OTP Verification (🔐 Production-Ready Email Authentication)
 - **Functionality**: Advanced OTP (One-Time Password) authentication system with **real email delivery** via SendGrid or AWS SES. Users receive a 6-digit verification code sent in real-time via email to their inbox. Features auto-focus input fields, paste support, attempt tracking (max 3 attempts), and real-time countdown timer. **Production-ready** - emails are actually sent to users' inboxes when configured with SendGrid API key or AWS SES credentials. Also supports SMS via Twilio and GitHub email verification.
 - **Purpose**: Provide enterprise-grade security with familiar OTP verification flow, supporting multiple authentication providers (Email via SendGrid/SES, SMS via Twilio, and GitHub). Email OTP is the primary authentication method with real email delivery ensuring users receive codes in their actual inbox. Enhances security while maintaining user experience through real-time code delivery and smart input handling.
