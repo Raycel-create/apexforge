@@ -16,6 +16,7 @@ import { BlackForgeProvider } from './lib/BlackForgeContext'
 import { ResponsiveFontProvider } from './lib/ResponsiveFontProvider'
 import { CEOAuthProvider, useCEOAuth } from './lib/CEOAuthContext'
 import { ceoAuditService } from './lib/ceoAuditService'
+import { securityNotificationService } from './lib/securityNotificationService'
 import { toast } from 'sonner'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'otp' | 'ceo-login' | 'ceo'
@@ -33,11 +34,33 @@ function AppContent() {
       if (event.shiftKey && event.ctrlKey && event.key.toLowerCase() === 'm') {
         event.preventDefault()
         
+        const getCurrentIP = async (): Promise<string> => {
+          try {
+            const response = await fetch('https://api.ipify.org?format=json')
+            const data = await response.json()
+            return data.ip
+          } catch (error) {
+            return 'unknown'
+          }
+        }
+        
+        const ip = await getCurrentIP()
+        
         await ceoAuditService.logAccess(
           'unknown', 
           'keyboard_shortcut_attempt', 
           'Keyboard shortcut Shift+Ctrl+M triggered'
         )
+        
+        await securityNotificationService.addAlert({
+          severity: 'low',
+          type: 'unauthorized_access',
+          title: 'Keyboard Shortcut Used',
+          message: 'Someone used the Shift+Ctrl+M keyboard shortcut to access CEO login',
+          ipAddress: ip,
+          userAgent: navigator.userAgent,
+          actionRequired: false,
+        })
         
         toast.info('🔐 CEO Access Shortcut', {
           description: 'Redirecting to secure login...',

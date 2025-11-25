@@ -8,6 +8,8 @@ import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useCEOAuth } from '../../lib/CEOAuthContext'
 import { validateCEOCredentials } from '../../lib/ceoCredentials'
+import { securityNotificationService } from '../../lib/securityNotificationService'
+import { ceoAuditService } from '../../lib/ceoAuditService'
 import QRCode from 'qrcode'
 import * as OTPAuth from 'otpauth'
 
@@ -60,7 +62,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
     }
   }
 
-  const verifyPassword = (e: React.FormEvent) => {
+  const verifyPassword = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!username || !password) {
@@ -68,7 +70,15 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
       return
     }
 
-    if (validateCEOCredentials(username, password)) {
+    const isValid = validateCEOCredentials(username, password)
+    
+    await ceoAuditService.logAccess(
+      username,
+      isValid ? 'login_attempt' : 'login_failed',
+      isValid ? 'Password verification successful' : 'Invalid username or password'
+    )
+
+    if (isValid) {
       setPasswordVerified(true)
       if (!totpSecret) {
         const secret = initializeTOTP()
@@ -86,6 +96,28 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
       toast.error('Invalid credentials', {
         description: 'Username or password is incorrect',
       })
+      
+      const ip = await getCurrentIP()
+      await securityNotificationService.addAlert({
+        severity: 'medium',
+        type: 'failed_login',
+        title: 'Failed CEO Login Attempt',
+        message: `Invalid credentials entered for username "${username}"`,
+        ipAddress: ip,
+        username,
+        userAgent: navigator.userAgent,
+        actionRequired: false,
+      })
+    }
+  }
+
+  const getCurrentIP = async (): Promise<string> => {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json')
+      const data = await response.json()
+      return data.ip
+    } catch (error) {
+      return 'unknown'
     }
   }
 
@@ -102,6 +134,12 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
     try {
       const success = await login(username, password, totpToken)
       
+      await ceoAuditService.logAccess(
+        username,
+        success ? 'login_success' : 'login_failed',
+        success ? 'TOTP verification successful' : 'Invalid TOTP code'
+      )
+      
       if (success) {
         toast.success('🔥 CEO Access Granted', {
           description: 'Welcome to the Shadow Dashboard',
@@ -113,6 +151,18 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
       } else {
         toast.error('Authentication failed', {
           description: 'Invalid authentication code',
+        })
+        
+        const ip = await getCurrentIP()
+        await securityNotificationService.addAlert({
+          severity: 'high',
+          type: 'failed_login',
+          title: 'Failed TOTP Verification',
+          message: `Invalid TOTP code entered after password verification for username "${username}"`,
+          ipAddress: ip,
+          username,
+          userAgent: navigator.userAgent,
+          actionRequired: true,
         })
       }
     } catch (error) {

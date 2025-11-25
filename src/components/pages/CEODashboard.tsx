@@ -42,6 +42,7 @@ import { CEOAnalytics } from '../CEOAnalytics'
 import { CEOSettings } from '../CEOSettings'
 import { SessionIndicator } from '../SessionIndicator'
 import { CEOAuditLog } from '../CEOAuditLog'
+import { SecurityMonitor } from '../SecurityMonitor'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'figma'
 
@@ -693,6 +694,7 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
           <Tabs defaultValue="analytics" className="w-full">
             <TabsList className="grid w-full grid-cols-12 mb-6">
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="security">Security</TabsTrigger>
               <TabsTrigger value="settings">Settings</TabsTrigger>
               <TabsTrigger value="forecast">AI Forecast</TabsTrigger>
               <TabsTrigger value="customers">Customers</TabsTrigger>
@@ -708,6 +710,10 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
             
             <TabsContent value="analytics">
               <CEOAnalytics />
+            </TabsContent>
+            
+            <TabsContent value="security">
+              <SecurityMonitor />
             </TabsContent>
             
             <TabsContent value="settings">
