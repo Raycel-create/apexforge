@@ -503,8 +503,8 @@ export function Generator({ onNavigate }: GeneratorProps) {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
-          <Badge className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm lg:text-base bg-yellow-500/20 border-yellow-500 text-yellow-500">
-            ∞ unlimited (testing mode)
+          <Badge className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm lg:text-base bg-accent/20 border-accent text-accent">
+            {credits ?? 15} credits
           </Badge>
           <Button
             variant="outline"
@@ -519,20 +519,7 @@ export function Generator({ onNavigate }: GeneratorProps) {
         </div>
       </div>
 
-      {!hasValidAIKeys && (
-        <div className="mb-4 sm:mb-6">
-          <Card className="p-4 border-yellow-500/30 bg-yellow-500/10">
-            <div className="flex items-center gap-3">
-              <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40">
-                ⚠️ Testing Mode
-              </Badge>
-              <p className="text-sm text-muted-foreground">
-                Payment & API key requirements disabled for testing. All features unlocked.
-              </p>
-            </div>
-          </Card>
-        </div>
-      )}
+
 
       {showKeysManager && (
         <motion.div
@@ -802,8 +789,8 @@ export function Generator({ onNavigate }: GeneratorProps) {
               ) : (
                 <>
                   <Fire weight="fill" className="w-5 h-5 sm:w-6 sm:h-6" />
-                  <span className="hidden sm:inline">Ignite The Forge (FREE - Testing Mode)</span>
-                  <span className="sm:hidden">Forge (FREE)</span>
+                  <span className="hidden sm:inline">Ignite The Forge ({calculateTotalCredits()} credits)</span>
+                  <span className="sm:hidden">Forge ({calculateTotalCredits()})</span>
                 </>
               )}
             </Button>

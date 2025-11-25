@@ -113,30 +113,19 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           </Button>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-          className="mb-6 sm:mb-10 space-y-4"
-        >
-          <Card className="p-5 border-yellow-500/30 bg-yellow-500/10">
-            <div className="flex items-center gap-3">
-              <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40">
-                ⚠️ Testing Mode Active
-              </Badge>
-              <p className="text-sm text-muted-foreground">
-                All features unlocked for testing. Payment requirements disabled.
-              </p>
-            </div>
-          </Card>
-          
-          {currentUser && (
+        {currentUser && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="mb-6 sm:mb-10"
+          >
             <EmailVerificationBanner 
               email={currentUser}
               onVerifyClick={() => setShowVerificationDialog(true)}
             />
-          )}
-        </motion.div>
+          </motion.div>
+        )}
 
         {showKeysManager && (
           <motion.div
@@ -204,15 +193,15 @@ export function Dashboard({ onNavigate }: DashboardProps) {
             <div className={`text-muted-foreground ${isMobile ? 'text-xs' : ''}`}>Apps Forged</div>
           </Card>
           <Card className={`${isMobile ? 'p-3' : 'p-6'} border-accent/30 hover:border-accent/50 transition-colors`}>
-            <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold mb-1 text-accent`}>∞</div>
+            <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold mb-1 text-accent`}>{credits ?? 15}</div>
             <div className={`text-muted-foreground flex items-center justify-between ${isMobile ? 'text-xs' : ''}`}>
-              <span>Unlimited (Testing)</span>
+              <span>Credits Remaining</span>
             </div>
           </Card>
           <Card className={`${isMobile ? 'p-3' : 'p-6'} border-border`}>
-            <div className={`${isMobile ? 'text-base' : 'text-2xl'} font-bold mb-1`}>Testing Mode</div>
-            <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40 text-xs">
-              All features unlocked
+            <div className={`${isMobile ? 'text-base' : 'text-2xl'} font-bold mb-1`}>Pro Plan</div>
+            <Badge className="bg-primary/20 text-primary border-primary/40 text-xs">
+              All features active
             </Badge>
           </Card>
         </motion.div>
@@ -431,7 +420,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           <Card className={`${isMobile ? 'p-4' : 'p-8'} border-accent/30 bg-accent/5 text-center`}>
             <h3 className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold mb-2`}>Ready to Build Something New?</h3>
             <p className={`text-muted-foreground mb-4 sm:mb-6 ${isMobile ? 'text-xs' : ''}`}>
-              Testing mode active - unlimited generations available!
+              Start creating your next application with AI
             </p>
             <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
               <Button

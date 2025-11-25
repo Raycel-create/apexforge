@@ -140,15 +140,15 @@ export function Pricing({ onNavigate }: PricingProps) {
       return
     }
     
-    toast.success(`Testing Mode: ${planName} features unlocked!`, {
-      description: 'Payment processing disabled - all features available for testing',
+    toast.info('Upgrade Coming Soon', {
+      description: `${planName} plan will be available soon`,
       duration: 3000,
     })
   }
 
   const handleSecurityUpgrade = () => {
-    toast.success('Testing Mode: Security Shield unlocked!', {
-      description: 'Payment processing disabled - feature available for testing',
+    toast.info('Security Shield Coming Soon', {
+      description: 'This feature will be available soon',
       duration: 3000,
     })
   }
@@ -187,22 +187,6 @@ export function Pricing({ onNavigate }: PricingProps) {
       </Dialog>
 
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12 max-w-[1400px] relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
-        >
-          <Card className="p-4 border-yellow-500/30 bg-yellow-500/10">
-            <div className="flex items-center gap-3">
-              <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40">
-                ⚠️ Testing Mode Active
-              </Badge>
-              <p className="text-sm text-muted-foreground">
-                Payment processing disabled. All features available for testing without payment.
-              </p>
-            </div>
-          </Card>
-        </motion.div>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
