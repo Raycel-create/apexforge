@@ -137,6 +137,8 @@ export function EmailServiceConfig() {
 
   const getProviderIcon = (provider: EmailProvider) => {
     switch (provider) {
+      case 'resend':
+        return <EnvelopeSimple size={20} weight="fill" />
       case 'sendgrid':
         return <CloudArrowUp size={20} />
       case 'aws-ses':
@@ -148,6 +150,8 @@ export function EmailServiceConfig() {
 
   const getProviderBadgeColor = (provider: string) => {
     switch (provider) {
+      case 'resend':
+        return 'bg-purple-500/20 text-purple-300 border-purple-500/50'
       case 'sendgrid':
         return 'bg-blue-500/20 text-blue-300 border-blue-500/50'
       case 'aws-ses':
@@ -162,9 +166,31 @@ export function EmailServiceConfig() {
       <div>
         <h2 className="text-2xl font-bold mb-2">Email Service Configuration</h2>
         <p className="text-muted-foreground">
-          Configure SendGrid or AWS SES for production email delivery
+          Configure Resend (recommended), SendGrid, or AWS SES for production email delivery
         </p>
       </div>
+
+      <Alert className="border-purple-500/30 bg-purple-500/5">
+        <EnvelopeSimple className="text-purple-400" size={20} weight="fill" />
+        <AlertDescription className="ml-2">
+          <p className="font-semibold text-purple-300 mb-2">Setup Guide for Real-Time OTP</p>
+          <p className="text-sm text-muted-foreground mb-3">
+            Need help setting up email delivery? We recommend <strong>Resend</strong> for its simplicity and reliability.
+            Check <code className="bg-background px-2 py-1 rounded text-xs">RESEND_OTP_SETUP_GUIDE.md</code> in your project root for detailed setup instructions.
+          </p>
+          <div className="flex gap-2 text-xs">
+            <Badge variant="outline" className="border-purple-500/50 text-purple-300">
+              Free: 100 emails/day
+            </Badge>
+            <Badge variant="outline" className="border-purple-500/50 text-purple-300">
+              No domain required for testing
+            </Badge>
+            <Badge variant="outline" className="border-purple-500/50 text-purple-300">
+              Setup in 5 minutes
+            </Badge>
+          </div>
+        </AlertDescription>
+      </Alert>
 
       <Tabs defaultValue="config" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
@@ -197,6 +223,12 @@ export function EmailServiceConfig() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="resend">
+                      <div className="flex items-center gap-2">
+                        <EnvelopeSimple size={16} weight="fill" />
+                        Resend (Recommended)
+                      </div>
+                    </SelectItem>
                     <SelectItem value="development">
                       <div className="flex items-center gap-2">
                         <Lightning size={16} />
@@ -218,6 +250,7 @@ export function EmailServiceConfig() {
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground mt-2">
+                  {config.provider === 'resend' && 'Modern email API with domain verification - requires Resend API key'}
                   {config.provider === 'development' && 'Emails will be logged to console only'}
                   {config.provider === 'sendgrid' && 'Requires SendGrid API key'}
                   {config.provider === 'aws-ses' && 'Requires AWS SES credentials'}
@@ -256,6 +289,70 @@ export function EmailServiceConfig() {
               </div>
 
               <AnimatePresence mode="wait">
+                {config.provider === 'resend' && (
+                  <motion.div
+                    key="resend"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="space-y-4"
+                  >
+                    <Separator />
+                    <Alert className="border-purple-500/30 bg-purple-500/10">
+                      <Info className="text-purple-400" size={18} />
+                      <AlertDescription className="ml-2 text-sm">
+                        <p className="font-semibold text-purple-300 mb-1">Resend Setup (Recommended for OTP)</p>
+                        <ol className="text-xs text-purple-200/80 space-y-1 list-decimal list-inside">
+                          <li>Sign up at resend.com (free tier includes 100 emails/day)</li>
+                          <li>Add and verify your domain (or use onboarding@resend.dev for testing)</li>
+                          <li>Create an API key</li>
+                          <li>Paste your API key below</li>
+                          <li>Use format: yourname@yourdomain.com or noreply@yourdomain.com</li>
+                        </ol>
+                      </AlertDescription>
+                    </Alert>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="resend-key" className="flex items-center gap-2">
+                        <Key size={16} />
+                        Resend API Key *
+                      </Label>
+                      <div className="relative">
+                        <Input
+                          id="resend-key"
+                          type={showApiKey ? 'text' : 'password'}
+                          placeholder="re_xxxxxxxxxxxxxxxxxxxx"
+                          value={config.resendApiKey || ''}
+                          onChange={(e) => setConfig({ ...config, resendApiKey: e.target.value })}
+                          className="bg-secondary/50 pr-20"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-1 top-1/2 -translate-y-1/2 h-8"
+                          onClick={() => setShowApiKey(!showApiKey)}
+                        >
+                          {showApiKey ? 'Hide' : 'Show'}
+                        </Button>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Get your API key from resend.com/api-keys
+                      </p>
+                    </div>
+
+                    <Alert className="border-accent/30 bg-accent/10">
+                      <ShieldCheck className="text-accent" size={18} />
+                      <AlertDescription className="ml-2 text-xs">
+                        <p className="font-semibold text-accent mb-1">Testing Domain</p>
+                        <p className="text-muted-foreground">
+                          For testing, you can use <code className="bg-background px-1 py-0.5 rounded">onboarding@resend.dev</code> as your from email without domain verification.
+                        </p>
+                      </AlertDescription>
+                    </Alert>
+                  </motion.div>
+                )}
+
                 {config.provider === 'sendgrid' && (
                   <motion.div
                     key="sendgrid"
@@ -440,10 +537,25 @@ export function EmailServiceConfig() {
               <ShieldCheck size={24} className="text-accent shrink-0 mt-1" />
               <div>
                 <h4 className="font-semibold mb-2">Secure Email Delivery</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed mb-3">
                   Your API keys are stored securely in the browser's encrypted storage and never sent to any third party. 
-                  For production use, we recommend SendGrid or AWS SES. Development mode logs emails to the console only.
+                  For production use, we recommend <strong>Resend</strong> for its simplicity and developer experience, 
+                  or alternatively SendGrid/AWS SES. Development mode logs emails to the console only.
                 </p>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <div className="flex items-center gap-1 text-accent">
+                    <Lightning size={14} weight="fill" />
+                    <span>Instant delivery</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-accent">
+                    <ShieldCheck size={14} weight="fill" />
+                    <span>Encrypted storage</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-accent">
+                    <EnvelopeSimple size={14} weight="fill" />
+                    <span>OTP-optimized</span>
+                  </div>
+                </div>
               </div>
             </div>
           </Card>

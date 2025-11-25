@@ -1,7 +1,9 @@
-export type EmailProvider = 'sendgrid' | 'aws-ses' | 'development'
+export type EmailProvider = 'resend' | 'sendgrid' | 'aws-ses' | 'development'
 
 export interface EmailConfig {
   provider: EmailProvider
+  resendApiKey?: string
+  resendDomain?: string
   sendgridApiKey?: string
   awsSesAccessKeyId?: string
   awsSesSecretAccessKey?: string
@@ -46,6 +48,14 @@ class EmailService {
 
     if (!config.fromName) {
       errors.push('From name is required')
+    }
+
+    if (config.provider === 'resend') {
+      if (!config.resendApiKey) {
+        errors.push('Resend API key is required')
+      } else if (!config.resendApiKey.startsWith('re_')) {
+        errors.push('Resend API key appears to be invalid (should start with "re_")')
+      }
     }
 
     if (config.provider === 'sendgrid') {
@@ -101,6 +111,8 @@ class EmailService {
 
     try {
       switch (emailConfig.provider) {
+        case 'resend':
+          return await this.sendViaResend(payload, emailConfig)
         case 'sendgrid':
           return await this.sendViaSendGrid(payload, emailConfig)
         case 'aws-ses':
@@ -118,6 +130,51 @@ class EmailService {
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Failed to send email'
+      }
+    }
+  }
+
+  private async sendViaResend(payload: EmailPayload, config: EmailConfig): Promise<EmailResponse> {
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${config.resendApiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: `${config.fromName} <${config.fromEmail}>`,
+          to: [payload.to],
+          subject: payload.subject,
+          html: payload.html,
+          ...(payload.text && { text: payload.text })
+        })
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `Resend API error: ${response.status}`)
+      }
+
+      const result = await response.json()
+      const messageId = result.id
+
+      await this.logEmailSent({
+        ...payload,
+        provider: 'resend',
+        messageId,
+        sentAt: new Date().toISOString()
+      })
+
+      return {
+        success: true,
+        messageId
+      }
+    } catch (error) {
+      console.error('Resend error:', error)
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Resend send failed'
       }
     }
   }
