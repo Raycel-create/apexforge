@@ -33,13 +33,13 @@ export function ApexForgeLogo({ className = '', variant = 'default', opacity }: 
       case 'watermark':
         return 0.03
       case 'navigation':
-        return 0.95
+        return 1
       case 'footer':
-        return 0.8
+        return 0.9
       case 'hero':
         return 0.04
       case 'card':
-        return 0.6
+        return 0.8
       default:
         return 1
     }
