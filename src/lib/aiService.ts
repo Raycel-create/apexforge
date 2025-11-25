@@ -95,7 +95,17 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     endpoint: 'https://api.anthropic.com/v1/messages',
     modelName: 'claude-3-5-sonnet-20241022',
     category: 'flagship',
-    description: 'Most intelligent Claude model'
+    description: 'Most intelligent Claude model with extended thinking'
+  },
+  {
+    id: 'claude-3.5-sonnet-20240620',
+    name: 'Claude 3.5 Sonnet (June)',
+    provider: 'anthropic',
+    apiKeyId: 'anthropic',
+    endpoint: 'https://api.anthropic.com/v1/messages',
+    modelName: 'claude-3-5-sonnet-20240620',
+    category: 'flagship',
+    description: 'Earlier version of Claude 3.5 Sonnet'
   },
   {
     id: 'claude-3-opus',
@@ -125,17 +135,17 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     endpoint: 'https://api.anthropic.com/v1/messages',
     modelName: 'claude-3-haiku-20240307',
     category: 'mini',
-    description: 'Fastest Claude model'
+    description: 'Fastest Claude model for quick tasks'
   },
   {
-    id: 'claude-instant',
-    name: 'Claude Instant',
+    id: 'claude-3-5-haiku',
+    name: 'Claude 3.5 Haiku',
     provider: 'anthropic',
     apiKeyId: 'anthropic',
     endpoint: 'https://api.anthropic.com/v1/messages',
-    modelName: 'claude-instant-1.2',
-    category: 'fast',
-    description: 'Lightning-fast responses'
+    modelName: 'claude-3-5-haiku-20241022',
+    category: 'mini',
+    description: 'Latest fast Claude model with improved capabilities'
   },
   {
     id: 'grok-2',
@@ -188,6 +198,26 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     description: 'Experimental features'
   },
   {
+    id: 'gemini-2.0-flash-exp',
+    name: 'Gemini 2.0 Flash Experimental',
+    provider: 'google',
+    apiKeyId: 'google',
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent',
+    modelName: 'gemini-2.0-flash-exp',
+    category: 'flagship',
+    description: 'Next-gen experimental multimodal model'
+  },
+  {
+    id: 'gemini-1.5-pro-latest',
+    name: 'Gemini 1.5 Pro (Latest)',
+    provider: 'google',
+    apiKeyId: 'google',
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent',
+    modelName: 'gemini-1.5-pro-latest',
+    category: 'flagship',
+    description: 'Latest Gemini Pro with 2M token context window'
+  },
+  {
     id: 'gemini-1.5-pro',
     name: 'Gemini 1.5 Pro',
     provider: 'google',
@@ -195,7 +225,7 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent',
     modelName: 'gemini-1.5-pro',
     category: 'flagship',
-    description: 'Most capable Gemini with 2M context'
+    description: 'Most capable Gemini with massive context'
   },
   {
     id: 'gemini-1.5-flash',
@@ -205,7 +235,17 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
     modelName: 'gemini-1.5-flash',
     category: 'fast',
-    description: 'Optimized for speed'
+    description: 'Fast and efficient for most tasks'
+  },
+  {
+    id: 'gemini-1.5-flash-8b',
+    name: 'Gemini 1.5 Flash-8B',
+    provider: 'google',
+    apiKeyId: 'google',
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent',
+    modelName: 'gemini-1.5-flash-8b',
+    category: 'mini',
+    description: 'Smaller, faster Flash model for high-volume tasks'
   },
   {
     id: 'gemini-pro',
@@ -214,8 +254,8 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     apiKeyId: 'google',
     endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
     modelName: 'gemini-pro',
-    category: 'flagship',
-    description: 'Production-ready model'
+    category: 'fast',
+    description: 'Stable production model'
   },
   {
     id: 'gemini-pro-vision',
@@ -225,17 +265,7 @@ export const AI_MODEL_CONFIGS: AIModelConfig[] = [
     endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent',
     modelName: 'gemini-pro-vision',
     category: 'vision',
-    description: 'Multimodal understanding'
-  },
-  {
-    id: 'gemini-ultra',
-    name: 'Gemini Ultra',
-    provider: 'google',
-    apiKeyId: 'google',
-    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-ultra:generateContent',
-    modelName: 'gemini-ultra',
-    category: 'flagship',
-    description: 'Most powerful Gemini model'
+    description: 'Multimodal image and text understanding'
   },
   {
     id: 'llama-3.1-405b',
@@ -1060,18 +1090,18 @@ export async function createAIService(storedKeys: StoredAPIKey[]): Promise<AISer
 
 export function getModelPersonality(modelId: string): string {
   const personalities: Record<string, string> = {
-    'gpt': 'Clean, organized, and focused on best practices. You prefer well-structured code and comprehensive solutions.',
-    'claude': 'Security-first mindset. You always think about vulnerabilities, edge cases, and safe coding practices.',
-    'grok': 'Fast and edgy. You prioritize performance, speed, and cutting-edge solutions. Sometimes controversial.',
-    'gemini': 'Beautiful UI/UX focused. You care deeply about design, user experience, and visual polish.',
-    'llama': 'Open source advocate. You prefer free alternatives, community solutions, and transparent approaches.',
-    'mistral': 'Efficient and precise. You value optimization, clean architecture, and European engineering standards.',
-    'cohere': 'Enterprise-focused. You prioritize scalability, reliability, and production-grade solutions.',
-    'huggingface': 'Community-driven. You embrace open source, transparency, and collaborative development.'
+    'gpt': 'Clean, organized, and focused on best practices. You prefer well-structured code and comprehensive solutions. You emphasize clarity and maintainability.',
+    'claude': 'Security-first mindset with strong reasoning. You always think about vulnerabilities, edge cases, and safe coding practices. You excel at thoughtful analysis and detailed explanations.',
+    'grok': 'Fast and edgy. You prioritize performance, speed, and cutting-edge solutions. Sometimes controversial but always innovative.',
+    'gemini': 'Beautiful UI/UX focused with multimodal understanding. You care deeply about design, user experience, and visual polish. You excel at context-aware responses.',
+    'llama': 'Open source advocate. You prefer free alternatives, community solutions, and transparent approaches. You value accessibility and democratization.',
+    'mistral': 'Efficient and precise. You value optimization, clean architecture, and European engineering standards. You balance performance with elegance.',
+    'cohere': 'Enterprise-focused. You prioritize scalability, reliability, and production-grade solutions. You think about real-world deployment scenarios.',
+    'huggingface': 'Community-driven. You embrace open source, transparency, and collaborative development. You value experimentation and innovation.'
   }
   
   const baseId = modelId.split('-')[0]
-  return personalities[baseId] || 'Helpful and collaborative AI assistant.'
+  return personalities[baseId] || 'Helpful and collaborative AI assistant focused on delivering quality results.'
 }
 
 export function getModelsByProvider(provider: AIProvider): AIModelConfig[] {

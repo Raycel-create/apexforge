@@ -116,6 +116,65 @@ const PROVIDERS: Provider[] = [
       'Copy and save'
     ],
     example: 'together_abc123...'
+  },
+  {
+    id: 'mistral',
+    name: 'Mistral AI',
+    icon: '🌪️',
+    keyFormat: 'mistral-...',
+    signupUrl: 'https://console.mistral.ai',
+    docsUrl: 'https://docs.mistral.ai',
+    pricing: '$2/1M input, $6/1M output (Large)',
+    freeTier: false,
+    steps: [
+      'Visit console.mistral.ai',
+      'Create account or sign in',
+      'Navigate to API Keys section',
+      'Click "Create new key"',
+      'Name your key (e.g., "ApexForge")',
+      'Copy the generated key',
+      'Add payment method for billing'
+    ],
+    example: 'mistral-abc123xyz...'
+  },
+  {
+    id: 'cohere',
+    name: 'Cohere',
+    icon: '🎯',
+    keyFormat: 'cohere key',
+    signupUrl: 'https://dashboard.cohere.com/welcome/register',
+    docsUrl: 'https://docs.cohere.com',
+    pricing: 'Free tier: 1000 calls/mo',
+    freeTier: true,
+    steps: [
+      'Visit dashboard.cohere.com',
+      'Sign up with email or OAuth',
+      'Get free trial credits automatically',
+      'Go to API Keys page',
+      'Copy your default key or create new',
+      'Start using immediately!'
+    ],
+    example: 'cohere-abc123...'
+  },
+  {
+    id: 'huggingface',
+    name: 'Hugging Face',
+    icon: '🤗',
+    keyFormat: 'hf_...',
+    signupUrl: 'https://huggingface.co/join',
+    docsUrl: 'https://huggingface.co/docs/api-inference',
+    pricing: 'Free tier: Rate limited access',
+    freeTier: true,
+    steps: [
+      'Visit huggingface.co and sign up',
+      'Click your profile → Settings',
+      'Navigate to "Access Tokens"',
+      'Click "New token"',
+      'Select "Read" permission',
+      'Copy the token',
+      'Free inference API with rate limits'
+    ],
+    example: 'hf_abc123xyz...'
   }
 ]
 
