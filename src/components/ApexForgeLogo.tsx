@@ -6,6 +6,9 @@ interface ApexForgeLogoProps {
 export function ApexForgeLogo({ className = '', variant = 'default' }: ApexForgeLogoProps) {
   const isWatermark = variant === 'watermark'
   
+  const lightModeColor = 'oklch(0.85 0.05 345)'
+  const darkModeColor = 'oklch(0.55 0.01 0)'
+  
   return (
     <svg 
       viewBox="0 0 1080 1080" 
@@ -16,8 +19,16 @@ export function ApexForgeLogo({ className = '', variant = 'default' }: ApexForge
         mixBlendMode: isWatermark ? 'multiply' : 'normal'
       }}
     >
+      <defs>
+        <style>
+          {`
+            :root .logo-color { color: ${lightModeColor}; }
+            :root.dark .logo-color { color: ${darkModeColor}; }
+          `}
+        </style>
+      </defs>
       <g transform="translate(540, 540)">
-        <g className={isWatermark ? '' : 'dark:invert'}>
+        <g className="logo-color">
           <path
             d="M -250 150 L -200 150 Q -190 140 -185 120 L -180 100 Q -175 75 -165 60 L -150 40 Q -145 30 -140 30 L -130 30 L -130 20 L -125 20 Q -120 20 -120 15 L -120 5 Q -120 0 -115 -5 L -110 -10"
             fill="currentColor"
