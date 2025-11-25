@@ -8,6 +8,7 @@ import { useScreenSize } from '../hooks/use-mobile'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import { useBlackForge } from '../lib/BlackForgeContext'
 import { FigmaAvailabilityIndicator } from './FigmaAvailabilityIndicator'
+import { ThemeToggle } from './ThemeToggle'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
@@ -103,6 +104,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <ThemeToggle />
             {!isMobile && !isTablet && (
               <FigmaAvailabilityIndicator />
             )}

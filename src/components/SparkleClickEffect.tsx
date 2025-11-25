@@ -12,9 +12,9 @@ interface Sparkle {
 }
 
 const colors = [
-  'oklch(0.92 0.05 15)',
-  'oklch(0.94 0.04 15)',
-  'oklch(0.90 0.06 15)',
+  'oklch(96% 0.018 345)',
+  'oklch(95.5% 0.020 345)',
+  'oklch(97% 0.016 345)',
 ]
 
 export function SparkleClickEffect() {

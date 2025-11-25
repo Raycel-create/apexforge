@@ -37,7 +37,7 @@ export function Home({ onNavigate }: HomeProps) {
         <div className={`absolute inset-0 ${
           blackForgeMode 
             ? 'bg-gradient-to-br from-destructive/20 via-transparent to-transparent' 
-            : 'bg-gradient-to-br from-pink-200/15 via-pink-100/10 to-transparent'
+            : 'bg-gradient-to-br from-pink-50/40 via-pink-50/20 to-transparent'
         } pointer-events-none transition-all duration-1000`} />
         
         {!isMobile && <Hero3DAnimation />}
@@ -52,7 +52,7 @@ export function Home({ onNavigate }: HomeProps) {
             <Badge className={`${isMobile ? 'px-3 py-1 text-xs' : 'px-4 py-1.5 text-sm'} ${
               blackForgeMode
                 ? 'bg-destructive/20 border-destructive/40 text-destructive glow-destructive'
-                : 'bg-gradient-to-r from-pink-100/30 to-pink-200/30 border-pink-300/50 text-pink-600'
+                : 'bg-pink-50/60 border-pink-200/50 text-pink-400'
             } transition-all duration-500`}>
               <Fire weight="fill" size={isMobile ? 14 : 16} className="animate-pulse-glow" />
               <span>{blackForgeMode 
@@ -82,13 +82,13 @@ export function Home({ onNavigate }: HomeProps) {
             ) : (
               <>
                 Watch an{' '}
-                <span className="bg-gradient-to-r from-pink-300 via-pink-200 to-pink-300 bg-clip-text text-transparent animate-pulse-glow">
+                <span className="bg-gradient-to-r from-pink-200 via-pink-100 to-pink-200 bg-clip-text text-transparent animate-pulse-glow">
                   AI Team
                 </span>
                 <br />
                 Argue Until It Ships
                 <br />
-                <span className="bg-gradient-to-r from-pink-400 to-pink-300 bg-clip-text text-transparent">Perfection</span>
+                <span className="bg-gradient-to-r from-pink-300 to-pink-200 bg-clip-text text-transparent">Perfection</span>
               </>
             )}
           </motion.h1>
@@ -128,7 +128,7 @@ export function Home({ onNavigate }: HomeProps) {
               className={`touch-target ${isMobile ? 'text-base px-6' : 'text-base px-8 h-12'} ${
                 blackForgeMode 
                   ? 'glow-destructive bg-destructive hover:bg-destructive/90' 
-                  : 'bg-gradient-to-r from-pink-300 via-pink-200 to-pink-300 hover:from-pink-400 hover:via-pink-300 hover:to-pink-400 text-pink-900'
+                  : 'bg-gradient-to-r from-pink-200 via-pink-100 to-pink-200 hover:from-pink-300 hover:via-pink-200 hover:to-pink-300 text-pink-700'
               } hover:scale-105 transition-all duration-300 font-semibold shadow-lg`}
             >
               <Sparkle weight="fill" size={isMobile ? 18 : 20} />
@@ -141,7 +141,7 @@ export function Home({ onNavigate }: HomeProps) {
               size={isMobile ? 'default' : 'lg'}
               variant="outline"
               onClick={() => onNavigate('generator')}
-              className={`touch-target ${isMobile ? 'text-base px-6' : 'text-base px-8 h-12'} border-pink-300/50 text-pink-500 hover:bg-pink-100/10 hover:text-pink-400 hover:scale-105 transition-all font-semibold`}
+              className={`touch-target ${isMobile ? 'text-base px-6' : 'text-base px-8 h-12'} border-pink-200/50 text-pink-400 hover:bg-pink-50/20 hover:text-pink-300 hover:scale-105 transition-all font-semibold`}
             >
               <TreeStructure weight="fill" size={isMobile ? 18 : 20} />
               {isMobile ? 'Free Incubator' : 'Try FREE Idea Incubator'}
@@ -164,15 +164,15 @@ export function Home({ onNavigate }: HomeProps) {
             className="flex items-center justify-center gap-3 sm:gap-4 text-responsive-sm text-muted-foreground pt-2 flex-wrap"
           >
             <div className="flex items-center gap-1.5">
-              <Lightning weight="fill" className="text-pink-400" size={isMobile ? 16 : 18} />
+              <Lightning weight="fill" className="text-pink-300" size={isMobile ? 16 : 18} />
               <span>Live in &lt;10 sec</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Fire weight="fill" className="text-pink-300" size={isMobile ? 16 : 18} />
+              <Fire weight="fill" className="text-pink-200" size={isMobile ? 16 : 18} />
               <span>Real-time AI debates</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Swap weight="fill" className="text-pink-400" size={isMobile ? 16 : 18} />
+              <Swap weight="fill" className="text-pink-300" size={isMobile ? 16 : 18} />
               <span>Fusion Mode</span>
             </div>
           </motion.div>
@@ -189,35 +189,35 @@ export function Home({ onNavigate }: HomeProps) {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <Card className="relative overflow-hidden border-pink-300/30 bg-gradient-to-br from-pink-100/15 via-card to-pink-200/15 hover:border-pink-300 hover:shadow-2xl hover:shadow-pink-300/20 transition-all group">
+            <Card className="relative overflow-hidden border-pink-200/30 bg-gradient-to-br from-pink-50/25 via-card to-pink-100/25 hover:border-pink-200 hover:shadow-2xl hover:shadow-pink-200/15 transition-all group">
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
               
               <div className={`relative ${isMobile ? 'p-5' : 'p-6 md:p-8'}`}>
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ opacity: 0.4 }}>
                   <defs>
                     <linearGradient id="line-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgb(251, 207, 232)" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="rgb(252, 231, 243)" stopOpacity="0.7" />
+                      <stop offset="0%" stopColor="rgb(252, 231, 243)" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="rgb(253, 242, 248)" stopOpacity="0.5" />
                     </linearGradient>
                     <linearGradient id="line-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgb(252, 231, 243)" stopOpacity="0.7" />
-                      <stop offset="100%" stopColor="rgb(249, 168, 212)" stopOpacity="0.6" />
+                      <stop offset="0%" stopColor="rgb(253, 242, 248)" stopOpacity="0.5" />
+                      <stop offset="100%" stopColor="rgb(251, 207, 232)" stopOpacity="0.4" />
                     </linearGradient>
                     <linearGradient id="line-gradient-3" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="rgb(251, 207, 232)" stopOpacity="0.5" />
-                      <stop offset="100%" stopColor="rgb(251, 207, 232)" stopOpacity="0.6" />
+                      <stop offset="0%" stopColor="rgb(252, 231, 243)" stopOpacity="0.3" />
+                      <stop offset="100%" stopColor="rgb(252, 231, 243)" stopOpacity="0.4" />
                     </linearGradient>
                     <linearGradient id="line-gradient-4" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgb(251, 207, 232)" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="rgb(249, 168, 212)" stopOpacity="0.7" />
+                      <stop offset="0%" stopColor="rgb(252, 231, 243)" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="rgb(251, 207, 232)" stopOpacity="0.5" />
                     </linearGradient>
                     <linearGradient id="line-gradient-5" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="rgb(252, 231, 243)" stopOpacity="0.5" />
-                      <stop offset="100%" stopColor="rgb(251, 207, 232)" stopOpacity="0.6" />
+                      <stop offset="0%" stopColor="rgb(253, 242, 248)" stopOpacity="0.3" />
+                      <stop offset="100%" stopColor="rgb(252, 231, 243)" stopOpacity="0.4" />
                     </linearGradient>
                     <linearGradient id="line-gradient-6" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="rgb(249, 168, 212)" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="rgb(252, 231, 243)" stopOpacity="0.5" />
+                      <stop offset="0%" stopColor="rgb(251, 207, 232)" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="rgb(253, 242, 248)" stopOpacity="0.3" />
                     </linearGradient>
                     <filter id="glow">
                       <feGaussianBlur stdDeviation="2" result="coloredBlur"/>

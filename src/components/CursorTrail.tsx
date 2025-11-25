@@ -46,11 +46,11 @@ export function CursorTrail() {
         const numParticles = Math.min(Math.floor(distance / 20), 2)
         
         const colors = [
+          'rgba(252, 231, 243, ', 
+          'rgba(253, 242, 248, ', 
           'rgba(251, 207, 232, ', 
-          'rgba(252, 231, 243, ', 
-          'rgba(249, 168, 212, ', 
-          'rgba(252, 231, 243, ', 
-          'rgba(251, 207, 232, '  
+          'rgba(253, 242, 248, ', 
+          'rgba(252, 231, 243, '  
         ]
         
         for (let i = 0; i < numParticles; i++) {

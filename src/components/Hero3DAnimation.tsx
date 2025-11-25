@@ -37,11 +37,11 @@ export function Hero3DAnimation() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6)
     scene.add(ambientLight)
 
-    const pointLight1 = new THREE.PointLight(0xfbcfe8, 2, 100)
+    const pointLight1 = new THREE.PointLight(0xfce7f3, 2, 100)
     pointLight1.position.set(5, 5, 5)
     scene.add(pointLight1)
 
-    const pointLight2 = new THREE.PointLight(0xfce7f3, 2, 100)
+    const pointLight2 = new THREE.PointLight(0xfdf2f8, 2, 100)
     pointLight2.position.set(-5, -5, 5)
     scene.add(pointLight2)
 
@@ -52,10 +52,10 @@ export function Hero3DAnimation() {
       const material = new THREE.MeshPhongMaterial({
         color,
         emissive: color,
-        emissiveIntensity: 0.3,
+        emissiveIntensity: 0.15,
         shininess: 100,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.7
       })
       const cube = new THREE.Mesh(geometry, material)
       cube.position.set(x, y, z)
@@ -67,10 +67,10 @@ export function Hero3DAnimation() {
       const material = new THREE.MeshPhongMaterial({
         color,
         emissive: color,
-        emissiveIntensity: 0.3,
+        emissiveIntensity: 0.15,
         shininess: 100,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.7
       })
       const sphere = new THREE.Mesh(geometry, material)
       sphere.position.set(x, y, z)
@@ -82,10 +82,10 @@ export function Hero3DAnimation() {
       const material = new THREE.MeshPhongMaterial({
         color,
         emissive: color,
-        emissiveIntensity: 0.3,
+        emissiveIntensity: 0.15,
         shininess: 100,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.7
       })
       const torus = new THREE.Mesh(geometry, material)
       torus.position.set(x, y, z)
@@ -97,10 +97,10 @@ export function Hero3DAnimation() {
       const material = new THREE.MeshPhongMaterial({
         color,
         emissive: color,
-        emissiveIntensity: 0.3,
+        emissiveIntensity: 0.15,
         shininess: 100,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.7
       })
       const octahedron = new THREE.Mesh(geometry, material)
       octahedron.position.set(x, y, z)
@@ -108,13 +108,13 @@ export function Hero3DAnimation() {
     }
 
     floatingObjects.push(
-      createCube(-3, 2, 0, 1.2, 0xfbcfe8),
-      createSphere(3, -1, -2, 0.8, 0xfce7f3),
-      createTorus(0, 2.5, -1, 0xf9a8d4),
-      createOctahedron(-2, -2, -1, 0.9, 0xfce7f3),
-      createCube(2.5, 1.5, -2, 0.8, 0xfbcfe8),
-      createSphere(-1, -1.5, 1, 0.6, 0xfce7f3),
-      createOctahedron(1, -2.5, 0, 0.7, 0xf9a8d4)
+      createCube(-3, 2, 0, 1.2, 0xfce7f3),
+      createSphere(3, -1, -2, 0.8, 0xfdf2f8),
+      createTorus(0, 2.5, -1, 0xfbcfe8),
+      createOctahedron(-2, -2, -1, 0.9, 0xfdf2f8),
+      createCube(2.5, 1.5, -2, 0.8, 0xfce7f3),
+      createSphere(-1, -1.5, 1, 0.6, 0xfdf2f8),
+      createOctahedron(1, -2.5, 0, 0.7, 0xfbcfe8)
     )
 
     floatingObjects.forEach(obj => scene.add(obj))
@@ -132,7 +132,7 @@ export function Hero3DAnimation() {
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 
     const particleMaterial = new THREE.PointsMaterial({
-      color: 0xfbcfe8,
+      color: 0xfce7f3,
       size: 0.05,
       transparent: true,
       opacity: 0.6,

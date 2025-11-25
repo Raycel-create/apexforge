@@ -18,7 +18,7 @@ export function ConfettiEffect() {
   useEffect(() => {
     const colors = blackForgeMode 
       ? ['#DC2626', '#991B1B', '#7C2D12', '#450A0A', '#EF4444', '#B91C1C']
-      : ['#FBCFE8', '#FCE7F3', '#F9A8D4', '#FDF2F8', '#FBE2F2', '#FCE7F3']
+      : ['#FCE7F3', '#FDF2F8', '#FBCFE8', '#FDF2F8', '#FCE7F3', '#FBCFE8']
     const pieces: ConfettiPiece[] = []
     
     for (let i = 0; i < 50; i++) {
