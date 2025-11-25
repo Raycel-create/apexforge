@@ -165,7 +165,7 @@ export function Footer({ onNavigate }: FooterProps) {
                 <TooltipTrigger asChild>
                   <motion.button
                     onClick={() => handleNavClick('ceo-login')}
-                    className="w-8 h-8 rounded-md bg-background/50 hover:bg-destructive/20 border border-border/50 hover:border-destructive/50 flex items-center justify-center transition-all group opacity-30 hover:opacity-100"
+                    className="w-8 h-8 rounded-md bg-background/10 hover:bg-destructive/20 border border-border/10 hover:border-destructive/50 flex items-center justify-center transition-all group opacity-5 hover:opacity-100"
                     whileHover={{ scale: 1.1, rotate: [0, -10, 10, -10, 0] }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ duration: 0.3 }}
@@ -173,7 +173,7 @@ export function Footer({ onNavigate }: FooterProps) {
                     <ShieldCheck 
                       weight="fill" 
                       size={18} 
-                      className="text-muted-foreground group-hover:text-destructive transition-colors" 
+                      className="text-muted-foreground/20 group-hover:text-destructive transition-colors" 
                     />
                   </motion.button>
                 </TooltipTrigger>
