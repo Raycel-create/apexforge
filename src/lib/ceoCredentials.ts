@@ -1,6 +1,6 @@
 const CEO_CREDENTIALS = {
-  username: 'papakoEddie@tripzy.international',
-  password: '19780111',
+  username: '19780111',
+  password: 'papakoEddie@tripzy.international',
 }
 
 export function validateCEOCredentials(username: string, password: string): boolean {

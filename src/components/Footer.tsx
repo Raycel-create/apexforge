@@ -1,15 +1,15 @@
-import { GithubLogo, TwitterLogo, LinkedinLogo, DiscordLogo } from '@phosphor-icons/react'
+import { GithubLogo, TwitterLogo, LinkedinLogo, DiscordLogo, ShieldCheck } from '@phosphor-icons/react'
 import { Separator } from './ui/separator'
 import { ApexForgeLogo } from './ApexForgeLogo'
 
 interface FooterProps {
-  onNavigate?: (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma') => void
+  onNavigate?: (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login') => void
 }
 
 export function Footer({ onNavigate }: FooterProps) {
   const currentYear = new Date().getFullYear()
 
-  const handleNavClick = (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma') => {
+  const handleNavClick = (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login') => {
     if (onNavigate) {
       onNavigate(page)
     }
@@ -167,6 +167,13 @@ export function Footer({ onNavigate }: FooterProps) {
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Cookie Policy
             </a>
+            <button
+              onClick={() => handleNavClick('ceo-login')}
+              className="text-xs text-muted-foreground/40 hover:text-destructive/60 transition-colors flex items-center gap-1"
+              title="CEO Access"
+            >
+              <ShieldCheck size={12} />
+            </button>
           </div>
         </div>
       </div>

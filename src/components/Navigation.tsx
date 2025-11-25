@@ -12,7 +12,7 @@ import { ThemeToggle } from './ThemeToggle'
 import { AccessibilitySettings } from './AccessibilitySettings'
 import { ApexForgeLogo } from './ApexForgeLogo'
 
-type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
+type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login' | 'ceo'
 
 interface NavigationProps {
   currentPage: Page
