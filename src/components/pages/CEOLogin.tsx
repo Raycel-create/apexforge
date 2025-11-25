@@ -3,7 +3,7 @@ import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
-import { Skull, Key, ShieldCheck, QrCode, User } from '@phosphor-icons/react'
+import { Skull, Key, ShieldCheck, QrCode, User, Eye, EyeSlash } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { useCEOAuth } from '../../lib/CEOAuthContext'
@@ -28,6 +28,7 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
   const [qrCodeUrl, setQrCodeUrl] = useState<string>('')
   const [showSetup, setShowSetup] = useState<boolean>(false)
   const [passwordVerified, setPasswordVerified] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   useEffect(() => {
     if (totpSecret) {
@@ -238,15 +239,24 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
                     <Key weight="fill" className="text-primary" size={18} />
                     Password
                   </Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter password"
-                    className="h-12 bg-background border-primary/30 focus:border-primary text-base"
-                    autoComplete="current-password"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Enter password"
+                      className="h-12 bg-background border-primary/30 focus:border-primary text-base pr-10"
+                      autoComplete="current-password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                 </div>
 
                 <Button
