@@ -37,7 +37,7 @@ export function Home({ onNavigate }: HomeProps) {
         <div className={`absolute inset-0 ${
           blackForgeMode 
             ? 'bg-gradient-to-br from-destructive/20 via-transparent to-transparent' 
-            : 'bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-transparent'
+            : 'bg-gradient-to-br from-pink-200/15 via-pink-100/10 to-transparent'
         } pointer-events-none transition-all duration-1000`} />
         
         {!isMobile && <Hero3DAnimation />}
@@ -52,7 +52,7 @@ export function Home({ onNavigate }: HomeProps) {
             <Badge className={`${isMobile ? 'px-3 py-1 text-xs' : 'px-4 py-1.5 text-sm'} ${
               blackForgeMode
                 ? 'bg-destructive/20 border-destructive/40 text-destructive glow-destructive'
-                : 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300'
+                : 'bg-gradient-to-r from-pink-100/30 to-pink-200/30 border-pink-300/50 text-pink-600'
             } transition-all duration-500`}>
               <Fire weight="fill" size={isMobile ? 14 : 16} className="animate-pulse-glow" />
               <span>{blackForgeMode 
@@ -82,13 +82,13 @@ export function Home({ onNavigate }: HomeProps) {
             ) : (
               <>
                 Watch an{' '}
-                <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse-glow">
+                <span className="bg-gradient-to-r from-pink-300 via-pink-200 to-pink-300 bg-clip-text text-transparent animate-pulse-glow">
                   AI Team
                 </span>
                 <br />
                 Argue Until It Ships
                 <br />
-                <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">Perfection</span>
+                <span className="bg-gradient-to-r from-pink-400 to-pink-300 bg-clip-text text-transparent">Perfection</span>
               </>
             )}
           </motion.h1>
@@ -128,7 +128,7 @@ export function Home({ onNavigate }: HomeProps) {
               className={`touch-target ${isMobile ? 'text-base px-6' : 'text-base px-8 h-12'} ${
                 blackForgeMode 
                   ? 'glow-destructive bg-destructive hover:bg-destructive/90' 
-                  : 'bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:via-pink-500 hover:to-purple-500'
+                  : 'bg-gradient-to-r from-pink-300 via-pink-200 to-pink-300 hover:from-pink-400 hover:via-pink-300 hover:to-pink-400 text-pink-900'
               } hover:scale-105 transition-all duration-300 font-semibold shadow-lg`}
             >
               <Sparkle weight="fill" size={isMobile ? 18 : 20} />
@@ -141,7 +141,7 @@ export function Home({ onNavigate }: HomeProps) {
               size={isMobile ? 'default' : 'lg'}
               variant="outline"
               onClick={() => onNavigate('generator')}
-              className={`touch-target ${isMobile ? 'text-base px-6' : 'text-base px-8 h-12'} border-purple-500/50 text-purple-300 hover:bg-purple-500/10 hover:text-purple-200 hover:scale-105 transition-all font-semibold`}
+              className={`touch-target ${isMobile ? 'text-base px-6' : 'text-base px-8 h-12'} border-pink-300/50 text-pink-500 hover:bg-pink-100/10 hover:text-pink-400 hover:scale-105 transition-all font-semibold`}
             >
               <TreeStructure weight="fill" size={isMobile ? 18 : 20} />
               {isMobile ? 'Free Incubator' : 'Try FREE Idea Incubator'}
@@ -164,15 +164,15 @@ export function Home({ onNavigate }: HomeProps) {
             className="flex items-center justify-center gap-3 sm:gap-4 text-responsive-sm text-muted-foreground pt-2 flex-wrap"
           >
             <div className="flex items-center gap-1.5">
-              <Lightning weight="fill" className="text-purple-400" size={isMobile ? 16 : 18} />
+              <Lightning weight="fill" className="text-pink-400" size={isMobile ? 16 : 18} />
               <span>Live in &lt;10 sec</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Fire weight="fill" className="text-pink-400" size={isMobile ? 16 : 18} />
+              <Fire weight="fill" className="text-pink-300" size={isMobile ? 16 : 18} />
               <span>Real-time AI debates</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Swap weight="fill" className="text-purple-400" size={isMobile ? 16 : 18} />
+              <Swap weight="fill" className="text-pink-400" size={isMobile ? 16 : 18} />
               <span>Fusion Mode</span>
             </div>
           </motion.div>
@@ -189,35 +189,35 @@ export function Home({ onNavigate }: HomeProps) {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <Card className="relative overflow-hidden border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-card to-pink-500/10 hover:border-purple-500 hover:shadow-2xl hover:shadow-purple-500/20 transition-all group">
+            <Card className="relative overflow-hidden border-pink-300/30 bg-gradient-to-br from-pink-100/15 via-card to-pink-200/15 hover:border-pink-300 hover:shadow-2xl hover:shadow-pink-300/20 transition-all group">
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
               
               <div className={`relative ${isMobile ? 'p-5' : 'p-6 md:p-8'}`}>
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ opacity: 0.4 }}>
                   <defs>
                     <linearGradient id="line-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="rgb(236, 72, 153)" stopOpacity="0.7" />
+                      <stop offset="0%" stopColor="rgb(251, 207, 232)" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="rgb(252, 231, 243)" stopOpacity="0.7" />
                     </linearGradient>
                     <linearGradient id="line-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgb(236, 72, 153)" stopOpacity="0.7" />
-                      <stop offset="100%" stopColor="rgb(219, 39, 119)" stopOpacity="0.6" />
+                      <stop offset="0%" stopColor="rgb(252, 231, 243)" stopOpacity="0.7" />
+                      <stop offset="100%" stopColor="rgb(249, 168, 212)" stopOpacity="0.6" />
                     </linearGradient>
                     <linearGradient id="line-gradient-3" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0.5" />
-                      <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="0.6" />
+                      <stop offset="0%" stopColor="rgb(251, 207, 232)" stopOpacity="0.5" />
+                      <stop offset="100%" stopColor="rgb(251, 207, 232)" stopOpacity="0.6" />
                     </linearGradient>
                     <linearGradient id="line-gradient-4" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="rgb(219, 39, 119)" stopOpacity="0.7" />
+                      <stop offset="0%" stopColor="rgb(251, 207, 232)" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="rgb(249, 168, 212)" stopOpacity="0.7" />
                     </linearGradient>
                     <linearGradient id="line-gradient-5" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="rgb(236, 72, 153)" stopOpacity="0.5" />
-                      <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="0.6" />
+                      <stop offset="0%" stopColor="rgb(252, 231, 243)" stopOpacity="0.5" />
+                      <stop offset="100%" stopColor="rgb(251, 207, 232)" stopOpacity="0.6" />
                     </linearGradient>
                     <linearGradient id="line-gradient-6" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="rgb(219, 39, 119)" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="rgb(236, 72, 153)" stopOpacity="0.5" />
+                      <stop offset="0%" stopColor="rgb(249, 168, 212)" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="rgb(252, 231, 243)" stopOpacity="0.5" />
                     </linearGradient>
                     <filter id="glow">
                       <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
@@ -322,7 +322,7 @@ export function Home({ onNavigate }: HomeProps) {
                         transition={{ duration: 0.4, delay: 1.0 }}
                         viewport={{ once: true }}
                         cx="16%" cy="28%" r="5"
-                        fill="rgb(168, 85, 247)"
+                        fill="rgb(251, 207, 232)"
                         opacity="0.7"
                         filter="url(#glow)"
                       />
@@ -342,7 +342,7 @@ export function Home({ onNavigate }: HomeProps) {
                         transition={{ duration: 0.4, delay: 1.0 }}
                         viewport={{ once: true }}
                         cx="50%" cy="28%" r="5"
-                        fill="rgb(236, 72, 153)"
+                        fill="rgb(252, 231, 243)"
                         opacity="0.8"
                         filter="url(#glow)"
                       />
@@ -362,7 +362,7 @@ export function Home({ onNavigate }: HomeProps) {
                         transition={{ duration: 0.4, delay: 1.0 }}
                         viewport={{ once: true }}
                         cx="84%" cy="28%" r="5"
-                        fill="rgb(236, 72, 153)"
+                        fill="rgb(252, 231, 243)"
                         opacity="0.8"
                         filter="url(#glow)"
                       />
@@ -382,7 +382,7 @@ export function Home({ onNavigate }: HomeProps) {
                         transition={{ duration: 0.4, delay: 1.0 }}
                         viewport={{ once: true }}
                         cx="16%" cy="68%" r="5"
-                        fill="rgb(168, 85, 247)"
+                        fill="rgb(251, 207, 232)"
                         opacity="0.7"
                         filter="url(#glow)"
                       />
@@ -402,7 +402,7 @@ export function Home({ onNavigate }: HomeProps) {
                         transition={{ duration: 0.4, delay: 1.0 }}
                         viewport={{ once: true }}
                         cx="50%" cy="68%" r="5"
-                        fill="rgb(168, 85, 247)"
+                        fill="rgb(251, 207, 232)"
                         opacity="0.7"
                         filter="url(#glow)"
                       />
@@ -422,7 +422,7 @@ export function Home({ onNavigate }: HomeProps) {
                         transition={{ duration: 0.4, delay: 1.0 }}
                         viewport={{ once: true }}
                         cx="84%" cy="68%" r="5"
-                        fill="rgb(219, 39, 119)"
+                        fill="rgb(249, 168, 212)"
                         opacity="0.8"
                         filter="url(#glow)"
                       />
@@ -441,8 +441,8 @@ export function Home({ onNavigate }: HomeProps) {
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 relative z-10">
                   <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-purple-500/20`}>
-                      <Fire weight="fill" className="text-purple-400" size={isMobile ? 16 : 20} />
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-pink-200/30 to-pink-300/30 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-pink-300/20`}>
+                      <Fire weight="fill" className="text-pink-400" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
                       <h3 className="text-responsive-sm font-bold text-foreground">The Forge</h3>
@@ -453,7 +453,7 @@ export function Home({ onNavigate }: HomeProps) {
                   </div>
 
                   <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-pink-500/20`}>
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-pink-200/30 to-pink-300/30 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-pink-300/20`}>
                       <Swap weight="fill" className="text-pink-400" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
@@ -465,8 +465,8 @@ export function Home({ onNavigate }: HomeProps) {
                   </div>
 
                   <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-purple-500/20`}>
-                      <Rocket weight="fill" className="text-purple-400" size={isMobile ? 16 : 20} />
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-pink-200/30 to-pink-300/30 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-pink-300/20`}>
+                      <Rocket weight="fill" className="text-pink-400" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
                       <h3 className="text-responsive-sm font-bold text-foreground">Live Deploy</h3>
@@ -477,7 +477,7 @@ export function Home({ onNavigate }: HomeProps) {
                   </div>
 
                   <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-pink-500/20`}>
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-pink-200/30 to-pink-300/30 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-pink-300/20`}>
                       <TreeStructure weight="fill" className="text-pink-400" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
@@ -489,8 +489,8 @@ export function Home({ onNavigate }: HomeProps) {
                   </div>
 
                   <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-purple-500/20`}>
-                      <Lightning weight="fill" className="text-purple-400" size={isMobile ? 16 : 20} />
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-pink-200/30 to-pink-300/30 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-pink-300/20`}>
+                      <Lightning weight="fill" className="text-pink-400" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
                       <h3 className="text-responsive-sm font-bold text-foreground">Evolve Button</h3>
@@ -501,7 +501,7 @@ export function Home({ onNavigate }: HomeProps) {
                   </div>
 
                   <div className="flex flex-col items-start space-y-2">
-                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-pink-500/20`}>
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-lg bg-gradient-to-br from-pink-200/30 to-pink-300/30 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-pink-300/20`}>
                       <Shield weight="fill" className="text-pink-400" size={isMobile ? 16 : 20} />
                     </div>
                     <div>
@@ -522,7 +522,7 @@ export function Home({ onNavigate }: HomeProps) {
 
       <section className="container mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-20 max-w-[1400px]">
         <div className="max-w-5xl mx-auto">
-          <Card className="relative overflow-hidden border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-card to-pink-500/10">
+          <Card className="relative overflow-hidden border-pink-300/30 bg-gradient-to-br from-pink-100/15 via-card to-pink-200/15">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNGgtMnYyaDJ2LTJ6bTAtOGgydi0yaC0ydjJ6bS0yLTJ2Mmgydi0yaC0yem0tMiAydjJoMnYtMmgtMnptMiA0aDJ2LTJoLTJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
             
             <div className={`relative ${isMobile ? 'p-6' : 'p-12'} text-center`}>
@@ -532,7 +532,7 @@ export function Home({ onNavigate }: HomeProps) {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <Badge className={`mb-4 sm:mb-6 ${isMobile ? 'px-3 py-1.5 text-sm' : 'px-6 py-3 text-lg'} bg-gradient-to-r from-purple-500/30 to-pink-500/30 border-purple-500 shadow-lg shadow-purple-500/20`}>
+                <Badge className={`mb-4 sm:mb-6 ${isMobile ? 'px-3 py-1.5 text-sm' : 'px-6 py-3 text-lg'} bg-gradient-to-r from-pink-200/40 to-pink-300/40 border-pink-300 shadow-lg shadow-pink-300/20`}>
                   <Sparkle weight="fill" size={isMobile ? 16 : 20} />
                   Ready to Break the Industry?
                 </Badge>
@@ -549,7 +549,7 @@ export function Home({ onNavigate }: HomeProps) {
                   <Button
                     size={isMobile ? 'default' : 'lg'}
                     onClick={() => onNavigate('generator')}
-                    className={`${isMobile ? 'text-base px-6 py-5' : 'text-xl px-10 py-7'} bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:via-pink-500 hover:to-purple-500 shadow-lg shadow-purple-500/30 hover:scale-105 transition-transform`}
+                    className={`${isMobile ? 'text-base px-6 py-5' : 'text-xl px-10 py-7'} bg-gradient-to-r from-pink-300 via-pink-200 to-pink-300 hover:from-pink-400 hover:via-pink-300 hover:to-pink-400 text-pink-900 shadow-lg shadow-pink-300/30 hover:scale-105 transition-transform`}
                   >
                     <Fire weight="fill" size={isMobile ? 20 : 24} />
                     Launch The Forge
@@ -558,7 +558,7 @@ export function Home({ onNavigate }: HomeProps) {
                     size={isMobile ? 'default' : 'lg'}
                     variant="outline"
                     onClick={() => onNavigate('pricing')}
-                    className={`${isMobile ? 'text-base px-6 py-5' : 'text-xl px-10 py-7'} border-purple-500/50 hover:bg-purple-500/10`}
+                    className={`${isMobile ? 'text-base px-6 py-5' : 'text-xl px-10 py-7'} border-pink-300/50 hover:bg-pink-100/10`}
                   >
                     See Pricing
                   </Button>
