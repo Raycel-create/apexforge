@@ -64,7 +64,6 @@ ApexForge is the first AI app builder that feels like you hired a world-class 5-
   - ✅ Navigation menus collapse appropriately on mobile/tablet
   - ✅ 100% production-ready - no broken layouts or unusable features on any device
 
-### Real Email OTP Verification (🔐 Production-Ready Email Authentication)
 - **Functionality**: Advanced OTP (One-Time Password) authentication system with **real email delivery** via SendGrid or AWS SES. Users receive a 6-digit verification code sent in real-time via email to their inbox. Features auto-focus input fields, paste support, attempt tracking (max 3 attempts), and real-time countdown timer. **Production-ready** - emails are actually sent to users' inboxes when configured with SendGrid API key or AWS SES credentials. Also supports SMS via Twilio and GitHub email verification.
 - **Purpose**: Provide enterprise-grade security with familiar OTP verification flow, supporting multiple authentication providers (Email via SendGrid/SES, SMS via Twilio, and GitHub). Email OTP is the primary authentication method with real email delivery ensuring users receive codes in their actual inbox. Enhances security while maintaining user experience through real-time code delivery and smart input handling.
 - **Trigger**: Primary authentication method on auth page via "Email OTP" tab (default), "SMS OTP" tab for phone verification, or GitHub OTP button in password authentication section
