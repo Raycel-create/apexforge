@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { toast } from 'sonner'
 import { useKV } from '@github/spark/hooks'
 import { APIKeySetupWizard } from './APIKeySetupWizard'
+import { BatchAPIKeyTester } from './BatchAPIKeyTester'
 import { useScreenSize } from '@/hooks/use-mobile'
 
 interface APIKey {
@@ -51,6 +52,7 @@ export function KeysManager() {
   
   const [showKeys, setShowKeys] = useState<{ [key: string]: boolean }>({})
   const [showWizard, setShowWizard] = useState(false)
+  const [showBatchTester, setShowBatchTester] = useState(false)
   const { isMobile, isTablet } = useScreenSize()
 
   const updateKey = (category: 'ai' | 'services' | 'stores', id: string, newKey: string) => {
@@ -60,6 +62,24 @@ export function KeysManager() {
     if (category === 'ai') setAIKeys(updateFn)
     else if (category === 'services') setServiceKeys(updateFn)
     else setStoreKeys(updateFn)
+  }
+
+  const handleBatchTestComplete = (results: any[]) => {
+    results.forEach(result => {
+      const status = result.status === 'valid' ? 'valid' : 'invalid'
+      
+      const aiKey = aiKeys?.find(k => k.id === result.id)
+      const serviceKey = serviceKeys?.find(k => k.id === result.id)
+      const storeKey = storeKeys?.find(k => k.id === result.id)
+
+      if (aiKey) {
+        setAIKeys((keys) => (keys || []).map(k => k.id === result.id ? { ...k, status } : k))
+      } else if (serviceKey) {
+        setServiceKeys((keys) => (keys || []).map(k => k.id === result.id ? { ...k, status } : k))
+      } else if (storeKey) {
+        setStoreKeys((keys) => (keys || []).map(k => k.id === result.id ? { ...k, status } : k))
+      }
+    })
   }
 
   const testKey = async (category: 'ai' | 'services' | 'stores', id: string) => {
@@ -235,6 +255,17 @@ export function KeysManager() {
 
   return (
     <>
+      {showBatchTester && (
+        <div className="mb-6">
+          <BatchAPIKeyTester
+            aiKeys={aiKeys || DEFAULT_KEYS.ai}
+            serviceKeys={serviceKeys || DEFAULT_KEYS.services}
+            storeKeys={storeKeys || DEFAULT_KEYS.stores}
+            onTestComplete={handleBatchTestComplete}
+          />
+        </div>
+      )}
+
       <Card className={`${isMobile ? 'p-4' : 'p-6'} border-primary/30`}>
         <div className={`flex items-center justify-between ${isMobile ? 'mb-4 flex-col gap-3' : 'mb-6'}`}>
           <div className="flex items-center gap-3">
@@ -248,15 +279,26 @@ export function KeysManager() {
               </p>
             </div>
           </div>
-          <Button
-            variant="default"
-            size={isMobile ? "default" : "sm"}
-            onClick={() => setShowWizard(true)}
-            className={`gap-2 touch-target ${isMobile ? 'w-full h-11' : ''}`}
-          >
-            <Sparkle weight="fill" size={isMobile ? 18 : 16} />
-            Setup Wizard
-          </Button>
+          <div className={`flex gap-2 ${isMobile ? 'w-full flex-col' : ''}`}>
+            <Button
+              variant={showBatchTester ? "secondary" : "outline"}
+              size={isMobile ? "default" : "sm"}
+              onClick={() => setShowBatchTester(!showBatchTester)}
+              className={`gap-2 touch-target ${isMobile ? 'w-full h-11' : ''}`}
+            >
+              <CheckCircle weight="fill" size={isMobile ? 18 : 16} />
+              {showBatchTester ? 'Hide' : 'Batch Test'}
+            </Button>
+            <Button
+              variant="default"
+              size={isMobile ? "default" : "sm"}
+              onClick={() => setShowWizard(true)}
+              className={`gap-2 touch-target ${isMobile ? 'w-full h-11' : ''}`}
+            >
+              <Sparkle weight="fill" size={isMobile ? 18 : 16} />
+              Setup Wizard
+            </Button>
+          </div>
         </div>
 
         <Tabs defaultValue="ai" className="w-full">
