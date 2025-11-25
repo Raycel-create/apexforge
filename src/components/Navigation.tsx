@@ -7,7 +7,6 @@ import { toast } from 'sonner'
 import { useScreenSize } from '../hooks/use-mobile'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import { useBlackForge } from '../lib/BlackForgeContext'
-import { FigmaAvailabilityIndicator } from './FigmaAvailabilityIndicator'
 import { ThemeToggle } from './ThemeToggle'
 import { AccessibilitySettings } from './AccessibilitySettings'
 import { ApexForgeLogo } from './ApexForgeLogo'
@@ -109,9 +108,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {!isMobile && !isTablet && (
-              <FigmaAvailabilityIndicator />
-            )}
             {currentUser && currentUserData ? (
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="px-3 py-1.5 text-responsive-sm whitespace-nowrap hidden sm:flex items-center gap-1.5 touch-target">
