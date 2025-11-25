@@ -156,34 +156,9 @@ export function Footer({ onNavigate }: FooterProps) {
         <Separator className="my-8 bg-border/50" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <p className="text-sm text-muted-foreground">
-              © {currentYear} ApexForge. All rights reserved.
-            </p>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <motion.button
-                    onClick={() => handleNavClick('ceo-login')}
-                    className="w-8 h-8 rounded-md bg-background/10 hover:bg-destructive/20 border border-border/10 hover:border-destructive/50 flex items-center justify-center transition-all group opacity-5 hover:opacity-100"
-                    whileHover={{ scale: 1.1, rotate: [0, -10, 10, -10, 0] }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ShieldCheck 
-                      weight="fill" 
-                      size={18} 
-                      className="text-muted-foreground/20 group-hover:text-destructive transition-colors" 
-                    />
-                  </motion.button>
-                </TooltipTrigger>
-                <TooltipContent side="top" className="bg-destructive/90 text-destructive-foreground border-destructive/50">
-                  <p className="text-xs font-medium">CEO Dashboard</p>
-                  <p className="text-[10px] opacity-80">Shift + Ctrl + M</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+          <p className="text-sm text-muted-foreground">
+            © {currentYear} ApexForge. All rights reserved.
+          </p>
           <div className="flex items-center gap-6">
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
@@ -194,6 +169,29 @@ export function Footer({ onNavigate }: FooterProps) {
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Cookie Policy
             </a>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <motion.button
+                    onClick={() => handleNavClick('ceo-login')}
+                    className="w-4 h-4 rounded-sm bg-transparent hover:bg-destructive/10 border-0 hover:border hover:border-destructive/30 flex items-center justify-center transition-all duration-500 group opacity-[0.01] hover:opacity-100"
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <ShieldCheck 
+                      weight="duotone" 
+                      size={10} 
+                      className="text-muted-foreground/5 group-hover:text-destructive transition-colors duration-300" 
+                    />
+                  </motion.button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="bg-destructive/90 text-destructive-foreground border-destructive/50">
+                  <p className="text-xs font-medium">CEO Dashboard</p>
+                  <p className="text-[10px] opacity-80">Shift + Ctrl + M</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </div>
