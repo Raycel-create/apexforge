@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Home } from './components/pages/Home'
 import { Dashboard } from './components/pages/Dashboard'
 import { Pricing } from './components/pages/Pricing'
@@ -15,6 +15,8 @@ import { SparkleClickEffect } from './components/SparkleClickEffect'
 import { BlackForgeProvider } from './lib/BlackForgeContext'
 import { ResponsiveFontProvider } from './lib/ResponsiveFontProvider'
 import { CEOAuthProvider, useCEOAuth } from './lib/CEOAuthContext'
+import { ceoAuditService } from './lib/ceoAuditService'
+import { toast } from 'sonner'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'otp' | 'ceo-login' | 'ceo'
 
@@ -25,6 +27,35 @@ function AppContent() {
   const handleNavigate = (page: string) => {
     setCurrentPage(page as Page)
   }
+
+  useEffect(() => {
+    const handleKeyboardShortcut = async (event: KeyboardEvent) => {
+      if (event.shiftKey && event.ctrlKey && event.key.toLowerCase() === 'm') {
+        event.preventDefault()
+        
+        await ceoAuditService.logAccess(
+          'unknown', 
+          'keyboard_shortcut_attempt', 
+          'Keyboard shortcut Shift+Ctrl+M triggered'
+        )
+        
+        toast.info('🔐 CEO Access Shortcut', {
+          description: 'Redirecting to secure login...',
+          duration: 2000,
+        })
+        
+        setTimeout(() => {
+          setCurrentPage('ceo-login')
+        }, 500)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyboardShortcut)
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyboardShortcut)
+    }
+  }, [])
 
   const renderPage = () => {
     switch (currentPage) {

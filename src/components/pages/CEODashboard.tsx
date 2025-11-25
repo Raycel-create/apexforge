@@ -41,6 +41,7 @@ import { CampaignAutomation } from '../CampaignAutomation'
 import { CEOAnalytics } from '../CEOAnalytics'
 import { CEOSettings } from '../CEOSettings'
 import { SessionIndicator } from '../SessionIndicator'
+import { CEOAuditLog } from '../CEOAuditLog'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'ceo' | 'generator' | 'auth' | 'figma'
 
@@ -690,7 +691,7 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
           className="mb-8"
         >
           <Tabs defaultValue="analytics" className="w-full">
-            <TabsList className="grid w-full grid-cols-11 mb-6">
+            <TabsList className="grid w-full grid-cols-12 mb-6">
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="settings">Settings</TabsTrigger>
               <TabsTrigger value="forecast">AI Forecast</TabsTrigger>
@@ -702,6 +703,7 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
               <TabsTrigger value="keys">API Keys</TabsTrigger>
               <TabsTrigger value="payouts">Payouts</TabsTrigger>
               <TabsTrigger value="transactions">Transactions</TabsTrigger>
+              <TabsTrigger value="audit">Audit Log</TabsTrigger>
             </TabsList>
             
             <TabsContent value="analytics">
@@ -746,6 +748,10 @@ export function CEODashboard({ onNavigate }: CEODashboardProps) {
             
             <TabsContent value="transactions">
               <TransactionTracking />
+            </TabsContent>
+            
+            <TabsContent value="audit">
+              <CEOAuditLog />
             </TabsContent>
           </Tabs>
         </motion.div>

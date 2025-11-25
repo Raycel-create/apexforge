@@ -1,6 +1,8 @@
 import { GithubLogo, TwitterLogo, LinkedinLogo, DiscordLogo, ShieldCheck } from '@phosphor-icons/react'
 import { Separator } from './ui/separator'
 import { ApexForgeLogo } from './ApexForgeLogo'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
+import { motion } from 'framer-motion'
 
 interface FooterProps {
   onNavigate?: (page: 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma' | 'ceo-login') => void
@@ -167,14 +169,59 @@ export function Footer({ onNavigate }: FooterProps) {
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Cookie Policy
             </a>
-            <button
-              onClick={() => handleNavClick('ceo-login')}
-              className="text-xs text-muted-foreground/30 hover:text-primary/70 transition-all duration-300 flex items-center gap-1 opacity-50 hover:opacity-100"
-              title="Secure Access"
-              aria-label="CEO Dashboard Access"
-            >
-              <ShieldCheck size={14} weight="duotone" className="transition-transform hover:scale-110" />
-            </button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <motion.button
+                    onClick={() => handleNavClick('ceo-login')}
+                    className="text-xs text-muted-foreground/30 hover:text-primary/70 transition-all duration-300 flex items-center gap-1 opacity-50 hover:opacity-100 group relative"
+                    title="Secure Access"
+                    aria-label="CEO Dashboard Access"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <motion.div
+                      animate={{ 
+                        rotate: [0, -10, 10, -10, 0],
+                        scale: [1, 1.05, 1]
+                      }}
+                      transition={{ 
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatDelay: 3
+                      }}
+                    >
+                      <ShieldCheck 
+                        size={16} 
+                        weight="duotone" 
+                        className="transition-all group-hover:text-primary group-hover:drop-shadow-[0_0_8px_rgba(var(--primary),0.6)]" 
+                      />
+                    </motion.div>
+                    <motion.span
+                      className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100"
+                      animate={{ 
+                        scale: [0, 1.2, 0],
+                        opacity: [0, 1, 0]
+                      }}
+                      transition={{ 
+                        duration: 1.5,
+                        repeat: Infinity,
+                        repeatDelay: 2
+                      }}
+                    />
+                  </motion.button>
+                </TooltipTrigger>
+                <TooltipContent 
+                  side="top" 
+                  className="bg-card border-primary/30 text-xs font-medium"
+                >
+                  <div className="flex flex-col gap-1">
+                    <span className="text-primary font-semibold">🔐 CEO Dashboard</span>
+                    <span className="text-muted-foreground">Shift+Ctrl+M</span>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </div>

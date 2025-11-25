@@ -3,6 +3,7 @@ import { useKV } from '@github/spark/hooks'
 import * as OTPAuth from 'otpauth'
 import { validateCEOCredentials } from './ceoCredentials'
 import { ipWhitelistService } from './ipWhitelistService'
+import { ceoAuditService } from './ceoAuditService'
 
 interface CEOAuthContextType {
   isAuthenticated: boolean
@@ -53,6 +54,7 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
     setTimeUntilExpiry(Math.max(0, timeRemaining))
 
     if (timeRemaining <= 0) {
+      ceoAuditService.logAccess('CEO', 'session_timeout', 'Session expired due to inactivity')
       logout()
     } else if (timeRemaining <= WARNING_TIME && !showTimeoutWarning) {
       setShowTimeoutWarning(true)
@@ -147,16 +149,20 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
   const login = async (username: string, password: string, token?: string): Promise<boolean> => {
     const currentIP = await ipWhitelistService.getCurrentIP()
     
+    await ceoAuditService.logAccess(username, 'login_attempt', `Attempting login from IP: ${currentIP}`)
+    
     const isWhitelistEnabled = await ipWhitelistService.isWhitelistEnabled()
     const isIPAllowed = await ipWhitelistService.isIPWhitelisted(currentIP)
     
     if (isWhitelistEnabled && !isIPAllowed) {
       await ipWhitelistService.logAccess(currentIP, 'blocked', '/ceo-dashboard', navigator.userAgent)
+      await ceoAuditService.logAccess(username, 'login_failed', `IP not whitelisted: ${currentIP}`)
       return false
     }
 
     if (!validateCEOCredentials(username, password)) {
       await ipWhitelistService.logAccess(currentIP, 'blocked', '/ceo-dashboard', navigator.userAgent)
+      await ceoAuditService.logAccess(username, 'login_failed', 'Invalid credentials')
       return false
     }
 
@@ -165,16 +171,19 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
     }
 
     if (!token) {
+      await ceoAuditService.logAccess(username, 'login_failed', 'TOTP token not provided')
       return false
     }
     
     const isValidToken = verifyTOTP(token)
     if (!isValidToken) {
       await ipWhitelistService.logAccess(currentIP, 'blocked', '/ceo-dashboard', navigator.userAgent)
+      await ceoAuditService.logAccess(username, 'login_failed', 'Invalid TOTP token')
       return false
     }
 
     await ipWhitelistService.logAccess(currentIP, 'allowed', '/ceo-dashboard', navigator.userAgent)
+    await ceoAuditService.logAccess(username, 'login_success', `Successful login from IP: ${currentIP}`)
     setIsAuthenticated(true)
     setSessionActive(true)
     setLastActivity(Date.now())
@@ -183,6 +192,7 @@ export function CEOAuthProvider({ children }: { children: ReactNode }) {
   }
 
   const logout = () => {
+    ceoAuditService.logAccess('CEO', 'logout', 'User logged out')
     setIsAuthenticated(false)
     setSessionActive(false)
     setShowTimeoutWarning(false)
