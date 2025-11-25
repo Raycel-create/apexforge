@@ -17,6 +17,7 @@ import { OTPAuth } from '../OTPAuth'
 import { StripeConnect } from '../StripeConnect'
 import { PhoneVerificationFlow, QuickPhoneVerifyButton } from '../PhoneVerificationFlow'
 import { VerificationStatus, SecurityBadge } from '../TrustIndicators'
+import { ApexForgeLogo } from '../ApexForgeLogo'
 import { useState } from 'react'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
@@ -82,8 +83,17 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   }
 
   return (
-    <div className="w-full">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 max-w-[1400px]">
+    <div className="w-full relative">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-50">
+        <ApexForgeLogo 
+          variant="watermark" 
+          className={`${isMobile ? 'w-[500px] h-[500px]' : 'w-[800px] h-[800px]'} ${
+            blackForgeMode ? 'text-foreground' : 'text-foreground'
+          }`}
+        />
+      </div>
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 max-w-[1400px] relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

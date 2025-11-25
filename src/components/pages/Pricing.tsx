@@ -12,6 +12,7 @@ import { StripeConnect } from '../StripeConnect'
 import { StripeCheckout } from '../StripeCheckout'
 import { STRIPE_PLAN_PRICES } from '../../lib/stripeIntegration'
 import { TrustBanner, TrustIndicator, SecurityBadge } from '../TrustIndicators'
+import { ApexForgeLogo } from '../ApexForgeLogo'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
@@ -152,7 +153,16 @@ export function Pricing({ onNavigate }: PricingProps) {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-50">
+        <ApexForgeLogo 
+          variant="watermark" 
+          className={`w-[800px] h-[800px] ${
+            blackForgeMode ? 'text-foreground' : 'text-foreground'
+          }`}
+        />
+      </div>
+      
       <Dialog open={!!checkoutPlan} onOpenChange={(open) => !open && setCheckoutPlan(null)}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
@@ -175,7 +185,7 @@ export function Pricing({ onNavigate }: PricingProps) {
         </DialogContent>
       </Dialog>
 
-      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12 max-w-[1400px]">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12 max-w-[1400px] relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

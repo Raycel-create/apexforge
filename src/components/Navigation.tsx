@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sparkle, SquaresFour, CreditCard, Fire, List, UserCircle, SignOut, Cube, CheckCircle, Warning } from '@phosphor-icons/react'
+import { SquaresFour, CreditCard, Fire, List, UserCircle, SignOut, Cube, CheckCircle, Warning } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useKV } from '@github/spark/hooks'
@@ -10,6 +10,7 @@ import { useBlackForge } from '../lib/BlackForgeContext'
 import { FigmaAvailabilityIndicator } from './FigmaAvailabilityIndicator'
 import { ThemeToggle } from './ThemeToggle'
 import { AccessibilitySettings } from './AccessibilitySettings'
+import { ApexForgeLogo } from './ApexForgeLogo'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
@@ -57,7 +58,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
         <div className="flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6 lg:px-8 max-w-[100vw] mx-auto gap-3 sm:gap-4">
           <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
             <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-              <Sparkle weight="fill" size={isMobile ? 22 : 26} className="text-primary shrink-0" />
+              <ApexForgeLogo className={`${isMobile ? 'w-7 h-7' : 'w-9 h-9'} text-foreground shrink-0`} />
               <span className="text-responsive font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent whitespace-nowrap">
                 ApexForge
               </span>

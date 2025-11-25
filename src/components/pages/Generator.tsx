@@ -32,6 +32,7 @@ import { APIKeyAlert } from '../APIKeyAlert'
 import { KeysManager } from '../KeysManager'
 import { AIModelSelector } from '../AIModelSelector'
 import { AI_MODEL_CONFIGS } from '../../lib/aiService'
+import { ApexForgeLogo } from '../ApexForgeLogo'
 
 type Page = 'home' | 'dashboard' | 'pricing' | 'generator' | 'auth' | 'figma'
 
@@ -473,10 +474,19 @@ export function Generator({ onNavigate }: GeneratorProps) {
   ]
 
   return (
-    <div className="w-full min-h-screen px-3 sm:px-4 py-4 sm:py-6 lg:py-8 max-w-[1800px] mx-auto">
+    <div className="w-full min-h-screen px-3 sm:px-4 py-4 sm:py-6 lg:py-8 max-w-[1800px] mx-auto relative">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-30">
+        <ApexForgeLogo 
+          variant="watermark" 
+          className={`w-[900px] h-[900px] ${
+            blackForgeMode ? 'text-foreground' : 'text-foreground'
+          }`}
+        />
+      </div>
+      
       {showCoinAnimation && <CoinAnimation />}
       
-      <div className="mb-4 sm:mb-6 lg:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+      <div className="mb-4 sm:mb-6 lg:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 relative z-10">
         <div>
           <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2 flex items-center gap-2 sm:gap-3 ${
             blackForgeMode ? 'text-destructive' : ''
