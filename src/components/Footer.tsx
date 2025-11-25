@@ -174,21 +174,21 @@ export function Footer({ onNavigate }: FooterProps) {
                 <TooltipTrigger asChild>
                   <motion.button
                     onClick={() => handleNavClick('ceo-login')}
-                    className="w-4 h-4 rounded-sm bg-transparent hover:bg-destructive/10 border-0 hover:border hover:border-destructive/30 flex items-center justify-center transition-all duration-500 group opacity-[0.01] hover:opacity-100"
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ duration: 0.4 }}
+                    className="w-3 h-3 rounded-sm bg-transparent hover:bg-destructive/5 border-0 flex items-center justify-center transition-all duration-700 group opacity-[0.003] hover:opacity-100"
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.92 }}
+                    transition={{ duration: 0.5 }}
                   >
                     <ShieldCheck 
                       weight="duotone" 
-                      size={10} 
-                      className="text-muted-foreground/5 group-hover:text-destructive transition-colors duration-300" 
+                      size={8} 
+                      className="text-muted-foreground/[0.02] group-hover:text-destructive/70 transition-colors duration-500" 
                     />
                   </motion.button>
                 </TooltipTrigger>
-                <TooltipContent side="top" className="bg-destructive/90 text-destructive-foreground border-destructive/50">
-                  <p className="text-xs font-medium">CEO Dashboard</p>
-                  <p className="text-[10px] opacity-80">Shift + Ctrl + M</p>
+                <TooltipContent side="top" className="bg-destructive/95 text-destructive-foreground border-destructive/60">
+                  <p className="text-xs font-medium">CEO</p>
+                  <p className="text-[10px] opacity-70">⇧ + ⌃ + M</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

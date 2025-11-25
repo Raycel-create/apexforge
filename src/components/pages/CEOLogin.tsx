@@ -58,8 +58,8 @@ export function CEOLogin({ onNavigate }: CEOLoginProps) {
         },
       })
       setQrCodeUrl(url)
-    } catch (err) {
-      console.error('Error generating QR code:', err)
+    } catch {
+      toast.error('Failed to generate QR code')
     }
   }
 
