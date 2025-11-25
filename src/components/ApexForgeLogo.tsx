@@ -47,8 +47,8 @@ export function ApexForgeLogo({ className = '', variant = 'default', opacity }: 
   
   const isWatermark = variant === 'watermark' || variant === 'hero'
   
-  const lightModeColor = 'oklch(0.85 0.05 345)'
-  const darkModeColor = 'oklch(0.55 0.01 0)'
+  const lightModeColor = 'oklch(0.55 0.20 340)'
+  const darkModeColor = 'oklch(0.75 0.01 0)'
   const strokeColor = isDark ? darkModeColor : lightModeColor
   const fillColor = isDark ? darkModeColor : lightModeColor
   const innerFillColor = isDark ? 'oklch(0.15 0 0)' : 'oklch(0.99 0.004 350)'
